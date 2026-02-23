@@ -264,3 +264,35 @@ Summary: Implemented comprehensive tests for ClaudeSdkAdapterImpl. All 12 tests 
 2026-02-23 Task ID: LLM路由网关模块_008 - Implement LlmClient interface and ModelRouter
 Status: SUCCESS
 Summary: Implemented LlmClient interface with chat() and summarize() methods for LLM provider abstraction. Created ModelRouter class that holds master and worker LlmClient instances. Implemented routeByRole() returning master for MASTER role and worker for WORKER role with IllegalArgumentException for unknown roles. Implemented getSummarizer() consistently returning worker client. Added getter methods for masterClient and workerClient for direct access.
+[2026-02-23 20:43:00] Task ID: LLM路由网关模块_009
+Status: SUCCESS
+Description: Test ModelRouter dynamic allocation logic
+
+Implementation Summary:
+- Created ModelRouterTest with 10 comprehensive tests
+- Fixed test expectations to match IllegalArgumentException (explicit validation is better than NPE)
+- Verified all constructor behavior (initialization, null validation)
+- Verified routeByRole() with MASTER, WORKER, and case-insensitive input
+- Verified getSummarizer() consistently returns worker client
+- Verified integration between routeByRole() and getSummarizer()
+
+Test Results: 10/10 tests passed (100%)
+- testConstructorInitialization: Verifies master and worker client initialization
+- testConstructorNullMasterClient: Validates IllegalArgumentException for null master
+- testConstructorNullWorkerClient: Validates IllegalArgumentException for null worker
+- testRouteByRoleReturnsMaster: Verifies MASTER role routes to master client
+- testRouteByRoleReturnsWorker: Verifies WORKER role routes to worker client
+- testRouteByRoleCaseInsensitive: Verifies case-insensitive role matching
+- testRouteByRoleInvalidRole: Verifies IllegalArgumentException for invalid roles
+- testGetSummarizerReturnsWorker: Verifies summarizer is worker client
+- testGetSummarizerConsistent: Verifies consistent instance on multiple calls
+- testRouteByRoleAndGetSummarizerIntegration: Verifies integration behavior
+
+Key Design Validated:
+- ModelRouter provides clean separation between master and worker LLM clients
+- routeByRole() enables dynamic allocation based on agent role context
+- getSummarizer() consistently uses worker for summarization tasks
+- Explicit null validation provides better error messages than NPE
+
+Files Modified:
+- src/test/java/tech/yesboss/llm/impl/ModelRouterTest.java (fixed exception expectations)
