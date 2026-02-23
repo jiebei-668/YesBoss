@@ -296,3 +296,53 @@ Key Design Validated:
 
 Files Modified:
 - src/test/java/tech/yesboss/llm/impl/ModelRouterTest.java (fixed exception expectations)
+[2026-02-24 07:09:00] Task ID: 统一工具链与沙箱模块_001
+Status: SUCCESS
+Description: Create AgentTool interface and SuspendExecutionException
+
+Implementation Summary:
+- Created AgentTool interface with 5 methods:
+  * getName() - returns tool unique identifier
+  * getDescription() - returns detailed tool description
+  * getParametersJsonSchema() - returns JSON Schema for parameters
+  * execute(String argumentsJson) - core execution logic
+  * executeWithBypass(String argumentsJson) - bypass sandbox for human-in-the-loop
+- Created SuspendExecutionException extending RuntimeException:
+  * Constructor accepts interceptedCommand and toolCallId
+  * Getters for both fields
+  * Comprehensive toString() implementation
+  * serialVersionUID for serialization support
+
+Key Design Features:
+- AgentTool is the unified abstraction for all tools (native and MCP)
+- executeWithBypass enables human-in-the-loop workflow for risky operations
+- SuspendExecutionException carries toolCallId for causal tracking
+- Exception message is in Chinese for user-friendly display
+
+Test Results: 8/8 tests passed (100%)
+- testMockAgentToolImplementation: Verifies MockAgentTool implements AgentTool correctly
+- testExecuteMethod: Confirms execute() returns formatted result
+- testExecuteWithBypassMethod: Confirms executeWithBypass() returns bypass result
+- testSuspendExecutionExceptionFields: Verifies exception stores intercepted command and tool call ID
+- testSuspendExecutionExceptionThrownAndCaught: Verifies exception thrown from tool contains correct information
+- testSuspendExecutionExceptionToString: Verifies toString() contains all relevant information
+- testExecuteWithBypassIndependence: Confirms executeWithBypass works without sandbox checks
+- testSuspendExecutionExceptionIsRuntimeException: Verifies exception hierarchy
+
+Files Created:
+- src/main/java/tech/yesboss/tool/AgentTool.java
+- src/main/java/tech/yesboss/tool/SuspendExecutionException.java
+- src/test/java/tech/yesboss/tool/AgentToolAndExceptionTest.java
+
+[2026-02-24 07:09:00] Task ID: 统一工具链与沙箱模块_002
+Status: SUCCESS
+Description: Verify SuspendExecutionException structure and AgentTool mock implementation
+
+Verification Summary:
+This task was completed together with Task 001:
+- Created MockAgentTool implementing all AgentTool methods
+- Threw SuspendExecutionException from mock tool for testing
+- Asserted caught exception contains correct interceptedCommand and toolCallId
+- Verified executeWithBypass can be called independently
+
+All tests pass successfully, confirming the implementation meets requirements.
