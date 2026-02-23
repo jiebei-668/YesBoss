@@ -531,3 +531,68 @@ This task was completed together with Task 007:
 - Verified isIntercepted boolean correctly mapped to database schema
 
 All 13 tests pass successfully, confirming the implementation meets requirements.
+[2026-02-24 07:17:00] Task ID: 统一工具链与沙箱模块_009
+Status: SUCCESS
+Description: Implement McpToolAdapter to bridge external MCP services
+
+Implementation Summary:
+- Created McpToolAdapter implementing AgentTool interface
+- Implemented constructor with endpoint, credentials, and access level
+- Used Java 11+ HttpClient for HTTP calls to MCP services
+- Implemented MCP 2.0 JSON-RPC protocol support:
+  * Request format: jsonrpc, id, method, params (name, arguments)
+  * Bearer token authentication support
+  * 30-second default timeout
+- Implemented JSON Schema conversion from MCP endpoint
+- Implemented response parsing for multiple MCP formats:
+  * Content array with text items
+  * Single content object
+  * Direct result object
+  * Error handling
+- Comprehensive error handling for HTTP errors and MCP errors
+
+Key Design Features:
+- Implements standard AgentTool interface for seamless integration
+- Supports both authenticated and non-authenticated MCP services
+- Configurable access level (READ_ONLY/READ_WRITE)
+- Thread-safe using Java HttpClient
+- SLF4J logging for debugging
+
+Test Results: 18/18 tests passed (100%)
+- testConstructorWithValidParameters: Verifies adapter creation
+- testConstructorWithNullToolName: Validates null tool name rejection
+- testConstructorWithEmptyToolName: Validates empty tool name rejection
+- testConstructorWithNullDescription: Validates null description rejection
+- testConstructorWithNullEndpoint: Validates null endpoint rejection
+- testConstructorWithNullAccessLevel: Validates null access level rejection
+- testConstructorDefaultAccessLevel: Verifies READ_WRITE default
+- testExecuteSendsFormattedRequest: Verifies MCP 2.0 JSON-RPC format
+- testExecuteParsesContentArray: Verifies array content parsing
+- testExecuteWithSingleContent: Verifies single content parsing
+- testExecuteWithError: Verifies MCP error handling
+- testExecuteWithHttpError: Verifies HTTP error handling
+- testExecuteWithEmptyArguments: Verifies empty args handling
+- testExecuteWithNullArguments: Verifies null args handling
+- testExecuteIncludesToolName: Verifies tool name in request
+- testExecuteWithoutAuth: Verifies no auth without token
+- testExecuteWithBypass: Verifies bypass mode
+- testExecuteWithComplexArguments: Verifies nested JSON handling
+
+Files Created:
+- src/main/java/tech/yesboss/tool/mcp/McpToolAdapter.java
+- src/test/java/tech/yesboss/tool/mcp/McpToolAdapterTest.java
+
+[2026-02-24 07:17:00] Task ID: 统一工具链与沙箱模块_010
+Status: SUCCESS
+Description: Test McpToolAdapter network delegation and parsing
+
+Verification Summary:
+This task was completed together with Task 009:
+- Mocked external MCP HTTP service endpoint using com.sun.net.httpserver.HttpServer
+- Initialized McpToolAdapter with the mock endpoint
+- Called execute() with valid argumentsJson and verified network request payload
+- Verified MCP response parsing for multiple formats (content array, single content, errors)
+- Verified Bearer token authentication is sent when provided
+- Verified proper handling of HTTP errors and MCP protocol errors
+
+All 18 tests pass successfully, confirming the MCP bridge implementation works correctly.

@@ -11,6 +11,7 @@ tech/yesboss/llm/impl/ClaudeSdkAdapterImplTest.class
 tech/yesboss/tool/sandbox/SandboxInterceptorTest.class
 tech/yesboss/persistence/event/DbWriteEventTest.class
 tech/yesboss/tool/registry/ToolRegistryTest$1.class
+tech/yesboss/tool/mcp/McpToolAdapterTest.class
 tech/yesboss/persistence/db/SingleThreadDbWriterTest.class
 tech/yesboss/domain/message/UnifiedMessageTest.class
 tech/yesboss/persistence/db/DatabaseInitializerTest.class

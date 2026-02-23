@@ -1,5 +1,6 @@
 tech/yesboss/llm/VendorSdkAdapter.class
 tech/yesboss/tool/registry/impl/ToolRegistryImpl.class
+tech/yesboss/tool/mcp/McpToolAdapter.class
 tech/yesboss/persistence/event/InsertToolExecutionLogEvent.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.class
 tech/yesboss/persistence/repository/TaskSessionRepositoryImpl.class
