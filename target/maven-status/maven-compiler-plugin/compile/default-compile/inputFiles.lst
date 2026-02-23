@@ -1,6 +1,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/ToolRegistry.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/tracker/impl/ToolCallTrackerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/TaskSession.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/UpdateTaskStatusEvent.java
@@ -13,6 +14,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/SQLiteConnectionManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ToolExecutionRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/tracker/ToolCallTracker.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertMessageEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ModelRouter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/VendorSdkAdapter.java

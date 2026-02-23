@@ -475,3 +475,59 @@ This task was completed together with Task 005:
 - Verified getTool throws exception for non-existent tools
 
 All 13 tests pass successfully, confirming the RBAC implementation works correctly.
+[2026-02-24 07:15:00] Task ID: 统一工具链与沙箱模块_007
+Status: SUCCESS
+Description: Implement ToolCallTracker to encapsulate audit logging
+
+Implementation Summary:
+- Created ToolCallTracker interface with trackExecution() method
+- Created ToolCallTrackerImpl that wraps SingleThreadDbWriter
+- Implemented trackExecution() to create InsertToolExecutionLogEvent and submit to async queue
+- Added parameter validation for all required fields (sessionId, toolCallId, toolName)
+- Handled null values: null argumentsJson becomes "{}", null result becomes ""
+- Added SLF4J logging for debugging and monitoring
+- Added Mockito 5.8.0 to pom.xml for testing capabilities
+
+Key Design Features:
+- Uses event-driven architecture with SingleThreadDbWriter
+- Asynchronous non-blocking writes via LinkedBlockingQueue
+- tool_call_id serves as causal link for LLM reasoning
+- isIntercepted boolean correctly mapped to database schema
+- Thread-safe event submission
+
+Test Results: 13/13 tests passed (100%)
+- testTrackSuccessfulExecution: Verifies successful execution tracking
+- testTrackInterceptedExecution: Verifies intercepted execution tracking
+- testTrackExecutionWithNullValues: Verifies null value handling
+- testTrackExecutionWithNullSessionId: Verifies sessionId validation
+- testTrackExecutionWithEmptySessionId: Verifies empty sessionId detection
+- testTrackExecutionWithNullToolCallId: Verifies toolCallId validation
+- testTrackExecutionWithEmptyToolCallId: Verifies empty toolCallId detection
+- testTrackExecutionWithNullToolName: Verifies toolName validation
+- testTrackExecutionWithEmptyToolName: Verifies empty toolName detection
+- testTrackExecutionWithLargeResult: Verifies large result handling (10KB)
+- testTrackExecutionWithComplexArguments: Verifies complex JSON handling
+- testConstructorWithNullDbWriter: Verifies constructor validation
+- testTrackMultipleExecutions: Verifies multiple event tracking
+
+Files Created:
+- src/main/java/tech/yesboss/tool/tracker/ToolCallTracker.java
+- src/main/java/tech/yesboss/tool/tracker/impl/ToolCallTrackerImpl.java
+- src/test/java/tech/yesboss/tool/tracker/ToolCallTrackerTest.java
+
+Files Modified:
+- pom.xml (added Mockito 5.8.0 dependencies)
+
+[2026-02-24 07:15:00] Task ID: 统一工具链与沙箱模块_008
+Status: SUCCESS
+Description: Test ToolCallTracker event delegation
+
+Verification Summary:
+This task was completed together with Task 007:
+- Mocked SingleThreadDbWriter using Mockito
+- Called trackExecution() with successful tool execution
+- Called trackExecution() with intercepted execution (isIntercepted=true)
+- Verified InsertToolExecutionLogEvent created with correct parameters
+- Verified isIntercepted boolean correctly mapped to database schema
+
+All 13 tests pass successfully, confirming the implementation meets requirements.
