@@ -596,3 +596,65 @@ This task was completed together with Task 009:
 - Verified proper handling of HTTP errors and MCP protocol errors
 
 All 18 tests pass successfully, confirming the MCP bridge implementation works correctly.
+[2026-02-24 07:20:00] Task ID: 双流上下文管理模块_001
+Status: SUCCESS
+Description: Implement StreamType enum and GlobalStreamManager
+
+Implementation Summary:
+- Created StreamType enum (GLOBAL, LOCAL) for context stream type classification
+- Created GlobalStreamManager interface with 4 methods:
+  * appendHumanMessage - append user messages with USER role
+  * appendMasterMessage - append master messages
+  * appendSystemMessage - append system-generated messages with SYSTEM role
+  * fetchContext - retrieve messages ordered by sequence_num
+- Created GlobalStreamManagerImpl with ChatMessageRepository injection
+- Implemented automatic sequence number generation using getCurrentSequenceNumber()
+- Used InsertMessageEvent.StreamType.GLOBAL for all operations
+- Added comprehensive parameter validation and error handling
+- Added SLF4J logging for debugging
+
+Key Design Features:
+- Separation of concerns: GlobalStreamManager handles only global context
+- Automatic sequence number management for maintaining ordering
+- Async event submission through repository layer
+- Strict validation of all input parameters
+- Support for system-level messages (for human-in-the-loop scenarios)
+
+Test Results: 17/17 tests passed (100%)
+- testConstructorWithNullRepository: Validates constructor parameter validation
+- testAppendHumanMessageGeneratesCorrectFormat: Verifies USER role message creation
+- testAppendHumanMessageWithNullSessionId: Validates null sessionId rejection
+- testAppendHumanMessageWithEmptySessionId: Validates empty sessionId rejection
+- testAppendHumanMessageWithNullText: Validates null text rejection
+- testAppendHumanMessageWithEmptyText: Validates empty text rejection
+- testAppendMasterMessageStoresProvidedMessage: Verifies message storage
+- testAppendMasterMessageWithNullSessionId: Validates null sessionId rejection
+- testAppendMasterMessageWithNullMessage: Validates null message rejection
+- testAppendSystemMessageGeneratesSystemMessage: Verifies SYSTEM role message creation
+- testAppendSystemMessageWithNullSessionId: Validates null sessionId rejection
+- testAppendSystemMessageWithNullText: Validates null text rejection
+- testFetchContextCallsRepositoryCorrectly: Verifies repository call parameters
+- testFetchContextWithNullSessionId: Validates null sessionId rejection
+- testFetchContextWithEmptySessionId: Validates empty sessionId rejection
+- testFetchContextReturnsEmptyList: Verifies empty context handling
+- testMultipleOperationsMaintainSequenceNumbers: Verifies sequence increment logic
+
+Files Created:
+- src/main/java/tech/yesboss/context/StreamType.java
+- src/main/java/tech/yesboss/context/GlobalStreamManager.java
+- src/main/java/tech/yesboss/context/impl/GlobalStreamManagerImpl.java
+- src/test/java/tech/yesboss/context/GlobalStreamManagerTest.java
+
+[2026-02-24 07:20:00] Task ID: 双流上下文管理模块_002
+Status: SUCCESS
+Description: Verify GlobalStreamManager appends and fetches context correctly
+
+Verification Summary:
+This task was completed together with Task 001:
+- Mocked ChatMessageRepository using Mockito
+- Tested appendHumanMessage generates correct USER role UnifiedMessage
+- Tested appendSystemMessage generates correct SYSTEM role UnifiedMessage
+- Verified fetchContext calls repository with correct sessionId and GLOBAL streamType
+- Verified all parameter validation works correctly
+
+All 17 tests pass successfully, confirming the GlobalStreamManager implementation meets requirements.
