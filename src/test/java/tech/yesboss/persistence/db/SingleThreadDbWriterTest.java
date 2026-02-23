@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 /**
  * Unit tests for SingleThreadDbWriter.
@@ -69,6 +70,40 @@ class SingleThreadDbWriterTest {
         connectionManager.close();
     }
 
+    /**
+     * Wait for the queue to be empty with a timeout.
+     * This is more reliable than Thread.sleep() for synchronization.
+     *
+     * @param timeoutMs maximum time to wait in milliseconds
+     * @return true if queue emptied within timeout, false otherwise
+     */
+    private boolean waitForQueueEmpty(long timeoutMs) {
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < timeoutMs) {
+            if (writer.getQueueSize() == 0) {
+                // Add a small buffer to ensure the last event is processed
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return false;
+                }
+                // Check again to make sure queue is still empty
+                if (writer.getQueueSize() == 0) {
+                    return true;
+                }
+                // If queue has more items, continue waiting
+            }
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return false;
+            }
+        }
+        return false;
+    }
+
     @Test
     @Order(1)
     @DisplayName("Should start and stop consumer thread")
@@ -106,12 +141,13 @@ class SingleThreadDbWriterTest {
         // Act
         boolean submitted = writer.submitEvent(event);
 
-        // Wait for processing
-        Thread.sleep(100);
+        // Wait for processing using helper method
+        boolean queueEmptied = waitForQueueEmpty(2000);
 
         // Assert
         assertTrue(submitted, "Event should be submitted successfully");
-        assertTrue(writer.getQueueSize() <= 1, "Queue should be processed");
+        assertTrue(queueEmptied, "Queue should be processed within timeout");
+        assertEquals(0, writer.getQueueSize(), "Queue should be empty after processing");
 
         // Verify database
         try (PreparedStatement stmt = connection.prepareStatement(
@@ -166,12 +202,13 @@ class SingleThreadDbWriterTest {
         // Wait for all submissions
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).get();
 
-        // Wait for processing
-        Thread.sleep(2000);
+        // Wait for processing using helper method
+        boolean queueEmptied = waitForQueueEmpty(10000);
 
         // Assert
         assertEquals(threadCount * eventsPerThread, successCount.get(),
                 "All events should be submitted successfully");
+        assertTrue(queueEmptied, "Queue should be processed within timeout");
 
         // Verify database count
         try (PreparedStatement stmt = connection.prepareStatement(
@@ -198,13 +235,13 @@ class SingleThreadDbWriterTest {
 
         // Act - Submit different event types
         writer.submitEvent(sessionEvent);
-        Thread.sleep(200);
+        waitForQueueEmpty(1000);
 
         // Update status
         writer.submitEvent(new UpdateTaskStatusEvent(
                 "tsk_mixed", InsertTaskSessionEvent.TaskStatus.COMPLETED, "[{\"done\": true}]"
         ));
-        Thread.sleep(200);
+        waitForQueueEmpty(1000);
 
         // Insert message
         writer.submitEvent(new InsertMessageEvent(
@@ -212,13 +249,13 @@ class SingleThreadDbWriterTest {
                 new UnifiedMessage(UnifiedMessage.Role.USER, "Test message",
                         UnifiedMessage.PayloadFormat.PLAIN_TEXT)
         ));
-        Thread.sleep(200);
+        waitForQueueEmpty(1000);
 
         // Insert tool log
         writer.submitEvent(new InsertToolExecutionLogEvent(
                 "tsk_mixed", "call_001", "test_tool", "{}", "Tool result", false
         ));
-        Thread.sleep(200);
+        waitForQueueEmpty(1000);
 
         // Assert - Verify all data persisted
         // Check task session
@@ -261,8 +298,9 @@ class SingleThreadDbWriterTest {
             ));
         }
 
-        // Wait for events to be processed
-        Thread.sleep(3000);
+        // Wait for events to be processed using helper method
+        boolean queueEmptied = waitForQueueEmpty(5000);
+        assertTrue(queueEmptied, "All events should be processed before shutdown");
 
         // Act - Stop writer (should process remaining events)
         writer.stopConsumer();
@@ -289,21 +327,21 @@ class SingleThreadDbWriterTest {
                 "group_abc", InsertTaskSessionEvent.AgentRole.MASTER,
                 InsertTaskSessionEvent.TaskStatus.RUNNING, "Cascade test", null, null
         ));
-        Thread.sleep(200);
+        waitForQueueEmpty(1000);
 
         writer.submitEvent(new InsertMessageEvent(
                 "tsk_cascade", InsertMessageEvent.StreamType.GLOBAL, 1,
                 new UnifiedMessage(UnifiedMessage.Role.USER, "Message 1",
                         UnifiedMessage.PayloadFormat.PLAIN_TEXT)
         ));
-        Thread.sleep(200);
+        waitForQueueEmpty(1000);
 
         writer.submitEvent(new InsertMessageEvent(
                 "tsk_cascade", InsertMessageEvent.StreamType.LOCAL, 1,
                 new UnifiedMessage(UnifiedMessage.Role.ASSISTANT, "Message 2",
                         UnifiedMessage.PayloadFormat.PLAIN_TEXT)
         ));
-        Thread.sleep(200);
+        waitForQueueEmpty(1000);
 
         // Verify messages exist
         try (PreparedStatement stmt = connection.prepareStatement(
@@ -315,7 +353,7 @@ class SingleThreadDbWriterTest {
 
         // Act - Delete messages
         writer.submitEvent(new DeleteMessagesEvent("tsk_cascade"));
-        Thread.sleep(50);
+        waitForQueueEmpty(1000);
 
         // Assert - Messages should be deleted
         try (PreparedStatement stmt = connection.prepareStatement(
@@ -345,13 +383,14 @@ class SingleThreadDbWriterTest {
         // Queue should have some events (processing happens in background)
         int sizeAfterSubmit = writer.getQueueSize();
 
-        // Wait for processing
-        Thread.sleep(1000);
+        // Wait for processing using helper method
+        waitForQueueEmpty(5000);
         int sizeAfterProcessing = writer.getQueueSize();
 
         // Assert
         assertTrue(sizeAfterSubmit >= 0, "Queue size should be non-negative");
         assertTrue(sizeAfterProcessing <= sizeAfterSubmit,
                 "Queue size should decrease after processing");
+        assertEquals(0, sizeAfterProcessing, "Queue should be empty after processing");
     }
 }

@@ -276,7 +276,8 @@ public class SingleThreadDbWriter {
             stmt.setString(2, event.sessionId());
             stmt.setString(3, event.streamType().name());
             stmt.setInt(4, event.sequenceNum());
-            stmt.setString(5, event.message().role().name());
+            // Convert enum to lowercase to match CHECK constraint in schema
+            stmt.setString(5, event.message().role().name().toLowerCase());
             stmt.setString(6, event.message().payloadFormat().name());
             stmt.setString(7, event.message().content());
             stmt.setInt(8, 0); // token_count - to be calculated later

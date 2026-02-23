@@ -113,3 +113,27 @@ Files Created:
 
 Note: Test timing issues need improved synchronization mechanism using
 queue size polling or CountDownLatch instead of fixed Thread.sleep()
+[2026-02-23 20:20:00] Task ID: 异步持久化模块_006
+Status: SUCCESS
+Description: Test concurrency and sequential processing of SingleThreadDbWriter
+
+Implementation Summary:
+- Fixed timing issues in SingleThreadDbWriterTest by replacing Thread.sleep() with a waitForQueueEmpty() helper method
+- The helper method polls the queue size with a timeout instead of using fixed delays
+- Fixed critical bug: UnifiedMessage.Role enum values were uppercase (USER, ASSISTANT) but schema CHECK constraint expected lowercase (user, assistant)
+- Updated executeInsertMessage() to convert enum names to lowercase using toLowerCase()
+
+Test Results:
+- 9/9 tests passed (100% success rate)
+- testStartAndStop: Verifies consumer thread lifecycle
+- testStartTwiceThrows: Validates IllegalStateException on duplicate start
+- testSubmitSingleEvent: Confirms single event processing
+- testConcurrentSubmission: Validates 10 threads submitting 20 events each (200 total)
+- testMultipleEventTypes: Tests all 6 event types (session, status, message, tool log)
+- testGracefulShutdown: Verifies all events processed before shutdown
+- testCascadeDeletion: Confirms foreign key cascade behavior
+- testQueueSize: Validates queue monitoring functionality
+
+Files Modified:
+- src/main/java/tech/yesboss/persistence/db/SingleThreadDbWriter.java (fixed lowercase enum conversion)
+- src/test/java/tech/yesboss/persistence/db/SingleThreadDbWriterTest.java (improved synchronization)
