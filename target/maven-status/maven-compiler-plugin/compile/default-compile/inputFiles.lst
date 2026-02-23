@@ -7,4 +7,5 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertToolExecutionLogEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertTaskSessionEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertMessageEvent.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/SingleThreadDbWriter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteTaskSessionEvent.java

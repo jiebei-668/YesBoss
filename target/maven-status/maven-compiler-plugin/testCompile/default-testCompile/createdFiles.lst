@@ -1,3 +1,4 @@
 tech/yesboss/persistence/event/DbWriteEventTest.class
 tech/yesboss/persistence/db/ManualSchemaTest.class
+tech/yesboss/persistence/db/SingleThreadDbWriterTest.class
 tech/yesboss/persistence/db/DatabaseInitializerTest.class

@@ -4,6 +4,7 @@ tech/yesboss/persistence/event/InsertToolExecutionLogEvent.class
 tech/yesboss/domain/message/UnifiedMessage$Role.class
 tech/yesboss/persistence/event/DeleteMessagesEvent.class
 tech/yesboss/persistence/db/SQLiteConnectionManager.class
+tech/yesboss/persistence/db/SingleThreadDbWriter.class
 tech/yesboss/domain/message/UnifiedMessage.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent.class
 tech/yesboss/persistence/event/DbWriteEvent.class
