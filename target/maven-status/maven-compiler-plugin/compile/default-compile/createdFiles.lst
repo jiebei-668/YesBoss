@@ -25,10 +25,12 @@ tech/yesboss/domain/message/UnifiedMessage$Role.class
 tech/yesboss/domain/message/UnifiedMessage$ToolCall.class
 tech/yesboss/domain/message/UnifiedMessage.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent.class
+tech/yesboss/llm/LlmClient.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$1.class
 tech/yesboss/persistence/event/UpdateTaskStatusEvent.class
 tech/yesboss/persistence/repository/ToolExecutionRepository.class
 tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$TaskStatus.class
 tech/yesboss/persistence/entity/TaskSession$ImType.class
+tech/yesboss/llm/impl/ModelRouter.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$AgentRole.class

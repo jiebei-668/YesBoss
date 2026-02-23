@@ -261,3 +261,6 @@ Summary: The RepositoryLayerTest was already fully implemented. Verified all 11 
 2026-02-23 Task ID: LLM路由网关模块_007 - Test ClaudeSdkAdapterImpl bidirectional conversion and JSON extraction
 Status: SUCCESS
 Summary: Implemented comprehensive tests for ClaudeSdkAdapterImpl. All 12 tests pass successfully. Tests cover: toSdkRequest() conversion for text-only messages, tool calls, and tool results; deserializeToRequest() for rebuilding MessageParam from JSON including complex nested arguments; round-trip conversion preservation; getSupportedFormat() verification; error handling for invalid JSON; and edge cases like empty content and mixed text/tool calls. Avoided complex Message builder validation by focusing tests on adapter's core conversion methods rather than SDK object construction.
+2026-02-23 Task ID: LLM路由网关模块_008 - Implement LlmClient interface and ModelRouter
+Status: SUCCESS
+Summary: Implemented LlmClient interface with chat() and summarize() methods for LLM provider abstraction. Created ModelRouter class that holds master and worker LlmClient instances. Implemented routeByRole() returning master for MASTER role and worker for WORKER role with IllegalArgumentException for unknown roles. Implemented getSummarizer() consistently returning worker client. Added getter methods for masterClient and workerClient for direct access.
