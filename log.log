@@ -252,3 +252,6 @@ Backward Compatibility:
 Files Modified:
 - src/main/java/tech/yesboss/domain/message/UnifiedMessage.java (complete rewrite)
 - src/test/java/tech/yesboss/domain/message/UnifiedMessageTest.java (new)
+2026-02-23 Task ID: LLM路由网关模块_005 - Implement VendorSdkAdapter interface and ClaudeSdkAdapterImpl
+Status: SUCCESS
+Summary: Implemented VendorSdkAdapter interface with generics <Req, Res> and ClaudeSdkAdapterImpl for Anthropic Claude API. Updated Anthropic SDK dependency from non-existent 0.21.0 to correct version 2.15.0. The adapter handles bidirectional conversion between UnifiedMessage and Claude's MessageParam/Message types, including text content, tool calls, and tool results. Key implementation: toSdkRequest() converts UnifiedMessage to Claude format, toUnifiedMessage() converts Claude responses using the new API's is*()/as*() pattern for ContentBlock processing, extractRawContentJson() serializes content for persistence, and deserializeToRequest() reconstructs MessageParam from JSON. Updated pom.xml with correct SDK version 2.15.0.

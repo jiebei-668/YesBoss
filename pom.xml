@@ -21,6 +21,7 @@
         <sqlite.version>3.43.0.0</sqlite.version>
         <slf4j.version>2.0.9</slf4j.version>
         <logback.version>1.4.11</logback.version>
+        <anthropic.version>2.15.0</anthropic.version>
     </properties>
 
     <dependencies>
@@ -48,6 +49,13 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.16.0</version>
+        </dependency>
+
+        <!-- Anthropic Claude SDK -->
+        <dependency>
+            <groupId>com.anthropic</groupId>
+            <artifactId>anthropic-java</artifactId>
+            <version>${anthropic.version}</version>
         </dependency>
 
         <!-- Testing -->

@@ -1,4 +1,6 @@
+tech/yesboss/llm/VendorSdkAdapter.class
 tech/yesboss/persistence/event/InsertToolExecutionLogEvent.class
+tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.class
 tech/yesboss/persistence/repository/TaskSessionRepositoryImpl.class
 tech/yesboss/persistence/event/DeleteMessagesEvent.class
 tech/yesboss/persistence/db/SQLiteConnectionManager.class
@@ -13,6 +15,7 @@ tech/yesboss/persistence/entity/ToolExecutionLog.class
 tech/yesboss/persistence/repository/ChatMessageRepository.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$ImType.class
 tech/yesboss/domain/message/UnifiedMessage$ToolResult.class
+tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$2.class
 tech/yesboss/domain/message/UnifiedMessage$PayloadFormat.class
 tech/yesboss/persistence/event/InsertMessageEvent.class
 tech/yesboss/persistence/repository/TaskSessionRepository.class
@@ -22,6 +25,7 @@ tech/yesboss/domain/message/UnifiedMessage$Role.class
 tech/yesboss/domain/message/UnifiedMessage$ToolCall.class
 tech/yesboss/domain/message/UnifiedMessage.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent.class
+tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$1.class
 tech/yesboss/persistence/event/UpdateTaskStatusEvent.class
 tech/yesboss/persistence/repository/ToolExecutionRepository.class
 tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
