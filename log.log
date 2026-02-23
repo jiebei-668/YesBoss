@@ -137,3 +137,60 @@ Test Results:
 Files Modified:
 - src/main/java/tech/yesboss/persistence/db/SingleThreadDbWriter.java (fixed lowercase enum conversion)
 - src/test/java/tech/yesboss/persistence/db/SingleThreadDbWriterTest.java (improved synchronization)
+[2026-02-23 20:31:00] Task ID: 异步持久化模块_007
+Status: SUCCESS
+Description: Implement Repository layer (TaskSession, ChatMessage, ToolExecution)
+
+Implementation Summary:
+- Created TaskSession entity with ImType, Role, Status enums
+- Created ToolExecutionLog entity for tool execution audit trail
+- Created ChatMessageRepository interface and implementation
+  * fetchContext() - retrieves messages ordered by sequence_num
+  * saveMessage() - submits InsertMessageEvent to DbWriter
+  * deleteBySession() - submits DeleteMessagesEvent
+  * getCurrentSequenceNumber() - returns max sequence number
+- Created TaskSessionRepository interface and implementation
+  * findById() - direct SQL query by session ID
+  * findByImRoute() - uses idx_session_im_route index
+  * findByParentId() - uses idx_session_parent index
+  * findByStatus() - filters by status
+  * saveSession() - submits InsertTaskSessionEvent
+  * updateStatus() - submits UpdateTaskStatusEvent
+  * updateExecutionPlan() - submits UpdateTaskStatusEvent with plan
+- Created ToolExecutionRepository interface and implementation
+  * findBySessionId() - uses idx_tool_log_session index
+  * findByToolCallId() - uses idx_tool_log_call_id index
+  * findByToolName() - filters by tool name
+  * findInterceptedBySession() - returns only blocked tools
+  * saveLog() - submits InsertToolExecutionLogEvent
+
+Key Design Decisions:
+- Write operations route to SingleThreadDbWriter as events (async)
+- Read operations execute direct SQL queries (sync, high-concurrency safe)
+- Enum conversion between entity types and event types using valueOf()
+- Proper index usage for all query operations
+- SLF4J logging for debugging and monitoring
+
+Test Results: 11/11 tests passed (100%)
+- testTaskSessionSave: Verifies session creation and retrieval
+- testTaskSessionFindByImRoute: Tests IM route lookup
+- testTaskSessionFindByParentId: Tests parent-child relationships
+- testTaskSessionUpdateStatus: Verifies status updates
+- testChatMessageSave: Tests message persistence
+- testChatMessageFetchContextOrdered: Verifies strict sequence ordering
+- testChatMessageGetCurrentSequenceNumber: Tests sequence number tracking
+- testChatMessageDeleteBySession: Tests cascade deletion
+- testToolExecutionSaveLog: Tests tool log persistence
+- testToolExecutionFindBySessionId: Tests ordered log retrieval
+- testToolExecutionFindIntercepted: Tests filtered query for blocked tools
+
+Files Created:
+- src/main/java/tech/yesboss/persistence/entity/TaskSession.java
+- src/main/java/tech/yesboss/persistence/entity/ToolExecutionLog.java
+- src/main/java/tech/yesboss/persistence/repository/ChatMessageRepository.java
+- src/main/java/tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.java
+- src/main/java/tech/yesboss/persistence/repository/TaskSessionRepository.java
+- src/main/java/tech/yesboss/persistence/repository/TaskSessionRepositoryImpl.java
+- src/main/java/tech/yesboss/persistence/repository/ToolExecutionRepository.java
+- src/main/java/tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.java
+- src/test/java/tech/yesboss/persistence/repository/RepositoryLayerTest.java
