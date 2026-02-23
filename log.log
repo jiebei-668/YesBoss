@@ -346,3 +346,68 @@ This task was completed together with Task 001:
 - Verified executeWithBypass can be called independently
 
 All tests pass successfully, confirming the implementation meets requirements.
+[2026-02-24 07:11:00] Task ID: 统一工具链与沙箱模块_003
+Status: SUCCESS
+Description: Implement SandboxInterceptorImpl with regex and exact match blacklists
+
+Implementation Summary:
+- Created SandboxInterceptor interface with 3 methods:
+  * preCheck(tool, argumentsJson, toolCallId) - main pre-execution check
+  * checkBlacklist(toolName) - check tool name against blacklist
+  * checkArguments(argumentsJson) - check arguments against regex patterns
+- Created SandboxInterceptorImpl with:
+  * TOOL_NAME_BLACKLIST: format_disk, wipe_partition, delete_system, destroy_data
+  * ARGUMENT_BLACKLIST regex patterns for:
+    - rm -rf, curl|bash, wget|bash, eval, exec
+    - System file writes (> /etc/passwd, /etc/shadow, /etc/sudoers)
+    - dd with /dev/zero, mkfs, fdisk
+    - chmod 000, chown -R, fork bomb
+    - Command substitution with pipe to shell
+- Fixed fork bomb regex from too-greedy pattern to specific fork bomb syntax
+- Fixed mkfs regex to handle both mkfs.ext4 and mkfs -t patterns
+
+Key Design Features:
+- Uses SLF4J logging for debugging and monitoring
+- preCheck() throws SuspendExecutionException with toolCallId for human-in-the-loop
+- Supports both exact match (tool names) and regex match (arguments)
+- Static methods provide access to blacklists for testing
+
+Test Results: 20/20 tests passed (100%)
+- testCheckBlacklistWithUnsafeToolNames: Verifies blacklisted tool names detected
+- testCheckBlacklistWithSafeToolNames: Verifies safe tool names pass
+- testCheckArgumentsWithRmRf: Verifies rm -rf pattern detection
+- testCheckArgumentsWithCurlPipeBash: Verifies curl | bash pattern detection
+- testCheckArgumentsWithWgetPipeBash: Verifies wget | bash pattern detection
+- testCheckArgumentsWithEval: Verifies eval pattern detection
+- testCheckArgumentsWithExec: Verifies exec pattern detection
+- testCheckArgumentsWithSystemFileWrites: Verifies system file write detection
+- testCheckArgumentsWithDdDevZero: Verifies dd /dev/zero pattern detection
+- testCheckArgumentsWithMkfs: Verifies mkfs pattern detection
+- testCheckArgumentsWithChmod000: Verifies chmod 000 pattern detection
+- testCheckArgumentsWithChownRecursive: Verifies chown -R pattern detection
+- testCheckArgumentsWithForkBomb: Verifies fork bomb pattern detection
+- testCheckArgumentsWithSafeJson: Verifies safe JSON passes all checks
+- testPreCheckThrowsForBlacklistedToolName: Verifies preCheck throws for blacklisted tools
+- testPreCheckThrowsForMaliciousArguments: Verifies preCheck throws for malicious arguments
+- testPreCheckPassesForSafeOperation: Verifies preCheck passes for safe operations
+- testPreCheckPassesForCurlWithoutPipe: Verifies curl without pipe passes
+- testPreCheckDetectsMultiplePatterns: Verifies multiple patterns detected
+- testSandboxInterceptorImplProvidesBlacklistAccess: Verifies blacklist access methods
+
+Files Created:
+- src/main/java/tech/yesboss/tool/sandbox/SandboxInterceptor.java
+- src/main/java/tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.java
+- src/test/java/tech/yesboss/tool/sandbox/SandboxInterceptorTest.java
+
+[2026-02-24 07:11:00] Task ID: 统一工具链与沙箱模块_004
+Status: SUCCESS
+Description: Test SandboxInterceptor blacklisting logic and exception throwing
+
+Verification Summary:
+This task was completed together with Task 003:
+- Tested checkBlacklist with safe and unsafe tool names
+- Tested checkArguments with safe JSON and malicious regex matches
+- Verified preCheck() throws SuspendExecutionException with correct toolCallId
+- Verified preCheck() passes silently for safe operations
+
+All 20 tests pass successfully, confirming the implementation meets requirements.

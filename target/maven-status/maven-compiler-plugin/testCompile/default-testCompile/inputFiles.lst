@@ -1,4 +1,5 @@
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/llm/impl/ModelRouterTest.java
+/home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/tool/sandbox/SandboxInterceptorTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/llm/impl/ClaudeSdkAdapterImplTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/domain/message/UnifiedMessageTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/persistence/repository/RepositoryLayerTest.java
