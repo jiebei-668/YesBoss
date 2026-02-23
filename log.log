@@ -194,3 +194,61 @@ Files Created:
 - src/main/java/tech/yesboss/persistence/repository/ToolExecutionRepository.java
 - src/main/java/tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.java
 - src/test/java/tech/yesboss/persistence/repository/RepositoryLayerTest.java
+[2026-02-23 20:37:00] Task ID: LLM路由网关模块_003
+Status: SUCCESS
+Description: Implement UnifiedMessage domain entity using Java 21 Records
+
+Implementation Summary:
+- Enhanced UnifiedMessage from placeholder to full implementation
+- Added ToolCall record (id, name, argumentsJson) for LLM-initiated tool calls
+- Added ToolResult record (toolCallId, resultString, isError) for tool execution results
+- Added defensive compact constructor converting null lists to empty immutable lists
+- Added static factory methods:
+  * ofText(Role, text) - creates simple text messages
+  * ofToolResult(toolCallId, result, isError) - creates tool result messages
+  * ofToolCalls(List<ToolCall>) - creates messages with tool calls
+  * system(systemPrompt) - creates system messages
+  * user(userText) - creates user messages
+- Added helper methods:
+  * hasToolCalls() - checks if message contains tool calls
+  * hasToolResults() - checks if message contains tool results
+  * isTextOnly() - checks if message is text-only
+  * getDisplayContent() - returns displayable content with summaries
+- Maintained backward compatibility with 3-parameter constructor
+- All lists are defensively copied using List.copyOf() for immutability
+
+Key Design Features:
+- Java 21 record for built-in immutability
+- Thread-safe by design
+- Null-safe collections (never null, always immutable)
+- Supports both simple text messages and complex tool call/result messages
+- Separate rawPayloadFormat and rawJsonContent for persistence and resume
+
+Test Results: 18/18 tests passed (100%)
+- testOfTextCreatesTextMessage: Verifies text message creation
+- testOfTextCreatesSystemMessage: Verifies system message creation
+- testOfToolResultCreatesToolResultMessage: Verifies tool result message creation
+- testOfToolResultWithErrorFlag: Verifies error flag handling
+- testOfToolCallsCreatesMessageWithToolCalls: Verifies tool calls message creation
+- testSystemFactoryMethod: Verifies system() factory method
+- testUserFactoryMethod: Verifies user() factory method
+- testHasToolCalls: Verifies tool call detection
+- testHasToolResults: Verifies tool result detection
+- testIsTextOnly: Verifies text-only detection
+- testNullListsBecomeEmptyLists: Verifies null safety
+- testListsAreImmutable: Verifies immutability
+- testGetDisplayContentForToolCalls: Verifies tool call summary
+- testGetDisplayContentForToolResults: Verifies tool result summary
+- testGetDisplayContentForTextMessages: Verifies text content display
+- testToolCallRecord: Verifies ToolCall record fields
+- testToolResultRecord: Verifies ToolResult record fields
+- testSimplifiedConstructorBackwardCompatibility: Verifies backward compatibility
+
+Backward Compatibility:
+- All 11 existing RepositoryLayerTest tests still pass
+- Existing code using 3-parameter constructor continues to work
+- ChatMessageRepositoryImpl works unchanged with enhanced UnifiedMessage
+
+Files Modified:
+- src/main/java/tech/yesboss/domain/message/UnifiedMessage.java (complete rewrite)
+- src/test/java/tech/yesboss/domain/message/UnifiedMessageTest.java (new)
