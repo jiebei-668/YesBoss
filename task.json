@@ -1,0 +1,1027 @@
+[
+  {
+    "category": "develop",
+    "module": "异步持久化模块",
+    "description": "Initialize SQLite Database Schema (DDL) and Compound Indexes",
+    "steps": [
+      "Create schema initialization script or migration class",
+      "Execute DDL for `task_session` table with im_route and parent_id indexes",
+      "Execute DDL for `chat_message` table with the critical `idx_chat_msg_seq` unique index",
+      "Execute DDL for `tool_execution_log` table with session and call_id indexes"
+    ],
+    "reference_docs": [
+      "异步持久化模块设计.md",
+      "5.1 SQLite并发持久化.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "异步持久化模块",
+    "description": "Verify SQLite Schema constraints and indexes",
+    "steps": [
+      "Run initialization script on an in-memory SQLite database",
+      "Attempt to insert duplicate sequence_num for the same session and stream_type, verify constraint failure",
+      "Verify all required fields throw errors when inserted as null",
+      "Validate index presence via SQLite pragmas"
+    ],
+    "reference_docs": [
+      "异步持久化模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "异步持久化模块",
+    "description": "Define DbWriteEvent sealed interface and its concrete record implementations",
+    "steps": [
+      "Create the DbWriteEvent sealed interface",
+      "Implement InsertTaskSessionEvent, UpdateTaskStatusEvent, InsertMessageEvent records",
+      "Implement InsertToolExecutionLogEvent record",
+      "Implement DeleteMessagesEvent and DeleteTaskSessionEvent records for cascading deletion"
+    ],
+    "reference_docs": [
+      "异步持久化模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "异步持久化模块",
+    "description": "Verify DbWriteEvent record immutability and instantiation",
+    "steps": [
+      "Instantiate each DbWriteEvent record with mock data",
+      "Assert that all fields match the inputs and are immutable",
+      "Verify compiler enforcement of the sealed interface permits clause"
+    ],
+    "reference_docs": [
+      "异步持久化模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "异步持久化模块",
+    "description": "Implement SingleThreadDbWriter engine with LinkedBlockingQueue",
+    "steps": [
+      "Create SingleThreadDbWriter class",
+      "Initialize internal LinkedBlockingQueue<DbWriteEvent>",
+      "Implement submitEvent(event) method for producer threads",
+      "Implement startConsumer() with a daemon thread for sequential SQL execution",
+      "Add placeholder SQL dispatch logic for each event type"
+    ],
+    "reference_docs": [
+      "异步持久化模块设计.md",
+      "5.1 SQLite并发持久化.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "异步持久化模块",
+    "description": "Test concurrency and sequential processing of SingleThreadDbWriter",
+    "steps": [
+      "Initialize SingleThreadDbWriter and start consumer thread",
+      "Spawn multiple virtual threads to concurrently submit various DbWriteEvents",
+      "Verify that the consumer thread processes events sequentially without race conditions",
+      "Verify the daemon thread handles thread interruption correctly"
+    ],
+    "reference_docs": [
+      "异步持久化模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "异步持久化模块",
+    "description": "Implement Repository layer (TaskSession, ChatMessage, ToolExecution)",
+    "steps": [
+      "Create ChatMessageRepository interface and implementation routing writes to DbWriter",
+      "Create TaskSessionRepository interface and implementation routing writes to DbWriter",
+      "Create ToolExecutionRepository interface and implementation routing writes to DbWriter",
+      "Implement direct SQLite read queries (fetchContext, findById, findBySessionId) with proper indexes"
+    ],
+    "reference_docs": [
+      "异步持久化模块设计.md",
+      "5.1 SQLite并发持久化.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "异步持久化模块",
+    "description": "Test Repository read operations and write event delegation",
+    "steps": [
+      "Mock SingleThreadDbWriter to intercept submitted events",
+      "Call save/update methods on all repositories and verify correct events are pushed to the queue",
+      "Mock SQLite connection and test fetchContext retrieves messages ordered strictly by sequence_num",
+      "Test findByImRoute and findByParentId queries"
+    ],
+    "reference_docs": [
+      "异步持久化模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "LLM路由网关模块",
+    "description": "Implement UnifiedMessage domain entity using Java 21 Records",
+    "steps": [
+      "Create UnifiedMessage record with Role enum, ToolCall, and ToolResult inner records",
+      "Implement defensive constructor to ensure lists are never null (Collections.emptyList)",
+      "Implement static factory method ofText()",
+      "Implement static factory method ofToolResult()",
+      "Implement hasToolCalls() helper method"
+    ],
+    "reference_docs": [
+      "LLM路由网关模块.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "LLM路由网关模块",
+    "description": "Verify UnifiedMessage immutability and static factories",
+    "steps": [
+      "Test ofText() correctly initializes a text-only message with PLAIN_TEXT format",
+      "Test ofToolResult() correctly initializes a tool execution result with proper roles",
+      "Verify passing null to list arguments results in empty immutable lists",
+      "Test hasToolCalls() returns true only when toolCalls list is populated"
+    ],
+    "reference_docs": [
+      "LLM路由网关模块.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "LLM路由网关模块",
+    "description": "Implement VendorSdkAdapter interface and ClaudeSdkAdapterImpl",
+    "steps": [
+      "Create VendorSdkAdapter interface with generics <Req, Res>",
+      "Create ClaudeSdkAdapterImpl implementing VendorSdkAdapter<MessageParam, Message>",
+      "Implement toSdkRequest() handling text, tool calls, and tool results",
+      "Implement toUnifiedMessage() using Java 21 pattern matching for ContentBlocks",
+      "Implement extractRawContentJson() and deserializeToRequest() with ObjectMapper"
+    ],
+    "reference_docs": [
+      "LLM路由网关模块.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "LLM路由网关模块",
+    "description": "Test ClaudeSdkAdapterImpl bidirectional conversion and JSON extraction",
+    "steps": [
+      "Convert a UnifiedMessage with tool calls to Claude MessageParam and assert structure",
+      "Convert a mock Claude Message response to UnifiedMessage and assert tool extraction",
+      "Test extractRawContentJson() properly serializes ContentBlock array",
+      "Test deserializeToRequest() perfectly rebuilds MessageParam from raw JSON"
+    ],
+    "reference_docs": [
+      "LLM路由网关模块.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "LLM路由网关模块",
+    "description": "Implement LlmClient interface and ModelRouter",
+    "steps": [
+      "Create LlmClient interface with chat() and summarize() methods",
+      "Create ModelRouter class configured with master and worker LlmClient instances",
+      "Implement routeByRole() to return master for MASTER and worker for WORKER",
+      "Implement getSummarizer() to consistently return the worker model client"
+    ],
+    "reference_docs": [
+      "LLM路由网关模块.md",
+      "4.1 多模型灵活配置.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "LLM路由网关模块",
+    "description": "Test ModelRouter dynamic allocation logic",
+    "steps": [
+      "Initialize ModelRouter with two mock LlmClients (Master and Worker)",
+      "Verify routeByRole('MASTER') returns the master client",
+      "Verify routeByRole('WORKER') returns the worker client",
+      "Verify getSummarizer() returns the worker client",
+      "Test invalid role throws IllegalArgumentException"
+    ],
+    "reference_docs": [
+      "LLM路由网关模块.md",
+      "4.1 多模型灵活配置.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "统一工具链与沙箱模块",
+    "description": "Create AgentTool interface and SuspendExecutionException",
+    "steps": [
+      "Define AgentTool interface with getName, getDescription, getParametersJsonSchema",
+      "Define execute(argumentsJson) and executeWithBypass(argumentsJson) methods",
+      "Create SuspendExecutionException extending RuntimeException",
+      "Ensure exception constructor accepts interceptedCommand and toolCallId with getters"
+    ],
+    "reference_docs": [
+      "统一工具链与沙箱模块设计.md",
+      "3.3 人机回环.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "统一工具链与沙箱模块",
+    "description": "Verify SuspendExecutionException structure and AgentTool mock implementation",
+    "steps": [
+      "Create a MockAgentTool implementing AgentTool",
+      "Throw SuspendExecutionException in mock tool",
+      "Assert that caught exception contains the correct interceptedCommand and toolCallId",
+      "Verify executeWithBypass can be called independently"
+    ],
+    "reference_docs": [
+      "统一工具链与沙箱模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "统一工具链与沙箱模块",
+    "description": "Implement SandboxInterceptorImpl with regex and exact match blacklists",
+    "steps": [
+      "Create SandboxInterceptor interface and SandboxInterceptorImpl",
+      "Define static TOOL_NAME_BLACKLIST (e.g., format_disk)",
+      "Define static ARGUMENT_BLACKLIST patterns (e.g., rm -rf, curl | bash)",
+      "Implement checkBlacklist(toolName) and checkArguments(argumentsJson)",
+      "Implement preCheck() to throw SuspendExecutionException if any check fails"
+    ],
+    "reference_docs": [
+      "统一工具链与沙箱模块设计.md",
+      "5.2 命令黑名单沙箱.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "统一工具链与沙箱模块",
+    "description": "Test SandboxInterceptor blacklisting logic and exception throwing",
+    "steps": [
+      "Test checkBlacklist with safe and unsafe tool names",
+      "Test checkArguments with safe json and malicious regex matches (e.g., 'rm -rf /')",
+      "Test preCheck() throws SuspendExecutionException containing correct toolCallId on unsafe arguments",
+      "Test preCheck() passes silently on safe tool and safe arguments"
+    ],
+    "reference_docs": [
+      "统一工具链与沙箱模块设计.md",
+      "5.2 命令黑名单沙箱.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "统一工具链与沙箱模块",
+    "description": "Implement ToolRegistry for RBAC (Role-Based Access Control) tool management",
+    "steps": [
+      "Create ToolRegistry interface and implementation",
+      "Implement register(AgentTool) method to store tools in a map",
+      "Implement getTool(toolName) to retrieve specific instances",
+      "Implement getAvailableTools(agentRole) to filter read-only tools for MASTER and all tools for WORKER"
+    ],
+    "reference_docs": [
+      "统一工具链与沙箱模块设计.md",
+      "4.3 丰富的工具集.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "统一工具链与沙箱模块",
+    "description": "Verify ToolRegistry registration and role-based filtering",
+    "steps": [
+      "Register mock ReadOnlyTool and mock ReadWriteTool",
+      "Call getAvailableTools('MASTER') and verify it only returns ReadOnlyTool",
+      "Call getAvailableTools('WORKER') and verify it returns both tools",
+      "Test getTool throws exception for non-existent tools"
+    ],
+    "reference_docs": [
+      "统一工具链与沙箱模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "统一工具链与沙箱模块",
+    "description": "Implement ToolCallTracker to encapsulate audit logging",
+    "steps": [
+      "Create ToolCallTracker interface and implementation",
+      "Inject ToolExecutionRepository into ToolCallTracker",
+      "Implement trackExecution() to format inputs and call repository.saveLog()",
+      "Ensure isIntercepted flag is correctly mapped to the database schema"
+    ],
+    "reference_docs": [
+      "统一工具链与沙箱模块设计.md",
+      "4.3 丰富的工具集.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "统一工具链与沙箱模块",
+    "description": "Test ToolCallTracker event delegation",
+    "steps": [
+      "Mock ToolExecutionRepository",
+      "Call trackExecution() with a successful tool execution",
+      "Call trackExecution() with an intercepted execution",
+      "Verify repository.saveLog() is called with correct parameters including isIntercepted boolean"
+    ],
+    "reference_docs": [
+      "统一工具链与沙箱模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "统一工具链与沙箱模块",
+    "description": "Implement McpToolAdapter to bridge external MCP services",
+    "steps": [
+      "Create McpToolAdapter class implementing the standard AgentTool interface",
+      "Implement constructor accepting MCP service endpoint and credentials",
+      "Implement JSON Schema conversion from MCP protocol to standard LLM format",
+      "Implement execute() method to perform HTTP/WebSocket calls to the MCP service and parse the response"
+    ],
+    "reference_docs": [
+      "统一工具链与沙箱模块设计.md",
+      "4.3 丰富的工具集.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "统一工具链与沙箱模块",
+    "description": "Test McpToolAdapter network delegation and parsing",
+    "steps": [
+      "Mock an external MCP HTTP service endpoint",
+      "Initialize McpToolAdapter with the mock endpoint",
+      "Call execute() with valid argumentsJson and verify the network request payload",
+      "Verify the adapter successfully parses the MCP response back into a standard string result"
+    ],
+    "reference_docs": [
+      "统一工具链与沙箱模块设计.md",
+      "4.3 丰富的工具集.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "双流上下文管理模块",
+    "description": "Implement StreamType enum and GlobalStreamManager",
+    "steps": [
+      "Create StreamType enum (GLOBAL, LOCAL)",
+      "Create GlobalStreamManager interface and implementation",
+      "Inject ChatMessageRepository",
+      "Implement appendHumanMessage, appendMasterMessage, and appendSystemMessage",
+      "Implement fetchContext() to retrieve strictly sequence_num ordered GLOBAL messages"
+    ],
+    "reference_docs": [
+      "双流上下文管理模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "双流上下文管理模块",
+    "description": "Verify GlobalStreamManager appends and fetches context correctly",
+    "steps": [
+      "Mock ChatMessageRepository",
+      "Test appendHumanMessage generates correct UnifiedMessage format",
+      "Test appendSystemMessage generates correct system-forged UnifiedMessage",
+      "Verify fetchContext calls repository with correct sessionId and GLOBAL streamType"
+    ],
+    "reference_docs": [
+      "双流上下文管理模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "双流上下文管理模块",
+    "description": "Implement LocalStreamManager for Worker memory isolation",
+    "steps": [
+      "Create LocalStreamManager interface and implementation",
+      "Inject ChatMessageRepository",
+      "Implement appendWorkerMessage and appendToolResult",
+      "Implement getCurrentTokenCount() logic to aggregate token_count of uncompressed messages",
+      "Implement fetchContext() mapping to LOCAL streamType"
+    ],
+    "reference_docs": [
+      "双流上下文管理模块设计.md",
+      "2.2 严格串行与状态隔离.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "双流上下文管理模块",
+    "description": "Verify LocalStreamManager handles tool results and token tracking",
+    "steps": [
+      "Mock ChatMessageRepository",
+      "Test appendToolResult properly converts inputs to UnifiedMessage.ofToolResult",
+      "Verify token count aggregation returns correct integer values based on stored messages",
+      "Verify fetchContext calls repository with LOCAL streamType"
+    ],
+    "reference_docs": [
+      "双流上下文管理模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "双流上下文管理模块",
+    "description": "Implement InjectionEngine for top-down context assembly",
+    "steps": [
+      "Create InjectionEngine interface and implementation",
+      "Inject GlobalStreamManager",
+      "Implement injectInitialContext(masterSessionId, assignedTask)",
+      "Extract relevant global rules and format a new UnifiedMessage acting as Worker's System Prompt"
+    ],
+    "reference_docs": [
+      "双流上下文管理模块设计.md",
+      "4.2 智能上下文切片与压缩.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "双流上下文管理模块",
+    "description": "Test InjectionEngine prompt formatting",
+    "steps": [
+      "Mock GlobalStreamManager to return dummy global history",
+      "Call injectInitialContext() with a specific assignedTask",
+      "Assert the returned UnifiedMessage contains the assigned task and global constraints",
+      "Verify the role is set to SYSTEM"
+    ],
+    "reference_docs": [
+      "双流上下文管理模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "双流上下文管理模块",
+    "description": "Implement CondensationEngine for bottom-up summarization",
+    "steps": [
+      "Create CondensationEngine interface and implementation",
+      "Inject LocalStreamManager, GlobalStreamManager, and ModelRouter",
+      "Implement checkAndCompactIfNeeded() to monitor token thresholds",
+      "Implement condenseAndMergeUpwards() to fetch LocalStream, call LlmClient.summarize(), and append to GlobalStream"
+    ],
+    "reference_docs": [
+      "双流上下文管理模块设计.md",
+      "4.2 智能上下文切片与压缩.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "双流上下文管理模块",
+    "description": "Test CondensationEngine token threshold and summarization routing",
+    "steps": [
+      "Mock ModelRouter and LlmClient to return dummy summary text",
+      "Mock LocalStreamManager and GlobalStreamManager",
+      "Test checkAndCompactIfNeeded returns true when token count exceeds limit",
+      "Test condenseAndMergeUpwards fetches local context, summarizes it, and appends to global context"
+    ],
+    "reference_docs": [
+      "双流上下文管理模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "状态机与调度引擎模块",
+    "description": "Implement TaskStatus enum, ImRoute record, and TaskManager",
+    "steps": [
+      "Create TaskStatus enum (PLANNING, RUNNING, SUSPENDED, COMPLETED, FAILED)",
+      "Create ImRoute record",
+      "Implement TaskManager interface and TaskManagerImpl",
+      "Implement createMasterTask and createWorkerTask leveraging TaskSessionRepository",
+      "Implement transitionState with strict valid transition checks",
+      "Implement getParentSessionId and getImRoute"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "1.2 主从层级架构.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "状态机与调度引擎模块",
+    "description": "Verify TaskManager state transitions and session creation",
+    "steps": [
+      "Mock TaskSessionRepository",
+      "Test createMasterTask generates correct session ID and triggers repository save",
+      "Test createWorkerTask links parent ID properly",
+      "Test transitionState enforces valid state flows and updates repository",
+      "Test getParentSessionId correctly distinguishes Master and Worker sessions"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "状态机与调度引擎模块",
+    "description": "Implement CircuitBreaker to prevent infinite ReAct loops",
+    "steps": [
+      "Create CircuitBreaker interface and implementation",
+      "Implement checkAndIncrement(sessionId) using an internal counter map or database",
+      "Throw custom CircuitBreakerOpenException if loop count reaches 20",
+      "Implement reset(sessionId) to clear the counter"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "2.3 死循环熔断机制.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "状态机与调度引擎模块",
+    "description": "Test CircuitBreaker loop counting and exception handling",
+    "steps": [
+      "Initialize CircuitBreaker",
+      "Call checkAndIncrement 19 times and assert no exception",
+      "Call checkAndIncrement on the 20th time and assert CircuitBreakerOpenException is thrown",
+      "Call reset and verify the counter is back to 0"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "2.3 死循环熔断机制.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "状态机与调度引擎模块",
+    "description": "Implement SuspendResumeEngine for human-in-the-loop workflow",
+    "steps": [
+      "Create SuspendResumeEngine interface and implementation",
+      "Inject TaskManager, GlobalStreamManager, LocalStreamManager, ToolRegistry, and IMMessagePusher",
+      "Implement suspendForApproval() to update state to SUSPENDED, spoof global message, and trigger pushCardMessage",
+      "Implement resume() to execute ToolRegistry bypass on approval, or forge error on rejection",
+      "Append resulting ToolResult to LocalStreamManager and transition state back to RUNNING"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "3.3 人机回环.md",
+      "5.2 命令黑名单沙箱.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "状态机与调度引擎模块",
+    "description": "Verify SuspendResumeEngine suspension and resumption logic",
+    "steps": [
+      "Mock dependencies (TaskManager, IMMessagePusher, Streams, Tools)",
+      "Test suspendForApproval changes state to SUSPENDED and pushes a card message via Master route",
+      "Test resume(isApproved=true) calls executeWithBypass and appends success ToolResult",
+      "Test resume(isApproved=false) skips execution and appends forged error ToolResult",
+      "Verify state transitions back to RUNNING upon resume"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "3.3 人机回环.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "状态机与调度引擎模块",
+    "description": "Implement MasterRunner and WorkerRunner skeletons",
+    "steps": [
+      "Create AgentRunner interface, MasterRunner interface, and WorkerRunner interface",
+      "Implement generateExecutionPlan in MasterRunner",
+      "Implement isResumingFromSuspension in WorkerRunner (checks last local message for ToolResult)",
+      "Set up Virtual Thread executor pool for the run(sessionId) methods"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "1.3 总Agent作为中枢.md",
+      "1.4 子Agent作为执行单元.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "状态机与调度引擎模块",
+    "description": "Verify WorkerRunner suspension detection logic",
+    "steps": [
+      "Mock LocalStreamManager to return empty list, verify isResumingFromSuspension is false",
+      "Mock LocalStreamManager to return text message as last, verify false",
+      "Mock LocalStreamManager to return ToolResult as last message, verify true",
+      "Verify run() method invokes InjectionEngine only when isResumingFromSuspension is false"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "状态机与调度引擎模块",
+    "description": "Implement the fixed planning flow as a dedicated PlanningTool",
+    "steps": [
+      "Create PlanningTool class implementing AgentTool (specifically for Master use)",
+      "Hardcode the specialized prompt template for breaking down large tasks",
+      "Implement logic to trigger the LLM to generate a JSON array of sub-tasks",
+      "Register this tool in ToolRegistry under the MASTER role"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "2.1 事前排雷与固定规划.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "状态机与调度引擎模块",
+    "description": "Verify PlanningTool JSON array generation",
+    "steps": [
+      "Mock LlmClient to return a formatted JSON string representing sub-tasks",
+      "Inject mocked client into PlanningTool",
+      "Call execute() on PlanningTool with a complex user requirement",
+      "Assert the output is a correctly parsed JSON array matching the execution_plan schema"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "状态机与调度引擎模块",
+    "description": "Implement WorkerRunner ReAct execution loop in run() method",
+    "steps": [
+      "Check `isResumingFromSuspension`. If false, call `InjectionEngine` and append initial prompt.",
+      "Enter the `while(running)` ReAct loop.",
+      "Call `CircuitBreaker.checkAndIncrement()` at the start of each iteration.",
+      "Fetch context via `LocalStreamManager` and invoke `LlmClient.chat()`.",
+      "If response contains tool calls, iterate and execute via `ToolRegistry`.",
+      "Wrap tool execution in try-catch to specifically catch `SuspendExecutionException`.",
+      "If caught, call `SuspendResumeEngine.suspendForApproval()` and completely exit the thread (break loop).",
+      "If tools succeed, append `ToolResult` to local stream and continue loop.",
+      "When no more tool calls (task complete), call `CondensationEngine`, update Task status to COMPLETED, and exit."
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "1.4 子Agent作为执行单元.md",
+      "2.3 死循环熔断机制.md",
+      "3.3 人机回环.md",
+      "整体架构设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "状态机与调度引擎模块",
+    "description": "Verify WorkerRunner ReAct loop, CircuitBreaker integration, and suspension exit",
+    "steps": [
+      "Mock LlmClient to simulate a conversation that outputs a tool call, then a final text answer.",
+      "Verify that CircuitBreaker is incremented exactly as many times as the loop iterations.",
+      "Mock a tool execution to throw SuspendExecutionException.",
+      "Verify that SuspendResumeEngine is called and the worker thread naturally terminates without throwing unhandled exceptions.",
+      "Verify CondensationEngine is called upon successful completion."
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "1.4 子Agent作为执行单元.md",
+      "3.3 人机回环.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "状态机与调度引擎模块",
+    "description": "Implement MasterRunner global orchestration loop in run() method",
+    "steps": [
+      "Fetch global context via `GlobalStreamManager`.",
+      "Invoke LLM to clarify user intent. If unclear, push interactive question via `UICardRenderer` and yield.",
+      "Once clear, execute environment exploration using read-only tools.",
+      "Call `PlanningTool` explicitly to generate the `execution_plan` JSON array.",
+      "Iterate over the generated plan, calling `TaskManager.createWorkerTask` for each.",
+      "Trigger `WorkerRunner.run()` for each child task and strictly wait/monitor for their COMPLETED status.",
+      "Upon all workers completing, generate final summary via `UICardRenderer` and transition Master state to COMPLETED."
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "1.3 总Agent作为中枢.md",
+      "2.1 事前排雷与固定规划.md",
+      "3.4 极简UI与总结卡片.md",
+      "整体架构设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "状态机与调度引擎模块",
+    "description": "Verify MasterRunner intent clarification, planning, and worker delegation",
+    "steps": [
+      "Mock LlmClient to output clarification question, and verify UICardRenderer is triggered.",
+      "Mock PlanningTool to return a 2-item task array.",
+      "Verify that TaskManager creates exactly 2 Worker tasks.",
+      "Verify that the Master loops and successfully transitions its own state to COMPLETED only after workers finish.",
+      "Verify the final Summary Card is generated."
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "1.3 总Agent作为中枢.md",
+      "2.1 事前排雷与固定规划.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "接入与路由模块",
+    "description": "Implement SessionManager for IM route binding and cascade destruction",
+    "steps": [
+      "Create SessionManager interface and implementation",
+      "Inject TaskManager and ChatMessageRepository",
+      "Implement bindOrCreateTaskSession linking imGroupId to masterSessionId",
+      "Implement getInternalTaskId for routing",
+      "Implement destroySessionCascade to trigger DeleteMessagesEvent and DeleteTaskSessionEvent"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "3.2 会话与群聊强绑定.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "接入与路由模块",
+    "description": "Verify SessionManager mapping and deletion cascade",
+    "steps": [
+      "Mock TaskManager and Event Queue",
+      "Test bindOrCreateTaskSession creates and returns correct mapping",
+      "Test getInternalTaskId correctly fetches mapped ID",
+      "Test destroySessionCascade fetches all linked worker sessions and fires deletion events for all"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "3.2 会话与群聊强绑定.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "接入与路由模块",
+    "description": "Implement UICardRenderer and IMMessagePusher",
+    "steps": [
+      "Create UICardRenderer interface and implementation",
+      "Implement renderProgressBar, renderSuspensionCard, and renderSummaryCard returning generic JSON node objects",
+      "Create IMMessagePusher interface and implementation",
+      "Implement pushCardMessage and pushTextMessage to format HTTP requests for Feishu/Slack APIs"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "3.4 极简UI与总结卡片.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "接入与路由模块",
+    "description": "Test UI rendering logic and Pusher payload formatting",
+    "steps": [
+      "Test renderProgressBar generates correct JSON structure",
+      "Test renderSuspensionCard includes intercepted command and action buttons",
+      "Mock HTTP Client",
+      "Test pushCardMessage correctly serializes the card and executes POST request"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "接入与路由模块",
+    "description": "Implement WebhookController and WebhookEventExecutor for async API handling",
+    "steps": [
+      "Create ImWebhookEvent record",
+      "Create WebhookEventExecutor using Executors.newVirtualThreadPerTaskExecutor()",
+      "Create WebhookController with handleFeishuEvent and handleSlackEvent endpoints",
+      "Implement signature verification, payload parsing, event delegation to executor, and immediate 200 OK return"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "3.1 深度接入办公IM.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "接入与路由模块",
+    "description": "Verify WebhookController immediate response and async delegation",
+    "steps": [
+      "Mock WebhookEventExecutor",
+      "Simulate incoming POST request to handleFeishuEvent with valid signature",
+      "Verify the method returns 200 OK string immediately",
+      "Verify processAsync on the mocked executor was triggered on a separate thread"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "3.1 深度接入办公IM.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "接入与路由模块",
+    "description": "Implement interactive UI card callback parsing for human-in-the-loop",
+    "steps": [
+      "Extend WebhookController to handle interactive button clicks (Action callbacks) from Feishu/Slack",
+      "Extract workerSessionId, toolCallId, isApproved (boolean), and humanFeedback from the payload",
+      "Route the extracted data to SuspendResumeEngine.resume() asynchronously",
+      "Acknowledge the IM callback immediately to update the card state (e.g., 'Operation confirmed')"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "3.3 人机回环.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "接入与路由模块",
+    "description": "Test UI callback routing to SuspendResumeEngine",
+    "steps": [
+      "Mock SuspendResumeEngine",
+      "Simulate an IM callback payload representing an 'Approve' button click",
+      "Verify WebhookController parses the parameters correctly",
+      "Verify SuspendResumeEngine.resume() is called with isApproved=true and correct IDs"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "3.3 人机回环.md",
+      "功能需求文档.txt",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  }
+]
