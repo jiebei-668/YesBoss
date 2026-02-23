@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tech.yesboss.tool.AgentTool;
 import tech.yesboss.tool.SuspendExecutionException;
+import tech.yesboss.tool.ToolAccessLevel;
 import tech.yesboss.tool.sandbox.impl.SandboxInterceptorImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -316,6 +317,11 @@ class SandboxInterceptorTest {
             @Override
             public String getParametersJsonSchema() {
                 return "{\"type\":\"object\"}";
+            }
+
+            @Override
+            public ToolAccessLevel getAccessLevel() {
+                return ToolAccessLevel.READ_WRITE;
             }
 
             @Override

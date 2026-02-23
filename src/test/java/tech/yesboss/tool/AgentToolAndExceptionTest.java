@@ -177,6 +177,11 @@ class AgentToolAndExceptionTest {
         }
 
         @Override
+        public ToolAccessLevel getAccessLevel() {
+            return ToolAccessLevel.READ_WRITE;
+        }
+
+        @Override
         public String execute(String argumentsJson) throws Exception {
             return "Executed with: " + argumentsJson;
         }

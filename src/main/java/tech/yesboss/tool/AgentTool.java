@@ -29,6 +29,17 @@ public interface AgentTool {
     String getParametersJsonSchema();
 
     /**
+     * 获取工具的访问级别
+     *
+     * <p>用于实现基于角色的访问控制（RBAC）。
+     * Master Agent 只能访问 READ_ONLY 级别的工具，
+     * Worker Agent 可以访问所有级别的工具。</p>
+     *
+     * @return 工具的访问级别
+     */
+    ToolAccessLevel getAccessLevel();
+
+    /**
      * 核心执行逻辑
      *
      * @param argumentsJson LLM 生成并传入的参数 JSON 字符串

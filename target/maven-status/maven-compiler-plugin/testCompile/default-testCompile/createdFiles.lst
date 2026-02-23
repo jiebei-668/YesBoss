@@ -5,9 +5,11 @@ tech/yesboss/persistence/repository/RepositoryLayerTest.class
 tech/yesboss/persistence/db/ManualSchemaTest.class
 tech/yesboss/llm/impl/ModelRouterTest$1.class
 tech/yesboss/tool/AgentToolAndExceptionTest.class
+tech/yesboss/tool/registry/ToolRegistryTest.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImplTest.class
 tech/yesboss/tool/sandbox/SandboxInterceptorTest.class
 tech/yesboss/persistence/event/DbWriteEventTest.class
+tech/yesboss/tool/registry/ToolRegistryTest$1.class
 tech/yesboss/persistence/db/SingleThreadDbWriterTest.class
 tech/yesboss/domain/message/UnifiedMessageTest.class
 tech/yesboss/persistence/db/DatabaseInitializerTest.class

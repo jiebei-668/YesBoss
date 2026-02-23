@@ -1,5 +1,6 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/ToolRegistry.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/TaskSession.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/UpdateTaskStatusEvent.java
@@ -7,6 +8,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertToolExecutionLogEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/LlmClient.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteTaskSessionEvent.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/impl/ToolRegistryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/sandbox/SandboxInterceptor.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/SQLiteConnectionManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ToolExecutionRepository.java
@@ -22,6 +24,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/AgentTool.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteMessagesEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/domain/message/UnifiedMessage.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/ToolAccessLevel.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/SuspendExecutionException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertTaskSessionEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/SingleThreadDbWriter.java
