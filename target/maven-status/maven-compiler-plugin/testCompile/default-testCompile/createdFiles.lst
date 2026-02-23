@@ -1,6 +1,7 @@
 tech/yesboss/persistence/repository/RepositoryLayerTest.class
-tech/yesboss/persistence/event/DbWriteEventTest.class
 tech/yesboss/persistence/db/ManualSchemaTest.class
+tech/yesboss/llm/impl/ClaudeSdkAdapterImplTest.class
+tech/yesboss/persistence/event/DbWriteEventTest.class
 tech/yesboss/persistence/db/SingleThreadDbWriterTest.class
 tech/yesboss/domain/message/UnifiedMessageTest.class
 tech/yesboss/persistence/db/DatabaseInitializerTest.class
