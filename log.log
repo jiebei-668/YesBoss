@@ -27,3 +27,52 @@ Files Created:
 - src/test/java/tech/yesboss/persistence/db/DatabaseInitializerTest.java
 - src/test/java/tech/yesboss/persistence/db/ManualSchemaTest.java
 - pom.xml (Maven configuration with Java 17)
+[2026-02-23 19:55:00] Task ID: 异步持久化模块_002
+Status: SUCCESS
+Description: Verify SQLite Schema constraints and indexes
+
+Verification Summary:
+This task was completed as part of Task 1's comprehensive test suite:
+- testInitializeSchema: Verifies schema initialization on in-memory database
+- testChatMessageUniqueConstraint: Verifies duplicate sequence_num constraint failure
+- testImTypeCheckConstraint/testStatusCheckConstraint: Verify CHECK constraints
+- Index tests (idx_session_im_route, idx_session_parent, idx_chat_msg_seq, etc.)
+
+All constraints and indexes validated successfully.
+[2026-02-23 20:02:00] Task ID: 异步持久化模块_003
+Status: SUCCESS
+Description: Define DbWriteEvent sealed interface and its concrete record implementations
+
+Implementation Summary:
+- Created DbWriteEvent sealed interface with 6 permitted implementations
+- Implemented InsertTaskSessionEvent record with enums (ImType, AgentRole, TaskStatus)
+- Implemented UpdateTaskStatusEvent record with optional planJson
+- Implemented InsertMessageEvent record with StreamType enum (GLOBAL/LOCAL)
+- Implemented InsertToolExecutionLogEvent record with isIntercepted flag
+- Implemented DeleteMessagesEvent record for cascade deletion
+- Implemented DeleteTaskSessionEvent record for session cleanup
+- Created placeholder UnifiedMessage domain class (full implementation in LLM module)
+
+Key Design Features:
+- All records are immutable by design (Java records)
+- Auto-timestamp generation with custom timestamp support
+- Comprehensive constructors for different use cases
+- getEventType() method for logging and routing
+
+Test Results: 13/13 passed (100%)
+- Verified all records can be instantiated with mock data
+- Verified field immutability
+- Verified compiler enforcement of sealed interface
+- Verified default timestamp generation
+- Verified all permitted types implement DbWriteEvent
+
+Files Created:
+- src/main/java/tech/yesboss/persistence/event/DbWriteEvent.java
+- src/main/java/tech/yesboss/persistence/event/InsertTaskSessionEvent.java
+- src/main/java/tech/yesboss/persistence/event/UpdateTaskStatusEvent.java
+- src/main/java/tech/yesboss/persistence/event/InsertMessageEvent.java
+- src/main/java/tech/yesboss/persistence/event/InsertToolExecutionLogEvent.java
+- src/main/java/tech/yesboss/persistence/event/DeleteMessagesEvent.java
+- src/main/java/tech/yesboss/persistence/event/DeleteTaskSessionEvent.java
+- src/main/java/tech/yesboss/domain/message/UnifiedMessage.java (placeholder)
+- src/test/java/tech/yesboss/persistence/event/DbWriteEventTest.java
