@@ -7,6 +7,7 @@
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/tool/mcp/McpToolAdapterTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/llm/impl/ClaudeSdkAdapterImplTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/tool/tracker/ToolCallTrackerTest.java
+/home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/context/LocalStreamManagerTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/persistence/db/DatabaseInitializerTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/tool/registry/ToolRegistryTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/persistence/event/DbWriteEventTest.java

@@ -10,9 +10,11 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/LlmClient.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteTaskSessionEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/impl/ToolRegistryImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/impl/LocalStreamManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/sandbox/SandboxInterceptor.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/impl/GlobalStreamManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/SQLiteConnectionManager.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/LocalStreamManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ToolExecutionRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/tracker/ToolCallTracker.java
