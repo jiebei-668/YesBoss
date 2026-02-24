@@ -1,10 +1,13 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepository.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/model/ImWebhookEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/UpdateTaskStatusEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertToolExecutionLogEvent.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteTaskSessionEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/impl/CircuitBreakerImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/controller/WebhookController.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/state/TaskManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/impl/WorkerRunnerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/SQLiteConnectionManager.java
@@ -30,6 +33,8 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/InjectionEngine.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/SingleThreadDbWriter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/im/IMMessagePusher.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/executor/impl/WebhookEventExecutorImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/ToolRegistry.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/tracker/impl/ToolCallTrackerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/TaskSession.java

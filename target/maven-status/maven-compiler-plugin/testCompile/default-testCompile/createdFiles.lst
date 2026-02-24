@@ -11,6 +11,7 @@ tech/yesboss/context/GlobalStreamManagerTest.class
 tech/yesboss/persistence/repository/RepositoryLayerTest.class
 tech/yesboss/context/engine/InjectionEngineTest.class
 tech/yesboss/tool/AgentToolAndExceptionTest.class
+tech/yesboss/gateway/webhook/WebhookControllerAndExecutorTest.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImplTest.class
 tech/yesboss/tool/sandbox/SandboxInterceptorTest.class
 tech/yesboss/persistence/event/DbWriteEventTest.class

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest
+-------------------------------------------------------------------------------
+Tests run: 31, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.441 s -- in tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest

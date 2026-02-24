@@ -29,6 +29,7 @@ tech/yesboss/domain/message/UnifiedMessage.class
 tech/yesboss/state/model/ImRoute.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent.class
 tech/yesboss/runner/impl/MasterRunnerImpl.class
+tech/yesboss/gateway/webhook/controller/WebhookController.class
 tech/yesboss/llm/LlmClient.class
 tech/yesboss/tool/planning/PlanningTool.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$1.class
@@ -47,6 +48,7 @@ tech/yesboss/runner/MasterRunner.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.class
 tech/yesboss/persistence/db/SingleThreadDbWriter.class
 tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.class
+tech/yesboss/gateway/webhook/model/ImWebhookEvent.class
 tech/yesboss/context/impl/GlobalStreamManagerImpl.class
 tech/yesboss/context/StreamType.class
 tech/yesboss/tool/registry/ToolRegistry.class
@@ -64,7 +66,10 @@ tech/yesboss/safeguard/SuspendResumeEngine.class
 tech/yesboss/persistence/repository/TaskSessionRepository.class
 tech/yesboss/persistence/db/DatabaseInitializer.class
 tech/yesboss/tool/ToolAccessLevel.class
+tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.class
 tech/yesboss/state/impl/TaskManagerImpl.class
+tech/yesboss/gateway/webhook/executor/impl/WebhookEventExecutorImpl.class
+tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.class
 tech/yesboss/gateway/im/impl/IMMessagePusherImpl.class
 tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.class
 tech/yesboss/runner/impl/MasterRunnerImpl$1.class

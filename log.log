@@ -1447,3 +1447,68 @@ Files Created:
 Note: The IMMessagePusher implementation uses environment variables for webhook URL configuration,
 which allows flexible deployment without code changes. The actual HTTP calls are synchronous
 and blocking; calling code should handle async execution if needed.
+
+[2026-02-24 19:23:00] Task ID: 接入与路由模块_005
+Status: SUCCESS
+Description: Implement WebhookController and WebhookEventExecutor for async API handling
+
+Implementation Summary:
+- Created ImWebhookEvent record with comprehensive validation and helper methods:
+  * Static factory method create() with automatic timestamp
+  * Validation for all required fields (imType, eventType, imGroupId, userId, payload)
+  * Helper methods: isMessageEvent(), isGroupJoinEvent(), isGroupDeleteEvent()
+  * Platform detection: isFeishu(), isSlack(), isCli()
+
+- Created WebhookEventExecutor interface and implementation:
+  * processAsync(event) for async event submission
+  * shutdown() for graceful executor termination
+  * isRunning() status check
+  * Uses cached thread pool for Java 17 compatibility (TODO: upgrade to virtual threads in Java 21+)
+  * Integration with SessionManager, TaskManager, and MasterRunner
+  * Comprehensive error handling and logging
+  * CLI mode: creates session directly and runs master
+  * IM modes: handles group delete events via cascade deletion, message/group_join events via session binding
+
+- Created WebhookController interface and implementation:
+  * handleFeishuEvent() with HMAC-SHA256 signature verification
+  * handleSlackEvent() with HMAC-SHA256 signature verification
+  * handleCliCommand() for local testing
+  * isReady() status check
+  * Immediate 200 OK response to prevent webhook timeout
+  * Signature timestamp validation (Feishu: 3 min, Slack: 5 min tolerance)
+  * Constant-time string comparison for security
+  * JSON payload parsing with Jackson ObjectMapper
+  * Feishu payload parsing: extracts event_type, chat_id, user_id
+  * Slack payload parsing: extracts event type, channel_id, user_id
+  * URL verification challenge support for Slack handshake
+
+Key Design Features:
+- Async-first architecture: HTTP response returns immediately, processing happens in background threads
+- Signature verification prevents webhook spoofing attacks
+- Graceful degradation: returns 200 OK even on parsing errors to avoid retry storms
+- Thread pool executor for Java 17 compatibility
+- Comprehensive parameter validation
+- SLF4J logging for debugging and monitoring
+
+Test Results: 31/31 tests passed (100%)
+- Executor constructor validation tests (3 tests)
+- Executor lifecycle tests (5 tests)
+- Executor async processing tests (4 tests)
+- Controller constructor validation tests (2 tests)
+- Controller readiness test (1 test)
+- Feishu event handling tests (8 tests)
+- Slack event handling tests (8 tests)
+- CLI command handling tests (3 tests)
+- ImWebhookEvent validation and helper tests (7 tests)
+
+Files Created:
+- src/main/java/tech/yesboss/gateway/webhook/model/ImWebhookEvent.java
+- src/main/java/tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.java
+- src/main/java/tech/yesboss/gateway/webhook/executor/impl/WebhookEventExecutorImpl.java
+- src/main/java/tech/yesboss/gateway/webhook/controller/WebhookController.java
+- src/main/java/tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.java
+- src/test/java/tech/yesboss/gateway/webhook/WebhookControllerAndExecutorTest.java
+
+Note: Java 21 virtual threads (newVirtualThreadPerTaskExecutor) are not available in Java 17.
+The implementation uses Executors.newCachedThreadPool() for compatibility. Consider upgrading
+to virtual threads when the project migrates to Java 21+ for improved resource efficiency.

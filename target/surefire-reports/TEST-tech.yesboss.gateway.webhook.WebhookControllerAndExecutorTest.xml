@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="1.441" tests="31" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/home/jiebei/qz_proj/YesBoss/target/test-classes:/home/jiebei/qz_proj/YesBoss/target/classes:/home/jiebei/.m2/repository/org/xerial/sqlite-jdbc/3.43.0.0/sqlite-jdbc-3.43.0.0.jar:/home/jiebei/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.0/jackson-databind-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.0/jackson-annotations-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.0/jackson-core-2.16.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.jar:/home/jiebei/.m2/repository/com/google/errorprone/error_prone_annotations/2.33.0/error_prone_annotations-2.33.0.jar:/home/jiebei/.m2/repository/io/swagger/core/v3/swagger-annotations/2.2.31/swagger-annotations-2.2.31.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.2/jackson-datatype-jdk8-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.18.2/jackson-module-kotlin-2.18.2.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.8.10/kotlin-reflect-1.8.10.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.2.4/httpcore5-5.2.4.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.3.1/httpclient5-5.3.1.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.2.4/httpcore5-h2-5.2.4.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-generator/4.38.0/jsonschema-generator-4.38.0.jar:/home/jiebei/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-jackson/4.38.0/jsonschema-module-jackson-4.38.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-swagger-2/4.38.0/jsonschema-module-swagger-2-4.38.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/okhttp/4.12.0/okhttp-4.12.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio/3.6.0/okio-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio-jvm/3.6.0/okio-jvm-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/logging-interceptor/4.12.0/logging-interceptor-4.12.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.0/kotlin-stdlib-jdk8-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.0/kotlin-stdlib-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.0/kotlin-stdlib-common-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0/kotlin-stdlib-jdk7-1.8.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/home/jiebei/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/home/jiebei/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/home/jiebei/.m2/repository/org/mockito/mockito-core/5.8.0/mockito-core-5.8.0.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar:/home/jiebei/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/jiebei/.m2/repository/org/mockito/mockito-junit-jupiter/5.8.0/mockito-junit-jupiter-5.8.0.jar:"/>
+    <property name="java.vm.vendor" value="Ubuntu"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://ubuntu.com/"/>
+    <property name="user.timezone" value="Asia/Shanghai"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
+    <property name="sun.java.command" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224192317948_3.jar /home/jiebei/qz_proj/YesBoss/target/surefire 2026-02-24T19-23-17_876-jvmRun1 surefire-20260224192317948_1tmp surefire_0-20260224192317948_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="WebhookControllerAndExecutorTest"/>
+    <property name="surefire.test.class.path" value="/home/jiebei/qz_proj/YesBoss/target/test-classes:/home/jiebei/qz_proj/YesBoss/target/classes:/home/jiebei/.m2/repository/org/xerial/sqlite-jdbc/3.43.0.0/sqlite-jdbc-3.43.0.0.jar:/home/jiebei/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.0/jackson-databind-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.0/jackson-annotations-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.0/jackson-core-2.16.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.jar:/home/jiebei/.m2/repository/com/google/errorprone/error_prone_annotations/2.33.0/error_prone_annotations-2.33.0.jar:/home/jiebei/.m2/repository/io/swagger/core/v3/swagger-annotations/2.2.31/swagger-annotations-2.2.31.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.2/jackson-datatype-jdk8-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.18.2/jackson-module-kotlin-2.18.2.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.8.10/kotlin-reflect-1.8.10.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.2.4/httpcore5-5.2.4.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.3.1/httpclient5-5.3.1.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.2.4/httpcore5-h2-5.2.4.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-generator/4.38.0/jsonschema-generator-4.38.0.jar:/home/jiebei/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-jackson/4.38.0/jsonschema-module-jackson-4.38.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-swagger-2/4.38.0/jsonschema-module-swagger-2-4.38.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/okhttp/4.12.0/okhttp-4.12.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio/3.6.0/okio-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio-jvm/3.6.0/okio-jvm-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/logging-interceptor/4.12.0/logging-interceptor-4.12.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.0/kotlin-stdlib-jdk8-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.0/kotlin-stdlib-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.0/kotlin-stdlib-common-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0/kotlin-stdlib-jdk7-1.8.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/home/jiebei/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/home/jiebei/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/home/jiebei/.m2/repository/org/mockito/mockito-core/5.8.0/mockito-core-5.8.0.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar:/home/jiebei/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/jiebei/.m2/repository/org/mockito/mockito-junit-jupiter/5.8.0/mockito-junit-jupiter-5.8.0.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/home/jiebei"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-04-15"/>
+    <property name="java.home" value="/usr/lib/jvm/java-17-openjdk-amd64"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/home/jiebei/qz_proj/YesBoss"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224192317948_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="17.0.15+6-Ubuntu-0ubuntu120.04"/>
+    <property name="user.name" value="jiebei"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="5.15.0-139-generic"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="/home/jiebei/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-17"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="java.version" value="17.0.15"/>
+    <property name="user.dir" value="/home/jiebei/qz_proj/YesBoss"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/home/jiebei/linux_demo/network/:/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Ubuntu"/>
+    <property name="java.vm.version" value="17.0.15+6-Ubuntu-0ubuntu120.04"/>
+    <property name="java.specification.maintenance.version" value="1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testExecutorRejectsEventsAfterShutdown" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.788">
+    <system-out><![CDATA[19:23:18.980 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.083 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.086 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.087 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+19:23:19.088 [main] WARN tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Executor is not running, rejecting event: command
+19:23:19.090 [main] WARN tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Executor already shut down
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleFeishuEventReturns200Ok" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.015">
+    <system-out><![CDATA[19:23:19.101 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.101 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.101 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: not configured, Slack secret: not configured
+19:23:19.101 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Feishu webhook event
+19:23:19.101 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Feishu signature verification skipped (no secret configured)
+19:23:19.109 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Feishu event parsed: type=message, group=unknown-group, user=unknown-user
+19:23:19.109 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=FEISHU, group=unknown-group, user=unknown-user
+19:23:19.110 [pool-3-thread-1] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=FEISHU, event=message
+19:23:19.111 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.112 [pool-3-thread-1] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Session bound/created for event: session=test-session-id, group=unknown-group
+19:23:19.113 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleSlackEventInvalidSignature" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.018">
+    <system-out><![CDATA[19:23:19.117 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.117 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.118 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Slack webhook event
+19:23:19.132 [main] ERROR tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Slack signature verification failed: Slack signature mismatch
+19:23:19.132 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.132 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleSlackEventReturns200Ok" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.004">
+    <system-out><![CDATA[19:23:19.135 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.135 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.135 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: not configured, Slack secret: not configured
+19:23:19.135 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Slack webhook event
+19:23:19.136 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Slack signature verification skipped (no secret configured)
+19:23:19.136 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Slack event parsed: type=message, channel=unknown-channel, user=unknown-user
+19:23:19.136 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=SLACK, group=unknown-channel, user=unknown-user
+19:23:19.136 [pool-5-thread-1] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=SLACK, event=message
+19:23:19.136 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.137 [pool-5-thread-1] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Session bound/created for event: session=test-session-id, group=unknown-channel
+19:23:19.137 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testExecutorMultipleConcurrentEvents" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.007">
+    <system-out><![CDATA[19:23:19.140 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.140 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.142 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group-0, user=test-user
+19:23:19.142 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group-1, user=test-user
+19:23:19.142 [pool-6-thread-1] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.142 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group-2, user=test-user
+19:23:19.143 [pool-6-thread-2] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.143 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group-3, user=test-user
+19:23:19.143 [pool-6-thread-1] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.143 [pool-6-thread-3] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.143 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group-4, user=test-user
+19:23:19.143 [pool-6-thread-2] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.143 [pool-6-thread-4] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.143 [pool-6-thread-3] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.143 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group-5, user=test-user
+19:23:19.143 [pool-6-thread-1] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.143 [pool-6-thread-2] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.143 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group-6, user=test-user
+19:23:19.143 [pool-6-thread-1] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.143 [pool-6-thread-4] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.143 [pool-6-thread-2] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.143 [pool-6-thread-3] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.143 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group-7, user=test-user
+19:23:19.143 [pool-6-thread-4] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.143 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group-8, user=test-user
+19:23:19.144 [pool-6-thread-2] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.144 [pool-6-thread-4] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.144 [pool-6-thread-3] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.144 [pool-6-thread-2] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.144 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group-9, user=test-user
+19:23:19.144 [pool-6-thread-2] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.144 [pool-6-thread-2] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.144 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.145 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testControllerConstructorAllowsNullSecrets" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.004">
+    <system-out><![CDATA[19:23:19.148 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.148 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.149 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: not configured, Slack secret: not configured
+19:23:19.150 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: not configured, Slack secret: not configured
+19:23:19.150 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.150 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testExecutorConstructorNullSessionManager" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.004">
+    <system-out><![CDATA[19:23:19.154 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.154 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.155 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.155 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleFeishuEventExpiredTimestamp" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.007">
+    <system-out><![CDATA[19:23:19.158 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.158 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.161 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Feishu webhook event
+19:23:19.162 [main] ERROR tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Feishu signature verification failed: Feishu timestamp expired: diff=200s
+19:23:19.163 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.163 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleSlackEventUrlVerification" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.003">
+    <system-out><![CDATA[19:23:19.165 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.166 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.166 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: not configured, Slack secret: not configured
+19:23:19.166 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Slack webhook event
+19:23:19.166 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Slack signature verification skipped (no secret configured)
+19:23:19.166 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Slack URL verification challenge received
+19:23:19.167 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.167 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testExecutorAsyncProcessing" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.004">
+    <system-out><![CDATA[19:23:19.170 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.170 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.171 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group, user=test-user
+19:23:19.171 [pool-11-thread-1] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.171 [pool-11-thread-1] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.171 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.172 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testImWebhookEventCreateWithCurrentTimestamp" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.002">
+    <system-out><![CDATA[19:23:19.174 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.174 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.174 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.174 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleFeishuEventWithEmptyBody" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.002">
+    <system-out><![CDATA[19:23:19.176 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.177 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.177 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: not configured, Slack secret: not configured
+19:23:19.177 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Feishu webhook event
+19:23:19.177 [main] WARN tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Empty Feishu webhook body
+19:23:19.177 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.177 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleSlackEventSignatureVerification" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.004">
+    <system-out><![CDATA[19:23:19.179 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.180 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.181 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Slack webhook event
+19:23:19.181 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Slack signature verified successfully
+19:23:19.181 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Slack event parsed: type=message, channel=unknown-channel, user=unknown-user
+19:23:19.181 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=SLACK, group=unknown-channel, user=unknown-user
+19:23:19.181 [pool-14-thread-1] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=SLACK, event=message
+19:23:19.182 [pool-14-thread-1] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Session bound/created for event: session=test-session-id, group=unknown-channel
+19:23:19.182 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.182 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testImWebhookEventValidation" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.002">
+    <system-out><![CDATA[19:23:19.184 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.184 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.185 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.185 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testExecutorHandlesEventProcessingException" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.504">
+    <system-out><![CDATA[19:23:19.187 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.187 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.188 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=test-group, user=test-user
+19:23:19.188 [pool-16-thread-1] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.189 [pool-16-thread-1] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.189 [pool-16-thread-1] ERROR tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Error processing webhook event: type=CLI, group=test-group, error=Test exception
+java.lang.RuntimeException: Test exception
+	at tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl.processEventInternal(WebhookEventExecutorImpl.java:124)
+	at tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl.lambda$processAsync$0(WebhookEventExecutorImpl.java:93)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+19:23:19.689 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.690 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleFeishuEventSignatureVerification" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.007">
+    <system-out><![CDATA[19:23:19.695 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.696 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.697 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Feishu webhook event
+19:23:19.698 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Feishu signature verified successfully
+19:23:19.698 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Feishu event parsed: type=message, group=unknown-group, user=unknown-user
+19:23:19.698 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=FEISHU, group=unknown-group, user=unknown-user
+19:23:19.698 [pool-17-thread-1] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=FEISHU, event=message
+19:23:19.698 [pool-17-thread-1] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Session bound/created for event: session=test-session-id, group=unknown-group
+19:23:19.699 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.699 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleFeishuEventInvalidSignature" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.002">
+    <system-out><![CDATA[19:23:19.701 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.701 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.701 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Feishu webhook event
+19:23:19.702 [main] ERROR tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Feishu signature verification failed: Feishu signature mismatch
+19:23:19.702 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.702 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testExecutorIsRunningAfterCreation" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.001">
+    <system-out><![CDATA[19:23:19.703 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.703 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.703 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.703 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testImWebhookEventHelperMethods" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.001">
+    <system-out><![CDATA[19:23:19.705 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.705 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.705 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.705 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testExecutorShutdown" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.001">
+    <system-out><![CDATA[19:23:19.707 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.707 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.707 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.707 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+19:23:19.707 [main] WARN tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Executor already shut down
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleSlackEventWithEmptyBody" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.001">
+    <system-out><![CDATA[19:23:19.708 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.708 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.708 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: not configured, Slack secret: not configured
+19:23:19.708 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Slack webhook event
+19:23:19.708 [main] WARN tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Empty Slack webhook body
+19:23:19.708 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.708 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testExecutorConstructorNullMasterRunner" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.001">
+    <system-out><![CDATA[19:23:19.710 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.710 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.710 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.710 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testExecutorConstructorNullTaskManager" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.002">
+    <system-out><![CDATA[19:23:19.711 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.711 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.712 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.712 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleFeishuEventWithNullBody" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.002">
+    <system-out><![CDATA[19:23:19.713 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.713 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.713 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: not configured, Slack secret: not configured
+19:23:19.714 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Feishu webhook event
+19:23:19.714 [main] WARN tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Empty Feishu webhook body
+19:23:19.714 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.714 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleSlackEventExpiredTimestamp" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.002">
+    <system-out><![CDATA[19:23:19.715 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.715 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.716 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Slack webhook event
+19:23:19.716 [main] ERROR tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Slack signature verification failed: Slack timestamp expired: diff=400s
+19:23:19.716 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.716 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleCliCommandWithEmptyString" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.002">
+    <system-out><![CDATA[19:23:19.717 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.718 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.718 [main] WARN tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Empty CLI command
+19:23:19.718 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.718 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleCliCommand" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.002">
+    <system-out><![CDATA[19:23:19.719 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.719 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.720 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- CLI command received: test command
+19:23:19.720 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=CLI, group=cli-session, user=cli-user
+19:23:19.720 [pool-28-thread-1] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=CLI, event=command
+19:23:19.721 [pool-28-thread-1] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- CLI session created: test-session-id
+19:23:19.721 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.721 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleCliCommandWithNull" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.001">
+    <system-out><![CDATA[19:23:19.723 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.723 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.723 [main] WARN tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Empty CLI command
+19:23:19.723 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.723 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleFeishuEventSignatureSkippedWhenNoSecret" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.003">
+    <system-out><![CDATA[19:23:19.724 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.724 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.725 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: not configured, Slack secret: configured
+19:23:19.725 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Received Feishu webhook event
+19:23:19.725 [main] DEBUG tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Feishu signature verification skipped (no secret configured)
+19:23:19.725 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- Feishu event parsed: type=message, group=unknown-group, user=unknown-user
+19:23:19.725 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Submitting async event processing: type=FEISHU, group=unknown-group, user=unknown-user
+19:23:19.725 [pool-30-thread-1] DEBUG tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Processing event in virtual thread: type=FEISHU, event=message
+19:23:19.725 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.726 [pool-30-thread-1] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Session bound/created for event: session=test-session-id, group=unknown-group
+19:23:19.726 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+  <testcase name="testControllerIsReady" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.001">
+    <system-out><![CDATA[19:23:19.727 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.727 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.727 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.727 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+19:23:19.727 [main] WARN tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Executor already shut down
+]]></system-out>
+  </testcase>
+  <testcase name="testControllerConstructorNullExecutor" classname="tech.yesboss.gateway.webhook.WebhookControllerAndExecutorTest" time="0.001">
+    <system-out><![CDATA[19:23:19.729 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor initialized with cached thread pool executor
+19:23:19.729 [main] INFO tech.yesboss.gateway.webhook.controller.impl.WebhookControllerImpl -- WebhookController initialized. Feishu secret: configured, Slack secret: configured
+19:23:19.729 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- Shutting down WebhookEventExecutor...
+19:23:19.729 [main] INFO tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl -- WebhookEventExecutor shut down successfully
+]]></system-out>
+  </testcase>
+</testsuite>
