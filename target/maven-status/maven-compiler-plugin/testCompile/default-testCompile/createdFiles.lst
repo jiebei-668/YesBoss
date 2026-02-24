@@ -1,6 +1,7 @@
 tech/yesboss/tool/tracker/ToolCallTrackerTest.class
 tech/yesboss/tool/sandbox/SandboxInterceptorTest$1.class
 tech/yesboss/llm/impl/ModelRouterTest.class
+tech/yesboss/context/engine/CondensationEngineTest.class
 tech/yesboss/tool/AgentToolAndExceptionTest$MockAgentTool.class
 tech/yesboss/context/LocalStreamManagerTest.class
 tech/yesboss/context/GlobalStreamManagerTest.class

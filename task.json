@@ -576,7 +576,7 @@
       "整体架构设计.md",
       "技术模块设计.md"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "test",
@@ -594,7 +594,7 @@
       "整体架构设计.md",
       "技术模块设计.md"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "develop",

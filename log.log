@@ -783,3 +783,82 @@ This task was completed together with Task 005:
 - Verified prompt includes all required sections (role, task, rules, guidelines)
 
 All 16 tests pass successfully, confirming the implementation meets requirements.
+[2026-02-24 14:34:00] Task ID: 双流上下文管理模块_007
+Status: SUCCESS
+Description: Implement CondensationEngine for bottom-up summarization
+
+Implementation Summary:
+- Created CondensationEngine interface with 3 methods:
+  * condenseAndMergeUpwards() - compresses local stream and merges to global stream
+  * checkAndCompactIfNeeded() - monitors token thresholds
+  * getTokenThreshold() and setTokenThreshold() - threshold management
+- Created CondensationEngineImpl with LocalStreamManager, GlobalStreamManager, and ModelRouter injection
+- Implemented checkAndCompactIfNeeded() to:
+  * Call LocalStreamManager.getCurrentTokenCount()
+  * Return true if token count exceeds threshold
+  * Log compaction need with detailed info
+- Implemented condenseAndMergeUpwards() to:
+  * Fetch local context from worker session
+  * Convert local context messages to formatted text
+  * Call ModelRouter.getSummarizer() to get LlmClient
+  * Call LlmClient.summarize() to compress local history
+  * Format summary as Master report and append to global stream
+  * Handle empty local context gracefully
+- Implemented convertLocalContextToText() helper method to:
+  * Format messages with role prefixes
+  * Handle tool calls and tool results specially
+  * Handle text messages
+- Added comprehensive parameter validation for all methods
+- Added SLF4J logging for debugging and monitoring
+
+Key Design Features:
+- Bottom-up context summarization from Worker to Master
+- Token threshold monitoring with configurable limit (default 12000)
+- Integration with ModelRouter for LLM client routing
+- Handles complex local context with tool calls and results
+- Graceful handling of empty local context
+- Configurable token threshold for different scenarios
+
+Test Results: 21/21 tests passed (100%)
+- testConstructorWithNullLocalStreamManager: Validates constructor parameter validation
+- testConstructorWithNullGlobalStreamManager: Validates constructor parameter validation
+- testConstructorWithNullModelRouter: Validates constructor parameter validation
+- testCheckAndCompactIfNeededExceedsThreshold: Verifies true when token count > threshold
+- testCheckAndCompactIfNeededWithinThreshold: Verifies false when token count < threshold
+- testCheckAndCompactIfNeededEqualsThreshold: Verifies false when token count == threshold
+- testCheckAndCompactIfNeededWithNullSessionId: Validates null sessionId rejection
+- testCheckAndCompactIfNeededWithEmptySessionId: Validates empty sessionId detection
+- testCondenseAndMergeUpwardsSummarizesContext: Verifies summarization workflow
+- testCondenseAndMergeUpwardsWithEmptyContext: Verifies empty context handling
+- testCondenseAndMergeUpwardsWithNullWorkerSessionId: Validates null workerSessionId rejection
+- testCondenseAndMergeUpwardsWithEmptyWorkerSessionId: Validates empty workerSessionId detection
+- testCondenseAndMergeUpwardsWithNullMasterSessionId: Validates null masterSessionId rejection
+- testCondenseAndMergeUpwardsWithEmptyMasterSessionId: Validates empty masterSessionId detection
+- testGetTokenThreshold: Verifies default threshold (12000)
+- testSetTokenThreshold: Verifies threshold update
+- testSetTokenThresholdWithNonPositiveValue: Validates non-positive threshold rejection
+- testCustomThresholdUsedInCheck: Verifies custom threshold is used
+- testCondenseAndMergeUpwardsAppendsFormattedReport: Verifies report formatting
+- testCondenseAndMergeUpwardsCallsModelRouter: Verifies ModelRouter.getSummarizer() call
+- testCondenseAndMergeUpwardsWithToolCalls: Verifies tool call handling in summarization
+
+Files Created:
+- src/main/java/tech/yesboss/context/engine/CondensationEngine.java
+- src/main/java/tech/yesboss/context/engine/impl/CondensationEngineImpl.java
+- src/test/java/tech/yesboss/context/engine/CondensationEngineTest.java
+
+[2026-02-24 14:34:00] Task ID: 双流上下文管理模块_008
+Status: SUCCESS
+Description: Test CondensationEngine token threshold and summarization routing
+
+Verification Summary:
+This task was completed together with Task 007:
+- Mocked ModelRouter and LlmClient to return dummy summary text
+- Mocked LocalStreamManager and GlobalStreamManager
+- Tested checkAndCompactIfNeeded returns true when token count exceeds limit
+- Tested condenseAndMergeUpwards fetches local context, summarizes it, and appends to global context
+- Verified token threshold management and custom threshold usage
+- Verified formatted report is appended to global stream
+- Verified tool calls and results are properly formatted in summarization
+
+All 21 tests pass successfully, confirming the implementation meets requirements.

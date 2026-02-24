@@ -25,11 +25,13 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/StreamType.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/GlobalStreamManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DbWriteEvent.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/CondensationEngine.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/ToolExecutionLog.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/TaskSessionRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/TaskSessionRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/DatabaseInitializer.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/AgentTool.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/impl/CondensationEngineImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteMessagesEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/domain/message/UnifiedMessage.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/ToolAccessLevel.java

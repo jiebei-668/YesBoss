@@ -1,5 +1,6 @@
 tech/yesboss/llm/VendorSdkAdapter.class
 tech/yesboss/persistence/repository/TaskSessionRepositoryImpl.class
+tech/yesboss/context/engine/CondensationEngine.class
 tech/yesboss/persistence/event/DeleteMessagesEvent.class
 tech/yesboss/persistence/db/SQLiteConnectionManager.class
 tech/yesboss/context/impl/LocalStreamManagerImpl.class
@@ -48,6 +49,7 @@ tech/yesboss/tool/ToolAccessLevel.class
 tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.class
 tech/yesboss/tool/AgentTool.class
 tech/yesboss/persistence/repository/ToolExecutionRepository.class
+tech/yesboss/context/engine/impl/CondensationEngineImpl.class
 tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$TaskStatus.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$AgentRole.class
