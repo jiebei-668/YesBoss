@@ -25,6 +25,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/session/impl/SessionManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/domain/message/UnifiedMessage.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/CircuitBreaker.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/ui/impl/UICardRendererImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/SuspendExecutionException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/InjectionEngine.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/SingleThreadDbWriter.java
@@ -48,6 +49,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ModelRouter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/ToolExecutionLog.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/im/impl/IMMessagePusherImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/TaskSessionRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/session/SessionManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/impl/MasterRunnerImpl.java

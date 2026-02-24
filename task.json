@@ -870,7 +870,7 @@
       "1.3 总Agent作为中枢.md",
       "2.1 事前排雷与固定规划.md"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "develop",
@@ -928,7 +928,7 @@
       "整体架构设计.md",
       "技术模块设计.md"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "test",

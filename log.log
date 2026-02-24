@@ -1399,3 +1399,51 @@ Files Created:
 Note: The destroySessionCascade method signature only takes imGroupId (per design document),
 which means it will delete all bindings with that group ID across all IM types.
 
+[2026-02-24 19:13:00] Task ID: 接入与路由模块_003
+Status: SUCCESS
+Description: Implement UICardRenderer and IMMessagePusher
+
+Implementation Summary:
+- Created UICardRendererImpl with complete card rendering functionality:
+  * renderProgressBar() - renders progress bars with task completion status
+  * renderSuspensionCard() - renders human-in-the-loop approval cards with action buttons
+  * renderSummaryCard() - renders task completion summary cards
+  * Support for both Feishu and Slack card formats in a single JSON response
+  * Text-based progress bar visualization using Unicode block characters
+  * Interactive button generation for approval/rejection in suspension cards
+  * Color-coded status indicators (good/warning/danger for Slack, primary/danger for Feishu)
+
+- Created IMMessagePusherImpl with HTTP message pushing:
+  * pushCardMessage() - pushes JSON card messages to IM platforms
+  * pushTextMessage() - pushes plain text messages to IM platforms
+  * pushMessage() - unified interface for UnifiedMessage objects
+  * Environment variable-based webhook URL configuration
+  * Support for Feishu and Slack API formats
+  * Java 11+ HttpClient for HTTP calls with configurable timeouts
+  * Comprehensive error handling and logging
+
+Key Design Features:
+- UICardRenderer returns platform-agnostic JSON with both feishu_card and slack_attachments fields
+- IMMessagePusher uses environment variables for webhook URL configuration (FEISHU_WEBHOOK_*, SLACK_WEBHOOK_*)
+- Group IDs are sanitized to valid environment variable names (special characters converted to underscores)
+- Graceful fallback when card JSON parsing fails (returns original JSON)
+- Proper Content-Type headers (application/json; charset=UTF-8)
+- HTTP status code validation (200-299 range for success)
+
+Test Results: 44/44 tests passed (100%)
+- UICardRendererImplTest: 22 tests covering all card types and edge cases
+- IMMessagePusherImplTest: 22 tests using reflection to test internal methods
+- Verified Feishu and Slack card format compliance
+- Verified text payload formatting for both platforms
+- Verified environment variable key generation and sanitization
+- Verified error handling for invalid inputs and missing configurations
+
+Files Created:
+- src/main/java/tech/yesboss/gateway/ui/impl/UICardRendererImpl.java
+- src/main/java/tech/yesboss/gateway/im/impl/IMMessagePusherImpl.java
+- src/test/java/tech/yesboss/gateway/ui/UICardRendererImplTest.java
+- src/test/java/tech/yesboss/gateway/im/IMMessagePusherImplTest.java
+
+Note: The IMMessagePusher implementation uses environment variables for webhook URL configuration,
+which allows flexible deployment without code changes. The actual HTTP calls are synchronous
+and blocking; calling code should handle async execution if needed.

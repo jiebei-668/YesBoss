@@ -16,6 +16,7 @@ tech/yesboss/context/engine/impl/InjectionEngineImpl.class
 tech/yesboss/persistence/entity/TaskSession$Role.class
 tech/yesboss/persistence/entity/ToolExecutionLog.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$ImType.class
+tech/yesboss/gateway/ui/impl/UICardRendererImpl.class
 tech/yesboss/tool/planning/PlanningTool$PlanningRequest.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$2.class
 tech/yesboss/persistence/event/InsertMessageEvent.class
@@ -64,6 +65,7 @@ tech/yesboss/persistence/repository/TaskSessionRepository.class
 tech/yesboss/persistence/db/DatabaseInitializer.class
 tech/yesboss/tool/ToolAccessLevel.class
 tech/yesboss/state/impl/TaskManagerImpl.class
+tech/yesboss/gateway/im/impl/IMMessagePusherImpl.class
 tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.class
 tech/yesboss/runner/impl/MasterRunnerImpl$1.class
 tech/yesboss/tool/AgentTool.class
