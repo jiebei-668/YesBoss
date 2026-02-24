@@ -1347,3 +1347,55 @@ Files Modified:
 
 Note: All tests verify the complete MasterRunner orchestration flow including intent clarification, planning, worker delegation, monitoring, and summary generation.
 
+[2026-02-24 19:05:00] Task ID: 接入与路由模块_001
+Status: SUCCESS
+Description: Implement SessionManager for IM route binding and cascade destruction
+
+Implementation Summary:
+- Created SessionManager interface with 5 methods:
+  * bindOrCreateTaskSession(imType, imGroupId, topic) - creates or gets bound internal Master Task ID
+  * getInternalTaskId(imType, imGroupId) - finds internal task ID by external group ID
+  * destroySessionCascade(imGroupId) - handles cascade deletion when group is dissolved
+  * hasBinding(imType, imGroupId) - checks if binding exists
+  * getBindingCount() - returns total binding count
+- Created SessionManagerImpl with:
+  * ConcurrentHashMap for storing binding mapping (key: "imType:imGroupId", value: masterSessionId)
+  * TaskManager injection for creating Master tasks
+  * TaskSessionRepository injection for finding child sessions
+  * SingleThreadDbWriter injection for submitting deletion events
+  * bindOrCreateTaskSession implementation:
+    - Checks if binding already exists, returns if valid
+    - Creates new Master task via TaskManager.createMasterTask()
+    - Removes stale bindings when session no longer exists
+  * destroySessionCascade implementation:
+    - Finds all matching bindings across IM types by imGroupId
+    - Queries all Worker sessions via TaskSessionRepository.findByParentId()
+    - Submits DeleteMessagesEvent and DeleteTaskSessionEvent for all workers
+    - Submits DeleteMessagesEvent and DeleteTaskSessionEvent for master
+    - Removes binding from memory map
+
+Key Design Features:
+- Thread-safe using ConcurrentHashMap for binding storage
+- Binding key format: "imType:imGroupId" (e.g., "FEISHU:oc_123456")
+- Supports multiple IM platforms with same group ID
+- Automatic stale binding cleanup when session no longer exists
+- Cascade deletion handles all Worker child sessions before Master
+- Comprehensive parameter validation and error handling
+- SLF4J logging for debugging and monitoring
+
+Test Results: 32/32 tests passed (100%)
+- 4 constructor validation tests
+- 9 bindOrCreateTaskSession tests (new, existing, stale, multiple, parameter validation)
+- 6 getInternalTaskId tests (success, parameter validation, binding not found)
+- 5 destroySessionCascade tests (with workers, no workers, multiple IM types, parameter validation)
+- 4 hasBinding tests (true, false, null parameters)
+- 4 getBindingCount tests (zero, increment, decrement)
+
+Files Created:
+- src/main/java/tech/yesboss/session/SessionManager.java
+- src/main/java/tech/yesboss/session/impl/SessionManagerImpl.java
+- src/test/java/tech/yesboss/session/SessionManagerTest.java
+
+Note: The destroySessionCascade method signature only takes imGroupId (per design document),
+which means it will delete all bindings with that group ID across all IM types.
+

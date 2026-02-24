@@ -6,6 +6,7 @@ tech/yesboss/llm/impl/ModelRouterTest.class
 tech/yesboss/context/engine/CondensationEngineTest.class
 tech/yesboss/tool/AgentToolAndExceptionTest$MockAgentTool.class
 tech/yesboss/tool/planning/PlanningToolTest$1.class
+tech/yesboss/session/SessionManagerTest.class
 tech/yesboss/context/GlobalStreamManagerTest.class
 tech/yesboss/persistence/repository/RepositoryLayerTest.class
 tech/yesboss/context/engine/InjectionEngineTest.class
