@@ -1578,3 +1578,25 @@ Files Modified:
 Note: The implementation completes the human-in-the-loop workflow by handling user
 approval/rejection callbacks from IM platforms and routing them to SuspendResumeEngine
 for task resumption.
+[2026-02-24 19:43:00] Task ID: 接入与路由模块_006
+Status: SUCCESS
+Description: Test UI callback routing to SuspendResumeEngine
+
+Verification Summary:
+This test task was completed together with Task 41 (interactive UI card callback parsing).
+The comprehensive test suite WebhookControllerAndExecutorTest already covered all specified requirements:
+
+- Mock SuspendResumeEngine: Verified via setUp() method
+- Simulate IM callback payload: testHandleFeishuCallbackParsesApproveAction simulates Feishu approval callback
+- Simulate IM callback payload: testHandleSlackCallbackParsesApproveAction simulates Slack approval callback
+- Verify WebhookController parses parameters: Tests verify sessionId, toolCallId, and approved flag extraction
+- Verify SuspendResumeEngine.resume() called: Tests use CountDownLatch to wait for async processing and verify parameters
+
+Test Results: 48/48 tests passed (100%)
+- Feishu callback tests: 8 tests covering return 200 OK, empty/null body, signature verification, approve/reject parsing
+- Slack callback tests: 9 tests covering return 200 OK, empty/null payload, signature verification, approve/reject parsing, action name parsing
+- All callback tests verify SuspendResumeEngine.resume() is called with correct parameters
+
+All tests pass successfully, confirming the WebhookController correctly routes UI callbacks
+to SuspendResumeEngine for human-in-the-loop workflow.
+
