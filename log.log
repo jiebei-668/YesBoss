@@ -1128,3 +1128,18 @@ Files Created:
 - src/main/java/tech/yesboss/runner/impl/MasterRunnerImpl.java
 - src/main/java/tech/yesboss/runner/impl/WorkerRunnerImpl.java
 - src/test/java/tech/yesboss/runner/RunnerSkeletonTest.java
+
+Task ID: 状态机与调度引擎模块_016
+Status: SUCCESS
+Description: Verify WorkerRunner suspension detection logic
+
+Verification Summary:
+This test task was completed together with Task 15 (MasterRunner and WorkerRunner skeletons).
+The comprehensive test class RunnerSkeletonTest.java covered all specified requirements:
+- Mock LocalStreamManager to return empty list, verified isResumingFromSuspension returns false
+- Mock LocalStreamManager to return text message as last, verified isResumingFromSuspension returns false
+- Mock LocalStreamManager to return ToolResult as last message, verified isResumingFromSuspension returns true
+- Verified run() method invokes InjectionEngine only when isResumingFromSuspension is false
+- Verified run() method skips InjectionEngine when resuming from suspension
+
+All 33 tests passed successfully (100% pass rate).
