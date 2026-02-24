@@ -862,3 +862,93 @@ This task was completed together with Task 007:
 - Verified tool calls and results are properly formatted in summarization
 
 All 21 tests pass successfully, confirming the implementation meets requirements.
+[2026-02-24 14:59:00] Task ID: 状态机与调度引擎模块_009
+Status: SUCCESS
+Description: Implement TaskStatus enum, ImRoute record, and TaskManager
+
+Implementation Summary:
+- Created ImRoute record to encapsulate IM routing information (imType, imGroupId)
+  * Includes compact constructor for validation
+  * Used by SuspendResumeEngine for message pushing
+- Created TaskManager interface with 8 core methods:
+  * createMasterTask() - creates Master session with PLANNING status
+  * createWorkerTask() - creates Worker session linked to parent
+  * transitionState() - enforces strict state transition rules
+  * getStatus() - returns current session status
+  * getParentSessionId() - returns parent ID (null for Master)
+  * getImRoute() - returns IM routing for Master sessions
+  * sessionExists(), isMasterSession(), isWorkerSession() - helper methods
+- Created TaskManagerImpl with:
+  * TaskSessionRepository injection for persistence
+  * Valid state transition mapping using ConcurrentHashMap
+  * UUID-based unique session ID generation
+  * Strict validation for all state transitions
+  * State machine rules:
+    - PLANNING → RUNNING, FAILED
+    - RUNNING → SUSPENDED, COMPLETED, FAILED
+    - SUSPENDED → RUNNING (resume), FAILED
+    - COMPLETED, FAILED are terminal states
+- Added comprehensive parameter validation and error handling
+- Added SLF4J logging for debugging and monitoring
+
+Key Design Features:
+- TaskStatus already exists as Status enum in TaskSession entity
+- State transition validation prevents invalid state changes
+- Workers inherit IM route from parent Master
+- Master sessions start in PLANNING status
+- Worker sessions start in RUNNING status
+- Thread-safe implementation using ConcurrentHashMap
+
+Test Results: 29/29 tests passed (100%)
+- testConstructorWithNullRepository: Validates constructor parameter validation
+- testCreateMasterTaskGeneratesSessionId: Verifies unique session ID generation
+- testCreateMasterTaskWithNullImType: Validates null imType rejection
+- testCreateMasterTaskWithEmptyImType: Validates empty imType detection
+- testCreateMasterTaskWithInvalidImType: Validates invalid imType rejection
+- testCreateMasterTaskWithValidImTypes: Verifies FEISHU, SLACK, CLI support (case-insensitive)
+- testCreateWorkerTaskLinksParent: Verifies Worker links to parent
+- testCreateWorkerTaskWithNonExistentParent: Validates parent existence check
+- testCreateWorkerTaskWithNonMasterParent: Validates parent role validation
+- testCreateWorkerTaskWithNullParentSessionId: Validates null parent rejection
+- testCreateWorkerTaskWithNullAssignedTask: Validates null task rejection
+- testTransitionStatePlanningToRunning: Verifies PLANNING→RUNNING transition
+- testTransitionStateRunningToSuspended: Verifies RUNNING→SUSPENDED transition
+- testTransitionStateSuspendedToRunning: Verifies SUSPENDED→RUNNING resume
+- testTransitionStateRunningToCompleted: Verifies RUNNING→COMPLETED transition
+- testTransitionStateRunningToFailed: Verifies RUNNING→FAILED transition
+- testTransitionStateFailedToRunning: Verifies FAILED→RUNNING rejection
+- testTransitionStateCompletedToRunning: Verifies COMPLETED→RUNNING rejection
+- testTransitionStatePlanningToSuspended: Verifies PLANNING→SUSPENDED rejection
+- testTransitionStateWithNonExistentSession: Validates session existence check
+- testGetStatus: Verifies status retrieval
+- testGetParentSessionIdForWorker: Verifies parent ID for Worker
+- testGetParentSessionIdForMaster: Verifies null parent for Master
+- testGetImRoute: Verifies ImRoute retrieval for Master
+- testGetImRouteForWorkerSession: Verifies exception for Worker session
+- testSessionExists: Verifies existence check for existing session
+- testSessionNotExists: Verifies non-existence check
+- testIsMasterSession: Verifies Master session detection
+- testIsWorkerSession: Verifies Worker session detection
+
+Files Created:
+- src/main/java/tech/yesboss/state/model/ImRoute.java
+- src/main/java/tech/yesboss/state/TaskManager.java
+- src/main/java/tech/yesboss/state/impl/TaskManagerImpl.java
+- src/test/java/tech/yesboss/state/TaskManagerTest.java
+
+[2026-02-24 14:59:00] Task ID: 状态机与调度引擎模块_010
+Status: SUCCESS
+Description: Verify TaskManager state transitions and session creation
+
+Verification Summary:
+This task was completed together with Task 009:
+- Mocked TaskSessionRepository using Mockito
+- Tested createMasterTask generates correct session ID and triggers repository save
+- Tested createWorkerTask links parent ID properly and inherits IM route
+- Tested transitionState enforces valid state flows (PLANNING→RUNNING→COMPLETED/FAILED/SUSPENDED)
+- Tested invalid transitions are rejected (FAILED→RUNNING, COMPLETED→RUNNING, etc.)
+- Tested getParentSessionId correctly distinguishes Master (null) and Worker (parent ID) sessions
+- Tested getImRoute returns correct routing for Master sessions
+- Verified all parameter validation works correctly
+
+All 29 tests pass successfully, confirming the implementation meets requirements.

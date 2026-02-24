@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tech.yesboss.state.TaskManagerTest
+-------------------------------------------------------------------------------
+Tests run: 29, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.649 s -- in tech.yesboss.state.TaskManagerTest

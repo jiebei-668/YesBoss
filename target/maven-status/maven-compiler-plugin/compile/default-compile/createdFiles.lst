@@ -21,9 +21,11 @@ tech/yesboss/domain/message/UnifiedMessage$Role.class
 tech/yesboss/domain/message/UnifiedMessage$ToolCall.class
 tech/yesboss/tool/sandbox/SandboxInterceptor.class
 tech/yesboss/domain/message/UnifiedMessage.class
+tech/yesboss/state/model/ImRoute.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent.class
 tech/yesboss/llm/LlmClient.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$1.class
+tech/yesboss/state/TaskManager.class
 tech/yesboss/persistence/event/UpdateTaskStatusEvent.class
 tech/yesboss/tool/tracker/ToolCallTracker.class
 tech/yesboss/persistence/entity/TaskSession$ImType.class
@@ -46,6 +48,7 @@ tech/yesboss/domain/message/UnifiedMessage$PayloadFormat.class
 tech/yesboss/persistence/repository/TaskSessionRepository.class
 tech/yesboss/persistence/db/DatabaseInitializer.class
 tech/yesboss/tool/ToolAccessLevel.class
+tech/yesboss/state/impl/TaskManagerImpl.class
 tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.class
 tech/yesboss/tool/AgentTool.class
 tech/yesboss/persistence/repository/ToolExecutionRepository.class
