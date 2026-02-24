@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.007" tests="22" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.context.engine.InjectionEngineTest" time="0.011" tests="16" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -53,88 +53,92 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testConstructorDefault" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSummaryCardSuccessHasGreenColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.295 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testInjectInitialContextWithComplexGlobalContext" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.047 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
+20:24:59.048 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session_master_complex: task=多步骤重构任务
+20:24:59.048 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (666 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithNullSummary" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testInjectInitialContextIncludesAllRequiredSections" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.048 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
+20:24:59.049 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session_master_sections: task=test task
+20:24:59.049 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (588 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarAtZero" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 0/10 tasks, current: 准备中...
+  <testcase name="testInjectInitialContextIncludesExecutionGuidelines" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.049 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
+20:24:59.049 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session_master_003: task=编写单元测试
+20:24:59.049 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (456 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithSuccess" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testInjectInitialContextGeneratesSystemPrompt" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.050 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
+20:24:59.050 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session_master_001: task=重构 tui 模块
+20:24:59.050 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (459 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testInjectInitialContextGeneratesDifferentPrompts" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.050 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
+20:24:59.050 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session1: task=任务A
+20:24:59.051 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (453 chars)
+20:24:59.051 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session2: task=任务B
+20:24:59.051 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (453 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardWithNullParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: null, tool: null
+  <testcase name="testInjectInitialContextWithEmptyMasterSessionId" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.051 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testAllCardsContainTimestamp" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: tool
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: s2, success: true
+  <testcase name="testInjectInitialContextWithEmptyAssignedTask" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.052 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testSlackAttachmentStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: DeleteTool
+  <testcase name="testInjectInitialContextIncludesGlobalRules" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.052 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
+20:24:59.052 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session_master_002: task=实现用户认证功能
+20:24:59.053 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (620 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
+  <testcase name="testInjectInitialContextFormatsAssignedTask" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.053 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
+20:24:59.053 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session: task=实现REST API接口
+20:24:59.053 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (462 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarWithBasicProgress" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 正在执行数据库迁移
+  <testcase name="testInjectInitialContextWithEmptyGlobalContext" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.053 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
+20:24:59.054 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session_master_empty: task=简单的测试任务
+20:24:59.054 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (457 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarAtComplete" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 10/10 tasks, current: 任务完成
+  <testcase name="testInjectInitialContextWithSystemMessages" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.054 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
+20:24:59.054 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session_master_system: task=遵循系统约束
+20:24:59.054 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (598 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testFeishuCardStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 3/5 tasks, current: 测试任务
+  <testcase name="testInjectInitialContextWithNullAssignedTask" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.055 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithFailure" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
+  <testcase name="testInjectInitialContextTruncatesLongGuidance" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.055 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
+20:24:59.055 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session_master_long: task=实现复杂功能
+20:24:59.055 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (771 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testSuspensionCardValueJsonFormat" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: test-session-123, tool: tool
+  <testcase name="testInjectInitialContextCallsGlobalStreamManager" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.056 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
+20:24:59.056 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- Injecting initial context for Worker from session session_master_verify: task=测试任务
+20:24:59.056 [main] DEBUG tech.yesboss.context.engine.impl.InjectionEngineImpl -- Generated initial system prompt for Worker (454 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithObjectMapper" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSuspensionCardContainsApprovalButtons" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: FormatTool
+  <testcase name="testInjectInitialContextWithNullMasterSessionId" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.056 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testProgressBarStringFormatting" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSuspensionCardWithAllParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderProgressBarContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSummaryCardFailureHasRedColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSuspensionCardContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testConstructorWithNullGlobalStreamManager" classname="tech.yesboss.context.engine.InjectionEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.057 [main] INFO tech.yesboss.context.engine.impl.InjectionEngineImpl -- InjectionEngine initialized
 ]]></system-out>
   </testcase>
 </testsuite>

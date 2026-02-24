@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.007" tests="22" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.state.TaskManagerTest" time="0.016" tests="29" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -53,88 +53,131 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testConstructorDefault" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSummaryCardSuccessHasGreenColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.295 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testSessionNotExists" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.960 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithNullSummary" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testGetImRoute" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.960 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarAtZero" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 0/10 tasks, current: 准备中...
+  <testcase name="testGetParentSessionIdForMaster" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.961 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithSuccess" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testCreateWorkerTaskLinksParent" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.961 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+20:25:03.962 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- Created Worker task: sessionId=session_f374c008-d93c-455e-8e84-ae7cfd397907, parentSessionId=parent_session, assignedTask=Implement feature X
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testCreateWorkerTaskWithNonExistentParent" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.962 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardWithNullParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: null, tool: null
+  <testcase name="testTransitionStatePlanningToSuspended" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.963 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testAllCardsContainTimestamp" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: tool
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: s2, success: true
+  <testcase name="testTransitionStateCompletedToRunning" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.964 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testSlackAttachmentStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: DeleteTool
+  <testcase name="testGetParentSessionIdForWorker" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.964 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
+  <testcase name="testCreateMasterTaskWithNullImType" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.965 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarWithBasicProgress" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 正在执行数据库迁移
+  <testcase name="testIsWorkerSession" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.965 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarAtComplete" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 10/10 tasks, current: 任务完成
+  <testcase name="testTransitionStateRunningToSuspended" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.965 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+20:25:03.965 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- Transitioned session session_2 from RUNNING to SUSPENDED
 ]]></system-out>
   </testcase>
-  <testcase name="testFeishuCardStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 3/5 tasks, current: 测试任务
+  <testcase name="testTransitionStateSuspendedToRunning" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.966 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+20:25:03.966 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- Transitioned session session_3 from SUSPENDED to RUNNING
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithFailure" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
+  <testcase name="testTransitionStateRunningToCompleted" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.966 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+20:25:03.966 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- Transitioned session session_4 from RUNNING to COMPLETED
 ]]></system-out>
   </testcase>
-  <testcase name="testSuspensionCardValueJsonFormat" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: test-session-123, tool: tool
+  <testcase name="testCreateMasterTaskWithInvalidImType" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.967 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithObjectMapper" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSuspensionCardContainsApprovalButtons" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: FormatTool
+  <testcase name="testGetImRouteForWorkerSession" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.967 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testProgressBarStringFormatting" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
+  <testcase name="testCreateWorkerTaskWithNullAssignedTask" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.968 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardWithAllParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testTransitionStateFailedToRunning" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.968 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
+  <testcase name="testCreateMasterTaskWithEmptyImType" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.969 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardFailureHasRedColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
+  <testcase name="testIsMasterSession" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.969 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testCreateWorkerTaskWithNullParentSessionId" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.970 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+]]></system-out>
+  </testcase>
+  <testcase name="testTransitionStateRunningToFailed" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.970 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+20:25:03.970 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- Transitioned session session_5 from RUNNING to FAILED
+]]></system-out>
+  </testcase>
+  <testcase name="testTransitionStatePlanningToRunning" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.971 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+20:25:03.971 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- Transitioned session session_1 from PLANNING to RUNNING
+]]></system-out>
+  </testcase>
+  <testcase name="testCreateWorkerTaskWithNonMasterParent" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.971 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+]]></system-out>
+  </testcase>
+  <testcase name="testSessionExists" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.971 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+]]></system-out>
+  </testcase>
+  <testcase name="testConstructorWithNullRepository" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.972 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+]]></system-out>
+  </testcase>
+  <testcase name="testGetStatus" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.972 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+]]></system-out>
+  </testcase>
+  <testcase name="testTransitionStateWithNonExistentSession" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.973 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+]]></system-out>
+  </testcase>
+  <testcase name="testCreateMasterTaskWithValidImTypes" classname="tech.yesboss.state.TaskManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.973 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+20:25:03.974 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- Created Master task: sessionId=session_2261ab5a-9947-4f09-a086-cab78ef59304, imType=FEISHU, imGroupId=group1, topic=topic1
+20:25:03.974 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- Created Master task: sessionId=session_e420c484-ed17-497d-90b1-6b639ba8d2f8, imType=SLACK, imGroupId=group2, topic=topic2
+20:25:03.974 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- Created Master task: sessionId=session_19d9c400-f38a-4e81-8fde-2790c529a155, imType=CLI, imGroupId=group3, topic=topic3
+20:25:03.974 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- Created Master task: sessionId=session_e3f86107-01b0-4216-9b36-d4af6ffdc1bd, imType=feishu, imGroupId=group4, topic=topic4
+]]></system-out>
+  </testcase>
+  <testcase name="testCreateMasterTaskGeneratesSessionId" classname="tech.yesboss.state.TaskManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.974 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- TaskManager initialized
+20:25:03.974 [main] INFO tech.yesboss.state.impl.TaskManagerImpl -- Created Master task: sessionId=session_55b981e0-0840-4938-b93f-6acd3b58515e, imType=FEISHU, imGroupId=group_123, topic=Test task
 ]]></system-out>
   </testcase>
 </testsuite>

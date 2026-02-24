@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.tool.planning.PlanningToolTest" time="0.944" tests="21" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.tool.planning.PlanningToolTest" time="0.026" tests="21" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,9 +13,8 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224180856657_3.jar /home/jiebei/qz_proj/YesBoss/target/surefire 2026-02-24T18-08-56_606-jvmRun1 surefire-20260224180856657_1tmp surefire_0-20260224180856657_2tmp"/>
+    <property name="sun.java.command" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224202442991_3.jar /home/jiebei/qz_proj/YesBoss/target/surefire 2026-02-24T20-24-42_933-jvmRun1 surefire-20260224202442991_1tmp surefire_0-20260224202442991_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="PlanningToolTest"/>
     <property name="surefire.test.class.path" value="/home/jiebei/qz_proj/YesBoss/target/test-classes:/home/jiebei/qz_proj/YesBoss/target/classes:/home/jiebei/.m2/repository/org/xerial/sqlite-jdbc/3.43.0.0/sqlite-jdbc-3.43.0.0.jar:/home/jiebei/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.0/jackson-databind-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.0/jackson-annotations-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.0/jackson-core-2.16.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.jar:/home/jiebei/.m2/repository/com/google/errorprone/error_prone_annotations/2.33.0/error_prone_annotations-2.33.0.jar:/home/jiebei/.m2/repository/io/swagger/core/v3/swagger-annotations/2.2.31/swagger-annotations-2.2.31.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.2/jackson-datatype-jdk8-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.18.2/jackson-module-kotlin-2.18.2.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.8.10/kotlin-reflect-1.8.10.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.2.4/httpcore5-5.2.4.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.3.1/httpclient5-5.3.1.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.2.4/httpcore5-h2-5.2.4.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-generator/4.38.0/jsonschema-generator-4.38.0.jar:/home/jiebei/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-jackson/4.38.0/jsonschema-module-jackson-4.38.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-swagger-2/4.38.0/jsonschema-module-swagger-2-4.38.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/okhttp/4.12.0/okhttp-4.12.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio/3.6.0/okio-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio-jvm/3.6.0/okio-jvm-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/logging-interceptor/4.12.0/logging-interceptor-4.12.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.0/kotlin-stdlib-jdk8-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.0/kotlin-stdlib-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.0/kotlin-stdlib-common-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0/kotlin-stdlib-jdk7-1.8.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/home/jiebei/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/home/jiebei/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/home/jiebei/.m2/repository/org/mockito/mockito-core/5.8.0/mockito-core-5.8.0.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar:/home/jiebei/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/jiebei/.m2/repository/org/mockito/mockito-junit-jupiter/5.8.0/mockito-junit-jupiter-5.8.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/home/jiebei"/>
@@ -29,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224180856657_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224202442991_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.15+6-Ubuntu-0ubuntu120.04"/>
     <property name="user.name" value="jiebei"/>
@@ -54,36 +53,36 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testExecuteWithValidInputAndCleanJsonResponse" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.836">
-    <system-out><![CDATA[18:08:57.721 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.740 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+  <testcase name="testExecuteWithValidInputAndCleanJsonResponse" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.003">
+    <system-out><![CDATA[20:24:59.422 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.423 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
 
-18:08:57.775 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
-18:08:57.787 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+20:24:59.425 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+20:24:59.425 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
   {"id": "task-1", "description": "Design database schema", "priority": "high"},
   {"id": "task-2", "description": "Implement user authentication", "priority": "high"},
   {"id": "task-3", "description": "Create product catalog", "priority": "medium"}
 ]
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithNullLlmClient" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.003">
-    <system-out><![CDATA[18:08:57.805 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+  <testcase name="testConstructorWithNullLlmClient" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[20:24:59.426 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithMalformedJsonInResponse" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.005">
-    <system-out><![CDATA[18:08:57.809 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.810 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+  <testcase name="testExecuteWithMalformedJsonInResponse" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
+    <system-out><![CDATA[20:24:59.426 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.427 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
 
-18:08:57.811 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
-18:08:57.813 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
+20:24:59.427 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+20:24:59.428 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithVeryLargePlan" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.006">
-    <system-out><![CDATA[18:08:57.816 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.817 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+  <testcase name="testExecuteWithVeryLargePlan" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
+    <system-out><![CDATA[20:24:59.428 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.429 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
 
-18:08:57.818 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
-18:08:57.820 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+20:24:59.429 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+20:24:59.430 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
   {"id": "task-1", "description": "Sub task 1", "priority": "medium"},
   {"id": "task-2", "description": "Sub task 2", "priority": "medium"},
   {"id": "task-3", "description": "Sub task 3", "priority": "medium"},
@@ -107,22 +106,22 @@
 ]
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteReturnsValidJsonArrayMatchingSchema" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.008">
-    <system-out><![CDATA[18:08:57.822 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.823 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+  <testcase name="testExecuteReturnsValidJsonArrayMatchingSchema" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[20:24:59.430 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.430 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
 
-18:08:57.824 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
-18:08:57.825 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+20:24:59.431 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+20:24:59.431 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
   {"id": "task-1", "description": "Design database schema", "priority": "high"},
   {"id": "task-2", "description": "Implement user authentication", "priority": "high"},
   {"id": "task-3", "description": "Create product catalog", "priority": "medium"}
 ]
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithInvalidJson" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.006">
-    <system-out><![CDATA[18:08:57.831 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.832 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {invalid json
-18:08:57.833 [main] ERROR tech.yesboss.tool.planning.PlanningTool -- Failed to parse arguments: {invalid json
+  <testcase name="testExecuteWithInvalidJson" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[20:24:59.432 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.432 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {invalid json
+20:24:59.432 [main] ERROR tech.yesboss.tool.planning.PlanningTool -- Failed to parse arguments: {invalid json
 com.fasterxml.jackson.core.JsonParseException: Unexpected character ('i' (code 105)): was expecting double-quote to start field name
  at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 3]
 	at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:2481)
@@ -215,74 +214,74 @@ com.fasterxml.jackson.core.JsonParseException: Unexpected character ('i' (code 1
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-out>
   </testcase>
-  <testcase name="testGetParametersJsonSchema" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
-    <system-out><![CDATA[18:08:57.838 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.838 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+  <testcase name="testGetParametersJsonSchema" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.0">
+    <system-out><![CDATA[20:24:59.433 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.433 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testGetName" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
-    <system-out><![CDATA[18:08:57.840 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.840 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+  <testcase name="testGetName" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.0">
+    <system-out><![CDATA[20:24:59.433 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.433 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithBypassCallsExecute" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.004">
-    <system-out><![CDATA[18:08:57.843 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.844 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+  <testcase name="testExecuteWithBypassCallsExecute" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[20:24:59.434 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.434 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
 
-18:08:57.845 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
-18:08:57.846 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+20:24:59.434 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+20:24:59.434 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
   {"id": "task-1", "description": "Design database schema", "priority": "high"},
   {"id": "task-2", "description": "Implement user authentication", "priority": "high"},
   {"id": "task-3", "description": "Create product catalog", "priority": "medium"}
 ]
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithFullContext" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.005">
-    <system-out><![CDATA[18:08:57.848 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.848 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {
+  <testcase name="testExecuteWithFullContext" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[20:24:59.435 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.435 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {
   "taskDescription": "Build API",
   "context": "RESTful API for user management",
   "constraints": "Must use Spring Boot"
 }
 
-18:08:57.850 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build API
-18:08:57.850 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+20:24:59.435 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build API
+20:24:59.436 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
   {"id": "task-1", "description": "Design database schema", "priority": "high"},
   {"id": "task-2", "description": "Implement user authentication", "priority": "high"},
   {"id": "task-3", "description": "Create product catalog", "priority": "medium"}
 ]
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithLlmReturningJsonObjectInsteadOfArray" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.004">
-    <system-out><![CDATA[18:08:57.854 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.854 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+  <testcase name="testExecuteWithLlmReturningJsonObjectInsteadOfArray" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
+    <system-out><![CDATA[20:24:59.437 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.437 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
 
-18:08:57.855 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
-18:08:57.856 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
+20:24:59.438 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+20:24:59.438 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithMinimalTaskDescription" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.004">
-    <system-out><![CDATA[18:08:57.858 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.859 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Simple task"}
+  <testcase name="testExecuteWithMinimalTaskDescription" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[20:24:59.438 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.438 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Simple task"}
 
-18:08:57.860 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Simple task
-18:08:57.861 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+20:24:59.439 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Simple task
+20:24:59.439 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
   {"id": "task-1", "description": "Design database schema", "priority": "high"},
   {"id": "task-2", "description": "Implement user authentication", "priority": "high"},
   {"id": "task-3", "description": "Create product catalog", "priority": "medium"}
 ]
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithComplexUserRequirementGeneratesValidPlan" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.004">
-    <system-out><![CDATA[18:08:57.863 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.863 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {
+  <testcase name="testExecuteWithComplexUserRequirementGeneratesValidPlan" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
+    <system-out><![CDATA[20:24:59.439 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.439 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {
   "taskDescription": "Build a complete e-commerce platform with user authentication, product catalog, shopping cart, payment integration, and order management",
   "context": "Startup company, needs MVP in 3 months",
   "constraints": "Must use Java, Spring Boot, and PostgreSQL"
 }
 
-18:08:57.864 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a complete e-commerce platform with user authentication, product catalog, shopping cart, payment integration, and order management
-18:08:57.865 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+20:24:59.440 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a complete e-commerce platform with user authentication, product catalog, shopping cart, payment integration, and order management
+20:24:59.440 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
   {"id": "task-1", "description": "Design database schema for users, products, and orders", "priority": "high"},
   {"id": "task-2", "description": "Implement user registration and authentication", "priority": "high"},
   {"id": "task-3", "description": "Create product catalog API with search and filtering", "priority": "high"},
@@ -292,28 +291,28 @@ com.fasterxml.jackson.core.JsonParseException: Unexpected character ('i' (code 1
 ]
 ]]></system-out>
   </testcase>
-  <testcase name="testGetDescription" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
-    <system-out><![CDATA[18:08:57.868 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.868 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+  <testcase name="testGetDescription" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.0">
+    <system-out><![CDATA[20:24:59.441 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.441 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithJsonEmbeddedInText" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.004">
-    <system-out><![CDATA[18:08:57.870 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.870 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+  <testcase name="testExecuteWithJsonEmbeddedInText" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[20:24:59.441 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.441 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
 
-18:08:57.872 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
-18:08:57.872 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
-18:08:57.873 [main] INFO tech.yesboss.tool.planning.PlanningTool -- Successfully extracted JSON from LLM response
-18:08:57.873 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+20:24:59.442 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+20:24:59.442 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
+20:24:59.442 [main] INFO tech.yesboss.tool.planning.PlanningTool -- Successfully extracted JSON from LLM response
+20:24:59.442 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
   {"id": "task-1", "description": "Design database schema", "priority": "high"},
   {"id": "task-2", "description": "Implement user authentication", "priority": "high"}
 ]
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithNullArguments" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.003">
-    <system-out><![CDATA[18:08:57.875 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.876 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: null
-18:08:57.876 [main] ERROR tech.yesboss.tool.planning.PlanningTool -- Failed to parse arguments: null
+  <testcase name="testExecuteWithNullArguments" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.0">
+    <system-out><![CDATA[20:24:59.443 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.443 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: null
+20:24:59.443 [main] ERROR tech.yesboss.tool.planning.PlanningTool -- Failed to parse arguments: null
 java.lang.IllegalArgumentException: argument "content" is null
 	at com.fasterxml.jackson.databind.ObjectMapper._assertNotNull(ObjectMapper.java:5054)
 	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3813)
@@ -397,41 +396,41 @@ java.lang.IllegalArgumentException: argument "content" is null
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithEmptyTaskDescription" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.003">
-    <system-out><![CDATA[18:08:57.878 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.879 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": ""}
+  <testcase name="testExecuteWithEmptyTaskDescription" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.0">
+    <system-out><![CDATA[20:24:59.444 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.444 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": ""}
 
-18:08:57.880 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: 
-18:08:57.881 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+20:24:59.444 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: 
+20:24:59.444 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
   {"id": "task-1", "description": "Design database schema", "priority": "high"},
   {"id": "task-2", "description": "Implement user authentication", "priority": "high"},
   {"id": "task-3", "description": "Create product catalog", "priority": "medium"}
 ]
 ]]></system-out>
   </testcase>
-  <testcase name="testGetAccessLevel" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
-    <system-out><![CDATA[18:08:57.883 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.883 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+  <testcase name="testGetAccessLevel" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[20:24:59.445 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.445 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithValidLlmClient" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
-    <system-out><![CDATA[18:08:57.885 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.887 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+  <testcase name="testConstructorWithValidLlmClient" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.0">
+    <system-out><![CDATA[20:24:59.445 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.445 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithLlmException" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.004">
-    <system-out><![CDATA[18:08:57.888 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.890 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+  <testcase name="testExecuteWithLlmException" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[20:24:59.446 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.446 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
 
-18:08:57.891 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+20:24:59.446 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithLlmReturningNonJson" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.003">
-    <system-out><![CDATA[18:08:57.893 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
-18:08:57.894 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+  <testcase name="testExecuteWithLlmReturningNonJson" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.0">
+    <system-out><![CDATA[20:24:59.447 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+20:24:59.447 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
 
-18:08:57.895 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
-18:08:57.895 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
+20:24:59.447 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+20:24:59.447 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
 ]]></system-out>
   </testcase>
 </testsuite>

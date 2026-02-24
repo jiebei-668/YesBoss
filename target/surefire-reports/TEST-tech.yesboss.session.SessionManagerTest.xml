@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.session.SessionManagerTest" time="0.836" tests="32" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.session.SessionManagerTest" time="0.044" tests="32" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,9 +13,8 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224190504179_3.jar /home/jiebei/qz_proj/YesBoss/target/surefire 2026-02-24T19-05-04_110-jvmRun1 surefire-20260224190504179_1tmp surefire_0-20260224190504179_2tmp"/>
+    <property name="sun.java.command" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224202442991_3.jar /home/jiebei/qz_proj/YesBoss/target/surefire 2026-02-24T20-24-42_933-jvmRun1 surefire-20260224202442991_1tmp surefire_0-20260224202442991_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="SessionManagerTest"/>
     <property name="surefire.test.class.path" value="/home/jiebei/qz_proj/YesBoss/target/test-classes:/home/jiebei/qz_proj/YesBoss/target/classes:/home/jiebei/.m2/repository/org/xerial/sqlite-jdbc/3.43.0.0/sqlite-jdbc-3.43.0.0.jar:/home/jiebei/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.0/jackson-databind-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.0/jackson-annotations-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.0/jackson-core-2.16.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.jar:/home/jiebei/.m2/repository/com/google/errorprone/error_prone_annotations/2.33.0/error_prone_annotations-2.33.0.jar:/home/jiebei/.m2/repository/io/swagger/core/v3/swagger-annotations/2.2.31/swagger-annotations-2.2.31.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.2/jackson-datatype-jdk8-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.18.2/jackson-module-kotlin-2.18.2.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.8.10/kotlin-reflect-1.8.10.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.2.4/httpcore5-5.2.4.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.3.1/httpclient5-5.3.1.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.2.4/httpcore5-h2-5.2.4.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-generator/4.38.0/jsonschema-generator-4.38.0.jar:/home/jiebei/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-jackson/4.38.0/jsonschema-module-jackson-4.38.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-swagger-2/4.38.0/jsonschema-module-swagger-2-4.38.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/okhttp/4.12.0/okhttp-4.12.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio/3.6.0/okio-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio-jvm/3.6.0/okio-jvm-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/logging-interceptor/4.12.0/logging-interceptor-4.12.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.0/kotlin-stdlib-jdk8-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.0/kotlin-stdlib-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.0/kotlin-stdlib-common-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0/kotlin-stdlib-jdk7-1.8.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/home/jiebei/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/home/jiebei/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/home/jiebei/.m2/repository/org/mockito/mockito-core/5.8.0/mockito-core-5.8.0.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar:/home/jiebei/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/jiebei/.m2/repository/org/mockito/mockito-junit-jupiter/5.8.0/mockito-junit-jupiter-5.8.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/home/jiebei"/>
@@ -29,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224190504179_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224202442991_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.15+6-Ubuntu-0ubuntu120.04"/>
     <property name="user.name" value="jiebei"/>
@@ -54,209 +53,209 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testHasBindingReturnsFalseWhenBindingNotExists" classname="tech.yesboss.session.SessionManagerTest" time="0.688">
-    <system-out><![CDATA[19:05:05.179 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testHasBindingReturnsFalseWhenBindingNotExists" classname="tech.yesboss.session.SessionManagerTest" time="0.023">
+    <system-out><![CDATA[20:25:03.935 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testGetInternalTaskIdWithEmptyImType" classname="tech.yesboss.session.SessionManagerTest" time="0.005">
-    <system-out><![CDATA[19:05:05.211 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testGetInternalTaskIdWithEmptyImType" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.935 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testGetInternalTaskIdWithEmptyImGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.216 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testGetInternalTaskIdWithEmptyImGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.936 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testHasBindingReturnsTrueWhenBindingExists" classname="tech.yesboss.session.SessionManagerTest" time="0.019">
-    <system-out><![CDATA[19:05:05.221 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.234 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
-19:05:05.238 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
+  <testcase name="testHasBindingReturnsTrueWhenBindingExists" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.937 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.937 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
+20:25:03.937 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
 ]]></system-out>
   </testcase>
-  <testcase name="testBindOrCreateTaskSessionReturnsExistingBinding" classname="tech.yesboss.session.SessionManagerTest" time="0.01">
-    <system-out><![CDATA[19:05:05.241 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.242 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
-19:05:05.242 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
-19:05:05.244 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Existing binding found for FEISHU:group-123, returning sessionId: master-session-456
+  <testcase name="testBindOrCreateTaskSessionReturnsExistingBinding" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.937 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.937 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
+20:25:03.937 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
+20:25:03.937 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Existing binding found for FEISHU:group-123, returning sessionId: master-session-456
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithNullDbWriter" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.252 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testConstructorWithNullDbWriter" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.938 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testHasBindingWithNullParameters" classname="tech.yesboss.session.SessionManagerTest" time="0.003">
-    <system-out><![CDATA[19:05:05.254 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.255 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
-19:05:05.255 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
+  <testcase name="testHasBindingWithNullParameters" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.938 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.938 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
+20:25:03.938 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithNullTaskManager" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.257 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testConstructorWithNullTaskManager" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.939 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testBindOrCreateTaskSessionWithEmptyTopic" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.259 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testBindOrCreateTaskSessionWithEmptyTopic" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.939 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testGetBindingCountReturnsZeroWhenNoBindings" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
-    <system-out><![CDATA[19:05:05.261 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testGetBindingCountReturnsZeroWhenNoBindings" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.940 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testBindOrCreateTaskSessionMultipleIndependentBindings" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.263 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.263 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-1 with topic: Topic 1
-19:05:05.264 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-1 -> master-session-456
-19:05:05.264 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for SLACK:group-2 with topic: Topic 2
-19:05:05.264 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: SLACK:group-2 -> master-session-2
+  <testcase name="testBindOrCreateTaskSessionMultipleIndependentBindings" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.940 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.940 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-1 with topic: Topic 1
+20:25:03.940 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-1 -> master-session-456
+20:25:03.940 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for SLACK:group-2 with topic: Topic 2
+20:25:03.940 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: SLACK:group-2 -> master-session-2
 ]]></system-out>
   </testcase>
-  <testcase name="testGetBindingCountReturnsCorrectCount" classname="tech.yesboss.session.SessionManagerTest" time="0.003">
-    <system-out><![CDATA[19:05:05.265 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.266 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-1 with topic: Topic 1
-19:05:05.266 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-1 -> master-session-456
-19:05:05.266 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for SLACK:group-2 with topic: Topic 2
-19:05:05.266 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: SLACK:group-2 -> master-session-2
-19:05:05.266 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-3 with topic: Topic 3
-19:05:05.267 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-3 -> master-session-3
+  <testcase name="testGetBindingCountReturnsCorrectCount" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.941 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.941 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-1 with topic: Topic 1
+20:25:03.941 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-1 -> master-session-456
+20:25:03.941 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for SLACK:group-2 with topic: Topic 2
+20:25:03.941 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: SLACK:group-2 -> master-session-2
+20:25:03.941 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-3 with topic: Topic 3
+20:25:03.941 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-3 -> master-session-3
 ]]></system-out>
   </testcase>
-  <testcase name="testGetInternalTaskIdThrowsWhenBindingNotFound" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.268 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testGetInternalTaskIdThrowsWhenBindingNotFound" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.941 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testDestroySessionCascadeDeletesMasterAndWorkers" classname="tech.yesboss.session.SessionManagerTest" time="0.008">
-    <system-out><![CDATA[19:05:05.270 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.271 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
-19:05:05.271 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
-19:05:05.271 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Starting cascade deletion for imGroupId: group-123
-19:05:05.273 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Processing cascade deletion for binding FEISHU:group-123 -> master-session-456
-19:05:05.273 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Found 2 worker sessions under master master-session-456
-19:05:05.273 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting worker session: worker-session-1
-19:05:05.277 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting worker session: worker-session-2
-19:05:05.277 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session messages: master-session-456
-19:05:05.277 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session record: master-session-456
-19:05:05.277 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for master session master-session-456
-19:05:05.277 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for imGroupId: group-123
+  <testcase name="testDestroySessionCascadeDeletesMasterAndWorkers" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
+    <system-out><![CDATA[20:25:03.942 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.942 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
+20:25:03.942 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
+20:25:03.942 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Starting cascade deletion for imGroupId: group-123
+20:25:03.943 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Processing cascade deletion for binding FEISHU:group-123 -> master-session-456
+20:25:03.943 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Found 2 worker sessions under master master-session-456
+20:25:03.943 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting worker session: worker-session-1
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting worker session: worker-session-2
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session messages: master-session-456
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session record: master-session-456
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for master session master-session-456
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for imGroupId: group-123
 ]]></system-out>
   </testcase>
-  <testcase name="testDestroySessionCascadeWithNoWorkers" classname="tech.yesboss.session.SessionManagerTest" time="0.013">
-    <system-out><![CDATA[19:05:05.279 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.280 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
-19:05:05.280 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
-19:05:05.280 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Starting cascade deletion for imGroupId: group-123
-19:05:05.280 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Processing cascade deletion for binding FEISHU:group-123 -> master-session-456
-19:05:05.281 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Found 0 worker sessions under master master-session-456
-19:05:05.281 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session messages: master-session-456
-19:05:05.281 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session record: master-session-456
-19:05:05.281 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for master session master-session-456
-19:05:05.281 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for imGroupId: group-123
+  <testcase name="testDestroySessionCascadeWithNoWorkers" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
+    <system-out><![CDATA[20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Starting cascade deletion for imGroupId: group-123
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Processing cascade deletion for binding FEISHU:group-123 -> master-session-456
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Found 0 worker sessions under master master-session-456
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session messages: master-session-456
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session record: master-session-456
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for master session master-session-456
+20:25:03.944 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for imGroupId: group-123
 ]]></system-out>
   </testcase>
-  <testcase name="testDestroySessionCascadeWithNullImGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.294 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testDestroySessionCascadeWithNullImGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.947 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testDestroySessionCascadeWithNonExistentBinding" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.296 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.297 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Starting cascade deletion for imGroupId: non-existent-group
-19:05:05.297 [main] WARN tech.yesboss.session.impl.SessionManagerImpl -- No bindings found for imGroupId: non-existent-group, nothing to delete
+  <testcase name="testDestroySessionCascadeWithNonExistentBinding" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.947 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.947 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Starting cascade deletion for imGroupId: non-existent-group
+20:25:03.947 [main] WARN tech.yesboss.session.impl.SessionManagerImpl -- No bindings found for imGroupId: non-existent-group, nothing to delete
 ]]></system-out>
   </testcase>
-  <testcase name="testDestroySessionCascadeWithMultipleImTypesSameGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.005">
-    <system-out><![CDATA[19:05:05.300 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.301 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Feishu topic
-19:05:05.301 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
-19:05:05.301 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for SLACK:group-123 with topic: Slack topic
-19:05:05.301 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: SLACK:group-123 -> master-session-slack
-19:05:05.302 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Starting cascade deletion for imGroupId: group-123
-19:05:05.302 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Processing cascade deletion for binding SLACK:group-123 -> master-session-slack
-19:05:05.302 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Found 1 worker sessions under master master-session-slack
-19:05:05.302 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting worker session: worker-session-2
-19:05:05.302 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session messages: master-session-slack
-19:05:05.303 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session record: master-session-slack
-19:05:05.303 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for master session master-session-slack
-19:05:05.303 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Processing cascade deletion for binding FEISHU:group-123 -> master-session-456
-19:05:05.303 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Found 1 worker sessions under master master-session-456
-19:05:05.303 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting worker session: worker-session-1
-19:05:05.303 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session messages: master-session-456
-19:05:05.303 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session record: master-session-456
-19:05:05.303 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for master session master-session-456
-19:05:05.303 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for imGroupId: group-123
+  <testcase name="testDestroySessionCascadeWithMultipleImTypesSameGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Feishu topic
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for SLACK:group-123 with topic: Slack topic
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: SLACK:group-123 -> master-session-slack
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Starting cascade deletion for imGroupId: group-123
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Processing cascade deletion for binding SLACK:group-123 -> master-session-slack
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Found 1 worker sessions under master master-session-slack
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting worker session: worker-session-2
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session messages: master-session-slack
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session record: master-session-slack
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for master session master-session-slack
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Processing cascade deletion for binding FEISHU:group-123 -> master-session-456
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Found 1 worker sessions under master master-session-456
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting worker session: worker-session-1
+20:25:03.948 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session messages: master-session-456
+20:25:03.949 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session record: master-session-456
+20:25:03.949 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for master session master-session-456
+20:25:03.949 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for imGroupId: group-123
 ]]></system-out>
   </testcase>
-  <testcase name="testBindOrCreateTaskSessionWithNullTopic" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
-    <system-out><![CDATA[19:05:05.306 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testBindOrCreateTaskSessionWithNullTopic" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.949 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
   <testcase name="testConstructorWithNullTaskSessionRepository" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
-    <system-out><![CDATA[19:05:05.307 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+    <system-out><![CDATA[20:25:03.950 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testBindOrCreateTaskSessionWithNullImGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
-    <system-out><![CDATA[19:05:05.310 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testBindOrCreateTaskSessionWithNullImGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.950 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testGetBindingCountDecreasesAfterCascadeDeletion" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.312 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.312 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
-19:05:05.312 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
-19:05:05.313 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Starting cascade deletion for imGroupId: group-123
-19:05:05.313 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Processing cascade deletion for binding FEISHU:group-123 -> master-session-456
-19:05:05.313 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Found 0 worker sessions under master master-session-456
-19:05:05.313 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session messages: master-session-456
-19:05:05.313 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session record: master-session-456
-19:05:05.313 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for master session master-session-456
-19:05:05.313 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for imGroupId: group-123
+  <testcase name="testGetBindingCountDecreasesAfterCascadeDeletion" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.950 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.951 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
+20:25:03.951 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
+20:25:03.951 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Starting cascade deletion for imGroupId: group-123
+20:25:03.951 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Processing cascade deletion for binding FEISHU:group-123 -> master-session-456
+20:25:03.951 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Found 0 worker sessions under master master-session-456
+20:25:03.951 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session messages: master-session-456
+20:25:03.951 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Deleting master session record: master-session-456
+20:25:03.951 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for master session master-session-456
+20:25:03.951 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Cascade deletion completed for imGroupId: group-123
 ]]></system-out>
   </testcase>
-  <testcase name="testGetInternalTaskIdWithNullImType" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
-    <system-out><![CDATA[19:05:05.315 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testGetInternalTaskIdWithNullImType" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.951 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
   <testcase name="testBindOrCreateTaskSessionReplacesStaleBinding" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
-    <system-out><![CDATA[19:05:05.316 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.317 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
-19:05:05.317 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
-19:05:05.317 [main] WARN tech.yesboss.session.impl.SessionManagerImpl -- Existing sessionId master-session-456 not found, removing stale binding
-19:05:05.317 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
-19:05:05.317 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> new-master-session
+    <system-out><![CDATA[20:25:03.952 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.952 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
+20:25:03.952 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
+20:25:03.952 [main] WARN tech.yesboss.session.impl.SessionManagerImpl -- Existing sessionId master-session-456 not found, removing stale binding
+20:25:03.952 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
+20:25:03.952 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> new-master-session
 ]]></system-out>
   </testcase>
-  <testcase name="testBindOrCreateTaskSessionWithEmptyImType" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
-    <system-out><![CDATA[19:05:05.318 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testBindOrCreateTaskSessionWithEmptyImType" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.952 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
   <testcase name="testBindOrCreateTaskSessionWithEmptyImGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
-    <system-out><![CDATA[19:05:05.320 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+    <system-out><![CDATA[20:25:03.953 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testGetInternalTaskIdReturnsCorrectSessionId" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
-    <system-out><![CDATA[19:05:05.321 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.322 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
-19:05:05.322 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
-19:05:05.322 [main] DEBUG tech.yesboss.session.impl.SessionManagerImpl -- Retrieved internal task ID for FEISHU:group-123 -> master-session-456
+  <testcase name="testGetInternalTaskIdReturnsCorrectSessionId" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.953 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.953 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
+20:25:03.953 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
+20:25:03.953 [main] DEBUG tech.yesboss.session.impl.SessionManagerImpl -- Retrieved internal task ID for FEISHU:group-123 -> master-session-456
 ]]></system-out>
   </testcase>
   <testcase name="testBindOrCreateTaskSessionWithNullImType" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
-    <system-out><![CDATA[19:05:05.324 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+    <system-out><![CDATA[20:25:03.954 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testDestroySessionCascadeWithEmptyImGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
-    <system-out><![CDATA[19:05:05.326 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testDestroySessionCascadeWithEmptyImGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.954 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testGetInternalTaskIdWithNullImGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.328 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testGetInternalTaskIdWithNullImGroupId" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.954 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testBindOrCreateTaskSessionCreatesNewSession" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.330 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.330 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
-19:05:05.331 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
+  <testcase name="testBindOrCreateTaskSessionCreatesNewSession" classname="tech.yesboss.session.SessionManagerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.955 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.955 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Creating new Master session for FEISHU:group-123 with topic: Test task topic
+20:25:03.955 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- Binding created: FEISHU:group-123 -> master-session-456
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithValidParameters" classname="tech.yesboss.session.SessionManagerTest" time="0.002">
-    <system-out><![CDATA[19:05:05.333 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
-19:05:05.334 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+  <testcase name="testConstructorWithValidParameters" classname="tech.yesboss.session.SessionManagerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.955 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
+20:25:03.956 [main] INFO tech.yesboss.session.impl.SessionManagerImpl -- SessionManagerImpl initialized
 ]]></system-out>
   </testcase>
 </testsuite>

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tech.yesboss.persistence.repository.RepositoryLayerTest
+-------------------------------------------------------------------------------
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.239 s -- in tech.yesboss.persistence.repository.RepositoryLayerTest

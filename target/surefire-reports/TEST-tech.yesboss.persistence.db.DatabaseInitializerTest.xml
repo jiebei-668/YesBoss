@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.007" tests="22" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.017" tests="12" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -53,88 +53,16 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testConstructorDefault" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSummaryCardSuccessHasGreenColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.295 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSummaryCardWithNullSummary" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderProgressBarAtZero" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 0/10 tasks, current: 准备中...
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSummaryCardWithSuccess" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSuspensionCardContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSuspensionCardWithNullParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: null, tool: null
-]]></system-out>
-  </testcase>
-  <testcase name="testAllCardsContainTimestamp" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: tool
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: s2, success: true
-]]></system-out>
-  </testcase>
-  <testcase name="testSlackAttachmentStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: DeleteTool
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderProgressBarContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderProgressBarWithBasicProgress" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 正在执行数据库迁移
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderProgressBarAtComplete" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 10/10 tasks, current: 任务完成
-]]></system-out>
-  </testcase>
-  <testcase name="testFeishuCardStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 3/5 tasks, current: 测试任务
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSummaryCardWithFailure" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
-]]></system-out>
-  </testcase>
-  <testcase name="testSuspensionCardValueJsonFormat" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: test-session-123, tool: tool
-]]></system-out>
-  </testcase>
-  <testcase name="testConstructorWithObjectMapper" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSuspensionCardContainsApprovalButtons" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: FormatTool
-]]></system-out>
-  </testcase>
-  <testcase name="testProgressBarStringFormatting" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSuspensionCardWithAllParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderProgressBarContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSummaryCardFailureHasRedColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSuspensionCardContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
-]]></system-out>
-  </testcase>
+  <testcase name="testImTypeCheckConstraint" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.005"/>
+  <testcase name="testChatMessageTableExists" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.002"/>
+  <testcase name="testTaskSessionTableExists" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.001"/>
+  <testcase name="testToolExecutionLogTableExists" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.001"/>
+  <testcase name="testStatusCheckConstraint" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.001"/>
+  <testcase name="testIdxToolLogSession" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.001"/>
+  <testcase name="testInitializeSchema" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.001"/>
+  <testcase name="testIdxChatMsgSeq" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.001"/>
+  <testcase name="testIdxToolLogCallId" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.0"/>
+  <testcase name="testIdxSessionParent" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.001"/>
+  <testcase name="testIdxSessionImRoute" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.001"/>
+  <testcase name="testChatMessageUniqueConstraint" classname="tech.yesboss.persistence.db.DatabaseInitializerTest" time="0.001"/>
 </testsuite>

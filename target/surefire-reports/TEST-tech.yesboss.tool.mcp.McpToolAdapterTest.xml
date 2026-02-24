@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.014" tests="22" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.184" tests="18" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -53,40 +53,33 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testConstructorDefault" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.001"/>
-  <testcase name="testUnsupportedImTypeThrowsException" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.001"/>
-  <testcase name="testGetEnvKeyForSlack" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0"/>
-  <testcase name="testUnifiedMessageWithToolResult" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0"/>
-  <testcase name="testGetEnvKeyForUnsupportedImType" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.001"/>
-  <testcase name="testConstructorWithParameters" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0"/>
-  <testcase name="testFormatSlackTextPayload" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.001"/>
-  <testcase name="testFormatFeishuTextPayload" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0"/>
-  <testcase name="testFeishuTextPayloadStructure" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.001"/>
-  <testcase name="testUnifiedMessageWithSystemRole" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0"/>
-  <testcase name="testGetEnvKeyForFeishu" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0"/>
-  <testcase name="testGetEnvKeyForSpecialCharacters" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.001"/>
-  <testcase name="testPushCardMessageWithoutWebhookUrlThrowsException" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.288 [main] INFO tech.yesboss.gateway.im.impl.IMMessagePusherImpl -- Pushing card message to FEISHU group: NONEXISTENT_GROUP
-20:25:03.288 [main] WARN tech.yesboss.gateway.im.impl.IMMessagePusherImpl -- Webhook URL not found for key: FEISHU_WEBHOOK_NONEXISTENT_GROUP
+  <testcase name="testExecuteParsesContentArray" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.146">
+    <system-out><![CDATA[20:24:59.582 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: multi_output -> http://localhost:8765/mcp
+20:24:59.582 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: multi_output with arguments: {"query":"test"}
+20:24:59.583 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771935899582,"method":"tools/call","params":{"name":"multi_output","arguments":{"query":"test"}}}
+20:24:59.626 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
+  "result": {
+    "content": [
+      {"type": "text", "text": "First message"},
+      {"type": "text", "text": "Second message"}
+    ]
+  }
+}
 ]]></system-out>
   </testcase>
-  <testcase name="testFormatSlackCardPayload" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.001"/>
-  <testcase name="testFormatFeishuCardPayload" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.001"/>
-  <testcase name="testPushTextMessageWithoutWebhookUrlThrowsException" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.290 [main] INFO tech.yesboss.gateway.im.impl.IMMessagePusherImpl -- Pushing text message to FEISHU group: NONEXISTENT_GROUP
-20:25:03.290 [main] WARN tech.yesboss.gateway.im.impl.IMMessagePusherImpl -- Webhook URL not found for key: FEISHU_WEBHOOK_NONEXISTENT_GROUP
-]]></system-out>
-  </testcase>
-  <testcase name="testSlackTextPayloadStructure" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0"/>
-  <testcase name="testFormatTextPayloadErrorHandling" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.291 [main] ERROR tech.yesboss.gateway.im.impl.IMMessagePusherImpl -- Failed to format text payload for UNSUPPORTED: Unsupported IM type: UNSUPPORTED
-java.lang.IllegalArgumentException: Unsupported IM type: UNSUPPORTED
-	at tech.yesboss.gateway.im.impl.IMMessagePusherImpl.formatTextPayload(IMMessagePusherImpl.java:209)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at tech.yesboss.gateway.im.IMMessagePusherImplTest.testFormatTextPayloadErrorHandling(IMMessagePusherImplTest.java:311)
+  <testcase name="testExecuteWithHttpError" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.005">
+    <system-out><![CDATA[20:24:59.629 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: server_error_tool -> http://localhost:8765/mcp
+20:24:59.629 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: server_error_tool with arguments: {}
+20:24:59.629 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771935899629,"method":"tools/call","params":{"name":"server_error_tool","arguments":{}}}
+20:24:59.631 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 500, body: Internal Server Error
+20:24:59.631 [main] ERROR tech.yesboss.tool.mcp.McpToolAdapter -- Failed to execute MCP tool: server_error_tool
+java.lang.Exception: MCP service returned error status: 500, body: Internal Server Error
+	at tech.yesboss.tool.mcp.McpToolAdapter.execute(McpToolAdapter.java:195)
+	at tech.yesboss.tool.mcp.McpToolAdapterTest.lambda$testExecuteWithHttpError$6(McpToolAdapterTest.java:256)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3111)
+	at tech.yesboss.tool.mcp.McpToolAdapterTest.testExecuteWithHttpError(McpToolAdapterTest.java:255)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -160,29 +153,132 @@ java.lang.IllegalArgumentException: Unsupported IM type: UNSUPPORTED
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-out>
   </testcase>
-  <testcase name="testUnifiedMessageConversion" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0"/>
-  <testcase name="testFormatCardPayloadWithInvalidJson" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.292 [main] ERROR tech.yesboss.gateway.im.impl.IMMessagePusherImpl -- Failed to format card payload for FEISHU: Unexpected character ('i' (code 105)): was expecting double-quote to start field name
- at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 3]
-com.fasterxml.jackson.core.JsonParseException: Unexpected character ('i' (code 105)): was expecting double-quote to start field name
- at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 3]
-	at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:2481)
-	at com.fasterxml.jackson.core.base.ParserMinimalBase._reportError(ParserMinimalBase.java:752)
-	at com.fasterxml.jackson.core.base.ParserMinimalBase._reportUnexpectedChar(ParserMinimalBase.java:676)
-	at com.fasterxml.jackson.core.json.ReaderBasedJsonParser._handleOddName(ReaderBasedJsonParser.java:1943)
-	at com.fasterxml.jackson.core.json.ReaderBasedJsonParser.nextFieldName(ReaderBasedJsonParser.java:972)
-	at com.fasterxml.jackson.databind.deser.std.BaseNodeDeserializer._deserializeContainerNoRecursion(JsonNodeDeserializer.java:536)
-	at com.fasterxml.jackson.databind.deser.std.JsonNodeDeserializer.deserialize(JsonNodeDeserializer.java:100)
-	at com.fasterxml.jackson.databind.deser.std.JsonNodeDeserializer.deserialize(JsonNodeDeserializer.java:25)
-	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:342)
-	at com.fasterxml.jackson.databind.ObjectMapper._readTreeAndClose(ObjectMapper.java:4941)
-	at com.fasterxml.jackson.databind.ObjectMapper.readTree(ObjectMapper.java:3278)
-	at tech.yesboss.gateway.im.impl.IMMessagePusherImpl.formatCardPayload(IMMessagePusherImpl.java:160)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at tech.yesboss.gateway.im.IMMessagePusherImplTest.testFormatCardPayloadWithInvalidJson(IMMessagePusherImplTest.java:176)
+  <testcase name="testExecuteWithEmptyArguments" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.003">
+    <system-out><![CDATA[20:24:59.633 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: no_args_tool -> http://localhost:8765/mcp
+20:24:59.633 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: no_args_tool with arguments: 
+20:24:59.633 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771935899633,"method":"tools/call","params":{"name":"no_args_tool","arguments":{}}}
+20:24:59.635 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
+  "result": {
+    "content": [
+      {"type": "text", "text": "Executed with empty args"}
+    ]
+  }
+}
+]]></system-out>
+  </testcase>
+  <testcase name="testConstructorWithNullEndpoint" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.0"/>
+  <testcase name="testConstructorWithNullDescription" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.001"/>
+  <testcase name="testConstructorWithNullAccessLevel" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.001"/>
+  <testcase name="testExecuteSendsFormattedRequest" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.003">
+    <system-out><![CDATA[20:24:59.639 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: weather_check -> http://localhost:8765/mcp
+20:24:59.639 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: weather_check with arguments: {"location":"Tokyo","unit":"celsius"}
+20:24:59.640 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771935899639,"method":"tools/call","params":{"name":"weather_check","arguments":{"location":"Tokyo","unit":"celsius"}}}
+20:24:59.641 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
+  "result": {
+    "content": [
+      {"type": "text", "text": "Tool executed successfully"}
+    ]
+  }
+}
+]]></system-out>
+  </testcase>
+  <testcase name="testExecuteWithBypass" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.003">
+    <system-out><![CDATA[20:24:59.643 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: bypass_tool -> http://localhost:8765/mcp
+20:24:59.643 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool with bypass: bypass_tool
+20:24:59.643 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: bypass_tool with arguments: {"test":"value"}
+20:24:59.643 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771935899643,"method":"tools/call","params":{"name":"bypass_tool","arguments":{"test":"value"}}}
+20:24:59.645 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
+  "result": {
+    "content": [
+      {"type": "text", "text": "Bypass executed"}
+    ]
+  }
+}
+]]></system-out>
+  </testcase>
+  <testcase name="testConstructorWithEmptyToolName" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.001"/>
+  <testcase name="testExecuteWithoutAuth" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.002">
+    <system-out><![CDATA[20:24:59.646 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: no_auth_tool -> http://localhost:8765/mcp
+20:24:59.646 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: no_auth_tool with arguments: {}
+20:24:59.646 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771935899646,"method":"tools/call","params":{"name":"no_auth_tool","arguments":{}}}
+20:24:59.648 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
+  "result": {
+    "content": [
+      {"type": "text", "text": "OK"}
+    ]
+  }
+}
+]]></system-out>
+  </testcase>
+  <testcase name="testConstructorWithNullToolName" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.001"/>
+  <testcase name="testExecuteWithSingleContent" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.003">
+    <system-out><![CDATA[20:24:59.650 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: single_output -> http://localhost:8765/mcp
+20:24:59.650 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: single_output with arguments: {}
+20:24:59.650 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771935899650,"method":"tools/call","params":{"name":"single_output","arguments":{}}}
+20:24:59.651 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
+  "result": {
+    "content": {"type": "text", "text": "Single result"}
+  }
+}
+]]></system-out>
+  </testcase>
+  <testcase name="testExecuteWithComplexArguments" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.002">
+    <system-out><![CDATA[20:24:59.653 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: complex_tool -> http://localhost:8765/mcp
+20:24:59.653 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: complex_tool with arguments: {"query":"SELECT * FROM users","params":[1,2,3],"options":{"timeout":5000,"retries":3}}
+20:24:59.653 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771935899653,"method":"tools/call","params":{"name":"complex_tool","arguments":{"query":"SELECT * FROM users","params":[1,2,3],"options":{"timeout":5000,"retries":3}}}}
+20:24:59.654 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
+  "result": {
+    "content": [
+      {"type": "text", "text": "Complex args processed"}
+    ]
+  }
+}
+]]></system-out>
+  </testcase>
+  <testcase name="testExecuteIncludesToolName" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.003">
+    <system-out><![CDATA[20:24:59.656 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: search_database -> http://localhost:8765/mcp
+20:24:59.656 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: search_database with arguments: {"query":"SELECT * FROM users"}
+20:24:59.656 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771935899656,"method":"tools/call","params":{"name":"search_database","arguments":{"query":"SELECT * FROM users"}}}
+20:24:59.657 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
+  "result": {
+    "content": [
+      {"type": "text", "text": "OK"}
+    ]
+  }
+}
+]]></system-out>
+  </testcase>
+  <testcase name="testExecuteWithNullArguments" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.002">
+    <system-out><![CDATA[20:24:59.659 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: null_args_tool -> http://localhost:8765/mcp
+20:24:59.659 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: null_args_tool with arguments: null
+20:24:59.659 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771935899659,"method":"tools/call","params":{"name":"null_args_tool","arguments":{}}}
+20:24:59.660 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
+  "result": {
+    "content": [
+      {"type": "text", "text": "Executed with null args"}
+    ]
+  }
+}
+]]></system-out>
+  </testcase>
+  <testcase name="testExecuteWithError" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.003">
+    <system-out><![CDATA[20:24:59.661 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: failing_tool -> http://localhost:8765/mcp
+20:24:59.662 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: failing_tool with arguments: {}
+20:24:59.662 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771935899662,"method":"tools/call","params":{"name":"failing_tool","arguments":{}}}
+20:24:59.663 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
+  "error": {
+    "code": -32600,
+    "message": "Invalid Request"
+  }
+}
+20:24:59.663 [main] ERROR tech.yesboss.tool.mcp.McpToolAdapter -- Failed to execute MCP tool: failing_tool
+java.lang.Exception: MCP service error: Invalid Request
+	at tech.yesboss.tool.mcp.McpToolAdapter.execute(McpToolAdapter.java:190)
+	at tech.yesboss.tool.mcp.McpToolAdapterTest.lambda$testExecuteWithError$5(McpToolAdapterTest.java:237)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3111)
+	at tech.yesboss.tool.mcp.McpToolAdapterTest.testExecuteWithError(McpToolAdapterTest.java:236)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -256,14 +352,12 @@ com.fasterxml.jackson.core.JsonParseException: Unexpected character ('i' (code 1
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-out>
   </testcase>
-  <testcase name="testGetWebhookUrlReturnsNullWhenNotSet" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.293 [main] WARN tech.yesboss.gateway.im.impl.IMMessagePusherImpl -- Webhook URL not found for key: FEISHU_WEBHOOK_NONEXISTENT_GROUP
+  <testcase name="testConstructorDefaultAccessLevel" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.0">
+    <system-out><![CDATA[20:24:59.664 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: test_tool -> http://example.com/mcp
 ]]></system-out>
   </testcase>
-  <testcase name="testPushMessageWithoutWebhookUrlThrowsException" classname="tech.yesboss.gateway.im.IMMessagePusherImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.293 [main] INFO tech.yesboss.gateway.im.impl.IMMessagePusherImpl -- Pushing UnifiedMessage to FEISHU group: NONEXISTENT_GROUP
-20:25:03.293 [main] INFO tech.yesboss.gateway.im.impl.IMMessagePusherImpl -- Pushing text message to FEISHU group: NONEXISTENT_GROUP
-20:25:03.293 [main] WARN tech.yesboss.gateway.im.impl.IMMessagePusherImpl -- Webhook URL not found for key: FEISHU_WEBHOOK_NONEXISTENT_GROUP
+  <testcase name="testConstructorWithValidParameters" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.0">
+    <system-out><![CDATA[20:24:59.665 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: test_tool -> http://example.com/mcp
 ]]></system-out>
   </testcase>
 </testsuite>

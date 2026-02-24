@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.007" tests="22" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.026" tests="13" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -53,88 +53,66 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testConstructorDefault" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSummaryCardSuccessHasGreenColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.295 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testTrackExecutionWithLargeResult" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.019">
+    <system-out><![CDATA[20:24:59.466 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
+20:24:59.467 [main] DEBUG tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- Tracked tool execution: sessionId=session_large, toolCallId=call_large, toolName=read_large_file, isIntercepted=false
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithNullSummary" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testConstructorWithNullDbWriter" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.001">
+    <system-out><![CDATA[20:24:59.468 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarAtZero" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 0/10 tasks, current: 准备中...
+  <testcase name="testTrackExecutionWithComplexArguments" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.0">
+    <system-out><![CDATA[20:24:59.468 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
+20:24:59.468 [main] DEBUG tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- Tracked tool execution: sessionId=session_complex, toolCallId=call_complex, toolName=execute_query, isIntercepted=false
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithSuccess" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testTrackExecutionWithEmptyToolName" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.001">
+    <system-out><![CDATA[20:24:59.470 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testTrackExecutionWithNullToolCallId" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.001">
+    <system-out><![CDATA[20:24:59.471 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardWithNullParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: null, tool: null
+  <testcase name="testTrackInterceptedExecution" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.0">
+    <system-out><![CDATA[20:24:59.471 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
+20:24:59.471 [main] DEBUG tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- Tracked tool execution: sessionId=session_456, toolCallId=call_def, toolName=format_disk, isIntercepted=true
+20:24:59.471 [main] WARN tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- Tool execution was intercepted: sessionId=session_456, toolCallId=call_def, toolName=format_disk
 ]]></system-out>
   </testcase>
-  <testcase name="testAllCardsContainTimestamp" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: tool
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: s2, success: true
+  <testcase name="testTrackExecutionWithEmptyToolCallId" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.001">
+    <system-out><![CDATA[20:24:59.471 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testSlackAttachmentStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: DeleteTool
+  <testcase name="testTrackSuccessfulExecution" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.0">
+    <system-out><![CDATA[20:24:59.472 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
+20:24:59.472 [main] DEBUG tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- Tracked tool execution: sessionId=session_123, toolCallId=call_abc, toolName=read_file, isIntercepted=false
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
+  <testcase name="testTrackMultipleExecutions" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.0">
+    <system-out><![CDATA[20:24:59.472 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
+20:24:59.472 [main] DEBUG tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- Tracked tool execution: sessionId=session_multi, toolCallId=call_1, toolName=read_file, isIntercepted=false
+20:24:59.472 [main] DEBUG tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- Tracked tool execution: sessionId=session_multi, toolCallId=call_2, toolName=delete_file, isIntercepted=true
+20:24:59.472 [main] WARN tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- Tool execution was intercepted: sessionId=session_multi, toolCallId=call_2, toolName=delete_file
+20:24:59.472 [main] DEBUG tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- Tracked tool execution: sessionId=session_multi, toolCallId=call_3, toolName=write_file, isIntercepted=false
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarWithBasicProgress" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 正在执行数据库迁移
+  <testcase name="testTrackExecutionWithEmptySessionId" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.0">
+    <system-out><![CDATA[20:24:59.473 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarAtComplete" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 10/10 tasks, current: 任务完成
+  <testcase name="testTrackExecutionWithNullValues" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.0">
+    <system-out><![CDATA[20:24:59.473 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
+20:24:59.473 [main] DEBUG tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- Tracked tool execution: sessionId=session_789, toolCallId=call_ghi, toolName=list_dir, isIntercepted=false
 ]]></system-out>
   </testcase>
-  <testcase name="testFeishuCardStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 3/5 tasks, current: 测试任务
+  <testcase name="testTrackExecutionWithNullSessionId" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.001">
+    <system-out><![CDATA[20:24:59.473 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithFailure" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
-]]></system-out>
-  </testcase>
-  <testcase name="testSuspensionCardValueJsonFormat" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: test-session-123, tool: tool
-]]></system-out>
-  </testcase>
-  <testcase name="testConstructorWithObjectMapper" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSuspensionCardContainsApprovalButtons" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: FormatTool
-]]></system-out>
-  </testcase>
-  <testcase name="testProgressBarStringFormatting" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSuspensionCardWithAllParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderProgressBarContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSummaryCardFailureHasRedColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
-]]></system-out>
-  </testcase>
-  <testcase name="testRenderSuspensionCardContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testTrackExecutionWithNullToolName" classname="tech.yesboss.tool.tracker.ToolCallTrackerTest" time="0.0">
+    <system-out><![CDATA[20:24:59.474 [main] INFO tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl -- ToolCallTracker initialized
 ]]></system-out>
   </testcase>
 </testsuite>

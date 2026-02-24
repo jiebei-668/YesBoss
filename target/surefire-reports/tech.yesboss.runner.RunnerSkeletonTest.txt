@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: tech.yesboss.runner.RunnerSkeletonTest
 -------------------------------------------------------------------------------
-Tests run: 59, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.32 s -- in tech.yesboss.runner.RunnerSkeletonTest
+Tests run: 59, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.67 s -- in tech.yesboss.runner.RunnerSkeletonTest

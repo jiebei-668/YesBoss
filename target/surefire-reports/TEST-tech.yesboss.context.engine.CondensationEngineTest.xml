@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.007" tests="22" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.context.engine.CondensationEngineTest" time="0.017" tests="21" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -53,88 +53,104 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testConstructorDefault" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSummaryCardSuccessHasGreenColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.295 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testCondenseAndMergeUpwardsWithEmptyMasterSessionId" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.029 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithNullSummary" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testCustomThresholdUsedInCheck" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.030 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
+20:24:59.030 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Token threshold updated to: 5000
+20:24:59.030 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Worker worker_custom token count 6000 exceeds threshold 5000, compaction needed
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarAtZero" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 0/10 tasks, current: 准备中...
+  <testcase name="testConstructorWithNullLocalStreamManager" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.031 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithSuccess" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testCheckAndCompactIfNeededExceedsThreshold" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.032 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
+20:24:59.032 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Worker worker_001 token count 15000 exceeds threshold 12000, compaction needed
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testCondenseAndMergeUpwardsWithNullMasterSessionId" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.032 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardWithNullParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: null, tool: null
+  <testcase name="testCondenseAndMergeUpwardsAppendsFormattedReport" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.033 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
+20:24:59.033 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Condensing local context from Worker worker_format to Master master_format
+20:24:59.034 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Successfully condensed 1 messages into summary (27 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testAllCardsContainTimestamp" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: tool
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: s2, success: true
+  <testcase name="testCheckAndCompactIfNeededWithNullSessionId" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.035 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
 ]]></system-out>
   </testcase>
-  <testcase name="testSlackAttachmentStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: DeleteTool
+  <testcase name="testSetTokenThreshold" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.035 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
+20:24:59.035 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Token threshold updated to: 8000
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
+  <testcase name="testCondenseAndMergeUpwardsSummarizesContext" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.036 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
+20:24:59.036 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Condensing local context from Worker worker_summarize to Master master_001
+20:24:59.036 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Successfully condensed 2 messages into summary (39 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarWithBasicProgress" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 正在执行数据库迁移
+  <testcase name="testCondenseAndMergeUpwardsCallsModelRouter" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.037 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
+20:24:59.037 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Condensing local context from Worker worker_router to Master master_router
+20:24:59.037 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Successfully condensed 1 messages into summary (7 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarAtComplete" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 10/10 tasks, current: 任务完成
+  <testcase name="testCheckAndCompactIfNeededWithEmptySessionId" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.038 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
 ]]></system-out>
   </testcase>
-  <testcase name="testFeishuCardStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 3/5 tasks, current: 测试任务
+  <testcase name="testCondenseAndMergeUpwardsWithToolCalls" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.038 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
+20:24:59.039 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Condensing local context from Worker worker_tools to Master master_tools
+20:24:59.039 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Successfully condensed 3 messages into summary (28 chars)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithFailure" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
+  <testcase name="testSetTokenThresholdWithNonPositiveValue" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.040 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
 ]]></system-out>
   </testcase>
-  <testcase name="testSuspensionCardValueJsonFormat" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: test-session-123, tool: tool
+  <testcase name="testConstructorWithNullModelRouter" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.041 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithObjectMapper" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSuspensionCardContainsApprovalButtons" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: FormatTool
+  <testcase name="testCondenseAndMergeUpwardsWithEmptyContext" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.041 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
+20:24:59.041 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- Condensing local context from Worker worker_empty to Master master_002
+20:24:59.041 [main] WARN tech.yesboss.context.engine.impl.CondensationEngineImpl -- Worker worker_empty has no local context to condense
 ]]></system-out>
   </testcase>
-  <testcase name="testProgressBarStringFormatting" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
+  <testcase name="testCondenseAndMergeUpwardsWithEmptyWorkerSessionId" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.042 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardWithAllParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testGetTokenThreshold" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.043 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
+  <testcase name="testCheckAndCompactIfNeededEqualsThreshold" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.043 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
+20:24:59.043 [main] DEBUG tech.yesboss.context.engine.impl.CondensationEngineImpl -- Worker worker_003 token count 12000 within threshold 12000
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardFailureHasRedColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
+  <testcase name="testCheckAndCompactIfNeededWithinThreshold" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.044 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
+20:24:59.044 [main] DEBUG tech.yesboss.context.engine.impl.CondensationEngineImpl -- Worker worker_002 token count 8000 within threshold 12000
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testCondenseAndMergeUpwardsWithNullWorkerSessionId" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.001">
+    <system-out><![CDATA[20:24:59.044 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
+]]></system-out>
+  </testcase>
+  <testcase name="testConstructorWithNullGlobalStreamManager" classname="tech.yesboss.context.engine.CondensationEngineTest" time="0.0">
+    <system-out><![CDATA[20:24:59.045 [main] INFO tech.yesboss.context.engine.impl.CondensationEngineImpl -- CondensationEngine initialized with token threshold: 12000
 ]]></system-out>
   </testcase>
 </testsuite>

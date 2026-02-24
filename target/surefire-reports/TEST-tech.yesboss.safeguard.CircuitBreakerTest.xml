@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.007" tests="22" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.safeguard.CircuitBreakerTest" time="0.007" tests="24" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -53,88 +53,140 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testConstructorDefault" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSummaryCardSuccessHasGreenColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.295 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testCounterRemovedAfterException" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.274 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.274 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 5
+20:25:03.274 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session_remove
+20:25:03.274 [main] ERROR tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Circuit breaker opened for session session_remove after 5 iterations (threshold: 5)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithNullSummary" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testSetThresholdWithNegativeValue" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.274 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarAtZero" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 0/10 tasks, current: 准备中...
+  <testcase name="testConstructorWithDefaultThreshold" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.274 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithSuccess" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: true
+  <testcase name="testGetCurrentCount" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.275 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.275 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session_count
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.296 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testCheckAndIncrementThrowsOnThreshold" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.275 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.275 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 5
+20:25:03.275 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session_threshold
+20:25:03.275 [main] ERROR tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Circuit breaker opened for session session_threshold after 5 iterations (threshold: 5)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardWithNullParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: null, tool: null
+  <testcase name="testSetThresholdWithZero" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.275 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
 ]]></system-out>
   </testcase>
-  <testcase name="testAllCardsContainTimestamp" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: tool
-20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: s2, success: true
+  <testcase name="testCheckAndIncrement19TimesNoException" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.275 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.275 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session_19
+20:25:03.275 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_19 iteration count: 5
+20:25:03.275 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_19 iteration count: 10
+20:25:03.275 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_19 iteration count: 15
 ]]></system-out>
   </testcase>
-  <testcase name="testSlackAttachmentStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.297 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: s1, tool: DeleteTool
+  <testcase name="testConstructorWithZeroThreshold" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.276 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
+  <testcase name="testCircuitBreakerOpenExceptionContent" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.276 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.276 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 3
+20:25:03.276 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session_exception
+20:25:03.276 [main] ERROR tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Circuit breaker opened for session session_exception after 3 iterations (threshold: 3)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarWithBasicProgress" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 正在执行数据库迁移
+  <testcase name="testResetNonExistentSession" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.276 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.276 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Attempted to reset non-existent counter for session: nonexistent
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarAtComplete" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 10/10 tasks, current: 任务完成
+  <testcase name="testConstructorWithNegativeThreshold" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.276 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
 ]]></system-out>
   </testcase>
-  <testcase name="testFeishuCardStructureCompliance" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.298 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 3/5 tasks, current: 测试任务
+  <testcase name="testConstructorWithCustomThreshold" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.277 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.277 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 15
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardWithFailure" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
+  <testcase name="testResetWithNullSessionId" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.277 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
 ]]></system-out>
   </testcase>
-  <testcase name="testSuspensionCardValueJsonFormat" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.299 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: test-session-123, tool: tool
+  <testcase name="testSetThreshold" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.277 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.277 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Circuit breaker threshold updated from 20 to 10
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithObjectMapper" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0"/>
-  <testcase name="testRenderSuspensionCardContainsApprovalButtons" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: FormatTool
+  <testcase name="testResetWithEmptySessionId" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.277 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
 ]]></system-out>
   </testcase>
-  <testcase name="testProgressBarStringFormatting" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.300 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 5/10 tasks, current: 测试
+  <testcase name="testClearAll" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.278 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.278 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.278 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session1
+20:25:03.278 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session2
+20:25:03.278 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session3
+20:25:03.278 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Cleared all circuit breaker counters (was 3)
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardWithAllParameters" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.001">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testResetClearsCounter" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.278 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.278 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session_reset
+20:25:03.278 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_reset iteration count: 5
+20:25:03.278 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_reset iteration count: 10
+20:25:03.278 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Reset circuit breaker counter for session: session_reset (was at 10)
+20:25:03.278 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session_reset
+20:25:03.278 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_reset iteration count: 5
+20:25:03.278 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_reset iteration count: 10
+20:25:03.278 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_reset iteration count: 15
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderProgressBarContainsFeishuCard" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering progress bar: 2/5 tasks, current: 正在处理
+  <testcase name="testGetCurrentCountForNonExistentSession" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.278 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSummaryCardFailureHasRedColor" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering summary card for session: session-789, success: false
+  <testcase name="testGetCurrentCountWithNullSessionId" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.278 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
 ]]></system-out>
   </testcase>
-  <testcase name="testRenderSuspensionCardContainsSlackAttachments" classname="tech.yesboss.gateway.ui.UICardRendererImplTest" time="0.0">
-    <system-out><![CDATA[20:25:03.301 [main] INFO tech.yesboss.gateway.ui.impl.UICardRendererImpl -- Rendering suspension card for session: session-123, tool: DeleteTool
+  <testcase name="testCheckAndIncrement20TimesThrowsException" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.278 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.279 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session_20
+20:25:03.279 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_20 iteration count: 5
+20:25:03.279 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_20 iteration count: 10
+20:25:03.279 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_20 iteration count: 15
+20:25:03.279 [main] ERROR tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Circuit breaker opened for session session_20 after 20 iterations (threshold: 20)
+]]></system-out>
+  </testcase>
+  <testcase name="testCheckAndIncrementWithNullSessionId" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.279 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+]]></system-out>
+  </testcase>
+  <testcase name="testCheckAndIncrementWithEmptySessionId" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.279 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+]]></system-out>
+  </testcase>
+  <testcase name="testMultipleSessionsIndependentCounters" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.001">
+    <system-out><![CDATA[20:25:03.279 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
+20:25:03.280 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session_1
+20:25:03.280 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_1 iteration count: 5
+20:25:03.280 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_1 iteration count: 10
+20:25:03.280 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Created new counter for session: session_2
+20:25:03.280 [main] DEBUG tech.yesboss.safeguard.impl.CircuitBreakerImpl -- Session session_2 iteration count: 5
+]]></system-out>
+  </testcase>
+  <testcase name="testGetCurrentCountWithEmptySessionId" classname="tech.yesboss.safeguard.CircuitBreakerTest" time="0.0">
+    <system-out><![CDATA[20:25:03.280 [main] INFO tech.yesboss.safeguard.impl.CircuitBreakerImpl -- CircuitBreaker initialized with threshold: 20
 ]]></system-out>
   </testcase>
 </testsuite>
