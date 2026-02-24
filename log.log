@@ -1071,3 +1071,18 @@ Files Created:
 - src/main/java/tech/yesboss/safeguard/SuspendResumeEngine.java
 - src/main/java/tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.java
 - src/test/java/tech/yesboss/safeguard/SuspendResumeEngineTest.java
+
+Task ID: 状态机与调度引擎模块_014
+Status: SUCCESS
+Description: Verify SuspendResumeEngine suspension and resumption logic
+
+Verification Summary:
+This test task was completed together with Task 13 (SuspendResumeEngine implementation).
+The comprehensive test class SuspendResumeEngineTest.java covered all specified requirements:
+- Mock dependencies (TaskManager, IMMessagePusher, GlobalStreamManager, LocalStreamManager, ToolRegistry, ToolCallTracker)
+- Test suspendForApproval changes state to SUSPENDED and pushes card message via Master route
+- Test resume(isApproved=true) calls executeWithBypass and appends success ToolResult
+- Test resume(isApproved=false) skips execution and appends forged error ToolResult
+- Verify state transitions back to RUNNING upon resume
+
+All 28 tests passed successfully (100% pass rate).
