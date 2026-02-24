@@ -1784,3 +1784,35 @@ Implementation Summary:
 Files Created:
 - src/main/java/tech/yesboss/config/YesBossConfig.java
 
+
+[2026-02-24 20:47:58] Task ID: 配置管理模块_003
+Status: SUCCESS
+Description: Implement ConfigLoader with YAML parsing and environment variable substitution
+
+Implementation Summary:
+- Created ConfigLoader class with comprehensive YAML loading capability
+- Implemented loadConfig() method to load from classpath resources (default: application.yml)
+- Implemented loadConfigFromFile(String filePath) to load from external file paths
+- Implemented environment variable substitution using ${VAR_NAME:default} syntax:
+  * Pattern matching with regex for ${...} placeholders
+  * Support for default values with colon syntax
+  * Fallback to system properties if env var not found
+- Implemented configuration caching using ConcurrentHashMap:
+  * Avoids repeated file reads for same resource
+  * clearCache() method for runtime reload
+  * clearCache(String resourceName) for selective cache eviction
+- Implemented recursive environment variable substitution:
+  * Handles nested maps and collections
+  * Preserves non-string types (numbers, booleans)
+- Added comprehensive error handling:
+  * ConfigLoadException for loading failures
+  * Resource not found detection
+  * File readability validation
+- Added SLF4J logging for all operations (debug, info, error levels)
+- Created EnvironmentResolver inner class for env var and system property resolution
+
+Note: Jackson YAML dependency (jackson-dataformat-yaml) will be added in Task 57
+
+Files Created:
+- src/main/java/tech/yesboss/config/ConfigLoader.java
+
