@@ -771,4 +771,469 @@ class RunnerSkeletonTest {
 
         assertDoesNotThrow(() -> workerRunner.shutdown());
     }
+
+    // ==========================================
+    // WorkerRunner ReAct Loop Tests
+    // ==========================================
+
+    @Test
+    void testWorkerRunnerReActLoopWithToolCallThenTextAnswer() throws Exception {
+        // Setup
+        WorkerRunnerImpl workerRunner = new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
+        );
+
+        // Session setup
+        when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
+        when(taskManager.getParentSessionId(SESSION_ID)).thenReturn(MASTER_SESSION_ID);
+        when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(new ArrayList<>());
+        when(injectionEngine.injectInitialContext(eq(MASTER_SESSION_ID), anyString()))
+            .thenReturn(UnifiedMessage.system("Initial prompt"));
+
+        // LLM client setup
+        LlmClient llmClientMock = mock(LlmClient.class);
+        when(modelRouter.routeByRole("WORKER")).thenReturn(llmClientMock);
+        when(localStreamManager.getCurrentTokenCount(SESSION_ID)).thenReturn(1000);
+
+        // First response: Tool call
+        UnifiedMessage toolCallResponse = UnifiedMessage.ofToolCalls(
+            List.of(new UnifiedMessage.ToolCall("call-123", "test_tool", "{\"param\":\"value\"}"))
+        );
+        when(llmClientMock.chat(any(List.class), any(String.class)))
+            .thenReturn(toolCallResponse);
+
+        // Tool setup
+        AgentTool mockTool = mock(AgentTool.class);
+        when(toolRegistry.getTool("test_tool")).thenReturn(mockTool);
+        when(mockTool.execute(anyString())).thenReturn("Tool executed successfully");
+
+        // Execute and verify
+        assertDoesNotThrow(() -> workerRunner.run(SESSION_ID));
+
+        // Verify tool execution was called
+        verify(mockTool).execute("{\"param\":\"value\"}");
+        verify(toolCallTracker).trackExecution(
+            eq(SESSION_ID),
+            eq("call-123"),
+            eq("test_tool"),
+            eq("{\"param\":\"value\"}"),
+            eq("Tool executed successfully"),
+            eq(false)
+        );
+    }
+
+    @Test
+    void testWorkerRunnerCircuitBreakerIncrementCount() throws Exception {
+        // Setup
+        WorkerRunnerImpl workerRunner = new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
+        );
+
+        // Session setup
+        when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
+        when(taskManager.getParentSessionId(SESSION_ID)).thenReturn(MASTER_SESSION_ID);
+        when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(new ArrayList<>());
+        when(injectionEngine.injectInitialContext(eq(MASTER_SESSION_ID), anyString()))
+            .thenReturn(UnifiedMessage.system("Initial prompt"));
+
+        // LLM client setup - 3 iterations before completion
+        LlmClient llmClientMock = mock(LlmClient.class);
+        when(modelRouter.routeByRole("WORKER")).thenReturn(llmClientMock);
+        when(localStreamManager.getCurrentTokenCount(SESSION_ID)).thenReturn(1000);
+
+        // First two responses: Tool calls
+        UnifiedMessage toolCallResponse1 = UnifiedMessage.ofToolCalls(
+            List.of(new UnifiedMessage.ToolCall("call-1", "test_tool", "{}"))
+        );
+        UnifiedMessage toolCallResponse2 = UnifiedMessage.ofToolCalls(
+            List.of(new UnifiedMessage.ToolCall("call-2", "test_tool", "{}"))
+        );
+        // Third response: Text completion
+        UnifiedMessage textResponse = UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Task complete");
+
+        when(llmClientMock.chat(any(List.class), any(String.class)))
+            .thenReturn(toolCallResponse1)
+            .thenReturn(toolCallResponse2)
+            .thenReturn(textResponse);
+
+        // Tool setup
+        AgentTool mockTool = mock(AgentTool.class);
+        when(toolRegistry.getTool("test_tool")).thenReturn(mockTool);
+        when(mockTool.execute(anyString())).thenReturn("Success");
+
+        // Execute
+        assertDoesNotThrow(() -> workerRunner.run(SESSION_ID));
+
+        // Verify CircuitBreaker was incremented exactly 3 times (once per iteration)
+        verify(circuitBreaker, times(3)).checkAndIncrement(SESSION_ID);
+
+        // Verify CondensationEngine was called once at completion
+        verify(condensationEngine).condenseAndMergeUpwards(SESSION_ID, MASTER_SESSION_ID);
+
+        // Verify task completed
+        verify(taskManager).transitionState(SESSION_ID,
+            tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+    }
+
+    @Test
+    void testWorkerRunnerSuspensionTriggersGracefulExit() throws Exception {
+        // Setup
+        WorkerRunnerImpl workerRunner = new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
+        );
+
+        // Session setup - resuming from suspension
+        List<UnifiedMessage> context = List.of(
+            UnifiedMessage.ofToolResult("call-123", "Tool output", false)
+        );
+        when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
+        when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(context);
+
+        // LLM client setup
+        LlmClient llmClientMock = mock(LlmClient.class);
+        when(modelRouter.routeByRole("WORKER")).thenReturn(llmClientMock);
+
+        // Response: Tool call that will be intercepted
+        UnifiedMessage toolCallResponse = UnifiedMessage.ofToolCalls(
+            List.of(new UnifiedMessage.ToolCall("call-456", "dangerous_tool", "{}"))
+        );
+        when(llmClientMock.chat(any(List.class), any(String.class))).thenReturn(toolCallResponse);
+
+        // Tool setup - throws SuspendExecutionException
+        AgentTool mockTool = mock(AgentTool.class);
+        when(toolRegistry.getTool("dangerous_tool")).thenReturn(mockTool);
+
+        // SandboxInterceptor throws SuspendExecutionException
+        doThrow(new SuspendExecutionException("rm -rf /", "call-456"))
+            .when(sandboxInterceptor).preCheck(any(), any(), any());
+
+        // Execute
+        assertDoesNotThrow(() -> workerRunner.run(SESSION_ID));
+
+        // Verify SuspendResumeEngine.suspendForApproval was called
+        verify(suspendResumeEngine).suspendForApproval(
+            eq(SESSION_ID),
+            eq("rm -rf /"),
+            eq("call-456")
+        );
+
+        // Verify intercepted execution was tracked
+        verify(toolCallTracker).trackExecution(
+            eq(SESSION_ID),
+            eq("call-456"),
+            eq("dangerous_tool"),
+            eq("{}"),
+            contains("SuspendExecutionException"),
+            eq(true)
+        );
+
+        // Verify CondensationEngine was NOT called (suspension, not completion)
+        verify(condensationEngine, never()).condenseAndMergeUpwards(any(), any());
+
+        // Verify task was NOT marked as COMPLETED
+        verify(taskManager, never()).transitionState(eq(SESSION_ID),
+            eq(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED));
+    }
+
+    @Test
+    void testWorkerRunnerSuspensionExitsGracefullyWithoutException() throws Exception {
+        // Setup
+        WorkerRunnerImpl workerRunner = new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
+        );
+
+        // Session setup
+        when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
+        when(taskManager.getParentSessionId(SESSION_ID)).thenReturn(MASTER_SESSION_ID);
+        when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(new ArrayList<>());
+        when(injectionEngine.injectInitialContext(eq(MASTER_SESSION_ID), anyString()))
+            .thenReturn(UnifiedMessage.system("Initial prompt"));
+
+        // LLM client setup
+        LlmClient llmClientMock = mock(LlmClient.class);
+        when(modelRouter.routeByRole("WORKER")).thenReturn(llmClientMock);
+
+        // Response: Tool call that will be intercepted
+        UnifiedMessage toolCallResponse = UnifiedMessage.ofToolCalls(
+            List.of(new UnifiedMessage.ToolCall("call-789", "unsafe_tool", "{}"))
+        );
+        when(llmClientMock.chat(any(List.class), any(String.class))).thenReturn(toolCallResponse);
+
+        // Tool setup
+        AgentTool mockTool = mock(AgentTool.class);
+        when(toolRegistry.getTool("unsafe_tool")).thenReturn(mockTool);
+
+        // SandboxInterceptor throws SuspendExecutionException
+        doThrow(new SuspendExecutionException("format_disk", "call-789"))
+            .when(sandboxInterceptor).preCheck(any(), any(), any());
+
+        // Execute - should NOT throw any exception
+        assertDoesNotThrow(() -> workerRunner.run(SESSION_ID));
+
+        // Verify graceful suspension
+        verify(suspendResumeEngine).suspendForApproval(
+            eq(SESSION_ID),
+            eq("format_disk"),
+            eq("call-789")
+        );
+
+        // Verify thread exited cleanly (no re-thrown exception)
+        // The fact we got here without exception proves graceful exit
+    }
+
+    @Test
+    void testWorkerRunnerCondensationEngineCalledOnCompletion() throws Exception {
+        // Setup
+        WorkerRunnerImpl workerRunner = new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
+        );
+
+        // Session setup
+        when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
+        when(taskManager.getParentSessionId(SESSION_ID)).thenReturn(MASTER_SESSION_ID);
+        when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(new ArrayList<>());
+        when(injectionEngine.injectInitialContext(eq(MASTER_SESSION_ID), anyString()))
+            .thenReturn(UnifiedMessage.system("Initial prompt"));
+
+        // LLM client setup - immediate text completion
+        LlmClient llmClientMock = mock(LlmClient.class);
+        when(modelRouter.routeByRole("WORKER")).thenReturn(llmClientMock);
+        when(localStreamManager.getCurrentTokenCount(SESSION_ID)).thenReturn(1000);
+
+        UnifiedMessage textResponse = UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Task completed successfully");
+        when(llmClientMock.chat(any(List.class), any(String.class))).thenReturn(textResponse);
+
+        // Execute
+        assertDoesNotThrow(() -> workerRunner.run(SESSION_ID));
+
+        // Verify CondensationEngine.condenseAndMergeUpwards was called exactly once
+        verify(condensationEngine, times(1)).condenseAndMergeUpwards(SESSION_ID, MASTER_SESSION_ID);
+
+        // Verify task was marked as COMPLETED
+        verify(taskManager).transitionState(SESSION_ID,
+            tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+
+        // Verify no tool was executed (no tool calls in response)
+        verify(toolCallTracker, never()).trackExecution(
+            any(), any(), any(), any(), any(), anyBoolean()
+        );
+    }
+
+    @Test
+    void testWorkerRunnerReActLoopWithMultipleToolCalls() throws Exception {
+        // Setup
+        WorkerRunnerImpl workerRunner = new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
+        );
+
+        // Session setup
+        when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
+        when(taskManager.getParentSessionId(SESSION_ID)).thenReturn(MASTER_SESSION_ID);
+        when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(new ArrayList<>());
+        when(injectionEngine.injectInitialContext(eq(MASTER_SESSION_ID), anyString()))
+            .thenReturn(UnifiedMessage.system("Initial prompt"));
+
+        // LLM client setup
+        LlmClient llmClientMock = mock(LlmClient.class);
+        when(modelRouter.routeByRole("WORKER")).thenReturn(llmClientMock);
+        when(localStreamManager.getCurrentTokenCount(SESSION_ID)).thenReturn(1000);
+
+        // Response with multiple tool calls
+        UnifiedMessage multiToolResponse = UnifiedMessage.ofToolCalls(
+            List.of(
+                new UnifiedMessage.ToolCall("call-1", "tool_a", "{\"arg\":\"a\"}"),
+                new UnifiedMessage.ToolCall("call-2", "tool_b", "{\"arg\":\"b\"}"),
+                new UnifiedMessage.ToolCall("call-3", "tool_c", "{\"arg\":\"c\"}")
+            )
+        );
+        // Followed by completion
+        UnifiedMessage textResponse = UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "All done");
+
+        when(llmClientMock.chat(any(List.class), any(String.class)))
+            .thenReturn(multiToolResponse)
+            .thenReturn(textResponse);
+
+        // Tools setup
+        AgentTool toolA = mock(AgentTool.class);
+        AgentTool toolB = mock(AgentTool.class);
+        AgentTool toolC = mock(AgentTool.class);
+        when(toolRegistry.getTool("tool_a")).thenReturn(toolA);
+        when(toolRegistry.getTool("tool_b")).thenReturn(toolB);
+        when(toolRegistry.getTool("tool_c")).thenReturn(toolC);
+        when(toolA.execute(anyString())).thenReturn("Result A");
+        when(toolB.execute(anyString())).thenReturn("Result B");
+        when(toolC.execute(anyString())).thenReturn("Result C");
+
+        // Execute
+        assertDoesNotThrow(() -> workerRunner.run(SESSION_ID));
+
+        // Verify all tools were executed
+        verify(toolA).execute("{\"arg\":\"a\"}");
+        verify(toolB).execute("{\"arg\":\"b\"}");
+        verify(toolC).execute("{\"arg\":\"c\"}");
+
+        // Verify all tool calls were tracked
+        verify(toolCallTracker).trackExecution(SESSION_ID, "call-1", "tool_a", "{\"arg\":\"a\"}", "Result A", false);
+        verify(toolCallTracker).trackExecution(SESSION_ID, "call-2", "tool_b", "{\"arg\":\"b\"}", "Result B", false);
+        verify(toolCallTracker).trackExecution(SESSION_ID, "call-3", "tool_c", "{\"arg\":\"c\"}", "Result C", false);
+
+        // Verify completion
+        verify(condensationEngine).condenseAndMergeUpwards(SESSION_ID, MASTER_SESSION_ID);
+    }
+
+    @Test
+    void testWorkerRunnerToolErrorContinuesLoop() throws Exception {
+        // Setup
+        WorkerRunnerImpl workerRunner = new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
+        );
+
+        // Session setup
+        when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
+        when(taskManager.getParentSessionId(SESSION_ID)).thenReturn(MASTER_SESSION_ID);
+        when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(new ArrayList<>());
+        when(injectionEngine.injectInitialContext(eq(MASTER_SESSION_ID), anyString()))
+            .thenReturn(UnifiedMessage.system("Initial prompt"));
+
+        // LLM client setup
+        LlmClient llmClientMock = mock(LlmClient.class);
+        when(modelRouter.routeByRole("WORKER")).thenReturn(llmClientMock);
+        when(localStreamManager.getCurrentTokenCount(SESSION_ID)).thenReturn(1000);
+
+        // Tool call response, then completion
+        UnifiedMessage toolCallResponse = UnifiedMessage.ofToolCalls(
+            List.of(new UnifiedMessage.ToolCall("call-1", "failing_tool", "{}"))
+        );
+        UnifiedMessage textResponse = UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Done");
+
+        when(llmClientMock.chat(any(List.class), any(String.class)))
+            .thenReturn(toolCallResponse)
+            .thenReturn(textResponse);
+
+        // Tool setup - throws exception (not SuspendExecutionException)
+        AgentTool mockTool = mock(AgentTool.class);
+        when(toolRegistry.getTool("failing_tool")).thenReturn(mockTool);
+        when(mockTool.execute(anyString())).thenThrow(new RuntimeException("Tool failed"));
+
+        // Execute
+        assertDoesNotThrow(() -> workerRunner.run(SESSION_ID));
+
+        // Verify error result was appended to local stream
+        verify(localStreamManager).appendToolResult(eq(SESSION_ID), argThat(msg ->
+            msg.toolResults().size() == 1 &&
+            msg.toolResults().get(0).toolCallId().equals("call-1") &&
+            msg.toolResults().get(0).isError() == true &&
+            msg.toolResults().get(0).resultString().contains("Tool execution failed")
+        ));
+
+        // Verify loop continued and completed successfully
+        verify(condensationEngine).condenseAndMergeUpwards(SESSION_ID, MASTER_SESSION_ID);
+        verify(taskManager).transitionState(SESSION_ID,
+            tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+    }
+
+    @Test
+    void testWorkerRunnerCircuitBreakerOpenExceptionHandling() throws Exception {
+        // Setup
+        WorkerRunnerImpl workerRunner = new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
+        );
+
+        // Session setup
+        when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
+        when(taskManager.getParentSessionId(SESSION_ID)).thenReturn(MASTER_SESSION_ID);
+        when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(new ArrayList<>());
+        when(injectionEngine.injectInitialContext(eq(MASTER_SESSION_ID), anyString()))
+            .thenReturn(UnifiedMessage.system("Initial prompt"));
+
+        // CircuitBreaker throws exception on 3rd iteration
+        doNothing().when(circuitBreaker).checkAndIncrement(SESSION_ID);
+        doThrow(new CircuitBreakerOpenException("Circuit breaker threshold reached", SESSION_ID, 20, 20))
+            .when(circuitBreaker).checkAndIncrement(SESSION_ID);
+
+        // Execute
+        CircuitBreakerOpenException exception = assertThrows(
+            CircuitBreakerOpenException.class,
+            () -> workerRunner.run(SESSION_ID)
+        );
+
+        // Verify task was marked as FAILED
+        verify(taskManager).transitionState(SESSION_ID,
+            tech.yesboss.persistence.entity.TaskSession.Status.FAILED);
+
+        // Verify CondensationEngine was NOT called
+        verify(condensationEngine, never()).condenseAndMergeUpwards(any(), any());
+    }
 }

@@ -830,7 +830,7 @@
       "1.4 子Agent作为执行单元.md",
       "3.3 人机回环.md"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "develop",

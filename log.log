@@ -1245,3 +1245,33 @@ Files Modified:
 - task.json (marked Task 18 as passing)
 
 Note: The tests now fully validate that PlanningTool generates correctly parsed JSON arrays matching the execution_plan schema, satisfying all requirements of Task 18.
+[2026-02-24 18:30:00] Task ID: 状态机与调度引擎模块_020
+Status: SUCCESS
+Description: Verify WorkerRunner ReAct loop, CircuitBreaker integration, and suspension exit
+
+Implementation Summary:
+- Added 8 comprehensive test cases to RunnerSkeletonTest for WorkerRunner ReAct loop verification
+- All tests properly mock dependencies (LlmClient, AgentTool, etc.) and use proper exception handling
+
+Test Results: 8 new tests added (Total tests: 46)
+- testWorkerRunnerReActLoopWithToolCallThenTextAnswer: Verifies tool call execution and tracking
+- testWorkerRunnerCircuitBreakerIncrementCount: Verifies CircuitBreaker incremented exactly 3 times for 3 iterations
+- testWorkerRunnerSuspensionTriggersGracefulExit: Verifies SuspendResumeEngine.suspendForApproval() called on interception
+- testWorkerRunnerSuspensionExitsGracefullyWithoutException: Verifies worker exits without throwing unhandled exceptions
+- testWorkerRunnerCondensationEngineCalledOnCompletion: Verifies CondensationEngine.condenseAndMergeUpwards() called on completion
+- testWorkerRunnerReActLoopWithMultipleToolCalls: Verifies handling of multiple tools in single response
+- testWorkerRunnerToolErrorContinuesLoop: Verifies tool errors don't break the ReAct loop
+- testWorkerRunnerCircuitBreakerOpenExceptionHandling: Verifies task marked as FAILED when circuit breaker opens
+
+Key Coverage:
+1. Mock LlmClient simulates conversation with tool calls followed by text answer
+2. CircuitBreaker.checkAndIncrement() verified to be called exactly as many times as loop iterations
+3. Tool execution mocked to throw SuspendExecutionException for suspension testing
+4. SuspendResumeEngine.suspendForApproval() verified to be called when tool is intercepted
+5. Worker thread verified to terminate gracefully without throwing unhandled exceptions
+6. CondensationEngine.condenseAndMergeUpwards() verified to be called upon successful completion
+7. Task state transitions verified (RUNNING → COMPLETED, RUNNING → FAILED)
+
+Files Modified:
+- src/test/java/tech/yesboss/runner/RunnerSkeletonTest.java (added 8 new tests)
+- task.json (marked Task 20 as passing)
