@@ -804,12 +804,14 @@ class RunnerSkeletonTest {
         when(modelRouter.routeByRole("WORKER")).thenReturn(llmClientMock);
         when(localStreamManager.getCurrentTokenCount(SESSION_ID)).thenReturn(1000);
 
-        // First response: Tool call
+        // First response: Tool call, then text completion
         UnifiedMessage toolCallResponse = UnifiedMessage.ofToolCalls(
             List.of(new UnifiedMessage.ToolCall("call-123", "test_tool", "{\"param\":\"value\"}"))
         );
+        UnifiedMessage textResponse = UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Task complete");
         when(llmClientMock.chat(any(List.class), any(String.class)))
-            .thenReturn(toolCallResponse);
+            .thenReturn(toolCallResponse)
+            .thenReturn(textResponse);
 
         // Tool setup
         AgentTool mockTool = mock(AgentTool.class);
@@ -829,6 +831,13 @@ class RunnerSkeletonTest {
             eq("Tool executed successfully"),
             eq(false)
         );
+
+        // Verify CondensationEngine was called on completion
+        verify(condensationEngine).condenseAndMergeUpwards(SESSION_ID, MASTER_SESSION_ID);
+
+        // Verify task was marked as COMPLETED
+        verify(taskManager).transitionState(SESSION_ID,
+            tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
     }
 
     @Test
