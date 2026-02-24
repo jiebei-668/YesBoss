@@ -91,6 +91,51 @@ public interface WebhookController {
     void handleCliCommand(String command);
 
     /**
+     * Handle Feishu interactive callback events (button clicks).
+     *
+     * <p>This handles human-in-the-loop approval/rejection callbacks from
+     * interactive cards pushed to Feishu.</p>
+     *
+     * <p>Execution Flow:</p>
+     * <ol>
+     *   <li>Verify signature (fast, &lt;100ms)</li>
+     *   <li>Parse callback payload to extract session_id, tool_call_id, approved</li>
+     *   <li>Route to SuspendResumeEngine.resume() asynchronously</li>
+     *   <li><b>Immediately return "200 OK" string</b></li>
+     * </ol>
+     *
+     * @param timestamp The timestamp from X-Lark-Request-Timestamp header
+     * @param nonce     The nonce from X-Lark-Request-Nonce header
+     * @param signature The signature from X-Lark-Signature header
+     * @param body      The raw JSON callback payload string
+     * @return The string "200 OK" to be returned as HTTP response
+     * @throws SecurityException if signature verification fails
+     */
+    String handleFeishuCallback(String timestamp, String nonce, String signature, String body);
+
+    /**
+     * Handle Slack interactive callback events (button clicks).
+     *
+     * <p>This handles human-in-the-loop approval/rejection callbacks from
+     * interactive cards pushed to Slack.</p>
+     *
+     * <p>Execution Flow:</p>
+     * <ol>
+     *   <li>Verify signature using timestamp</li>
+     *   <li>Parse callback payload to extract session_id, tool_call_id, approved</li>
+     *   <li>Route to SuspendResumeEngine.resume() asynchronously</li>
+     *   <li><b>Immediately return "200 OK" string</b></li>
+     * </ol>
+     *
+     * @param payload    The raw URL-encoded payload string from Slack
+     * @param timestamp  The timestamp from X-Slack-Request-Timestamp header
+     * @param signature  The signature from X-Slack-Signature header
+     * @return The string "200 OK" to be returned as HTTP response
+     * @throws SecurityException if signature verification fails
+     */
+    String handleSlackCallback(String payload, String timestamp, String signature);
+
+    /**
      * Check if the controller is ready to accept webhook events.
      *
      * @return true if the controller and its executor are running

@@ -13,6 +13,7 @@ import tech.yesboss.gateway.webhook.executor.impl.WebhookEventExecutorImpl;
 import tech.yesboss.session.SessionManager;
 import tech.yesboss.state.TaskManager;
 import tech.yesboss.runner.MasterRunner;
+import tech.yesboss.safeguard.SuspendResumeEngine;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -46,6 +47,9 @@ class WebhookControllerAndExecutorTest {
     @Mock
     private MasterRunner mockMasterRunner;
 
+    @Mock
+    private SuspendResumeEngine mockSuspendResumeEngine;
+
     private WebhookEventExecutor executor;
     private WebhookController controller;
     private AutoCloseable mockCloseable;
@@ -62,10 +66,11 @@ class WebhookControllerAndExecutorTest {
         when(mockSessionManager.bindOrCreateTaskSession(anyString(), anyString(), anyString()))
             .thenReturn("test-session-id");
         doNothing().when(mockMasterRunner).run(anyString());
+        doNothing().when(mockSuspendResumeEngine).resume(anyString(), anyString(), anyBoolean(), anyString());
 
         // Initialize executor and controller
         executor = new WebhookEventExecutorImpl(mockSessionManager, mockTaskManager, mockMasterRunner);
-        controller = new WebhookControllerImpl(executor, FEISHU_SECRET, SLACK_SECRET);
+        controller = new WebhookControllerImpl(executor, mockSuspendResumeEngine, FEISHU_SECRET, SLACK_SECRET);
     }
 
     @AfterEach
@@ -228,7 +233,7 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testControllerConstructorNullExecutor() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new WebhookControllerImpl(null, FEISHU_SECRET, SLACK_SECRET);
+            new WebhookControllerImpl(null, mockSuspendResumeEngine, FEISHU_SECRET, SLACK_SECRET);
         });
 
         assertTrue(exception.getMessage().contains("executor"));
@@ -237,11 +242,11 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testControllerConstructorAllowsNullSecrets() {
         assertDoesNotThrow(() -> {
-            new WebhookControllerImpl(executor, null, null);
+            new WebhookControllerImpl(executor, mockSuspendResumeEngine, null, null);
         });
 
         assertDoesNotThrow(() -> {
-            new WebhookControllerImpl(executor, "", "");
+            new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
         });
     }
 
@@ -259,7 +264,7 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testHandleFeishuEventReturns200Ok() {
         // Create controller without signature verification for basic tests
-        WebhookController noVerifyController = new WebhookControllerImpl(executor, "", "");
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         String nonce = "test-nonce";
         String signature = "test-signature";
@@ -273,7 +278,7 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testHandleFeishuEventWithEmptyBody() {
         // Create controller without signature verification for basic tests
-        WebhookController noVerifyController = new WebhookControllerImpl(executor, "", "");
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
         String response = noVerifyController.handleFeishuEvent("123456", "nonce", "sig", "");
 
         assertEquals("200 OK", response);
@@ -282,7 +287,7 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testHandleFeishuEventWithNullBody() {
         // Create controller without signature verification for basic tests
-        WebhookController noVerifyController = new WebhookControllerImpl(executor, "", "");
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
         String response = noVerifyController.handleFeishuEvent("123456", "nonce", "sig", null);
 
         assertEquals("200 OK", response);
@@ -343,7 +348,7 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testHandleFeishuEventSignatureSkippedWhenNoSecret() {
         // Create controller without Feishu secret
-        WebhookController noSecretController = new WebhookControllerImpl(executor, "", SLACK_SECRET);
+        WebhookController noSecretController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", SLACK_SECRET);
 
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         String nonce = "test-nonce";
@@ -362,7 +367,7 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testHandleSlackEventReturns200Ok() {
         // Create controller without signature verification for basic tests
-        WebhookController noVerifyController = new WebhookControllerImpl(executor, "", "");
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         String signature = "test-signature";
         String body = "{\"event\":{\"type\":\"message\"}}";
@@ -375,7 +380,7 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testHandleSlackEventWithEmptyBody() {
         // Create controller without signature verification for basic tests
-        WebhookController noVerifyController = new WebhookControllerImpl(executor, "", "");
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
         String response = noVerifyController.handleSlackEvent("123456", "sig", "");
 
         assertEquals("200 OK", response);
@@ -384,7 +389,7 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testHandleSlackEventUrlVerification() {
         // Create controller without signature verification for basic tests
-        WebhookController noVerifyController = new WebhookControllerImpl(executor, "", "");
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         String signature = "test-signature";
         String challenge = "test-challenge-value";
@@ -539,6 +544,314 @@ class WebhookControllerAndExecutorTest {
         assertFalse(event.isCli());
     }
 
+    // ==================== Feishu Callback Tests ====================
+
+    @Test
+    void testHandleFeishuCallbackReturns200Ok() {
+        // Create controller without signature verification for basic tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String nonce = "test-nonce";
+        String signature = "test-signature";
+        String body = buildFeishuCallbackJson("worker-123", "call-456", true);
+
+        String response = noVerifyController.handleFeishuCallback(timestamp, nonce, signature, body);
+
+        assertEquals("200 OK", response);
+    }
+
+    @Test
+    void testHandleFeishuCallbackWithEmptyBody() {
+        // Create controller without signature verification for basic tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String nonce = "test-nonce";
+        String signature = "test-signature";
+
+        String response = noVerifyController.handleFeishuCallback(timestamp, nonce, signature, "");
+
+        assertEquals("200 OK", response);
+    }
+
+    @Test
+    void testHandleFeishuCallbackWithNullBody() {
+        // Create controller without signature verification for basic tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String nonce = "test-nonce";
+        String signature = "test-signature";
+
+        String response = noVerifyController.handleFeishuCallback(timestamp, nonce, signature, null);
+
+        assertEquals("200 OK", response);
+    }
+
+    @Test
+    void testHandleFeishuCallbackSignatureVerification() throws InterruptedException {
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String nonce = "test-nonce";
+        String body = buildFeishuCallbackJson("worker-123", "call-456", true);
+
+        // Calculate real signature
+        String baseString = timestamp + nonce + body;
+        String signature = calculateTestHmacSha256(baseString, FEISHU_SECRET);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        doAnswer(invocation -> {
+            latch.countDown();
+            return null;
+        }).when(mockSuspendResumeEngine).resume(anyString(), anyString(), anyBoolean(), anyString());
+
+        String response = controller.handleFeishuCallback(timestamp, nonce, signature, body);
+
+        assertEquals("200 OK", response);
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Callback should be processed asynchronously");
+    }
+
+    @Test
+    void testHandleFeishuCallbackInvalidSignature() {
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String nonce = "test-nonce";
+        String invalidSignature = "invalid-signature";
+        String body = buildFeishuCallbackJson("worker-123", "call-456", true);
+
+        assertThrows(SecurityException.class, () -> {
+            controller.handleFeishuCallback(timestamp, nonce, invalidSignature, body);
+        });
+    }
+
+    @Test
+    void testHandleFeishuCallbackParsesApproveAction() throws InterruptedException {
+        // Create controller without signature verification for parsing tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String nonce = "test-nonce";
+        String sessionId = "worker-session-123";
+        String toolCallId = "tool-call-456";
+        String body = buildFeishuCallbackJson(sessionId, toolCallId, true);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        doAnswer(invocation -> {
+            assertEquals(sessionId, invocation.getArgument(0));
+            assertEquals(toolCallId, invocation.getArgument(1));
+            assertEquals(true, invocation.getArgument(2));
+            latch.countDown();
+            return null;
+        }).when(mockSuspendResumeEngine).resume(anyString(), anyString(), anyBoolean(), anyString());
+
+        String response = noVerifyController.handleFeishuCallback(timestamp, nonce, "sig", body);
+
+        assertEquals("200 OK", response);
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Callback should be processed");
+    }
+
+    @Test
+    void testHandleFeishuCallbackParsesRejectAction() throws InterruptedException {
+        // Create controller without signature verification for parsing tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String nonce = "test-nonce";
+        String sessionId = "worker-session-123";
+        String toolCallId = "tool-call-456";
+        String body = buildFeishuCallbackJson(sessionId, toolCallId, false);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        doAnswer(invocation -> {
+            assertEquals(sessionId, invocation.getArgument(0));
+            assertEquals(toolCallId, invocation.getArgument(1));
+            assertEquals(false, invocation.getArgument(2));
+            latch.countDown();
+            return null;
+        }).when(mockSuspendResumeEngine).resume(anyString(), anyString(), anyBoolean(), anyString());
+
+        String response = noVerifyController.handleFeishuCallback(timestamp, nonce, "sig", body);
+
+        assertEquals("200 OK", response);
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Callback should be processed");
+    }
+
+    @Test
+    void testHandleFeishuCallbackSignatureSkippedWhenNoSecret() {
+        // Create controller without Feishu secret
+        WebhookController noSecretController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", SLACK_SECRET);
+
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String nonce = "test-nonce";
+        String signature = "any-signature";
+        String body = buildFeishuCallbackJson("worker-123", "call-456", true);
+
+        // Should not throw SecurityException even with invalid signature
+        assertDoesNotThrow(() -> {
+            String response = noSecretController.handleFeishuCallback(timestamp, nonce, signature, body);
+            assertEquals("200 OK", response);
+        });
+    }
+
+    // ==================== Slack Callback Tests ====================
+
+    @Test
+    void testHandleSlackCallbackReturns200Ok() {
+        // Create controller without signature verification for basic tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        String payload = buildSlackCallbackPayload("worker-123", "call-456", true);
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String signature = "test-signature";
+
+        String response = noVerifyController.handleSlackCallback(payload, timestamp, signature);
+
+        assertEquals("200 OK", response);
+    }
+
+    @Test
+    void testHandleSlackCallbackWithEmptyPayload() {
+        // Create controller without signature verification for basic tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String signature = "test-signature";
+
+        String response = noVerifyController.handleSlackCallback("", timestamp, signature);
+
+        assertEquals("200 OK", response);
+    }
+
+    @Test
+    void testHandleSlackCallbackWithNullPayload() {
+        // Create controller without signature verification for basic tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String signature = "test-signature";
+
+        String response = noVerifyController.handleSlackCallback(null, timestamp, signature);
+
+        assertEquals("200 OK", response);
+    }
+
+    @Test
+    void testHandleSlackCallbackSignatureVerification() throws InterruptedException {
+        String payload = buildSlackCallbackPayload("worker-123", "call-456", true);
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+
+        // Calculate real Slack signature
+        String baseString = "v0:" + timestamp + ":" + payload;
+        String signature = "v0=" + calculateTestHmacSha256(baseString, SLACK_SECRET);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        doAnswer(invocation -> {
+            latch.countDown();
+            return null;
+        }).when(mockSuspendResumeEngine).resume(anyString(), anyString(), anyBoolean(), anyString());
+
+        String response = controller.handleSlackCallback(payload, timestamp, signature);
+
+        assertEquals("200 OK", response);
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Callback should be processed asynchronously");
+    }
+
+    @Test
+    void testHandleSlackCallbackInvalidSignature() {
+        String payload = buildSlackCallbackPayload("worker-123", "call-456", true);
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        String invalidSignature = "v0=invalid-signature";
+
+        assertThrows(SecurityException.class, () -> {
+            controller.handleSlackCallback(payload, timestamp, invalidSignature);
+        });
+    }
+
+    @Test
+    void testHandleSlackCallbackParsesApproveAction() throws InterruptedException {
+        // Create controller without signature verification for parsing tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        String sessionId = "worker-session-123";
+        String toolCallId = "tool-call-456";
+        String payload = buildSlackCallbackPayload(sessionId, toolCallId, true);
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        doAnswer(invocation -> {
+            assertEquals(sessionId, invocation.getArgument(0));
+            assertEquals(toolCallId, invocation.getArgument(1));
+            assertEquals(true, invocation.getArgument(2));
+            latch.countDown();
+            return null;
+        }).when(mockSuspendResumeEngine).resume(anyString(), anyString(), anyBoolean(), anyString());
+
+        String response = noVerifyController.handleSlackCallback(payload, timestamp, "sig");
+
+        assertEquals("200 OK", response);
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Callback should be processed");
+    }
+
+    @Test
+    void testHandleSlackCallbackParsesRejectAction() throws InterruptedException {
+        // Create controller without signature verification for parsing tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        String sessionId = "worker-session-123";
+        String toolCallId = "tool-call-456";
+        String payload = buildSlackCallbackPayload(sessionId, toolCallId, false);
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        doAnswer(invocation -> {
+            assertEquals(sessionId, invocation.getArgument(0));
+            assertEquals(toolCallId, invocation.getArgument(1));
+            assertEquals(false, invocation.getArgument(2));
+            latch.countDown();
+            return null;
+        }).when(mockSuspendResumeEngine).resume(anyString(), anyString(), anyBoolean(), anyString());
+
+        String response = noVerifyController.handleSlackCallback(payload, timestamp, "sig");
+
+        assertEquals("200 OK", response);
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Callback should be processed");
+    }
+
+    @Test
+    void testHandleSlackCallbackParsesActionName() throws InterruptedException {
+        // Create controller without signature verification for parsing tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        // Test parsing based on action name instead of value JSON
+        String sessionId = "worker-session-123";
+        String toolCallId = "tool-call-456";
+        String payload = buildSlackCallbackPayloadWithActionName(sessionId, toolCallId, "approve_action");
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        doAnswer(invocation -> {
+            assertEquals(true, invocation.getArgument(2));
+            latch.countDown();
+            return null;
+        }).when(mockSuspendResumeEngine).resume(anyString(), anyString(), anyBoolean(), anyString());
+
+        String response = noVerifyController.handleSlackCallback(payload, timestamp, "sig");
+
+        assertEquals("200 OK", response);
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Callback should be processed");
+    }
+
+    @Test
+    void testHandleSlackCallbackRejectActionName() throws InterruptedException {
+        // Create controller without signature verification for parsing tests
+        WebhookController noVerifyController = new WebhookControllerImpl(executor, mockSuspendResumeEngine, "", "");
+        // Test parsing based on action name for rejection
+        String sessionId = "worker-session-123";
+        String toolCallId = "tool-call-456";
+        String payload = buildSlackCallbackPayloadWithActionName(sessionId, toolCallId, "reject_action");
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        doAnswer(invocation -> {
+            assertEquals(false, invocation.getArgument(2));
+            latch.countDown();
+            return null;
+        }).when(mockSuspendResumeEngine).resume(anyString(), anyString(), anyBoolean(), anyString());
+
+        String response = noVerifyController.handleSlackCallback(payload, timestamp, "sig");
+
+        assertEquals("200 OK", response);
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Callback should be processed");
+    }
+
     // ==================== Helper Methods ====================
 
     /**
@@ -559,5 +872,106 @@ class WebhookControllerAndExecutorTest {
         } catch (Exception e) {
             throw new RuntimeException("Failed to calculate HMAC-SHA256", e);
         }
+    }
+
+    /**
+     * Build Feishu callback JSON payload.
+     *
+     * @param sessionId  The worker session ID
+     * @param toolCallId The tool call ID
+     * @param approved   Whether the user approved
+     * @return JSON payload string
+     */
+    private String buildFeishuCallbackJson(String sessionId, String toolCallId, boolean approved) {
+        return String.format("""
+            {
+              "schema": "2.0",
+              "header": {
+                "event_id": "event-123",
+                "event_type": "im.message.receive_v1",
+                "tenant_key": "test-tenant",
+                "app_id": "test-app",
+                "create_time": "%d"
+              },
+              "action": {
+                "value": "{\\\"session_id\\\":\\\"%s\\\",\\\"tool_call_id\\\":\\\"%s\\\",\\\"approved\\\":%s}"
+              }
+            }
+            """,
+            System.currentTimeMillis() / 1000,
+            sessionId, toolCallId, approved
+        );
+    }
+
+    /**
+     * Build Slack callback payload (URL-encoded).
+     *
+     * @param sessionId  The worker session ID
+     * @param toolCallId The tool call ID
+     * @param approved   Whether the user approved
+     * @return URL-encoded payload string
+     */
+    private String buildSlackCallbackPayload(String sessionId, String toolCallId, boolean approved) {
+        String jsonPayload = String.format("""
+            {
+              "type": "interactive_message",
+              "actions": [
+                {
+                  "name": "action_name",
+                  "value": "{\\"session_id\\":\\"%s\\",\\"tool_call_id\\":\\"%s\\",\\"approved\\":%s}"
+                }
+              ],
+              "callback_id": "callback-123",
+              "team": {
+                "id": "T123"
+              },
+              "channel": {
+                "id": "C123"
+              },
+              "user": {
+                "id": "U123"
+              }
+            }
+            """,
+            sessionId, toolCallId, approved
+        );
+
+        return java.net.URLEncoder.encode(jsonPayload, java.nio.charset.StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Build Slack callback payload with action name instead of value JSON.
+     *
+     * @param sessionId  The worker session ID
+     * @param toolCallId The tool call ID
+     * @param actionName The action name (approve_action or reject_action)
+     * @return URL-encoded payload string
+     */
+    private String buildSlackCallbackPayloadWithActionName(String sessionId, String toolCallId, String actionName) {
+        String jsonPayload = String.format("""
+            {
+              "type": "interactive_message",
+              "actions": [
+                {
+                  "name": "%s",
+                  "value": "{\\"session_id\\":\\"%s\\",\\"tool_call_id\\":\\"%s\\"}"
+                }
+              ],
+              "callback_id": "callback-123",
+              "team": {
+                "id": "T123"
+              },
+              "channel": {
+                "id": "C123"
+              },
+              "user": {
+                "id": "U123"
+              }
+            }
+            """,
+            actionName, sessionId, toolCallId
+        );
+
+        return java.net.URLEncoder.encode(jsonPayload, java.nio.charset.StandardCharsets.UTF_8);
     }
 }

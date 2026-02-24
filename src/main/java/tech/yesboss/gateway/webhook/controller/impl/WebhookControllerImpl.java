@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import tech.yesboss.gateway.webhook.controller.WebhookController;
 import tech.yesboss.gateway.webhook.executor.WebhookEventExecutor;
 import tech.yesboss.gateway.webhook.model.ImWebhookEvent;
+import tech.yesboss.safeguard.SuspendResumeEngine;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -46,6 +47,7 @@ public class WebhookControllerImpl implements WebhookController {
     private static final long SLACK_SIGNATURE_TOLERANCE_SECONDS = 300;
 
     private final WebhookEventExecutor executor;
+    private final SuspendResumeEngine suspendResumeEngine;
     private final String feishuAppSecret;
     private final String slackSigningSecret;
     private final ObjectMapper objectMapper;
@@ -54,20 +56,26 @@ public class WebhookControllerImpl implements WebhookController {
      * Creates a new WebhookControllerImpl.
      *
      * @param executor            The async event executor
+     * @param suspendResumeEngine The suspend/resume engine for human-in-the-loop callbacks
      * @param feishuAppSecret     The Feishu app encrypt key for signature verification (can be empty for testing)
      * @param slackSigningSecret  The Slack signing secret for signature verification (can be empty for testing)
-     * @throws IllegalArgumentException if executor is null
+     * @throws IllegalArgumentException if executor or suspendResumeEngine is null
      */
     public WebhookControllerImpl(
         WebhookEventExecutor executor,
+        SuspendResumeEngine suspendResumeEngine,
         String feishuAppSecret,
         String slackSigningSecret
     ) {
         if (executor == null) {
             throw new IllegalArgumentException("executor cannot be null");
         }
+        if (suspendResumeEngine == null) {
+            throw new IllegalArgumentException("suspendResumeEngine cannot be null");
+        }
 
         this.executor = executor;
+        this.suspendResumeEngine = suspendResumeEngine;
         this.feishuAppSecret = (feishuAppSecret != null && !feishuAppSecret.isEmpty()) ? feishuAppSecret : "";
         this.slackSigningSecret = (slackSigningSecret != null && !slackSigningSecret.isEmpty()) ? slackSigningSecret : "";
         this.objectMapper = new ObjectMapper();
@@ -422,5 +430,340 @@ public class WebhookControllerImpl implements WebhookController {
         }
 
         return "unknown-user";
+    }
+
+    // ==================== Interactive Callback Methods ====================
+
+    @Override
+    public String handleFeishuCallback(String timestamp, String nonce, String signature, String body) {
+        logger.info("Received Feishu interactive callback");
+
+        try {
+            // Validate inputs
+            if (body == null || body.isEmpty()) {
+                logger.warn("Empty Feishu callback body");
+                return HTTP_200_OK;
+            }
+
+            // Skip signature verification if secret is not configured (for testing)
+            if (!feishuAppSecret.isEmpty()) {
+                verifyFeishuSignature(timestamp, nonce, signature, body);
+            } else {
+                logger.debug("Feishu signature verification skipped (no secret configured)");
+            }
+
+            // Parse JSON payload
+            JsonNode rootNode = objectMapper.readTree(body);
+
+            // Extract callback action details
+            String sessionId = extractFeishuCallbackSessionId(rootNode);
+            String toolCallId = extractFeishuCallbackToolCallId(rootNode);
+            Boolean isApproved = extractFeishuCallbackApproval(rootNode);
+            String humanFeedback = extractFeishuCallbackFeedback(rootNode);
+
+            // Validate required fields
+            if (sessionId == null || sessionId.isEmpty()) {
+                logger.warn("Feishu callback missing session_id");
+                return HTTP_200_OK;
+            }
+            if (toolCallId == null || toolCallId.isEmpty()) {
+                logger.warn("Feishu callback missing tool_call_id");
+                return HTTP_200_OK;
+            }
+            if (isApproved == null) {
+                logger.warn("Feishu callback missing approved flag");
+                return HTTP_200_OK;
+            }
+
+            logger.info("Feishu callback parsed: session={}, toolCallId={}, approved={}",
+                sessionId, toolCallId, isApproved);
+
+            // Route to SuspendResumeEngine asynchronously
+            final String finalSessionId = sessionId;
+            final String finalToolCallId = toolCallId;
+            final Boolean finalIsApproved = isApproved;
+            final String finalHumanFeedback = humanFeedback;
+
+            // Use executor's thread pool for async processing
+            executor.processAsync(ImWebhookEvent.create(
+                "FEISHU",
+                "callback",
+                finalSessionId,
+                "callback-user",
+                body
+            ));
+
+            // Process the resume in the async executor
+            // We'll use a separate thread to avoid blocking the HTTP response
+            new Thread(() -> {
+                try {
+                    suspendResumeEngine.resume(finalSessionId, finalToolCallId,
+                        finalIsApproved, finalHumanFeedback);
+                    logger.info("Successfully processed Feishu callback resume for session {}", finalSessionId);
+                } catch (Exception e) {
+                    logger.error("Failed to process Feishu callback resume for session {}", finalSessionId, e);
+                }
+            }, "FeishuCallback-" + finalSessionId).start();
+
+            // Immediately return 200 OK
+            return HTTP_200_OK;
+
+        } catch (SecurityException e) {
+            logger.error("Feishu callback signature verification failed: {}", e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error processing Feishu callback: {}", e.getMessage(), e);
+            // Still return 200 OK to avoid retry storms
+            return HTTP_200_OK;
+        }
+    }
+
+    @Override
+    public String handleSlackCallback(String payload, String timestamp, String signature) {
+        logger.info("Received Slack interactive callback");
+
+        try {
+            // Validate inputs
+            if (payload == null || payload.isEmpty()) {
+                logger.warn("Empty Slack callback payload");
+                return HTTP_200_OK;
+            }
+
+            // Skip signature verification if secret is not configured (for testing)
+            if (!slackSigningSecret.isEmpty()) {
+                verifySlackSignature(timestamp, signature, payload);
+            } else {
+                logger.debug("Slack signature verification skipped (no secret configured)");
+            }
+
+            // Slack sends the payload as URL-encoded JSON in a "payload" form field
+            // We need to decode it first
+            String decodedPayload = java.net.URLDecoder.decode(payload, StandardCharsets.UTF_8);
+
+            // Parse JSON payload
+            JsonNode rootNode = objectMapper.readTree(decodedPayload);
+
+            // Extract callback action details
+            String sessionId = extractSlackCallbackSessionId(rootNode);
+            String toolCallId = extractSlackCallbackToolCallId(rootNode);
+            Boolean isApproved = extractSlackCallbackApproval(rootNode);
+            String humanFeedback = extractSlackCallbackFeedback(rootNode);
+
+            // Validate required fields
+            if (sessionId == null || sessionId.isEmpty()) {
+                logger.warn("Slack callback missing session_id");
+                return HTTP_200_OK;
+            }
+            if (toolCallId == null || toolCallId.isEmpty()) {
+                logger.warn("Slack callback missing tool_call_id");
+                return HTTP_200_OK;
+            }
+            if (isApproved == null) {
+                logger.warn("Slack callback missing approved flag");
+                return HTTP_200_OK;
+            }
+
+            logger.info("Slack callback parsed: session={}, toolCallId={}, approved={}",
+                sessionId, toolCallId, isApproved);
+
+            // Route to SuspendResumeEngine asynchronously
+            final String finalSessionId = sessionId;
+            final String finalToolCallId = toolCallId;
+            final Boolean finalIsApproved = isApproved;
+            final String finalHumanFeedback = humanFeedback;
+
+            // Process the resume in a separate thread
+            new Thread(() -> {
+                try {
+                    suspendResumeEngine.resume(finalSessionId, finalToolCallId,
+                        finalIsApproved, finalHumanFeedback);
+                    logger.info("Successfully processed Slack callback resume for session {}", finalSessionId);
+                } catch (Exception e) {
+                    logger.error("Failed to process Slack callback resume for session {}", finalSessionId, e);
+                }
+            }, "SlackCallback-" + finalSessionId).start();
+
+            // Immediately return 200 OK
+            return HTTP_200_OK;
+
+        } catch (SecurityException e) {
+            logger.error("Slack callback signature verification failed: {}", e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error processing Slack callback: {}", e.getMessage(), e);
+            // Still return 200 OK to avoid retry storms
+            return HTTP_200_OK;
+        }
+    }
+
+    // ==================== Feishu Callback Parsing Methods ====================
+
+    /**
+     * Extract session_id from Feishu callback payload.
+     * Feishu button value format: {"session_id":"xxx","tool_call_id":"yyy","approved":true}
+     */
+    private String extractFeishuCallbackSessionId(JsonNode rootNode) {
+        // Feishu action callback structure: { "action": { "value": "..." } }
+        JsonNode actionNode = rootNode.path("action");
+        if (actionNode.has("value")) {
+            String valueStr = actionNode.get("value").asText();
+            try {
+                JsonNode valueJson = objectMapper.readTree(valueStr);
+                if (valueJson.has("session_id")) {
+                    return valueJson.get("session_id").asText();
+                }
+            } catch (Exception e) {
+                logger.debug("Failed to parse button value as JSON: {}", valueStr);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Extract tool_call_id from Feishu callback payload.
+     */
+    private String extractFeishuCallbackToolCallId(JsonNode rootNode) {
+        JsonNode actionNode = rootNode.path("action");
+        if (actionNode.has("value")) {
+            String valueStr = actionNode.get("value").asText();
+            try {
+                JsonNode valueJson = objectMapper.readTree(valueStr);
+                if (valueJson.has("tool_call_id")) {
+                    return valueJson.get("tool_call_id").asText();
+                }
+            } catch (Exception e) {
+                logger.debug("Failed to parse button value as JSON: {}", valueStr);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Extract approved flag from Feishu callback payload.
+     */
+    private Boolean extractFeishuCallbackApproval(JsonNode rootNode) {
+        JsonNode actionNode = rootNode.path("action");
+        if (actionNode.has("value")) {
+            String valueStr = actionNode.get("value").asText();
+            try {
+                JsonNode valueJson = objectMapper.readTree(valueStr);
+                if (valueJson.has("approved")) {
+                    return valueJson.get("approved").asBoolean();
+                }
+            } catch (Exception e) {
+                logger.debug("Failed to parse button value as JSON: {}", valueStr);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Extract human feedback from Feishu callback payload.
+     * This is optional and may not be present in all callbacks.
+     */
+    private String extractFeishuCallbackFeedback(JsonNode rootNode) {
+        // Feishu may include user input in a specific field
+        // For now, return empty string as basic approval cards don't have feedback input
+        JsonNode actionNode = rootNode.path("action");
+        if (actionNode.has("text")) {
+            return actionNode.get("text").asText();
+        }
+        return "";
+    }
+
+    // ==================== Slack Callback Parsing Methods ====================
+
+    /**
+     * Extract session_id from Slack callback payload.
+     * Slack button value format: {"session_id":"xxx","tool_call_id":"yyy","approved":true}
+     */
+    private String extractSlackCallbackSessionId(JsonNode rootNode) {
+        // Slack interactive callback structure: { "actions": [ { "value": "..." } ] }
+        JsonNode actionsNode = rootNode.path("actions");
+        if (actionsNode.isArray() && actionsNode.size() > 0) {
+            JsonNode firstAction = actionsNode.get(0);
+            if (firstAction.has("value")) {
+                String valueStr = firstAction.get("value").asText();
+                try {
+                    JsonNode valueJson = objectMapper.readTree(valueStr);
+                    if (valueJson.has("session_id")) {
+                        return valueJson.get("session_id").asText();
+                    }
+                } catch (Exception e) {
+                    logger.debug("Failed to parse button value as JSON: {}", valueStr);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Extract tool_call_id from Slack callback payload.
+     */
+    private String extractSlackCallbackToolCallId(JsonNode rootNode) {
+        JsonNode actionsNode = rootNode.path("actions");
+        if (actionsNode.isArray() && actionsNode.size() > 0) {
+            JsonNode firstAction = actionsNode.get(0);
+            if (firstAction.has("value")) {
+                String valueStr = firstAction.get("value").asText();
+                try {
+                    JsonNode valueJson = objectMapper.readTree(valueStr);
+                    if (valueJson.has("tool_call_id")) {
+                        return valueJson.get("tool_call_id").asText();
+                    }
+                } catch (Exception e) {
+                    logger.debug("Failed to parse button value as JSON: {}", valueStr);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Extract approved flag from Slack callback payload.
+     * Can be derived from the action name (approve_action vs reject_action).
+     */
+    private Boolean extractSlackCallbackApproval(JsonNode rootNode) {
+        JsonNode actionsNode = rootNode.path("actions");
+        if (actionsNode.isArray() && actionsNode.size() > 0) {
+            JsonNode firstAction = actionsNode.get(0);
+
+            // First try to get from value JSON
+            if (firstAction.has("value")) {
+                String valueStr = firstAction.get("value").asText();
+                try {
+                    JsonNode valueJson = objectMapper.readTree(valueStr);
+                    if (valueJson.has("approved")) {
+                        return valueJson.get("approved").asBoolean();
+                    }
+                } catch (Exception e) {
+                    logger.debug("Failed to parse button value as JSON: {}", valueStr);
+                }
+            }
+
+            // Fallback: check action name
+            if (firstAction.has("name")) {
+                String actionName = firstAction.get("name").asText();
+                if ("approve_action".equals(actionName)) {
+                    return true;
+                } else if ("reject_action".equals(actionName)) {
+                    return false;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Extract human feedback from Slack callback payload.
+     * This is optional and may not be present in all callbacks.
+     */
+    private String extractSlackCallbackFeedback(JsonNode rootNode) {
+        // Slack may include user input in specific fields
+        // For now, check for a "text" field in the root
+        if (rootNode.has("text")) {
+            return rootNode.get("text").asText();
+        }
+        return "";
     }
 }

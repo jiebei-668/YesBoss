@@ -1535,3 +1535,46 @@ Test Coverage:
 
 All 31 tests passed successfully, confirming the WebhookController meets all requirements for
 immediate response and async delegation patterns.
+[2026-02-24 19:39:00] Task ID: 接入与路由模块_005
+Status: SUCCESS
+Description: Implement interactive UI card callback parsing for human-in-the-loop
+
+Implementation Summary:
+- Extended WebhookController interface with handleFeishuCallback() and handleSlackCallback() methods
+- Implemented callback parsing in WebhookControllerImpl to handle interactive button clicks
+- Extracted workerSessionId, toolCallId, isApproved, and humanFeedback from callback payloads
+- Implemented Feishu callback parsing:
+  * Extracts action value JSON from action.value field
+  * Parses session_id, tool_call_id, approved from the button value
+  * Supports optional human feedback from action.text field
+- Implemented Slack callback parsing:
+  * Decodes URL-encoded payload from "payload" form field
+  * Extracts action value from actions[0].value
+  * Supports both value JSON and action name parsing (approve_action/reject_action)
+- Integrated with SuspendResumeEngine.resume() for async processing
+- Added comprehensive parameter validation
+- Returns immediate 200 OK response to update card state
+
+Key Design Features:
+- Signature verification supported for both Feishu and Slack callbacks
+- Graceful degradation: returns 200 OK even on parsing errors to avoid retry storms
+- Async callback processing using separate threads
+- Thread-safe callback handling with immediate HTTP response
+- SLF4J logging for debugging and monitoring
+
+Test Results: 17/17 callback tests passed (100%)
+- Feishu callback tests: 8 tests covering return 200 OK, empty/null body, signature verification, approve/reject parsing
+- Slack callback tests: 9 tests covering return 200 OK, empty/null payload, signature verification, approve/reject parsing, action name parsing
+- Total tests: 48/48 passed (including existing tests)
+
+Files Created:
+- (No new files - extended existing WebhookController interface and implementation)
+
+Files Modified:
+- src/main/java/tech/yesboss/gateway/webhook/controller/WebhookController.java (added callback methods)
+- src/main/java/tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.java (implemented callback handling)
+- src/test/java/tech/yesboss/gateway/webhook/WebhookControllerAndExecutorTest.java (added 17 callback tests)
+
+Note: The implementation completes the human-in-the-loop workflow by handling user
+approval/rejection callbacks from IM platforms and routing them to SuspendResumeEngine
+for task resumption.
