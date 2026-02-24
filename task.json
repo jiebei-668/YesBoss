@@ -1126,7 +1126,7 @@
       "技术模块设计.md",
       "功能需求文档.txt"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "develop",

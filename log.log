@@ -1869,3 +1869,46 @@ Implementation Summary:
 Files Modified:
 - pom.xml (added jackson-dataformat-yaml dependency)
 
+
+[2026-02-24 20:55:07] Task ID: 配置管理模块_005
+Status: SUCCESS
+Description: Test configuration loading and environment variable substitution
+
+Test Results:
+- 12/12 tests passed (100% success rate)
+- All configuration loading tests passed
+- Environment variable substitution verified
+- All convenience methods validated
+
+Test Coverage:
+1. testLoadConfigurationFromClasspath - Verified application.yml loads successfully with all sections
+2. testEnvironmentVariableSubstitution - Verified ${VAR_NAME:default} syntax works with system properties
+3. testConfigurationManagerPropertyAccess - Verified nested property access (e.g., llm.anthropic.model.master)
+4. testConfigurationFallbackToDefaults - Verified default config creation when file is missing
+5. testConfigurationReload - Verified clearCache() and reloadConfig() functionality
+6. testInvalidConfigurationFileHandling - Verified ConfigLoadException thrown for invalid YAML
+7. testNestedConfigurationPropertyAccess - Verified deeply nested property access methods
+8. testConvenienceMethods - Verified all convenience methods return correct values:
+   * LLM provider status checks (isAnthropicEnabled, isGeminiEnabled, etc.)
+   * IM platform status checks (isFeishuEnabled, isSlackEnabled)
+   * Server configuration (getServerPort)
+   * Application settings (getEnvironment)
+   * Sandbox and threading config
+   * Logging configuration
+9. testCacheFunctionality - Verified cache behavior with clearCache()
+10. testSingletonBehavior - Verified ConfigurationManager singleton pattern
+11. testDefaultConfigurationCreation - Verified all default sections are created
+12. testConfigurationReloadFunctionality - Verified reloadConfig() works correctly
+
+Files Created:
+- src/test/java/tech/yesboss/config/ConfigurationManagementTest.java
+
+Files Modified:
+- src/main/resources/application.yml (converted all property names from kebab-case to camelCase)
+- pom.xml (added jackson-datatype-jsr310 dependency for Java 8 Date/Time support)
+
+Additional Notes:
+- Fixed YAML syntax issues (regex patterns in quotes)
+- Fixed property name mismatches between YAML and Java classes
+- All Jackson dependencies now properly configured for YAML parsing
+

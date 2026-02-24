@@ -39,7 +39,9 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/tracker/impl/ToolCallTrackerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/TaskSession.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/config/ConfigurationManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/LlmClient.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/config/YesBossConfig.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/state/model/ImRoute.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/state/impl/TaskManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/impl/ToolRegistryImpl.java
@@ -59,6 +61,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/session/SessionManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/impl/MasterRunnerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/config/ConfigLoader.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/SuspendResumeEngine.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteMessagesEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/ToolAccessLevel.java

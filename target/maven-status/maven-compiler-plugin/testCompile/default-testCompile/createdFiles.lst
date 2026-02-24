@@ -29,4 +29,5 @@ tech/yesboss/tool/mcp/McpToolAdapterTest.class
 tech/yesboss/gateway/ui/UICardRendererImplTest.class
 tech/yesboss/persistence/db/SingleThreadDbWriterTest.class
 tech/yesboss/domain/message/UnifiedMessageTest.class
+tech/yesboss/config/ConfigurationManagementTest.class
 tech/yesboss/persistence/db/DatabaseInitializerTest.class
