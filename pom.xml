@@ -51,6 +51,13 @@
             <version>2.16.0</version>
         </dependency>
 
+        <!-- YAML Processing -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.16.0</version>
+        </dependency>
+
         <!-- Anthropic Claude SDK -->
         <dependency>
             <groupId>com.anthropic</groupId>
