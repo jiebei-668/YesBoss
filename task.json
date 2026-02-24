@@ -852,7 +852,7 @@
       "3.4 极简UI与总结卡片.md",
       "整体架构设计.md"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "test",

@@ -35,6 +35,7 @@ tech/yesboss/persistence/event/UpdateTaskStatusEvent.class
 tech/yesboss/tool/tracker/ToolCallTracker.class
 tech/yesboss/runner/impl/WorkerRunnerImpl.class
 tech/yesboss/persistence/entity/TaskSession$ImType.class
+tech/yesboss/gateway/ui/UICardRenderer.class
 tech/yesboss/tool/SuspendExecutionException.class
 tech/yesboss/llm/impl/ModelRouter.class
 tech/yesboss/tool/registry/impl/ToolRegistryImpl.class
@@ -62,6 +63,7 @@ tech/yesboss/persistence/db/DatabaseInitializer.class
 tech/yesboss/tool/ToolAccessLevel.class
 tech/yesboss/state/impl/TaskManagerImpl.class
 tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.class
+tech/yesboss/runner/impl/MasterRunnerImpl$1.class
 tech/yesboss/tool/AgentTool.class
 tech/yesboss/persistence/repository/ToolExecutionRepository.class
 tech/yesboss/context/engine/impl/CondensationEngineImpl.class

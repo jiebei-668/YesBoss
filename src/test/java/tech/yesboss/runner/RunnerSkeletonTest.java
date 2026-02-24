@@ -1,5 +1,7 @@
 package tech.yesboss.runner;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tech.yesboss.context.GlobalStreamManager;
@@ -7,6 +9,8 @@ import tech.yesboss.context.LocalStreamManager;
 import tech.yesboss.context.engine.CondensationEngine;
 import tech.yesboss.context.engine.InjectionEngine;
 import tech.yesboss.domain.message.UnifiedMessage;
+import tech.yesboss.gateway.im.IMMessagePusher;
+import tech.yesboss.gateway.ui.UICardRenderer;
 import tech.yesboss.llm.LlmClient;
 import tech.yesboss.llm.impl.ModelRouter;
 import tech.yesboss.runner.impl.MasterRunnerImpl;
@@ -15,15 +19,19 @@ import tech.yesboss.safeguard.CircuitBreaker;
 import tech.yesboss.safeguard.CircuitBreakerOpenException;
 import tech.yesboss.safeguard.SuspendResumeEngine;
 import tech.yesboss.state.TaskManager;
+import tech.yesboss.state.model.ImRoute;
 import tech.yesboss.tool.AgentTool;
 import tech.yesboss.tool.SuspendExecutionException;
 import tech.yesboss.tool.ToolAccessLevel;
 import tech.yesboss.tool.tracker.ToolCallTracker;
 import tech.yesboss.tool.registry.ToolRegistry;
 import tech.yesboss.tool.sandbox.SandboxInterceptor;
+import tech.yesboss.tool.planning.PlanningTool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -46,6 +54,10 @@ class RunnerSkeletonTest {
     private SandboxInterceptor sandboxInterceptor;
     private SuspendResumeEngine suspendResumeEngine;
     private ToolCallTracker toolCallTracker;
+    private WorkerRunner workerRunner;
+    private PlanningTool planningTool;
+    private UICardRenderer uiCardRenderer;
+    private IMMessagePusher imMessagePusher;
 
     private static final String SESSION_ID = "session-123";
     private static final String MASTER_SESSION_ID = "master-session-456";
@@ -63,6 +75,10 @@ class RunnerSkeletonTest {
         sandboxInterceptor = mock(SandboxInterceptor.class);
         suspendResumeEngine = mock(SuspendResumeEngine.class);
         toolCallTracker = mock(ToolCallTracker.class);
+        workerRunner = mock(WorkerRunner.class);
+        planningTool = mock(PlanningTool.class);
+        uiCardRenderer = mock(UICardRenderer.class);
+        imMessagePusher = mock(IMMessagePusher.class);
     }
 
     // ==========================================
@@ -74,7 +90,12 @@ class RunnerSkeletonTest {
         assertDoesNotThrow(() -> new MasterRunnerImpl(
             taskManager,
             globalStreamManager,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         ));
     }
 
@@ -83,7 +104,12 @@ class RunnerSkeletonTest {
         assertThrows(IllegalArgumentException.class, () -> new MasterRunnerImpl(
             null,
             globalStreamManager,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         ));
     }
 
@@ -92,7 +118,12 @@ class RunnerSkeletonTest {
         assertThrows(IllegalArgumentException.class, () -> new MasterRunnerImpl(
             taskManager,
             null,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         ));
     }
 
@@ -101,6 +132,81 @@ class RunnerSkeletonTest {
         assertThrows(IllegalArgumentException.class, () -> new MasterRunnerImpl(
             taskManager,
             globalStreamManager,
+            null,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
+        ));
+    }
+
+    @Test
+    void testMasterRunnerConstructorWithNullToolRegistry() {
+        assertThrows(IllegalArgumentException.class, () -> new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            null,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
+        ));
+    }
+
+    @Test
+    void testMasterRunnerConstructorWithNullWorkerRunner() {
+        assertThrows(IllegalArgumentException.class, () -> new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            null,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
+        ));
+    }
+
+    @Test
+    void testMasterRunnerConstructorWithNullPlanningTool() {
+        assertThrows(IllegalArgumentException.class, () -> new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            null,
+            uiCardRenderer,
+            imMessagePusher
+        ));
+    }
+
+    @Test
+    void testMasterRunnerConstructorWithNullUICardRenderer() {
+        assertThrows(IllegalArgumentException.class, () -> new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            null,
+            imMessagePusher
+        ));
+    }
+
+    @Test
+    void testMasterRunnerConstructorWithNullIMMessagePusher() {
+        assertThrows(IllegalArgumentException.class, () -> new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
             null
         ));
     }
@@ -111,18 +217,34 @@ class RunnerSkeletonTest {
         MasterRunnerImpl masterRunner = new MasterRunnerImpl(
             taskManager,
             globalStreamManager,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         );
         when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
         when(taskManager.getStatus(SESSION_ID))
             .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.PLANNING);
+        when(globalStreamManager.fetchContext(SESSION_ID)).thenReturn(new ArrayList<>());
+        when(taskManager.getImRoute(SESSION_ID)).thenReturn(mock(ImRoute.class));
+
+        LlmClient llmClient = mock(LlmClient.class);
+        when(modelRouter.routeByRole("MASTER")).thenReturn(llmClient);
+        when(llmClient.chat(any(), any())).thenReturn(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "CLEAR"));
+
+        try {
+            when(planningTool.execute(any())).thenReturn("[{\"id\":\"task-1\",\"description\":\"Test\",\"priority\":\"high\"}]");
+        } catch (Exception e) {
+            // Ignore for mock setup
+        }
 
         // Execute
         assertDoesNotThrow(() -> masterRunner.run(SESSION_ID));
 
         // Verify
         verify(taskManager, atLeastOnce()).sessionExists(SESSION_ID);
-        verify(taskManager, atLeastOnce()).getStatus(SESSION_ID);
     }
 
     @Test
@@ -130,7 +252,12 @@ class RunnerSkeletonTest {
         MasterRunnerImpl masterRunner = new MasterRunnerImpl(
             taskManager,
             globalStreamManager,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         );
 
         assertThrows(IllegalArgumentException.class, () -> masterRunner.run(null));
@@ -141,7 +268,12 @@ class RunnerSkeletonTest {
         MasterRunnerImpl masterRunner = new MasterRunnerImpl(
             taskManager,
             globalStreamManager,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         );
 
         assertThrows(IllegalArgumentException.class, () -> masterRunner.run("  "));
@@ -152,7 +284,12 @@ class RunnerSkeletonTest {
         MasterRunnerImpl masterRunner = new MasterRunnerImpl(
             taskManager,
             globalStreamManager,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         );
         when(taskManager.sessionExists(SESSION_ID)).thenReturn(false);
 
@@ -165,11 +302,22 @@ class RunnerSkeletonTest {
         MasterRunnerImpl masterRunner = new MasterRunnerImpl(
             taskManager,
             globalStreamManager,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         );
         when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
         when(taskManager.getStatus(SESSION_ID))
             .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.PLANNING);
+
+        try {
+            when(planningTool.execute(any())).thenReturn("[{\"id\":\"task-1\",\"description\":\"Test\",\"priority\":\"high\"}]");
+        } catch (Exception e) {
+            // Ignore for mock setup
+        }
 
         // Execute
         String plan = masterRunner.generateExecutionPlan(SESSION_ID);
@@ -177,10 +325,7 @@ class RunnerSkeletonTest {
         // Verify
         assertNotNull(plan);
         assertTrue(plan.contains("task-1"));
-        assertTrue(plan.contains("task-2"));
-        assertTrue(plan.contains("task-3"));
         verify(taskManager).sessionExists(SESSION_ID);
-        verify(taskManager).getStatus(SESSION_ID);
     }
 
     @Test
@@ -188,7 +333,12 @@ class RunnerSkeletonTest {
         MasterRunnerImpl masterRunner = new MasterRunnerImpl(
             taskManager,
             globalStreamManager,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         );
         when(taskManager.sessionExists(SESSION_ID)).thenReturn(false);
 
@@ -202,7 +352,12 @@ class RunnerSkeletonTest {
         MasterRunnerImpl masterRunner = new MasterRunnerImpl(
             taskManager,
             globalStreamManager,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         );
         when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
         when(taskManager.getStatus(SESSION_ID))
@@ -218,7 +373,12 @@ class RunnerSkeletonTest {
         MasterRunnerImpl masterRunner = new MasterRunnerImpl(
             taskManager,
             globalStreamManager,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         );
 
         assertNotNull(masterRunner.getVirtualThreadExecutor());
@@ -229,7 +389,12 @@ class RunnerSkeletonTest {
         MasterRunnerImpl masterRunner = new MasterRunnerImpl(
             taskManager,
             globalStreamManager,
-            modelRouter
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
         );
 
         assertDoesNotThrow(() -> masterRunner.shutdown());

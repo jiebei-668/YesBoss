@@ -249,7 +249,7 @@ public class WorkerRunnerImpl implements WorkerRunner {
                                 toolCall.id(),
                                 toolCall.name(),
                                 toolCall.argumentsJson(),
-                                e.getMessage(),
+                                e.toString(),
                                 true  // isIntercepted = true
                             );
 

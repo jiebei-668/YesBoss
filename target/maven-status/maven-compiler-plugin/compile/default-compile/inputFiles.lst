@@ -55,3 +55,4 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/ToolAccessLevel.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/mcp/McpToolAdapter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertTaskSessionEvent.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/ui/UICardRenderer.java

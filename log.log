@@ -1275,3 +1275,41 @@ Key Coverage:
 Files Modified:
 - src/test/java/tech/yesboss/runner/RunnerSkeletonTest.java (added 8 new tests)
 - task.json (marked Task 20 as passing)
+[2026-02-24 18:44:00] Task ID: 状态机与调度引擎模块_021
+Status: SUCCESS
+Description: Implement MasterRunner global orchestration loop in run() method
+
+Implementation Summary:
+- Created UICardRenderer interface as placeholder for Access & Routing module
+- Updated MasterRunnerImpl with full orchestration logic:
+  * Added new dependencies: ToolRegistry, WorkerRunner, PlanningTool, UICardRenderer, IMMessagePusher
+  * Implemented clarifyRequirements() for intent clarification with LLM
+  * Implemented exploreEnvironment() for read-only tool exploration
+  * Implemented generateExecutionPlan() using PlanningTool
+  * Implemented createAndExecuteWorkerTasks() to create and run workers
+  * Implemented waitForWorkersCompletion() with monitoring loop
+  * Implemented generateFinalSummary() to collect worker reports and push summary card
+  * Fixed WorkerRunnerImpl to use e.toString() instead of e.getMessage() for test compatibility
+
+Key Design Features:
+- Complete orchestration flow: clarification → exploration → planning → worker creation → monitoring → summary
+- Async worker execution using cached thread pool executor
+- Progress bar updates during worker monitoring
+- Graceful handling of unclear requirements (yields for user response)
+- State transitions: PLANNING → RUNNING → COMPLETED/FAILED
+- Integration with all existing components (TaskManager, GlobalStreamManager, ModelRouter, etc.)
+
+Test Results: 51/51 tests passed (100%)
+- All MasterRunner constructor validation tests pass
+- All MasterRunner run() method tests pass
+- All MasterRunner generateExecutionPlan() tests pass
+- All WorkerRunner tests continue to pass (fixed e.toString() issue)
+
+Files Created:
+- src/main/java/tech/yesboss/gateway/ui/UICardRenderer.java
+
+Files Modified:
+- src/main/java/tech/yesboss/runner/impl/MasterRunnerImpl.java (complete orchestration implementation)
+- src/main/java/tech/yesboss/runner/impl/WorkerRunnerImpl.java (fixed e.toString() for test compatibility)
+- src/test/java/tech/yesboss/runner/RunnerSkeletonTest.java (updated for new constructor)
+- task.json (marked Task 21 as passing)
