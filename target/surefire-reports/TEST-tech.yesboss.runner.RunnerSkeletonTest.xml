@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.runner.RunnerSkeletonTest" time="1.222" tests="38" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/home/jiebei/qz_proj/YesBoss/target/test-classes:/home/jiebei/qz_proj/YesBoss/target/classes:/home/jiebei/.m2/repository/org/xerial/sqlite-jdbc/3.43.0.0/sqlite-jdbc-3.43.0.0.jar:/home/jiebei/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.0/jackson-databind-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.0/jackson-annotations-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.0/jackson-core-2.16.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.jar:/home/jiebei/.m2/repository/com/google/errorprone/error_prone_annotations/2.33.0/error_prone_annotations-2.33.0.jar:/home/jiebei/.m2/repository/io/swagger/core/v3/swagger-annotations/2.2.31/swagger-annotations-2.2.31.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.2/jackson-datatype-jdk8-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.18.2/jackson-module-kotlin-2.18.2.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.8.10/kotlin-reflect-1.8.10.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.2.4/httpcore5-5.2.4.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.3.1/httpclient5-5.3.1.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.2.4/httpcore5-h2-5.2.4.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-generator/4.38.0/jsonschema-generator-4.38.0.jar:/home/jiebei/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-jackson/4.38.0/jsonschema-module-jackson-4.38.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-swagger-2/4.38.0/jsonschema-module-swagger-2-4.38.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/okhttp/4.12.0/okhttp-4.12.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio/3.6.0/okio-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio-jvm/3.6.0/okio-jvm-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/logging-interceptor/4.12.0/logging-interceptor-4.12.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.0/kotlin-stdlib-jdk8-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.0/kotlin-stdlib-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.0/kotlin-stdlib-common-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0/kotlin-stdlib-jdk7-1.8.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/home/jiebei/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/home/jiebei/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/home/jiebei/.m2/repository/org/mockito/mockito-core/5.8.0/mockito-core-5.8.0.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar:/home/jiebei/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/jiebei/.m2/repository/org/mockito/mockito-junit-jupiter/5.8.0/mockito-junit-jupiter-5.8.0.jar:"/>
+    <property name="java.vm.vendor" value="Ubuntu"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://ubuntu.com/"/>
+    <property name="user.timezone" value="Asia/Shanghai"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
+    <property name="sun.java.command" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224180004566_3.jar /home/jiebei/qz_proj/YesBoss/target/surefire 2026-02-24T18-00-04_511-jvmRun1 surefire-20260224180004566_1tmp surefire_0-20260224180004566_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="RunnerSkeletonTest"/>
+    <property name="surefire.test.class.path" value="/home/jiebei/qz_proj/YesBoss/target/test-classes:/home/jiebei/qz_proj/YesBoss/target/classes:/home/jiebei/.m2/repository/org/xerial/sqlite-jdbc/3.43.0.0/sqlite-jdbc-3.43.0.0.jar:/home/jiebei/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.0/jackson-databind-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.0/jackson-annotations-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.0/jackson-core-2.16.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.jar:/home/jiebei/.m2/repository/com/google/errorprone/error_prone_annotations/2.33.0/error_prone_annotations-2.33.0.jar:/home/jiebei/.m2/repository/io/swagger/core/v3/swagger-annotations/2.2.31/swagger-annotations-2.2.31.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.2/jackson-datatype-jdk8-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.18.2/jackson-module-kotlin-2.18.2.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.8.10/kotlin-reflect-1.8.10.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.2.4/httpcore5-5.2.4.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.3.1/httpclient5-5.3.1.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.2.4/httpcore5-h2-5.2.4.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-generator/4.38.0/jsonschema-generator-4.38.0.jar:/home/jiebei/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-jackson/4.38.0/jsonschema-module-jackson-4.38.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-swagger-2/4.38.0/jsonschema-module-swagger-2-4.38.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/okhttp/4.12.0/okhttp-4.12.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio/3.6.0/okio-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio-jvm/3.6.0/okio-jvm-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/logging-interceptor/4.12.0/logging-interceptor-4.12.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.0/kotlin-stdlib-jdk8-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.0/kotlin-stdlib-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.0/kotlin-stdlib-common-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0/kotlin-stdlib-jdk7-1.8.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/home/jiebei/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/home/jiebei/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/home/jiebei/.m2/repository/org/mockito/mockito-core/5.8.0/mockito-core-5.8.0.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar:/home/jiebei/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/jiebei/.m2/repository/org/mockito/mockito-junit-jupiter/5.8.0/mockito-junit-jupiter-5.8.0.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/home/jiebei"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-04-15"/>
+    <property name="java.home" value="/usr/lib/jvm/java-17-openjdk-amd64"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/home/jiebei/qz_proj/YesBoss"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224180004566_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="17.0.15+6-Ubuntu-0ubuntu120.04"/>
+    <property name="user.name" value="jiebei"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="5.15.0-139-generic"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="/home/jiebei/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-17"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="java.version" value="17.0.15"/>
+    <property name="user.dir" value="/home/jiebei/qz_proj/YesBoss"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/home/jiebei/linux_demo/network/:/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Ubuntu"/>
+    <property name="java.vm.version" value="17.0.15+6-Ubuntu-0ubuntu120.04"/>
+    <property name="java.specification.maintenance.version" value="1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testWorkerRunnerGenerateExecutionReportWithNonExistentSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="1.025">
+    <system-out><![CDATA[18:00:05.950 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:05.970 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Generating execution report for session session-123
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerGetVirtualThreadExecutor" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.005">
+    <system-out><![CDATA[18:00:05.993 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithEmptyContext" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.005">
+    <system-out><![CDATA[18:00:05.999 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:05.999 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:00:06.000 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithToolResult" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.005">
+    <system-out><![CDATA[18:00:06.004 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:06.006 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:00:06.006 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message contains ToolResult, session session-123 is resuming from suspension
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerConstructorWithNullGlobalStreamManager" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003"/>
+  <testcase name="testMasterRunnerConstructorWithNullTaskManager" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003"/>
+  <testcase name="testWorkerRunnerConstructorWithNullModelRouter" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003"/>
+  <testcase name="testMasterRunnerRunWithNonExistentSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.006">
+    <system-out><![CDATA[18:00:06.023 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with thread pool executor
+18:00:06.024 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session session-123
+18:00:06.024 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner execution started for session session-123
+18:00:06.024 [main] ERROR tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner execution failed for session session-123
+java.lang.IllegalStateException: Session not found: session-123
+	at tech.yesboss.runner.impl.MasterRunnerImpl.run(MasterRunnerImpl.java:91)
+	at tech.yesboss.runner.RunnerSkeletonTest.lambda$testMasterRunnerRunWithNonExistentSession$7(RunnerSkeletonTest.java:159)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3111)
+	at tech.yesboss.runner.RunnerSkeletonTest.testMasterRunnerRunWithNonExistentSession(RunnerSkeletonTest.java:159)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerRunWithNullSessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[18:00:06.030 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with thread pool executor
+18:00:06.031 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session null
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerRunWithNullSessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[18:00:06.034 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:06.035 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session null
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerShutdown" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[18:00:06.038 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:06.039 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Shutting down WorkerRunner thread executor
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerRunWithValidSessionNewWorker" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.045">
+    <system-out><![CDATA[18:00:06.043 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:06.075 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+18:00:06.075 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:00:06.075 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
+18:00:06.075 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
+18:00:06.075 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
+18:00:06.076 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
+18:00:06.076 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+18:00:06.076 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+18:00:06.076 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
+18:00:06.077 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+18:00:06.077 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
+18:00:06.077 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
+18:00:06.077 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+18:00:06.077 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
+18:00:06.077 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
+18:00:06.078 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
+18:00:06.078 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerConstructorWithNullLocalStreamManager" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
+  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithMixedMessage" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[18:00:06.090 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:06.091 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:00:06.091 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message contains ToolResult, session session-123 is resuming from suspension
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerConstructorWithNullInjectionEngine" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003"/>
+  <testcase name="testWorkerRunnerConstructorWithNullSuspendResumeEngine" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003"/>
+  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithEmptySessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[18:00:06.100 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:06.101 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session    is resuming from suspension
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerConstructorWithValidParameters" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[18:00:06.104 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerRunWithEmptySessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[18:00:06.107 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with thread pool executor
+18:00:06.108 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session   
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerGetVirtualThreadExecutor" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[18:00:06.110 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with thread pool executor
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerRunWithValidSessionResumingWorker" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.006">
+    <system-out><![CDATA[18:00:06.113 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:06.114 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+18:00:06.115 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:00:06.115 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message contains ToolResult, session session-123 is resuming from suspension
+18:00:06.115 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: true
+18:00:06.115 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Resuming from suspension, skipping initialization
+18:00:06.115 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+18:00:06.115 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+18:00:06.115 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
+18:00:06.115 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 1 messages from local stream
+18:00:06.115 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
+18:00:06.116 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
+18:00:06.116 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+18:00:06.116 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
+18:00:06.116 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
+18:00:06.116 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
+18:00:06.116 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithTextMessage" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[18:00:06.119 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:06.120 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:00:06.120 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message does not contain ToolResult, treating session session-123 as new worker
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerShutdown" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[18:00:06.122 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with thread pool executor
+18:00:06.123 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Shutting down MasterRunner virtual thread executor
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerConstructorWithNullModelRouter" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
+  <testcase name="testWorkerRunnerConstructorWithNullToolRegistry" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
+  <testcase name="testWorkerRunnerGenerateExecutionReport" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[18:00:06.130 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:06.131 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Generating execution report for session session-123
+18:00:06.131 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Execution report generated for session session-123
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerConstructorWithNullSandboxInterceptor" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
+  <testcase name="testWorkerRunnerConstructorWithNullTaskManager" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
+  <testcase name="testWorkerRunnerConstructorWithNullCondensationEngine" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
+  <testcase name="testWorkerRunnerConstructorWithNullToolCallTracker" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
+  <testcase name="testMasterRunnerGenerateExecutionPlan" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[18:00:06.142 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with thread pool executor
+18:00:06.143 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generating execution plan for session session-123
+18:00:06.143 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Execution plan generated for session session-123: [
+  {
+    "id": "task-1",
+    "description": "Analyze requirements and gather context",
+    "priority": "high"
+  },
+  {
+    "id": "task-2",
+    "description": "Design solution architecture",
+    "priority": "high"
+  },
+  {
+    "id": "task-3",
+    "description": "Implement core functionality",
+    "priority": "medium"
+  }
+]
+
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerRunWithNonExistentSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[18:00:06.145 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:06.146 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+18:00:06.146 [main] ERROR tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner execution failed for session session-123
+java.lang.IllegalStateException: Session not found: session-123
+	at tech.yesboss.runner.impl.WorkerRunnerImpl.run(WorkerRunnerImpl.java:141)
+	at tech.yesboss.runner.RunnerSkeletonTest.lambda$testWorkerRunnerRunWithNonExistentSession$27(RunnerSkeletonTest.java:684)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3111)
+	at tech.yesboss.runner.RunnerSkeletonTest.testWorkerRunnerRunWithNonExistentSession(RunnerSkeletonTest.java:684)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerGenerateExecutionPlanWithWrongStatus" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[18:00:06.149 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with thread pool executor
+18:00:06.150 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generating execution plan for session session-123
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerRunWithValidSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.004">
+    <system-out><![CDATA[18:00:06.153 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with thread pool executor
+18:00:06.153 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session session-123
+18:00:06.154 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner execution started for session session-123
+18:00:06.154 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Session session-123 current status: PLANNING
+18:00:06.154 [main] DEBUG tech.yesboss.runner.impl.MasterRunnerImpl -- Step 1: Requirement clarification (placeholder)
+18:00:06.154 [main] DEBUG tech.yesboss.runner.impl.MasterRunnerImpl -- Step 2: Environment exploration (placeholder)
+18:00:06.154 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generating execution plan for session session-123
+18:00:06.154 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Execution plan generated for session session-123: [
+  {
+    "id": "task-1",
+    "description": "Analyze requirements and gather context",
+    "priority": "high"
+  },
+  {
+    "id": "task-2",
+    "description": "Design solution architecture",
+    "priority": "high"
+  },
+  {
+    "id": "task-3",
+    "description": "Implement core functionality",
+    "priority": "medium"
+  }
+]
+
+18:00:06.154 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated execution plan: [
+  {
+    "id": "task-1",
+    "description": "Analyze requirements and gather context",
+    "priority": "high"
+  },
+  {
+    "id": "task-2",
+    "description": "Design solution architecture",
+    "priority": "high"
+  },
+  {
+    "id": "task-3",
+    "description": "Implement core functionality",
+    "priority": "medium"
+  }
+]
+
+18:00:06.154 [main] DEBUG tech.yesboss.runner.impl.MasterRunnerImpl -- Step 4: Create worker tasks (placeholder)
+18:00:06.154 [main] DEBUG tech.yesboss.runner.impl.MasterRunnerImpl -- Step 5: Monitor worker execution (placeholder)
+18:00:06.154 [main] DEBUG tech.yesboss.runner.impl.MasterRunnerImpl -- Step 6: Generate final summary (placeholder)
+18:00:06.154 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner execution completed for session session-123
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerGenerateExecutionPlanWithNonExistentSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[18:00:06.157 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with thread pool executor
+18:00:06.158 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generating execution plan for session session-123
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerConstructorWithValidParameters" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[18:00:06.160 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with thread pool executor
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithNullSessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[18:00:06.162 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:00:06.162 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session null is resuming from suspension
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerConstructorWithNullCircuitBreaker" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
+</testsuite>

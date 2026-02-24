@@ -812,7 +812,7 @@
       "3.3 人机回环.md",
       "整体架构设计.md"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "test",

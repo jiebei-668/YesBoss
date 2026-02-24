@@ -4,13 +4,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tech.yesboss.context.GlobalStreamManager;
 import tech.yesboss.context.LocalStreamManager;
+import tech.yesboss.context.engine.CondensationEngine;
 import tech.yesboss.context.engine.InjectionEngine;
 import tech.yesboss.domain.message.UnifiedMessage;
+import tech.yesboss.llm.LlmClient;
 import tech.yesboss.llm.impl.ModelRouter;
 import tech.yesboss.runner.impl.MasterRunnerImpl;
 import tech.yesboss.runner.impl.WorkerRunnerImpl;
 import tech.yesboss.safeguard.CircuitBreaker;
+import tech.yesboss.safeguard.CircuitBreakerOpenException;
+import tech.yesboss.safeguard.SuspendResumeEngine;
 import tech.yesboss.state.TaskManager;
+import tech.yesboss.tool.AgentTool;
+import tech.yesboss.tool.SuspendExecutionException;
+import tech.yesboss.tool.ToolAccessLevel;
+import tech.yesboss.tool.tracker.ToolCallTracker;
+import tech.yesboss.tool.registry.ToolRegistry;
+import tech.yesboss.tool.sandbox.SandboxInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +39,13 @@ class RunnerSkeletonTest {
     private GlobalStreamManager globalStreamManager;
     private LocalStreamManager localStreamManager;
     private InjectionEngine injectionEngine;
+    private CondensationEngine condensationEngine;
     private ModelRouter modelRouter;
     private CircuitBreaker circuitBreaker;
+    private ToolRegistry toolRegistry;
+    private SandboxInterceptor sandboxInterceptor;
+    private SuspendResumeEngine suspendResumeEngine;
+    private ToolCallTracker toolCallTracker;
 
     private static final String SESSION_ID = "session-123";
     private static final String MASTER_SESSION_ID = "master-session-456";
@@ -41,8 +56,13 @@ class RunnerSkeletonTest {
         globalStreamManager = mock(GlobalStreamManager.class);
         localStreamManager = mock(LocalStreamManager.class);
         injectionEngine = mock(InjectionEngine.class);
+        condensationEngine = mock(CondensationEngine.class);
         modelRouter = mock(ModelRouter.class);
         circuitBreaker = mock(CircuitBreaker.class);
+        toolRegistry = mock(ToolRegistry.class);
+        sandboxInterceptor = mock(SandboxInterceptor.class);
+        suspendResumeEngine = mock(SuspendResumeEngine.class);
+        toolCallTracker = mock(ToolCallTracker.class);
     }
 
     // ==========================================
@@ -225,8 +245,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         ));
     }
 
@@ -236,8 +261,13 @@ class RunnerSkeletonTest {
             null,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         ));
     }
 
@@ -247,8 +277,13 @@ class RunnerSkeletonTest {
             taskManager,
             null,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         ));
     }
 
@@ -258,8 +293,29 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             null,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
+        ));
+    }
+
+    @Test
+    void testWorkerRunnerConstructorWithNullCondensationEngine() {
+        assertThrows(IllegalArgumentException.class, () -> new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            null,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         ));
     }
 
@@ -269,8 +325,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             null,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         ));
     }
 
@@ -280,7 +341,76 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
+            null,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
+        ));
+    }
+
+    @Test
+    void testWorkerRunnerConstructorWithNullToolRegistry() {
+        assertThrows(IllegalArgumentException.class, () -> new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            null,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
+        ));
+    }
+
+    @Test
+    void testWorkerRunnerConstructorWithNullSandboxInterceptor() {
+        assertThrows(IllegalArgumentException.class, () -> new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            null,
+            suspendResumeEngine,
+            toolCallTracker
+        ));
+    }
+
+    @Test
+    void testWorkerRunnerConstructorWithNullSuspendResumeEngine() {
+        assertThrows(IllegalArgumentException.class, () -> new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            null,
+            toolCallTracker
+        ));
+    }
+
+    @Test
+    void testWorkerRunnerConstructorWithNullToolCallTracker() {
+        assertThrows(IllegalArgumentException.class, () -> new WorkerRunnerImpl(
+            taskManager,
+            localStreamManager,
+            injectionEngine,
+            condensationEngine,
+            modelRouter,
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
             null
         ));
     }
@@ -292,8 +422,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
         when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(new ArrayList<>());
 
@@ -311,8 +446,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
         List<UnifiedMessage> context = List.of(
             UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Hello")
@@ -333,8 +473,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
         List<UnifiedMessage> context = List.of(
             UnifiedMessage.ofToolResult("call-123", "Tool output", false)
@@ -355,8 +500,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
         List<UnifiedMessage> context = List.of(
             UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Hello"),
@@ -377,8 +527,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
 
         assertThrows(IllegalArgumentException.class, () ->
@@ -392,8 +547,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
 
         assertThrows(IllegalArgumentException.class, () ->
@@ -408,21 +568,42 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
         when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
         when(taskManager.getParentSessionId(SESSION_ID)).thenReturn(MASTER_SESSION_ID);
         when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(new ArrayList<>());
         when(injectionEngine.injectInitialContext(eq(MASTER_SESSION_ID), anyString()))
             .thenReturn(UnifiedMessage.system("Initial prompt"));
+        doNothing().when(circuitBreaker).checkAndIncrement(SESSION_ID);
+
+        // Create a single mock LlmClient instance
+        LlmClient llmClientMock = mock(LlmClient.class);
+        when(modelRouter.routeByRole("WORKER")).thenReturn(llmClientMock);
+        when(localStreamManager.getCurrentTokenCount(SESSION_ID)).thenReturn(1000);
+
+        // Mock LLM response with no tool calls (task complete)
+        UnifiedMessage llmResponse = UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Task complete");
+        when(llmClientMock.chat(any(List.class), any(String.class))).thenReturn(llmResponse);
 
         // Execute
         assertDoesNotThrow(() -> workerRunner.run(SESSION_ID));
 
         // Verify initialization was called
         verify(injectionEngine).injectInitialContext(eq(MASTER_SESSION_ID), anyString());
-        verify(localStreamManager).appendWorkerMessage(eq(SESSION_ID), any());
+        verify(localStreamManager, atLeastOnce()).appendWorkerMessage(eq(SESSION_ID), any());
+
+        // Verify ReAct loop steps
+        verify(circuitBreaker).checkAndIncrement(SESSION_ID);
+        verify(condensationEngine).condenseAndMergeUpwards(SESSION_ID, MASTER_SESSION_ID);
+        verify(taskManager).transitionState(SESSION_ID,
+            tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
     }
 
     @Test
@@ -432,20 +613,38 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
         List<UnifiedMessage> context = List.of(
             UnifiedMessage.ofToolResult("call-123", "Tool output", false)
         );
         when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
         when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(context);
+        doNothing().when(circuitBreaker).checkAndIncrement(SESSION_ID);
+
+        // Create a single mock LlmClient instance
+        LlmClient llmClientMock = mock(LlmClient.class);
+        when(modelRouter.routeByRole("WORKER")).thenReturn(llmClientMock);
+        when(localStreamManager.getCurrentTokenCount(SESSION_ID)).thenReturn(1000);
+
+        // Mock LLM response with no tool calls (task complete)
+        UnifiedMessage llmResponse = UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Task complete");
+        when(llmClientMock.chat(any(List.class), any(String.class))).thenReturn(llmResponse);
 
         // Execute
         assertDoesNotThrow(() -> workerRunner.run(SESSION_ID));
 
         // Verify initialization was NOT called (resuming from suspension)
         verify(injectionEngine, never()).injectInitialContext(any(), any());
+
+        // Verify ReAct loop continued and completed
+        verify(circuitBreaker).checkAndIncrement(SESSION_ID);
     }
 
     @Test
@@ -454,8 +653,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
 
         assertThrows(IllegalArgumentException.class, () -> workerRunner.run(null));
@@ -467,8 +671,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
         when(taskManager.sessionExists(SESSION_ID)).thenReturn(false);
 
@@ -482,10 +691,19 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
         when(taskManager.sessionExists(SESSION_ID)).thenReturn(true);
+        when(taskManager.getStatus(SESSION_ID))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+        when(localStreamManager.fetchContext(SESSION_ID)).thenReturn(new ArrayList<>());
+        when(localStreamManager.getCurrentTokenCount(SESSION_ID)).thenReturn(1000);
 
         // Execute
         String report = workerRunner.generateExecutionReport(SESSION_ID);
@@ -494,6 +712,7 @@ class RunnerSkeletonTest {
         assertNotNull(report);
         assertTrue(report.contains(SESSION_ID));
         assertTrue(report.contains("COMPLETED"));
+        assertTrue(report.contains("0")); // Total Messages
     }
 
     @Test
@@ -502,8 +721,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
         when(taskManager.sessionExists(SESSION_ID)).thenReturn(false);
 
@@ -518,8 +742,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
 
         assertNotNull(workerRunner.getVirtualThreadExecutor());
@@ -531,8 +760,13 @@ class RunnerSkeletonTest {
             taskManager,
             localStreamManager,
             injectionEngine,
+            condensationEngine,
             modelRouter,
-            circuitBreaker
+            circuitBreaker,
+            toolRegistry,
+            sandboxInterceptor,
+            suspendResumeEngine,
+            toolCallTracker
         );
 
         assertDoesNotThrow(() -> workerRunner.shutdown());
