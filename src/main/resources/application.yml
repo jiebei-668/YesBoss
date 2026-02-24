@@ -43,7 +43,8 @@ llm:
 
   # Zhipu GLM Configuration
   zhipu:
-    enabled: ${ZHIPU_ENABLED:false}
+    # enabled: ${ZHIPU_ENABLED:false}
+    enabled: true
     apiKey: ${ZHIPU_API_KEY:}
     baseUrl: ${ZHIPU_BASE_URL:https://open.bigmodel.cn}
     model:
@@ -60,10 +61,10 @@ im:
   # Feishu Configuration
   feishu:
     enabled: ${FEISHU_ENABLED:true}
-    appId: ${FEISHU_APP_ID:}
-    appSecret: ${FEISHU_APP_SECRET:}
-    encryptKey: ${FEISHU_ENCRYPT_KEY:}
-    verificationToken: ${FEISHU_VERIFICATION_TOKEN:}
+    appId: ${FEISHU_APP_ID:cli_a905a3bc37b85cee}
+    appSecret: ${FEISHU_APP_SECRET:EeSLGM6u01phyKw161Pe3bAOuD5sumNV}
+    encryptKey: ${FEISHU_ENCRYPT_KEY:KOBEforever668!}
+    verificationToken: ${FEISHU_VERIFICATION_TOKEN:IN4yV9Fz7DALJKOQlfQo6flufO4rRjFV}
     webhook:
       path: ${FEISHU_WEBHOOK_PATH:/webhook/feishu}
       port: ${FEISHU_WEBHOOK_PORT:8080}
@@ -162,7 +163,7 @@ sandbox:
 # Logging Configuration
 # =============================================================================
 logging:
-  level: ${LOG_LEVEL:INFO}
+  level: ${LOG_LEVEL:DEBUG}
   format: ${LOG_FORMAT:text}
   # Console Logging
   console:

@@ -72,6 +72,13 @@
             <version>${anthropic.version}</version>
         </dependency>
 
+        <!-- SparkJava Web Framework -->
+        <dependency>
+            <groupId>com.sparkjava</groupId>
+            <artifactId>spark-core</artifactId>
+            <version>2.9.4</version>
+        </dependency>
+
         <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

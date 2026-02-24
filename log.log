@@ -1912,3 +1912,42 @@ Additional Notes:
 - Fixed property name mismatches between YAML and Java classes
 - All Jackson dependencies now properly configured for YAML parsing
 
+[2026-02-24 22:25:00] Task ID: 启动应用_001
+Status: SUCCESS
+Description: Create YesBossApplication main entry point with HTTP server
+
+Implementation Summary:
+- Added SparkJava web framework dependency to pom.xml
+- Created YesBossApplication.java as main entry point
+- Implemented basic HTTP server with webhook endpoints
+- Added health check endpoint at /health
+- Added Feishu webhook endpoint at /webhook/feishu
+- Added Slack webhook endpoint at /webhook/slack
+- Implemented CORS support for development
+- Server starts on configured port (default 8080)
+
+Note: This is a simplified version for testing webhook endpoints.
+Full business logic initialization (LLM clients, database, runners) will be added incrementally.
+
+Test Results:
+- Application compiles successfully
+- Health endpoint returns: {"status":"ok","service":"YesBoss"}
+- Server listening on port 8080
+
+Files Created:
+- src/main/java/tech/yesboss/YesBossApplication.java
+
+Files Modified:
+- pom.xml (added spark-core dependency)
+
+Configuration:
+- Uses existing application.yml for configuration
+- Port: 8080 (configurable via SERVER_PORT)
+- Feishu path: /webhook/feishu (configurable via FEISHU_WEBHOOK_PATH)
+- Slack path: /webhook/slack (configurable via SLACK_WEBHOOK_PATH)
+
+Next Steps:
+- Integrate database initialization
+- Integrate WebhookController for signature verification
+- Integrate WebhookEventExecutor for async processing
+- Initialize Master/Worker runners for business logic
