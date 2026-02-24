@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tech.yesboss.safeguard.CircuitBreakerTest
--------------------------------------------------------------------------------
-Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.091 s -- in tech.yesboss.safeguard.CircuitBreakerTest

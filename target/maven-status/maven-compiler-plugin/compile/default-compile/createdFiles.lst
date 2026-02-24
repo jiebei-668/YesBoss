@@ -15,6 +15,7 @@ tech/yesboss/context/engine/impl/InjectionEngineImpl.class
 tech/yesboss/persistence/entity/TaskSession$Role.class
 tech/yesboss/persistence/entity/ToolExecutionLog.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$ImType.class
+tech/yesboss/tool/planning/PlanningTool$PlanningRequest.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$2.class
 tech/yesboss/persistence/event/InsertMessageEvent.class
 tech/yesboss/context/engine/InjectionEngine.class
@@ -27,6 +28,7 @@ tech/yesboss/state/model/ImRoute.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent.class
 tech/yesboss/runner/impl/MasterRunnerImpl.class
 tech/yesboss/llm/LlmClient.class
+tech/yesboss/tool/planning/PlanningTool.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$1.class
 tech/yesboss/state/TaskManager.class
 tech/yesboss/persistence/event/UpdateTaskStatusEvent.class

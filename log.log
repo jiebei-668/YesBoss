@@ -1143,3 +1143,39 @@ The comprehensive test class RunnerSkeletonTest.java covered all specified requi
 - Verified run() method skips InjectionEngine when resuming from suspension
 
 All 33 tests passed successfully (100% pass rate).
+
+Task ID: 状态机与调度引擎模块_017 & 状态机与调度引擎模块_018
+Status: SUCCESS
+Description: Implement PlanningTool and verify JSON array generation
+
+Implementation Summary:
+- Created PlanningTool class implementing AgentTool interface
+  * Designed specifically for Master Agent use (READ_ONLY access level)
+  * Hardcoded specialized prompt template for breaking down large tasks
+  * Implements logic to trigger LLM to generate JSON array of sub-tasks
+  * JSON Schema validation for output format
+- Key features:
+  * Accepts PlanningRequest with taskDescription, context, and constraints
+  * Constructs detailed planning prompt with task breakdown guidelines
+  * Calls LlmClient.chat() with system prompt and user message
+  * Extracts and validates JSON array from LLM response
+  * Handles JSON embedded in additional text
+  * Comprehensive error handling for malformed JSON
+
+Test Results: 19/19 tests passed (100%)
+- Constructor validation tests: All passed
+- AgentTool interface tests (getName, getDescription, etc.): All passed
+- execute() method tests with various scenarios: All passed
+  * Clean JSON response
+  * JSON embedded in text
+  * Invalid inputs
+  * LLM errors
+- executeWithBypass() tests: All passed
+- Edge case tests (empty description, malformed JSON, large plans): All passed
+- Full context test verifying prompt construction: All passed
+
+Note: Task 18 (test task) was completed together with Task 17 (develop task) through comprehensive testing.
+
+Files Created:
+- src/main/java/tech/yesboss/tool/planning/PlanningTool.java
+- src/test/java/tech/yesboss/tool/planning/PlanningToolTest.java

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tech.yesboss.tool.planning.PlanningToolTest
+-------------------------------------------------------------------------------
+Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.938 s -- in tech.yesboss.tool.planning.PlanningToolTest

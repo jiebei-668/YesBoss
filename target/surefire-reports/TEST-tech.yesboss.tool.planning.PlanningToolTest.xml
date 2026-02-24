@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.407" tests="18" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.tool.planning.PlanningToolTest" time="0.938" tests="19" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,9 +13,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224072404770_3.jar /home/jiebei/qz_proj/YesBoss/target/surefire 2026-02-24T07-24-04_708-jvmRun1 surefire-20260224072404770_1tmp surefire_0-20260224072404770_2tmp"/>
+    <property name="sun.java.command" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224174730524_3.jar /home/jiebei/qz_proj/YesBoss/target/surefire 2026-02-24T17-47-30_454-jvmRun1 surefire-20260224174730524_1tmp surefire_0-20260224174730524_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="McpToolAdapterTest"/>
+    <property name="test" value="PlanningToolTest"/>
     <property name="surefire.test.class.path" value="/home/jiebei/qz_proj/YesBoss/target/test-classes:/home/jiebei/qz_proj/YesBoss/target/classes:/home/jiebei/.m2/repository/org/xerial/sqlite-jdbc/3.43.0.0/sqlite-jdbc-3.43.0.0.jar:/home/jiebei/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.0/jackson-databind-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.0/jackson-annotations-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.0/jackson-core-2.16.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.jar:/home/jiebei/.m2/repository/com/google/errorprone/error_prone_annotations/2.33.0/error_prone_annotations-2.33.0.jar:/home/jiebei/.m2/repository/io/swagger/core/v3/swagger-annotations/2.2.31/swagger-annotations-2.2.31.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.2/jackson-datatype-jdk8-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.18.2/jackson-module-kotlin-2.18.2.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.8.10/kotlin-reflect-1.8.10.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.2.4/httpcore5-5.2.4.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.3.1/httpclient5-5.3.1.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.2.4/httpcore5-h2-5.2.4.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-generator/4.38.0/jsonschema-generator-4.38.0.jar:/home/jiebei/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-jackson/4.38.0/jsonschema-module-jackson-4.38.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-swagger-2/4.38.0/jsonschema-module-swagger-2-4.38.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/okhttp/4.12.0/okhttp-4.12.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio/3.6.0/okio-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio-jvm/3.6.0/okio-jvm-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/logging-interceptor/4.12.0/logging-interceptor-4.12.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.0/kotlin-stdlib-jdk8-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.0/kotlin-stdlib-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.0/kotlin-stdlib-common-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0/kotlin-stdlib-jdk7-1.8.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/home/jiebei/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/home/jiebei/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/home/jiebei/.m2/repository/org/mockito/mockito-core/5.8.0/mockito-core-5.8.0.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar:/home/jiebei/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/jiebei/.m2/repository/org/mockito/mockito-junit-jupiter/5.8.0/mockito-junit-jupiter-5.8.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/home/jiebei"/>
@@ -29,7 +29,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224072404770_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224174730524_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.15+6-Ubuntu-0ubuntu120.04"/>
     <property name="user.name" value="jiebei"/>
@@ -54,33 +54,82 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testExecuteParsesContentArray" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.254">
-    <system-out><![CDATA[07:24:05.287 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: multi_output -> http://localhost:8765/mcp
-07:24:05.288 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: multi_output with arguments: {"query":"test"}
-07:24:05.293 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771889045292,"method":"tools/call","params":{"name":"multi_output","arguments":{"query":"test"}}}
-07:24:05.357 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
-  "result": {
-    "content": [
-      {"type": "text", "text": "First message"},
-      {"type": "text", "text": "Second message"}
-    ]
-  }
-}
+  <testcase name="testExecuteWithValidInputAndCleanJsonResponse" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.848">
+    <system-out><![CDATA[17:47:31.584 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.601 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+
+17:47:31.632 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+17:47:31.644 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+  {"id": "task-1", "description": "Design database schema", "priority": "high"},
+  {"id": "task-2", "description": "Implement user authentication", "priority": "high"},
+  {"id": "task-3", "description": "Create product catalog", "priority": "medium"}
+]
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithHttpError" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.008">
-    <system-out><![CDATA[07:24:05.370 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: server_error_tool -> http://localhost:8765/mcp
-07:24:05.370 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: server_error_tool with arguments: {}
-07:24:05.371 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771889045371,"method":"tools/call","params":{"name":"server_error_tool","arguments":{}}}
-07:24:05.373 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 500, body: Internal Server Error
-07:24:05.374 [main] ERROR tech.yesboss.tool.mcp.McpToolAdapter -- Failed to execute MCP tool: server_error_tool
-java.lang.Exception: MCP service returned error status: 500, body: Internal Server Error
-	at tech.yesboss.tool.mcp.McpToolAdapter.execute(McpToolAdapter.java:195)
-	at tech.yesboss.tool.mcp.McpToolAdapterTest.lambda$testExecuteWithHttpError$6(McpToolAdapterTest.java:256)
+  <testcase name="testConstructorWithNullLlmClient" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.003">
+    <system-out><![CDATA[17:47:31.660 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+]]></system-out>
+  </testcase>
+  <testcase name="testExecuteWithMalformedJsonInResponse" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.005">
+    <system-out><![CDATA[17:47:31.663 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.664 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+
+17:47:31.665 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+17:47:31.666 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
+]]></system-out>
+  </testcase>
+  <testcase name="testExecuteWithVeryLargePlan" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.005">
+    <system-out><![CDATA[17:47:31.669 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.670 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+
+17:47:31.671 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+17:47:31.672 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+  {"id": "task-1", "description": "Sub task 1", "priority": "medium"},
+  {"id": "task-2", "description": "Sub task 2", "priority": "medium"},
+  {"id": "task-3", "description": "Sub task 3", "priority": "medium"},
+  {"id": "task-4", "description": "Sub task 4", "priority": "medium"},
+  {"id": "task-5", "description": "Sub task 5", "priority": "medium"},
+  {"id": "task-6", "description": "Sub task 6", "priority": "medium"},
+  {"id": "task-7", "description": "Sub task 7", "priority": "medium"},
+  {"id": "task-8", "description": "Sub task 8", "priority": "medium"},
+  {"id": "task-9", "description": "Sub task 9", "priority": "medium"},
+  {"id": "task-10", "description": "Sub task 10", "priority": "medium"},
+  {"id": "task-11", "description": "Sub task 11", "priority": "medium"},
+  {"id": "task-12", "description": "Sub task 12", "priority": "medium"},
+  {"id": "task-13", "description": "Sub task 13", "priority": "medium"},
+  {"id": "task-14", "description": "Sub task 14", "priority": "medium"},
+  {"id": "task-15", "description": "Sub task 15", "priority": "medium"},
+  {"id": "task-16", "description": "Sub task 16", "priority": "medium"},
+  {"id": "task-17", "description": "Sub task 17", "priority": "medium"},
+  {"id": "task-18", "description": "Sub task 18", "priority": "medium"},
+  {"id": "task-19", "description": "Sub task 19", "priority": "medium"},
+  {"id": "task-20", "description": "Sub task 20", "priority": "medium"}
+]
+]]></system-out>
+  </testcase>
+  <testcase name="testExecuteWithInvalidJson" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.006">
+    <system-out><![CDATA[17:47:31.675 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.675 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {invalid json
+17:47:31.676 [main] ERROR tech.yesboss.tool.planning.PlanningTool -- Failed to parse arguments: {invalid json
+com.fasterxml.jackson.core.JsonParseException: Unexpected character ('i' (code 105)): was expecting double-quote to start field name
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 3]
+	at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:2481)
+	at com.fasterxml.jackson.core.base.ParserMinimalBase._reportError(ParserMinimalBase.java:752)
+	at com.fasterxml.jackson.core.base.ParserMinimalBase._reportUnexpectedChar(ParserMinimalBase.java:676)
+	at com.fasterxml.jackson.core.json.ReaderBasedJsonParser._handleOddName(ReaderBasedJsonParser.java:1943)
+	at com.fasterxml.jackson.core.json.ReaderBasedJsonParser.nextToken(ReaderBasedJsonParser.java:741)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:181)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:342)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4899)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3846)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3814)
+	at tech.yesboss.tool.planning.PlanningTool.parseRequest(PlanningTool.java:155)
+	at tech.yesboss.tool.planning.PlanningTool.execute(PlanningTool.java:116)
+	at tech.yesboss.tool.planning.PlanningToolTest.lambda$testExecuteWithInvalidJson$3(PlanningToolTest.java:163)
 	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
 	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
 	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3111)
-	at tech.yesboss.tool.mcp.McpToolAdapterTest.testExecuteWithHttpError(McpToolAdapterTest.java:255)
+	at tech.yesboss.tool.planning.PlanningToolTest.testExecuteWithInvalidJson(PlanningToolTest.java:163)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -154,132 +203,96 @@ java.lang.Exception: MCP service returned error status: 500, body: Internal Serv
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithEmptyArguments" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.004">
-    <system-out><![CDATA[07:24:05.378 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: no_args_tool -> http://localhost:8765/mcp
-07:24:05.378 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: no_args_tool with arguments: 
-07:24:05.378 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771889045378,"method":"tools/call","params":{"name":"no_args_tool","arguments":{}}}
-07:24:05.381 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
-  "result": {
-    "content": [
-      {"type": "text", "text": "Executed with empty args"}
-    ]
-  }
-}
+  <testcase name="testGetParametersJsonSchema" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[17:47:31.681 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.682 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithNullEndpoint" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.001"/>
-  <testcase name="testConstructorWithNullDescription" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.001"/>
-  <testcase name="testConstructorWithNullAccessLevel" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.001"/>
-  <testcase name="testExecuteSendsFormattedRequest" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.005">
-    <system-out><![CDATA[07:24:05.388 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: weather_check -> http://localhost:8765/mcp
-07:24:05.388 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: weather_check with arguments: {"location":"Tokyo","unit":"celsius"}
-07:24:05.388 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771889045388,"method":"tools/call","params":{"name":"weather_check","arguments":{"location":"Tokyo","unit":"celsius"}}}
-07:24:05.390 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
-  "result": {
-    "content": [
-      {"type": "text", "text": "Tool executed successfully"}
-    ]
-  }
-}
+  <testcase name="testGetName" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
+    <system-out><![CDATA[17:47:31.684 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.684 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithBypass" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.003">
-    <system-out><![CDATA[07:24:05.394 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: bypass_tool -> http://localhost:8765/mcp
-07:24:05.394 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool with bypass: bypass_tool
-07:24:05.394 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: bypass_tool with arguments: {"test":"value"}
-07:24:05.394 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771889045394,"method":"tools/call","params":{"name":"bypass_tool","arguments":{"test":"value"}}}
-07:24:05.396 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
-  "result": {
-    "content": [
-      {"type": "text", "text": "Bypass executed"}
-    ]
-  }
-}
+  <testcase name="testExecuteWithBypassCallsExecute" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.003">
+    <system-out><![CDATA[17:47:31.686 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.687 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+
+17:47:31.688 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+17:47:31.689 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+  {"id": "task-1", "description": "Design database schema", "priority": "high"},
+  {"id": "task-2", "description": "Implement user authentication", "priority": "high"},
+  {"id": "task-3", "description": "Create product catalog", "priority": "medium"}
+]
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithEmptyToolName" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.005"/>
-  <testcase name="testExecuteWithoutAuth" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.005">
-    <system-out><![CDATA[07:24:05.403 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: no_auth_tool -> http://localhost:8765/mcp
-07:24:05.404 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: no_auth_tool with arguments: {}
-07:24:05.404 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771889045404,"method":"tools/call","params":{"name":"no_auth_tool","arguments":{}}}
-07:24:05.406 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
-  "result": {
-    "content": [
-      {"type": "text", "text": "OK"}
-    ]
-  }
+  <testcase name="testExecuteWithFullContext" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.005">
+    <system-out><![CDATA[17:47:31.691 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.691 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {
+  "taskDescription": "Build API",
+  "context": "RESTful API for user management",
+  "constraints": "Must use Spring Boot"
 }
+
+17:47:31.693 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build API
+17:47:31.693 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+  {"id": "task-1", "description": "Design database schema", "priority": "high"},
+  {"id": "task-2", "description": "Implement user authentication", "priority": "high"},
+  {"id": "task-3", "description": "Create product catalog", "priority": "medium"}
+]
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithNullToolName" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.001"/>
-  <testcase name="testExecuteWithSingleContent" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.008">
-    <system-out><![CDATA[07:24:05.409 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: single_output -> http://localhost:8765/mcp
-07:24:05.409 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: single_output with arguments: {}
-07:24:05.410 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771889045409,"method":"tools/call","params":{"name":"single_output","arguments":{}}}
-07:24:05.411 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
-  "result": {
-    "content": {"type": "text", "text": "Single result"}
-  }
-}
+  <testcase name="testExecuteWithLlmReturningJsonObjectInsteadOfArray" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.004">
+    <system-out><![CDATA[17:47:31.697 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.698 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+
+17:47:31.699 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+17:47:31.700 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithComplexArguments" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.004">
-    <system-out><![CDATA[07:24:05.419 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: complex_tool -> http://localhost:8765/mcp
-07:24:05.419 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: complex_tool with arguments: {"query":"SELECT * FROM users","params":[1,2,3],"options":{"timeout":5000,"retries":3}}
-07:24:05.419 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771889045419,"method":"tools/call","params":{"name":"complex_tool","arguments":{"query":"SELECT * FROM users","params":[1,2,3],"options":{"timeout":5000,"retries":3}}}}
-07:24:05.421 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
-  "result": {
-    "content": [
-      {"type": "text", "text": "Complex args processed"}
-    ]
-  }
-}
+  <testcase name="testExecuteWithMinimalTaskDescription" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.004">
+    <system-out><![CDATA[17:47:31.702 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.703 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Simple task"}
+
+17:47:31.704 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Simple task
+17:47:31.705 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+  {"id": "task-1", "description": "Design database schema", "priority": "high"},
+  {"id": "task-2", "description": "Implement user authentication", "priority": "high"},
+  {"id": "task-3", "description": "Create product catalog", "priority": "medium"}
+]
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteIncludesToolName" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.004">
-    <system-out><![CDATA[07:24:05.423 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: search_database -> http://localhost:8765/mcp
-07:24:05.423 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: search_database with arguments: {"query":"SELECT * FROM users"}
-07:24:05.424 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771889045423,"method":"tools/call","params":{"name":"search_database","arguments":{"query":"SELECT * FROM users"}}}
-07:24:05.425 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
-  "result": {
-    "content": [
-      {"type": "text", "text": "OK"}
-    ]
-  }
-}
+  <testcase name="testGetDescription" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[17:47:31.707 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.707 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithNullArguments" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.004">
-    <system-out><![CDATA[07:24:05.427 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: null_args_tool -> http://localhost:8765/mcp
-07:24:05.427 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: null_args_tool with arguments: null
-07:24:05.427 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771889045427,"method":"tools/call","params":{"name":"null_args_tool","arguments":{}}}
-07:24:05.429 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
-  "result": {
-    "content": [
-      {"type": "text", "text": "Executed with null args"}
-    ]
-  }
-}
+  <testcase name="testExecuteWithJsonEmbeddedInText" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.004">
+    <system-out><![CDATA[17:47:31.709 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.709 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+
+17:47:31.710 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+17:47:31.711 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
+17:47:31.711 [main] INFO tech.yesboss.tool.planning.PlanningTool -- Successfully extracted JSON from LLM response
+17:47:31.711 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+  {"id": "task-1", "description": "Design database schema", "priority": "high"},
+  {"id": "task-2", "description": "Implement user authentication", "priority": "high"}
+]
 ]]></system-out>
   </testcase>
-  <testcase name="testExecuteWithError" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.005">
-    <system-out><![CDATA[07:24:05.431 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: failing_tool -> http://localhost:8765/mcp
-07:24:05.432 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- Executing MCP tool: failing_tool with arguments: {}
-07:24:05.432 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP request: {"jsonrpc":"2.0","id":1771889045432,"method":"tools/call","params":{"name":"failing_tool","arguments":{}}}
-07:24:05.433 [main] DEBUG tech.yesboss.tool.mcp.McpToolAdapter -- MCP response status: 200, body: {
-  "error": {
-    "code": -32600,
-    "message": "Invalid Request"
-  }
-}
-07:24:05.434 [main] ERROR tech.yesboss.tool.mcp.McpToolAdapter -- Failed to execute MCP tool: failing_tool
-java.lang.Exception: MCP service error: Invalid Request
-	at tech.yesboss.tool.mcp.McpToolAdapter.execute(McpToolAdapter.java:190)
-	at tech.yesboss.tool.mcp.McpToolAdapterTest.lambda$testExecuteWithError$5(McpToolAdapterTest.java:237)
+  <testcase name="testExecuteWithNullArguments" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
+    <system-out><![CDATA[17:47:31.714 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.714 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: null
+17:47:31.715 [main] ERROR tech.yesboss.tool.planning.PlanningTool -- Failed to parse arguments: null
+java.lang.IllegalArgumentException: argument "content" is null
+	at com.fasterxml.jackson.databind.ObjectMapper._assertNotNull(ObjectMapper.java:5054)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3813)
+	at tech.yesboss.tool.planning.PlanningTool.parseRequest(PlanningTool.java:155)
+	at tech.yesboss.tool.planning.PlanningTool.execute(PlanningTool.java:116)
+	at tech.yesboss.tool.planning.PlanningToolTest.lambda$testExecuteWithNullArguments$2(PlanningToolTest.java:156)
 	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
 	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
 	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3111)
-	at tech.yesboss.tool.mcp.McpToolAdapterTest.testExecuteWithError(McpToolAdapterTest.java:236)
+	at tech.yesboss.tool.planning.PlanningToolTest.testExecuteWithNullArguments(PlanningToolTest.java:156)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -353,12 +366,41 @@ java.lang.Exception: MCP service error: Invalid Request
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorDefaultAccessLevel" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.001">
-    <system-out><![CDATA[07:24:05.436 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: test_tool -> http://example.com/mcp
+  <testcase name="testExecuteWithEmptyTaskDescription" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.004">
+    <system-out><![CDATA[17:47:31.717 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.718 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": ""}
+
+17:47:31.718 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: 
+17:47:31.719 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool completed successfully, generated plan: [
+  {"id": "task-1", "description": "Design database schema", "priority": "high"},
+  {"id": "task-2", "description": "Implement user authentication", "priority": "high"},
+  {"id": "task-3", "description": "Create product catalog", "priority": "medium"}
+]
 ]]></system-out>
   </testcase>
-  <testcase name="testConstructorWithValidParameters" classname="tech.yesboss.tool.mcp.McpToolAdapterTest" time="0.001">
-    <system-out><![CDATA[07:24:05.438 [main] INFO tech.yesboss.tool.mcp.McpToolAdapter -- Created MCP tool adapter: test_tool -> http://example.com/mcp
+  <testcase name="testGetAccessLevel" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.001">
+    <system-out><![CDATA[17:47:31.721 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.722 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+]]></system-out>
+  </testcase>
+  <testcase name="testConstructorWithValidLlmClient" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
+    <system-out><![CDATA[17:47:31.724 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.725 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+]]></system-out>
+  </testcase>
+  <testcase name="testExecuteWithLlmException" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.004">
+    <system-out><![CDATA[17:47:31.726 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.728 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+
+17:47:31.728 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+]]></system-out>
+  </testcase>
+  <testcase name="testExecuteWithLlmReturningNonJson" classname="tech.yesboss.tool.planning.PlanningToolTest" time="0.002">
+    <system-out><![CDATA[17:47:31.730 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool initialized
+17:47:31.731 [main] INFO tech.yesboss.tool.planning.PlanningTool -- PlanningTool.execute called with arguments: {"taskDescription": "Build a web application", "context": "E-commerce site", "constraints": "Use Java"}
+
+17:47:31.732 [main] DEBUG tech.yesboss.tool.planning.PlanningTool -- Calling LLM with planning prompt for task: Build a web application
+17:47:31.732 [main] WARN tech.yesboss.tool.planning.PlanningTool -- Direct JSON parsing failed, attempting to extract JSON from response
 ]]></system-out>
   </testcase>
 </testsuite>
