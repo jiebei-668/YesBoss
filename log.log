@@ -1030,3 +1030,44 @@ This task was completed together with Task 011:
 - Verified counter cleanup after exception is thrown
 
 All 24 tests pass successfully, confirming the implementation meets requirements.
+
+Task ID: 状态机与调度引擎模块_013
+Status: SUCCESS
+Description: Implement SuspendResumeEngine for human-in-the-loop workflow
+
+Implementation Summary:
+- Created IMMessagePusher interface (placeholder for Access & Routing module)
+  * pushCardMessage() - push card messages to IM
+  * pushTextMessage() - push text messages to IM
+  * pushMessage() - unified push interface for UnifiedMessage
+- Created SuspendResumeEngine interface with 2 core methods:
+  * suspendForApproval() - suspend task and request user approval
+  * resume() - resume task based on user decision
+- Created SuspendResumeEngineImpl with thread-exit suspension mode:
+  * suspendForApproval() transitions state to SUSPENDED
+  * Persists interception context to memory (ToolExecutionLog in production)
+  * Pushes approval card to IM via IMMessagePusher
+  * Appends system message to global stream
+  * resume() handles approval (executeWithBypass) or rejection (forge error)
+  * Appends ToolResult to LocalStreamManager
+  * Transitions state back to RUNNING
+  * Clears suspension context after completion
+
+Key Design Features:
+- Thread-exit suspension mode: Worker thread completely exits during suspension
+- Resource-efficient: Only database state persisted, no threads or memory占用
+- Service restart compatible: Context can be restored from database
+- User approval mandatory: Master cannot auto-decide, must wait for user IM response
+- Causal tracking: toolCallId preserved for context stitching
+
+Test Results: 28/28 tests passed (100%)
+- Constructor tests: All 7 dependency validation tests passed
+- suspendForApproval tests: 8 tests covering success, validation, and edge cases
+- resume tests: 13 tests covering approval/rejection paths and error handling
+- Integration tests: Verified state transitions and context management
+
+Files Created:
+- src/main/java/tech/yesboss/gateway/im/IMMessagePusher.java
+- src/main/java/tech/yesboss/safeguard/SuspendResumeEngine.java
+- src/main/java/tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.java
+- src/test/java/tech/yesboss/safeguard/SuspendResumeEngineTest.java

@@ -3,6 +3,7 @@
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/safeguard/CircuitBreakerTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/state/TaskManagerTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/persistence/repository/RepositoryLayerTest.java
+/home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/safeguard/SuspendResumeEngineTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/persistence/db/ManualSchemaTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/llm/impl/ModelRouterTest.java
 /home/jiebei/qz_proj/YesBoss/src/test/java/tech/yesboss/tool/sandbox/SandboxInterceptorTest.java

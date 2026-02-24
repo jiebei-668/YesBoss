@@ -14,6 +14,7 @@ tech/yesboss/tool/AgentToolAndExceptionTest.class
 tech/yesboss/tool/registry/ToolRegistryTest.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImplTest.class
 tech/yesboss/tool/sandbox/SandboxInterceptorTest.class
+tech/yesboss/safeguard/SuspendResumeEngineTest.class
 tech/yesboss/state/TaskManagerTest.class
 tech/yesboss/persistence/event/DbWriteEventTest.class
 tech/yesboss/tool/registry/ToolRegistryTest$1.class
