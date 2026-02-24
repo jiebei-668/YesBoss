@@ -952,3 +952,81 @@ This task was completed together with Task 009:
 - Verified all parameter validation works correctly
 
 All 29 tests pass successfully, confirming the implementation meets requirements.
+[2026-02-24 15:09:00] Task ID: 状态机与调度引擎模块_011
+Status: SUCCESS
+Description: Implement CircuitBreaker to prevent infinite ReAct loops
+
+Implementation Summary:
+- Created CircuitBreaker interface with core methods:
+  * checkAndIncrement(sessionId) - records and checks loop count
+  * reset(sessionId) - clears counter for session restart
+  * getCurrentCount(sessionId) - returns current loop count
+  * getThreshold() and setThreshold(int) - threshold management
+- Created CircuitBreakerOpenException extending RuntimeException:
+  * Contains sessionId, currentCount, and threshold information
+  * Provides detailed toString() for debugging
+  * Serializable for distributed systems support
+- Created CircuitBreakerImpl with:
+  * ConcurrentHashMap<String, AtomicInteger> for thread-safe counting
+  * Default threshold of 20 iterations
+  * Throws CircuitBreakerOpenException when count >= threshold
+  * Automatically removes counter after exception to save memory
+  * Supports per-session independent counters
+  * Provides clear logging at every 5 iterations
+  * Warns when approaching threshold
+- Added comprehensive parameter validation
+- Added SLF4J logging for debugging and monitoring
+
+Key Design Features:
+- Thread-safe implementation using ConcurrentHashMap and AtomicInteger
+- Independent counters for multiple concurrent sessions
+- Memory-efficient - removes counter after triggering exception
+- Configurable threshold for different scenarios
+- Clear error messages with session ID, count, and threshold
+
+Test Results: 24/24 tests passed (100%)
+- testConstructorWithDefaultThreshold: Verifies default threshold (20)
+- testConstructorWithCustomThreshold: Verifies custom threshold setting
+- testConstructorWithNegativeThreshold: Validates negative threshold rejection
+- testConstructorWithZeroThreshold: Validates zero threshold rejection
+- testCheckAndIncrement19TimesNoException: Verifies 19 iterations don't throw
+- testCheckAndIncrement20TimesThrowsException: Verifies 20th call throws exception
+- testCheckAndIncrementThrowsOnThreshold: Verifies exception at threshold
+- testResetClearsCounter: Verifies reset functionality
+- testResetNonExistentSession: Verifies reset of non-existent session
+- testGetCurrentCountForNonExistentSession: Verifies count for non-existent session
+- testGetCurrentCount: Verifies count retrieval accuracy
+- testCheckAndIncrementWithNullSessionId: Validates null sessionId rejection
+- testCheckAndIncrementWithEmptySessionId: Validates empty sessionId detection
+- testResetWithNullSessionId: Validates null sessionId rejection
+- testResetWithEmptySessionId: Validates empty sessionId detection
+- testGetCurrentCountWithNullSessionId: Validates null sessionId rejection
+- testGetCurrentCountWithEmptySessionId: Validates empty sessionId detection
+- testSetThreshold: Verifies threshold update
+- testSetThresholdWithNegativeValue: Validates negative threshold rejection
+- testSetThresholdWithZero: Validates zero threshold rejection
+- testMultipleSessionsIndependentCounters: Verifies independent session counters
+- testCounterRemovedAfterException: Verifies counter cleanup after exception
+- testClearAll: Verifies mass counter cleanup
+- testCircuitBreakerOpenExceptionContent: Verifies exception content
+
+Files Created:
+- src/main/java/tech/yesboss/safeguard/CircuitBreaker.java
+- src/main/java/tech/yesboss/safeguard/CircuitBreakerOpenException.java
+- src/main/java/tech/yesboss/safeguard/impl/CircuitBreakerImpl.java
+- src/test/java/tech/yesboss/safeguard/CircuitBreakerTest.java
+
+[2026-02-24 15:09:00] Task ID: 状态机与调度引擎模块_012
+Status: SUCCESS
+Description: Test CircuitBreaker loop counting and exception handling
+
+Verification Summary:
+This task was completed together with Task 011:
+- Initialized CircuitBreaker with default threshold of 20
+- Called checkAndIncrement 19 times and verified no exception was thrown
+- Called checkAndIncrement on the 20th time and verified CircuitBreakerOpenException was thrown
+- Called reset and verified the counter was back to 0
+- Verified independent counters for multiple concurrent sessions
+- Verified counter cleanup after exception is thrown
+
+All 24 tests pass successfully, confirming the implementation meets requirements.

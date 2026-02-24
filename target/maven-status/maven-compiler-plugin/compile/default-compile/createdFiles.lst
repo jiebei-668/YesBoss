@@ -1,5 +1,6 @@
 tech/yesboss/llm/VendorSdkAdapter.class
 tech/yesboss/persistence/repository/TaskSessionRepositoryImpl.class
+tech/yesboss/safeguard/CircuitBreaker.class
 tech/yesboss/context/engine/CondensationEngine.class
 tech/yesboss/persistence/event/DeleteMessagesEvent.class
 tech/yesboss/persistence/db/SQLiteConnectionManager.class
@@ -41,6 +42,7 @@ tech/yesboss/context/impl/GlobalStreamManagerImpl.class
 tech/yesboss/context/StreamType.class
 tech/yesboss/tool/registry/ToolRegistry.class
 tech/yesboss/context/GlobalStreamManager.class
+tech/yesboss/safeguard/impl/CircuitBreakerImpl.class
 tech/yesboss/persistence/entity/TaskSession.class
 tech/yesboss/persistence/repository/ChatMessageRepository.class
 tech/yesboss/domain/message/UnifiedMessage$ToolResult.class
@@ -55,4 +57,5 @@ tech/yesboss/persistence/repository/ToolExecutionRepository.class
 tech/yesboss/context/engine/impl/CondensationEngineImpl.class
 tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$TaskStatus.class
+tech/yesboss/safeguard/CircuitBreakerOpenException.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$AgentRole.class

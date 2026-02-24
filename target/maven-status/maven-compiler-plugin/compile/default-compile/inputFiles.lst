@@ -10,6 +10,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/LlmClient.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/state/model/ImRoute.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteTaskSessionEvent.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/impl/CircuitBreakerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/state/TaskManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/state/impl/TaskManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/impl/ToolRegistryImpl.java
@@ -18,6 +19,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/impl/GlobalStreamManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/SQLiteConnectionManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/impl/InjectionEngineImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/CircuitBreakerOpenException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/LocalStreamManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ToolExecutionRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.java
@@ -37,6 +39,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/impl/CondensationEngineImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteMessagesEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/domain/message/UnifiedMessage.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/CircuitBreaker.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/ToolAccessLevel.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/mcp/McpToolAdapter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/SuspendExecutionException.java
