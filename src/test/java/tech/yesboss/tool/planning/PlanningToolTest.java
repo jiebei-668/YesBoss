@@ -1,5 +1,6 @@
 package tech.yesboss.tool.planning;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tech.yesboss.domain.message.UnifiedMessage;
@@ -7,6 +8,7 @@ import tech.yesboss.llm.LlmClient;
 import tech.yesboss.tool.ToolAccessLevel;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -326,5 +328,103 @@ class PlanningToolTest {
 
         // Execute & Verify
         assertThrows(Exception.class, () -> planningTool.execute(VALID_TASK_JSON));
+    }
+
+    // ==========================================
+    // Schema Validation Tests (Task 18)
+    // ==========================================
+
+    @Test
+    void testExecuteReturnsValidJsonArrayMatchingSchema() throws Exception {
+        // Setup
+        UnifiedMessage mockResponse = UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, VALID_PLAN_RESPONSE);
+        when(llmClient.chat(any(List.class), any(String.class))).thenReturn(mockResponse);
+
+        // Execute
+        String result = planningTool.execute(VALID_TASK_JSON);
+
+        // Parse JSON and validate schema
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        List<Map<String, Object>> planArray = mapper.readValue(result,
+            new TypeReference<List<Map<String, Object>>>() {});
+
+        // Verify it's an array
+        assertNotNull(planArray);
+        assertFalse(planArray.isEmpty(), "Plan array should not be empty");
+
+        // Validate each task object matches the schema
+        for (Map<String, Object> task : planArray) {
+            // Verify required fields exist
+            assertTrue(task.containsKey("id"), "Task must have 'id' field");
+            assertTrue(task.containsKey("description"), "Task must have 'description' field");
+            assertTrue(task.containsKey("priority"), "Task must have 'priority' field");
+
+            // Verify field types
+            Object id = task.get("id");
+            Object description = task.get("description");
+            Object priority = task.get("priority");
+
+            assertTrue(id instanceof String, "Task 'id' must be a string");
+            assertTrue(description instanceof String, "Task 'description' must be a string");
+            assertTrue(priority instanceof String, "Task 'priority' must be a string");
+
+            // Verify priority is one of the allowed enum values
+            String priorityValue = (String) priority;
+            assertTrue(java.util.List.of("high", "medium", "low").contains(priorityValue),
+                "Task 'priority' must be one of: high, medium, low");
+
+            // Verify id and description are not empty
+            assertFalse(((String) id).trim().isEmpty(), "Task 'id' cannot be empty");
+            assertFalse(((String) description).trim().isEmpty(), "Task 'description' cannot be empty");
+        }
+
+        verify(llmClient).chat(any(List.class), any(String.class));
+    }
+
+    @Test
+    void testExecuteWithComplexUserRequirementGeneratesValidPlan() throws Exception {
+        // Setup - complex requirement
+        String complexRequirement = """
+            {
+              "taskDescription": "Build a complete e-commerce platform with user authentication, product catalog, shopping cart, payment integration, and order management",
+              "context": "Startup company, needs MVP in 3 months",
+              "constraints": "Must use Java, Spring Boot, and PostgreSQL"
+            }
+            """;
+
+        String complexPlanResponse = """
+            [
+              {"id": "task-1", "description": "Design database schema for users, products, and orders", "priority": "high"},
+              {"id": "task-2", "description": "Implement user registration and authentication", "priority": "high"},
+              {"id": "task-3", "description": "Create product catalog API with search and filtering", "priority": "high"},
+              {"id": "task-4", "description": "Build shopping cart functionality", "priority": "medium"},
+              {"id": "task-5", "description": "Integrate payment gateway", "priority": "high"},
+              {"id": "task-6", "description": "Implement order management system", "priority": "medium"}
+            ]
+            """;
+
+        UnifiedMessage mockResponse = UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, complexPlanResponse);
+        when(llmClient.chat(any(List.class), any(String.class))).thenReturn(mockResponse);
+
+        // Execute
+        String result = planningTool.execute(complexRequirement);
+
+        // Validate schema
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        List<Map<String, Object>> planArray = mapper.readValue(result,
+            new TypeReference<List<Map<String, Object>>>() {});
+
+        // Verify we got 6 tasks
+        assertEquals(6, planArray.size(), "Complex requirement should generate multiple sub-tasks");
+
+        // Verify all tasks follow the schema
+        for (java.util.Map<String, Object> task : planArray) {
+            assertEquals(3, task.size(), "Task should have exactly 3 fields");
+            assertTrue(task.containsKey("id"));
+            assertTrue(task.containsKey("description"));
+            assertTrue(task.containsKey("priority"));
+        }
+
+        verify(llmClient).chat(any(List.class), any(String.class));
     }
 }

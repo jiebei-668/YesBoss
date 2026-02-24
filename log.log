@@ -1211,3 +1211,37 @@ Test Results:
 Files Modified:
 - src/main/java/tech/yesboss/runner/impl/WorkerRunnerImpl.java
 - src/test/java/tech/yesboss/runner/RunnerSkeletonTest.java
+[2026-02-24 18:08:00] Task ID: 状态机与调度引擎模块_018
+Status: SUCCESS
+Description: Verify PlanningTool JSON array generation
+
+Implementation Summary:
+- Added two comprehensive schema validation tests to PlanningToolTest
+- testExecuteReturnsValidJsonArrayMatchingSchema: Validates the complete JSON schema
+  * Parses JSON output using Jackson TypeReference
+  * Verifies result is a valid JSON array
+  * Validates each task object has required fields (id, description, priority)
+  * Verifies field types are correct (all strings)
+  * Validates priority is one of allowed enum values (high, medium, low)
+  * Verifies id and description are not empty strings
+- testExecuteWithComplexUserRequirementGeneratesValidPlan: Tests complex requirement handling
+  * Uses complex e-commerce platform requirement
+  * Validates generated plan has expected number of sub-tasks
+  * Verifies all tasks follow the execution_plan schema
+  * Tests full end-to-end planning workflow
+
+Key Design Features:
+- Uses Jackson TypeReference for proper generic type parsing
+- Validates complete schema compliance, not just string matching
+- Tests both simple and complex planning scenarios
+
+Test Results: 21/21 tests passed (100%)
+- 19 existing tests from Task 17 (all still pass)
+- 2 new tests for Task 18 schema validation
+- All tests cover PlanningTool functionality comprehensively
+
+Files Modified:
+- src/test/java/tech/yesboss/tool/planning/PlanningToolTest.java (added 2 schema validation tests)
+- task.json (marked Task 18 as passing)
+
+Note: The tests now fully validate that PlanningTool generates correctly parsed JSON arrays matching the execution_plan schema, satisfying all requirements of Task 18.

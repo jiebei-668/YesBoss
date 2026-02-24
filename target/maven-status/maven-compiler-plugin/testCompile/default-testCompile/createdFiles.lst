@@ -5,6 +5,7 @@ tech/yesboss/safeguard/CircuitBreakerTest.class
 tech/yesboss/llm/impl/ModelRouterTest.class
 tech/yesboss/context/engine/CondensationEngineTest.class
 tech/yesboss/tool/AgentToolAndExceptionTest$MockAgentTool.class
+tech/yesboss/tool/planning/PlanningToolTest$1.class
 tech/yesboss/context/GlobalStreamManagerTest.class
 tech/yesboss/persistence/repository/RepositoryLayerTest.class
 tech/yesboss/context/engine/InjectionEngineTest.class
@@ -12,6 +13,7 @@ tech/yesboss/tool/AgentToolAndExceptionTest.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImplTest.class
 tech/yesboss/tool/sandbox/SandboxInterceptorTest.class
 tech/yesboss/persistence/event/DbWriteEventTest.class
+tech/yesboss/tool/planning/PlanningToolTest$2.class
 tech/yesboss/tool/planning/PlanningToolTest.class
 tech/yesboss/context/LocalStreamManagerTest.class
 tech/yesboss/persistence/db/ManualSchemaTest.class
