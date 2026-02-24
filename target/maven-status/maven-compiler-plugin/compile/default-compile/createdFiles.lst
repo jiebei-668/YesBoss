@@ -8,11 +8,13 @@ tech/yesboss/tool/tracker/impl/ToolCallTrackerImpl.class
 tech/yesboss/persistence/event/DbWriteEvent.class
 tech/yesboss/persistence/event/DeleteTaskSessionEvent.class
 tech/yesboss/persistence/event/InsertMessageEvent$StreamType.class
+tech/yesboss/context/engine/impl/InjectionEngineImpl.class
 tech/yesboss/persistence/entity/TaskSession$Role.class
 tech/yesboss/persistence/entity/ToolExecutionLog.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$ImType.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$2.class
 tech/yesboss/persistence/event/InsertMessageEvent.class
+tech/yesboss/context/engine/InjectionEngine.class
 tech/yesboss/persistence/entity/TaskSession$Status.class
 tech/yesboss/domain/message/UnifiedMessage$Role.class
 tech/yesboss/domain/message/UnifiedMessage$ToolCall.class

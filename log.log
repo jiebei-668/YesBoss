@@ -721,3 +721,65 @@ This task was completed together with Task 003:
 - Verified token estimation is based on content length
 
 All 19 tests pass successfully, confirming the LocalStreamManager implementation meets requirements.
+[2026-02-24 14:23:00] Task ID: 双流上下文管理模块_005
+Status: SUCCESS
+Description: Implement InjectionEngine for top-down context assembly
+
+Implementation Summary:
+- Created InjectionEngine interface with injectInitialContext(masterSessionId, assignedTask) method
+- Created InjectionEngineImpl with GlobalStreamManager injection
+- Implemented injectInitialContext() to:
+  * Fetch global context from master session
+  * Build system prompt with hardcoded template including:
+    - Role definition (Worker Agent)
+    - Assigned task section with task directive
+    - Global rules and constraints extracted from master session
+    - Execution guidelines for Worker
+- Added comprehensive parameter validation for all inputs
+- Added SLF4J logging for debugging and monitoring
+- Returns UnifiedMessage with SYSTEM role for Worker's initial context
+
+Key Design Features:
+- Top-down context assembly from Master to Worker
+- Extracts relevant global rules from master session history
+- Formats task directive with structured prompt template
+- Handles empty global context gracefully
+- Truncates long master guidance messages (>200 chars)
+
+Test Results: 16/16 tests passed (100%)
+- testConstructorWithNullGlobalStreamManager: Validates constructor parameter validation
+- testInjectInitialContextGeneratesSystemPrompt: Verifies system prompt generation with task
+- testInjectInitialContextWithNullMasterSessionId: Validates null sessionId rejection
+- testInjectInitialContextWithEmptyMasterSessionId: Validates empty sessionId detection
+- testInjectInitialContextWithNullAssignedTask: Validates null assignedTask rejection
+- testInjectInitialContextWithEmptyAssignedTask: Validates empty assignedTask detection
+- testInjectInitialContextIncludesGlobalRules: Verifies global rules inclusion
+- testInjectInitialContextWithEmptyGlobalContext: Verifies empty context handling
+- testInjectInitialContextIncludesExecutionGuidelines: Verifies guidelines section
+- testInjectInitialContextTruncatesLongGuidance: Verifies message truncation
+- testInjectInitialContextCallsGlobalStreamManager: Verifies repository call parameters
+- testInjectInitialContextWithComplexGlobalContext: Verifies complex context handling
+- testInjectInitialContextGeneratesDifferentPrompts: Verifies unique prompt generation
+- testInjectInitialContextWithSystemMessages: Verifies system message handling
+- testInjectInitialContextIncludesAllRequiredSections: Verifies all sections present
+- testInjectInitialContextFormatsAssignedTask: Verifies task formatting
+
+Files Created:
+- src/main/java/tech/yesboss/context/engine/InjectionEngine.java
+- src/main/java/tech/yesboss/context/engine/impl/InjectionEngineImpl.java
+- src/test/java/tech/yesboss/context/engine/InjectionEngineTest.java
+
+[2026-02-24 14:23:00] Task ID: 双流上下文管理模块_006
+Status: SUCCESS
+Description: Test InjectionEngine prompt formatting
+
+Verification Summary:
+This task was completed together with Task 005:
+- Mocked GlobalStreamManager using Mockito
+- Tested injectInitialContext() generates correct SYSTEM role UnifiedMessage
+- Verified returned message contains assigned task and global constraints
+- Verified all parameter validation works correctly
+- Verified complex global context handling with multiple message types
+- Verified prompt includes all required sections (role, task, rules, guidelines)
+
+All 16 tests pass successfully, confirming the implementation meets requirements.

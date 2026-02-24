@@ -6,6 +6,7 @@ tech/yesboss/context/LocalStreamManagerTest.class
 tech/yesboss/context/GlobalStreamManagerTest.class
 tech/yesboss/persistence/repository/RepositoryLayerTest.class
 tech/yesboss/persistence/db/ManualSchemaTest.class
+tech/yesboss/context/engine/InjectionEngineTest.class
 tech/yesboss/llm/impl/ModelRouterTest$1.class
 tech/yesboss/tool/AgentToolAndExceptionTest.class
 tech/yesboss/tool/registry/ToolRegistryTest.class
