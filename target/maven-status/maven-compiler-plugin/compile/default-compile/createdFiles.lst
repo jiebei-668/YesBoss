@@ -25,17 +25,20 @@ tech/yesboss/tool/sandbox/SandboxInterceptor.class
 tech/yesboss/domain/message/UnifiedMessage.class
 tech/yesboss/state/model/ImRoute.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent.class
+tech/yesboss/runner/impl/MasterRunnerImpl.class
 tech/yesboss/llm/LlmClient.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$1.class
 tech/yesboss/state/TaskManager.class
 tech/yesboss/persistence/event/UpdateTaskStatusEvent.class
 tech/yesboss/tool/tracker/ToolCallTracker.class
+tech/yesboss/runner/impl/WorkerRunnerImpl.class
 tech/yesboss/persistence/entity/TaskSession$ImType.class
 tech/yesboss/tool/SuspendExecutionException.class
 tech/yesboss/llm/impl/ModelRouter.class
 tech/yesboss/tool/registry/impl/ToolRegistryImpl.class
 tech/yesboss/tool/mcp/McpToolAdapter.class
 tech/yesboss/persistence/event/InsertToolExecutionLogEvent.class
+tech/yesboss/runner/MasterRunner.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.class
 tech/yesboss/persistence/db/SingleThreadDbWriter.class
 tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.class
@@ -45,6 +48,7 @@ tech/yesboss/tool/registry/ToolRegistry.class
 tech/yesboss/context/GlobalStreamManager.class
 tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.class
 tech/yesboss/safeguard/impl/CircuitBreakerImpl.class
+tech/yesboss/runner/WorkerRunner.class
 tech/yesboss/safeguard/impl/SuspendResumeEngineImpl$SuspensionContext.class
 tech/yesboss/persistence/entity/TaskSession.class
 tech/yesboss/persistence/repository/ChatMessageRepository.class
@@ -62,4 +66,5 @@ tech/yesboss/context/engine/impl/CondensationEngineImpl.class
 tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$TaskStatus.class
 tech/yesboss/safeguard/CircuitBreakerOpenException.class
+tech/yesboss/runner/AgentRunner.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$AgentRole.class

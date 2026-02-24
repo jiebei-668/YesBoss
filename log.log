@@ -1086,3 +1086,45 @@ The comprehensive test class SuspendResumeEngineTest.java covered all specified 
 - Verify state transitions back to RUNNING upon resume
 
 All 28 tests passed successfully (100% pass rate).
+
+Task ID: 状态机与调度引擎模块_015
+Status: SUCCESS
+Description: Implement MasterRunner and WorkerRunner skeletons
+
+Implementation Summary:
+- Created AgentRunner interface with run(sessionId) method
+- Created MasterRunner interface extending AgentRunner with generateExecutionPlan() method
+- Created WorkerRunner interface extending AgentRunner with generateExecutionReport() and isResumingFromSuspension() methods
+- Implemented MasterRunnerImpl skeleton with:
+  * Thread pool executor (using cached thread pool for Java 17 compatibility)
+  * run() method with basic structure and TODO placeholders
+  * generateExecutionPlan() returning example JSON task array
+  * shutdown() method for resource cleanup
+- Implemented WorkerRunnerImpl skeleton with:
+  * Thread pool executor for Java 17 compatibility
+  * run() method with isResumingFromSuspension check and conditional initialization
+  * isResumingFromSuspension() checking if last message contains ToolResult
+  * generateExecutionReport() returning example report
+  * shutdown() method for resource cleanup
+
+Key Design Features:
+- Thread-exit suspension mode: WorkerRunner detects suspension state by checking LocalStream
+- Skeleton structure with TODO placeholders for full implementation in later tasks
+- Java 17 compatible (uses cached thread pool instead of virtual threads)
+- Proper dependency injection and validation
+- Clear separation between Master (planning) and Worker (execution) responsibilities
+
+Test Results: 33/33 tests passed (100%)
+- Constructor validation tests: All passed
+- MasterRunner run() and generateExecutionPlan() tests: All passed
+- WorkerRunner isResumingFromSuspension() with various context states: All passed
+- WorkerRunner run() with new worker and resuming scenarios: All passed
+- Executor and shutdown tests: All passed
+
+Files Created:
+- src/main/java/tech/yesboss/runner/AgentRunner.java
+- src/main/java/tech/yesboss/runner/MasterRunner.java
+- src/main/java/tech/yesboss/runner/WorkerRunner.java
+- src/main/java/tech/yesboss/runner/impl/MasterRunnerImpl.java
+- src/main/java/tech/yesboss/runner/impl/WorkerRunnerImpl.java
+- src/test/java/tech/yesboss/runner/RunnerSkeletonTest.java
