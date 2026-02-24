@@ -1410,4 +1410,526 @@ class RunnerSkeletonTest {
         // Verify CondensationEngine was NOT called
         verify(condensationEngine, never()).condenseAndMergeUpwards(any(), any());
     }
+
+    // ==========================================
+    // MasterRunner Orchestration Tests (Task 22)
+    // ==========================================
+
+    @Test
+    void testMasterRunnerIntentClarificationTriggersUICardRenderer() throws Exception {
+        // Setup
+        MasterRunnerImpl masterRunner = new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
+        );
+
+        String sessionId = "master-session-001";
+        when(taskManager.sessionExists(sessionId)).thenReturn(true);
+        when(taskManager.getStatus(sessionId))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.PLANNING);
+
+        // Empty context triggers clarification
+        when(globalStreamManager.fetchContext(sessionId)).thenReturn(new ArrayList<>());
+
+        ImRoute mockImRoute = new ImRoute("FEISHU", "group-123");
+        when(taskManager.getImRoute(sessionId)).thenReturn(mockImRoute);
+        when(uiCardRenderer.renderSummaryCard(eq(sessionId), contains("Question:"), eq(false)))
+            .thenReturn(new TextNode("Mock card"));
+
+        // Execute
+        masterRunner.run(sessionId);
+
+        // Verify UICardRenderer was triggered for clarification question
+        verify(uiCardRenderer).renderSummaryCard(eq(sessionId), contains("Question:"), eq(false));
+
+        // Verify IM message was pushed
+        verify(imMessagePusher).pushCardMessage(
+            eq("FEISHU"),
+            eq("group-123"),
+            anyString()
+        );
+
+        // Verify system message appended to global stream
+        verify(globalStreamManager).appendSystemMessage(eq(sessionId), contains("Clarification question"));
+    }
+
+    @Test
+    void testMasterRunnerClarificationWithUnclearLLMResponse() throws Exception {
+        // Setup
+        MasterRunnerImpl masterRunner = new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
+        );
+
+        String sessionId = "master-session-002";
+        when(taskManager.sessionExists(sessionId)).thenReturn(true);
+        when(taskManager.getStatus(sessionId))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.PLANNING);
+
+        // Context with some messages
+        List<UnifiedMessage> context = List.of(
+            UnifiedMessage.ofText(UnifiedMessage.Role.USER, "Build something"),
+            UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "What should I build?")
+        );
+        when(globalStreamManager.fetchContext(sessionId)).thenReturn(context);
+
+        // LLM returns UNCLEAR response
+        LlmClient llmClient = mock(LlmClient.class);
+        when(modelRouter.routeByRole("MASTER")).thenReturn(llmClient);
+        when(llmClient.chat(any(), any()))
+            .thenReturn(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "UNCLEAR: What specific features do you need?"));
+
+        ImRoute mockImRoute = new ImRoute("FEISHU", "group-456");
+        when(taskManager.getImRoute(sessionId)).thenReturn(mockImRoute);
+        when(uiCardRenderer.renderSummaryCard(eq(sessionId), contains("What specific features"), eq(false)))
+            .thenReturn(new TextNode("Mock card"));
+
+        // Execute
+        masterRunner.run(sessionId);
+
+        // Verify UICardRenderer was called with the clarification question
+        verify(uiCardRenderer).renderSummaryCard(
+            eq(sessionId),
+            contains("What specific features do you need?"),
+            eq(false)
+        );
+
+        // Verify IM pusher was called
+        verify(imMessagePusher).pushCardMessage(
+            eq("FEISHU"),
+            eq("group-456"),
+            anyString()
+        );
+    }
+
+    @Test
+    void testMasterRunnerPlanningToolReturnsTwoTasks() throws Exception {
+        // Setup
+        MasterRunnerImpl masterRunner = new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
+        );
+
+        String sessionId = "master-session-003";
+        when(taskManager.sessionExists(sessionId)).thenReturn(true);
+        when(taskManager.getStatus(sessionId))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.PLANNING);
+
+        // Context with clear requirements
+        List<UnifiedMessage> context = List.of(
+            UnifiedMessage.ofText(UnifiedMessage.Role.USER, "Build an e-commerce platform"),
+            UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "I understand, let me plan this.")
+        );
+        when(globalStreamManager.fetchContext(sessionId)).thenReturn(context);
+
+        // LLM returns CLEAR
+        LlmClient llmClient = mock(LlmClient.class);
+        when(modelRouter.routeByRole("MASTER")).thenReturn(llmClient);
+        when(llmClient.chat(any(), any()))
+            .thenReturn(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "CLEAR"));
+
+        // PlanningTool returns 2-item task array
+        String twoTaskJson = "[{\"id\":\"task-1\",\"description\":\"Design database schema\",\"priority\":\"high\"},{\"id\":\"task-2\",\"description\":\"Implement REST API\",\"priority\":\"medium\"}]";
+        when(planningTool.execute(any())).thenReturn(twoTaskJson);
+
+        ImRoute mockImRoute = new ImRoute("FEISHU", "group-789");
+        when(taskManager.getImRoute(sessionId)).thenReturn(mockImRoute);
+
+        // Create two worker tasks
+        when(taskManager.createWorkerTask(eq(sessionId), contains("database")))
+            .thenReturn("worker-1");
+        when(taskManager.createWorkerTask(eq(sessionId), contains("API")))
+            .thenReturn("worker-2");
+
+        // Mock worker statuses - both complete
+        when(taskManager.getStatus("worker-1"))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+        when(taskManager.getStatus("worker-2"))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+
+        when(workerRunner.generateExecutionReport("worker-1")).thenReturn("Worker 1 report");
+        when(workerRunner.generateExecutionReport("worker-2")).thenReturn("Worker 2 report");
+        when(uiCardRenderer.renderSummaryCard(eq(sessionId), anyString(), eq(true)))
+            .thenReturn(new TextNode("Summary card"));
+
+        // Execute
+        masterRunner.run(sessionId);
+
+        // Verify PlanningTool was called
+        verify(planningTool).execute(any());
+
+        // Verify exactly 2 worker tasks were created
+        verify(taskManager, times(1)).createWorkerTask(eq(sessionId), contains("database"));
+        verify(taskManager, times(1)).createWorkerTask(eq(sessionId), contains("API"));
+        verify(taskManager, times(2)).createWorkerTask(eq(sessionId), anyString());
+    }
+
+    @Test
+    void testMasterRunnerWaitsForAllWorkersToComplete() throws Exception {
+        // Setup
+        MasterRunnerImpl masterRunner = new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
+        );
+
+        String sessionId = "master-session-004";
+        when(taskManager.sessionExists(sessionId)).thenReturn(true);
+        when(taskManager.getStatus(sessionId))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.PLANNING);
+
+        // Clear requirements
+        List<UnifiedMessage> context = List.of(
+            UnifiedMessage.ofText(UnifiedMessage.Role.USER, "Implement user authentication"),
+            UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Understood")
+        );
+        when(globalStreamManager.fetchContext(sessionId)).thenReturn(context);
+
+        LlmClient llmClient = mock(LlmClient.class);
+        when(modelRouter.routeByRole("MASTER")).thenReturn(llmClient);
+        when(llmClient.chat(any(), any()))
+            .thenReturn(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "CLEAR"));
+
+        // PlanningTool returns 3 tasks
+        String threeTaskJson = "[{\"id\":\"task-1\",\"description\":\"Task 1\",\"priority\":\"high\"},{\"id\":\"task-2\",\"description\":\"Task 2\",\"priority\":\"medium\"},{\"id\":\"task-3\",\"description\":\"Task 3\",\"priority\":\"low\"}]";
+        when(planningTool.execute(any())).thenReturn(threeTaskJson);
+
+        ImRoute mockImRoute = new ImRoute("SLACK", "channel-abc");
+        when(taskManager.getImRoute(sessionId)).thenReturn(mockImRoute);
+
+        // Create 3 workers
+        when(taskManager.createWorkerTask(eq(sessionId), anyString()))
+            .thenReturn("worker-1", "worker-2", "worker-3");
+
+        // Mock worker status progression: RUNNING -> COMPLETED
+        when(taskManager.getStatus("worker-1"))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.RUNNING)
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+        when(taskManager.getStatus("worker-2"))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.RUNNING)
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+        when(taskManager.getStatus("worker-3"))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.RUNNING)
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+
+        when(workerRunner.generateExecutionReport(any())).thenReturn("Report");
+        when(uiCardRenderer.renderSummaryCard(eq(sessionId), anyString(), eq(true)))
+            .thenReturn(new TextNode("Summary"));
+
+        // Execute
+        masterRunner.run(sessionId);
+
+        // Verify all 3 workers were created
+        verify(taskManager, times(3)).createWorkerTask(eq(sessionId), anyString());
+
+        // Verify TaskManager.getStatus was called multiple times (monitoring loop)
+        verify(taskManager, atLeast(6)).getStatus(anyString());
+
+        // Verify final state is COMPLETED (all workers finished)
+        verify(taskManager).transitionState(sessionId,
+            tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+
+        // Verify summary was generated
+        verify(uiCardRenderer).renderSummaryCard(eq(sessionId), anyString(), eq(true));
+    }
+
+    @Test
+    void testMasterRunnerTransitionsToCompletedAfterWorkersFinish() throws Exception {
+        // Setup
+        MasterRunnerImpl masterRunner = new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
+        );
+
+        String sessionId = "master-session-005";
+        when(taskManager.sessionExists(sessionId)).thenReturn(true);
+        when(taskManager.getStatus(sessionId))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.PLANNING);
+
+        // Need at least 2 messages to bypass clarification
+        List<UnifiedMessage> context = new ArrayList<>();
+        context.add(UnifiedMessage.ofText(UnifiedMessage.Role.USER, "Test task"));
+        context.add(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Understood, I will work on this task"));
+
+        // Use explicit anyString() matcher for all calls
+        when(globalStreamManager.fetchContext(anyString())).thenReturn(context);
+
+        LlmClient llmClient = mock(LlmClient.class);
+        when(modelRouter.routeByRole("MASTER")).thenReturn(llmClient);
+        when(llmClient.chat(any(), any()))
+            .thenReturn(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "CLEAR"));
+
+        // Single task plan
+        String singleTaskJson = "[{\"id\":\"task-1\",\"description\":\"Single task\",\"priority\":\"high\"}]";
+        when(planningTool.execute(any())).thenReturn(singleTaskJson);
+
+        ImRoute mockImRoute = new ImRoute("FEISHU", "group-xyz");
+        when(taskManager.getImRoute(anyString())).thenReturn(mockImRoute);
+        when(taskManager.createWorkerTask(eq(sessionId), anyString())).thenReturn("worker-1");
+
+        // Worker completes successfully
+        when(taskManager.getStatus("worker-1"))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+
+        when(workerRunner.generateExecutionReport("worker-1")).thenReturn("Worker completed successfully");
+        when(uiCardRenderer.renderSummaryCard(eq(sessionId), contains("Worker completed"), eq(true)))
+            .thenReturn(new TextNode("Final summary"));
+
+        // Execute
+        masterRunner.run(sessionId);
+
+        // Verify state transition sequence
+        verify(taskManager).transitionState(sessionId,
+            tech.yesboss.persistence.entity.TaskSession.Status.RUNNING);
+        verify(taskManager).transitionState(sessionId,
+            tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+
+        // Verify final state transition happened AFTER worker monitoring
+        var inOrder = inOrder(taskManager);
+        inOrder.verify(taskManager).transitionState(sessionId,
+            tech.yesboss.persistence.entity.TaskSession.Status.RUNNING);
+        inOrder.verify(taskManager).transitionState(sessionId,
+            tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+
+        // Verify Master did NOT transition to FAILED
+        verify(taskManager, never()).transitionState(eq(sessionId),
+            eq(tech.yesboss.persistence.entity.TaskSession.Status.FAILED));
+    }
+
+    @Test
+    void testMasterRunnerGeneratesFinalSummaryCard() throws Exception {
+        // Setup
+        MasterRunnerImpl masterRunner = new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
+        );
+
+        String sessionId = "master-session-006";
+        when(taskManager.sessionExists(sessionId)).thenReturn(true);
+        when(taskManager.getStatus(sessionId))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.PLANNING);
+
+        // Need at least 2 messages to bypass clarification
+        List<UnifiedMessage> context = new ArrayList<>();
+        context.add(UnifiedMessage.ofText(UnifiedMessage.Role.USER, "Build reporting system"));
+        context.add(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "I understand the requirement"));
+
+        when(globalStreamManager.fetchContext(anyString())).thenReturn(context);
+
+        LlmClient llmClient = mock(LlmClient.class);
+        when(modelRouter.routeByRole("MASTER")).thenReturn(llmClient);
+        when(llmClient.chat(any(), any()))
+            .thenReturn(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "CLEAR"));
+
+        // Two worker tasks
+        String twoTaskJson = "[{\"id\":\"task-1\",\"description\":\"Backend API\",\"priority\":\"high\"},{\"id\":\"task-2\",\"description\":\"Frontend UI\",\"priority\":\"high\"}]";
+        when(planningTool.execute(any())).thenReturn(twoTaskJson);
+
+        ImRoute mockImRoute = new ImRoute("SLACK", "channel-summary");
+        when(taskManager.getImRoute(sessionId)).thenReturn(mockImRoute);
+        when(taskManager.createWorkerTask(eq(sessionId), anyString()))
+            .thenReturn("worker-backend", "worker-frontend");
+
+        // Both workers complete
+        when(taskManager.getStatus("worker-backend"))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+        when(taskManager.getStatus("worker-frontend"))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+
+        // Worker reports
+        when(workerRunner.generateExecutionReport("worker-backend"))
+            .thenReturn("Backend API: Implemented 5 endpoints, 100% test coverage");
+        when(workerRunner.generateExecutionReport("worker-frontend"))
+            .thenReturn("Frontend UI: Built dashboard, user management, and reporting views");
+
+        when(uiCardRenderer.renderSummaryCard(eq(sessionId), contains("Task Execution Summary"), eq(true)))
+            .thenReturn(new TextNode("Mock Summary Card"));
+
+        // Execute
+        masterRunner.run(sessionId);
+
+        // Verify summary card was rendered
+        verify(uiCardRenderer).renderSummaryCard(
+            eq(sessionId),
+            contains("Task Execution Summary"),
+            eq(true)
+        );
+
+        // Verify summary was pushed via IM
+        verify(imMessagePusher).pushCardMessage(
+            eq("SLACK"),
+            eq("channel-summary"),
+            contains("Mock Summary Card")
+        );
+
+        // Verify summary was appended to global stream
+        verify(globalStreamManager).appendMasterMessage(
+            eq(sessionId),
+            argThat(msg -> msg.content().contains("Task Execution Summary"))
+        );
+
+        // Verify both worker reports were collected
+        verify(workerRunner).generateExecutionReport("worker-backend");
+        verify(workerRunner).generateExecutionReport("worker-frontend");
+    }
+
+    @Test
+    void testMasterRunnerTransitionsToFailedWhenWorkerFails() throws Exception {
+        // Setup
+        MasterRunnerImpl masterRunner = new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
+        );
+
+        String sessionId = "master-session-007";
+        when(taskManager.sessionExists(sessionId)).thenReturn(true);
+        when(taskManager.getStatus(sessionId))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.PLANNING);
+
+        // Need at least 2 messages to bypass clarification
+        List<UnifiedMessage> context = new ArrayList<>();
+        context.add(UnifiedMessage.ofText(UnifiedMessage.Role.USER, "Test failure scenario"));
+        context.add(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Understood"));
+
+        when(globalStreamManager.fetchContext(anyString())).thenReturn(context);
+
+        LlmClient llmClient = mock(LlmClient.class);
+        when(modelRouter.routeByRole("MASTER")).thenReturn(llmClient);
+        when(llmClient.chat(any(), any()))
+            .thenReturn(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "CLEAR"));
+
+        // Two tasks
+        String twoTaskJson = "[{\"id\":\"task-1\",\"description\":\"Task 1\",\"priority\":\"high\"},{\"id\":\"task-2\",\"description\":\"Task 2\",\"priority\":\"high\"}]";
+        when(planningTool.execute(any())).thenReturn(twoTaskJson);
+
+        ImRoute mockImRoute = new ImRoute("FEISHU", "group-fail");
+        when(taskManager.getImRoute(sessionId)).thenReturn(mockImRoute);
+        when(taskManager.createWorkerTask(eq(sessionId), anyString()))
+            .thenReturn("worker-1", "worker-2");
+
+        // Worker 1 succeeds, Worker 2 fails
+        when(taskManager.getStatus("worker-1"))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+        when(taskManager.getStatus("worker-2"))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.FAILED);
+
+        // Execute
+        masterRunner.run(sessionId);
+
+        // Verify Master transitions to FAILED (not COMPLETED)
+        verify(taskManager).transitionState(sessionId,
+            tech.yesboss.persistence.entity.TaskSession.Status.FAILED);
+
+        // Verify summary was NOT generated (failure case)
+        verify(workerRunner, never()).generateExecutionReport(anyString());
+        verify(uiCardRenderer, never()).renderSummaryCard(eq(sessionId), anyString(), eq(true));
+    }
+
+    @Test
+    void testMasterRunnerEnvironmentExploration() throws Exception {
+        // Setup
+        MasterRunnerImpl masterRunner = new MasterRunnerImpl(
+            taskManager,
+            globalStreamManager,
+            modelRouter,
+            toolRegistry,
+            workerRunner,
+            planningTool,
+            uiCardRenderer,
+            imMessagePusher
+        );
+
+        String sessionId = "master-session-008";
+        when(taskManager.sessionExists(sessionId)).thenReturn(true);
+        when(taskManager.getStatus(sessionId))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.PLANNING);
+
+        // Need at least 2 messages to bypass clarification
+        List<UnifiedMessage> context = new ArrayList<>();
+        context.add(UnifiedMessage.ofText(UnifiedMessage.Role.USER, "Explore and implement feature"));
+        context.add(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Understood"));
+
+        when(globalStreamManager.fetchContext(anyString())).thenReturn(context);
+
+        LlmClient llmClient = mock(LlmClient.class);
+        when(modelRouter.routeByRole("MASTER")).thenReturn(llmClient);
+        when(llmClient.chat(any(), any()))
+            .thenReturn(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "CLEAR"));
+
+        // Mock read-only tools
+        AgentTool readOnlyTool1 = mock(AgentTool.class);
+        when(readOnlyTool1.getName()).thenReturn("read_file");
+        AgentTool readOnlyTool2 = mock(AgentTool.class);
+        when(readOnlyTool2.getName()).thenReturn("list_directory");
+        when(toolRegistry.getAvailableTools("MASTER"))
+            .thenReturn(List.of(readOnlyTool1, readOnlyTool2));
+
+        // LLM decides exploration is needed
+        when(llmClient.chat(any(), contains("read_file, list_directory")))
+            .thenReturn(UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Need to explore project structure"));
+
+        // PlanningTool returns task
+        String singleTaskJson = "[{\"id\":\"task-1\",\"description\":\"Implement feature\",\"priority\":\"high\"}]";
+        when(planningTool.execute(any())).thenReturn(singleTaskJson);
+
+        ImRoute mockImRoute = new ImRoute("FEISHU", "group-explore");
+        when(taskManager.getImRoute(sessionId)).thenReturn(mockImRoute);
+        when(taskManager.createWorkerTask(eq(sessionId), anyString())).thenReturn("worker-1");
+
+        when(taskManager.getStatus("worker-1"))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
+        when(workerRunner.generateExecutionReport("worker-1")).thenReturn("Report");
+        when(uiCardRenderer.renderSummaryCard(eq(sessionId), anyString(), eq(true)))
+            .thenReturn(new TextNode("Summary"));
+
+        // Execute
+        masterRunner.run(sessionId);
+
+        // Verify read-only tools were retrieved for exploration
+        verify(toolRegistry).getAvailableTools("MASTER");
+
+        // Verify LLM was consulted for exploration decision
+        verify(llmClient, atLeast(2)).chat(any(), any());
+    }
 }

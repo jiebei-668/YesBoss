@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.runner.RunnerSkeletonTest" time="1.595" tests="51" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tech.yesboss.runner.RunnerSkeletonTest" time="15.325" tests="59" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,7 +13,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224184448609_3.jar /home/jiebei/qz_proj/YesBoss/target/surefire 2026-02-24T18-44-48_523-jvmRun1 surefire-20260224184448609_1tmp surefire_0-20260224184448609_2tmp"/>
+    <property name="sun.java.command" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224185954829_3.jar /home/jiebei/qz_proj/YesBoss/target/surefire 2026-02-24T18-59-54_750-jvmRun1 surefire-20260224185954829_1tmp surefire_0-20260224185954829_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="test" value="RunnerSkeletonTest"/>
     <property name="surefire.test.class.path" value="/home/jiebei/qz_proj/YesBoss/target/test-classes:/home/jiebei/qz_proj/YesBoss/target/classes:/home/jiebei/.m2/repository/org/xerial/sqlite-jdbc/3.43.0.0/sqlite-jdbc-3.43.0.0.jar:/home/jiebei/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar:/home/jiebei/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.0/jackson-databind-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.0/jackson-annotations-2.16.0.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.0/jackson-core-2.16.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.jar:/home/jiebei/.m2/repository/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.jar:/home/jiebei/.m2/repository/com/google/errorprone/error_prone_annotations/2.33.0/error_prone_annotations-2.33.0.jar:/home/jiebei/.m2/repository/io/swagger/core/v3/swagger-annotations/2.2.31/swagger-annotations-2.2.31.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.2/jackson-datatype-jdk8-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar:/home/jiebei/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.18.2/jackson-module-kotlin-2.18.2.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.8.10/kotlin-reflect-1.8.10.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.2.4/httpcore5-5.2.4.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.3.1/httpclient5-5.3.1.jar:/home/jiebei/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.2.4/httpcore5-h2-5.2.4.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-generator/4.38.0/jsonschema-generator-4.38.0.jar:/home/jiebei/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-jackson/4.38.0/jsonschema-module-jackson-4.38.0.jar:/home/jiebei/.m2/repository/com/github/victools/jsonschema-module-swagger-2/4.38.0/jsonschema-module-swagger-2-4.38.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/okhttp/4.12.0/okhttp-4.12.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio/3.6.0/okio-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okio/okio-jvm/3.6.0/okio-jvm-3.6.0.jar:/home/jiebei/.m2/repository/com/squareup/okhttp3/logging-interceptor/4.12.0/logging-interceptor-4.12.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.0/kotlin-stdlib-jdk8-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.0/kotlin-stdlib-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.0/kotlin-stdlib-common-1.8.0.jar:/home/jiebei/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/home/jiebei/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0/kotlin-stdlib-jdk7-1.8.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/home/jiebei/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/home/jiebei/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/home/jiebei/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/home/jiebei/.m2/repository/org/mockito/mockito-core/5.8.0/mockito-core-5.8.0.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.jar:/home/jiebei/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar:/home/jiebei/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/jiebei/.m2/repository/org/mockito/mockito-junit-jupiter/5.8.0/mockito-junit-jupiter-5.8.0.jar:"/>
@@ -29,7 +29,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224184448609_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/jiebei/qz_proj/YesBoss/target/surefire/surefirebooter-20260224185954829_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.15+6-Ubuntu-0ubuntu120.04"/>
     <property name="user.name" value="jiebei"/>
@@ -54,87 +54,87 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testWorkerRunnerReActLoopWithToolCallThenTextAnswer" classname="tech.yesboss.runner.RunnerSkeletonTest" time="1.197">
-    <system-out><![CDATA[18:44:50.203 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.256 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
-18:44:50.260 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.261 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
-18:44:50.261 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
-18:44:50.261 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
-18:44:50.262 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
-18:44:50.262 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
-18:44:50.262 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
-18:44:50.262 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
-18:44:50.262 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.263 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
-18:44:50.263 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
-18:44:50.263 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.263 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
-18:44:50.263 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: test_tool with toolCallId: call-123
-18:44:50.264 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool test_tool executed successfully
-18:44:50.264 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 2 for session session-123
-18:44:50.264 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 2
-18:44:50.264 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.265 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 2
-18:44:50.265 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
-18:44:50.265 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.265 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
-18:44:50.265 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
-18:44:50.265 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
-18:44:50.266 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 2 iterations
+  <testcase name="testWorkerRunnerReActLoopWithToolCallThenTextAnswer" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.954">
+    <system-out><![CDATA[18:59:56.110 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:56.157 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+18:59:56.161 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:59:56.162 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
+18:59:56.162 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
+18:59:56.162 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
+18:59:56.163 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
+18:59:56.163 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+18:59:56.163 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+18:59:56.163 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
+18:59:56.163 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+18:59:56.163 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
+18:59:56.164 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
+18:59:56.164 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+18:59:56.164 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
+18:59:56.164 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: test_tool with toolCallId: call-123
+18:59:56.165 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool test_tool executed successfully
+18:59:56.165 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 2 for session session-123
+18:59:56.165 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 2
+18:59:56.165 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+18:59:56.166 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 2
+18:59:56.166 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
+18:59:56.166 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+18:59:56.166 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
+18:59:56.166 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
+18:59:56.166 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
+18:59:56.166 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 2 iterations
 ]]></system-out>
   </testcase>
-  <testcase name="testMasterRunnerConstructorWithNullPlanningTool" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.006"/>
+  <testcase name="testMasterRunnerConstructorWithNullPlanningTool" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.005"/>
   <testcase name="testWorkerRunnerGenerateExecutionReportWithNonExistentSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.005">
-    <system-out><![CDATA[18:44:50.298 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.299 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Generating execution report for session session-123
+    <system-out><![CDATA[18:59:56.192 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:56.193 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Generating execution report for session session-123
 ]]></system-out>
   </testcase>
   <testcase name="testWorkerRunnerGetVirtualThreadExecutor" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.004">
-    <system-out><![CDATA[18:44:50.305 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+    <system-out><![CDATA[18:59:56.198 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
 ]]></system-out>
   </testcase>
   <testcase name="testWorkerRunnerIsResumingFromSuspensionWithEmptyContext" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.004">
-    <system-out><![CDATA[18:44:50.310 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.310 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.310 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
+    <system-out><![CDATA[18:59:56.202 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:56.202 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:59:56.203 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
 ]]></system-out>
   </testcase>
   <testcase name="testWorkerRunnerIsResumingFromSuspensionWithToolResult" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.004">
-    <system-out><![CDATA[18:44:50.315 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.315 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.316 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message contains ToolResult, session session-123 is resuming from suspension
+    <system-out><![CDATA[18:59:56.206 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:56.207 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:59:56.207 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message contains ToolResult, session session-123 is resuming from suspension
 ]]></system-out>
   </testcase>
-  <testcase name="testMasterRunnerConstructorWithNullGlobalStreamManager" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.005"/>
-  <testcase name="testMasterRunnerConstructorWithNullIMMessagePusher" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.004"/>
-  <testcase name="testWorkerRunnerSuspensionTriggersGracefulExit" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.018">
-    <system-out><![CDATA[18:44:50.334 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.338 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
-18:44:50.338 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.338 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message contains ToolResult, session session-123 is resuming from suspension
-18:44:50.338 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: true
-18:44:50.338 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Resuming from suspension, skipping initialization
-18:44:50.339 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
-18:44:50.339 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
-18:44:50.339 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
-18:44:50.339 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 1 messages from local stream
-18:44:50.339 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
-18:44:50.339 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
-18:44:50.340 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.340 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
-18:44:50.340 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: dangerous_tool with toolCallId: call-456
-18:44:50.341 [main] WARN tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool execution intercepted for toolCallId: call-456: 操作触发安全沙箱黑名单，执行已挂起。
-18:44:50.345 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Worker suspended for session session-123, exiting thread gracefully
-18:44:50.345 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
+  <testcase name="testMasterRunnerConstructorWithNullGlobalStreamManager" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003"/>
+  <testcase name="testMasterRunnerConstructorWithNullIMMessagePusher" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
+  <testcase name="testWorkerRunnerSuspensionTriggersGracefulExit" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.01">
+    <system-out><![CDATA[18:59:56.217 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:56.219 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+18:59:56.220 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:59:56.220 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message contains ToolResult, session session-123 is resuming from suspension
+18:59:56.220 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: true
+18:59:56.220 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Resuming from suspension, skipping initialization
+18:59:56.220 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+18:59:56.220 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+18:59:56.220 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
+18:59:56.220 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 1 messages from local stream
+18:59:56.220 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
+18:59:56.220 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
+18:59:56.220 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+18:59:56.220 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
+18:59:56.220 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: dangerous_tool with toolCallId: call-456
+18:59:56.221 [main] WARN tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool execution intercepted for toolCallId: call-456: 操作触发安全沙箱黑名单，执行已挂起。
+18:59:56.224 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Worker suspended for session session-123, exiting thread gracefully
+18:59:56.224 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
 ]]></system-out>
   </testcase>
   <testcase name="testMasterRunnerConstructorWithNullTaskManager" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003"/>
-  <testcase name="testWorkerRunnerConstructorWithNullModelRouter" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
-  <testcase name="testMasterRunnerRunWithNonExistentSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.13">
-    <system-out><![CDATA[18:44:50.481 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
-18:44:50.482 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session session-123
-18:44:50.483 [main] ERROR tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner execution failed for session session-123
+  <testcase name="testWorkerRunnerConstructorWithNullModelRouter" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003"/>
+  <testcase name="testMasterRunnerRunWithNonExistentSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.113">
+    <system-out><![CDATA[18:59:56.342 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+18:59:56.343 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session session-123
+18:59:56.343 [main] ERROR tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner execution failed for session session-123
 java.lang.IllegalStateException: Session not found: session-123
 	at tech.yesboss.runner.impl.MasterRunnerImpl.run(MasterRunnerImpl.java:137)
 	at tech.yesboss.runner.RunnerSkeletonTest.lambda$testMasterRunnerRunWithNonExistentSession$12(RunnerSkeletonTest.java:296)
@@ -215,32 +215,42 @@ java.lang.IllegalStateException: Session not found: session-123
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-out>
   </testcase>
-  <testcase name="testMasterRunnerRunWithNullSessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
-    <system-out><![CDATA[18:44:50.489 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
-18:44:50.489 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session null
+  <testcase name="testMasterRunnerIntentClarificationTriggersUICardRenderer" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.017">
+    <system-out><![CDATA[18:59:56.347 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+18:59:56.349 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session master-session-001
+18:59:56.349 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Session master-session-001 current status: PLANNING
+18:59:56.349 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 1: Requirement clarification for session master-session-001
+18:59:56.349 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Context insufficient, initiating clarification for session master-session-001
+18:59:56.361 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Clarification question pushed for session master-session-001
+18:59:56.361 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Requirements clarification needed, yielding for user response
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerRunWithNullSessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
-    <system-out><![CDATA[18:44:50.492 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.493 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session null
+  <testcase name="testMasterRunnerRunWithNullSessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[18:59:56.364 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+18:59:56.365 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session null
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerRunWithNullSessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[18:59:56.366 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:56.367 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session null
 ]]></system-out>
   </testcase>
   <testcase name="testWorkerRunnerShutdown" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
-    <system-out><![CDATA[18:44:50.495 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.496 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Shutting down WorkerRunner thread executor
+    <system-out><![CDATA[18:59:56.369 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:56.369 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Shutting down WorkerRunner thread executor
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerCircuitBreakerOpenExceptionHandling" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.006">
-    <system-out><![CDATA[18:44:50.499 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.501 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
-18:44:50.501 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.501 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
-18:44:50.501 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
-18:44:50.501 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
-18:44:50.502 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
-18:44:50.502 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
-18:44:50.502 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
-18:44:50.502 [main] ERROR tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker triggered for session session-123, marking as FAILED
+  <testcase name="testWorkerRunnerCircuitBreakerOpenExceptionHandling" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.004">
+    <system-out><![CDATA[18:59:56.372 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:56.373 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+18:59:56.374 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:59:56.374 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
+18:59:56.374 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
+18:59:56.374 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
+18:59:56.374 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
+18:59:56.374 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+18:59:56.374 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+18:59:56.374 [main] ERROR tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker triggered for session session-123, marking as FAILED
 tech.yesboss.safeguard.CircuitBreakerOpenException: Circuit breaker threshold reached
 	at tech.yesboss.runner.impl.WorkerRunnerImpl.run(WorkerRunnerImpl.java:185)
 	at tech.yesboss.runner.RunnerSkeletonTest.lambda$testWorkerRunnerCircuitBreakerOpenExceptionHandling$43(RunnerSkeletonTest.java:1403)
@@ -321,67 +331,181 @@ tech.yesboss.safeguard.CircuitBreakerOpenException: Circuit breaker threshold re
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-out>
   </testcase>
+  <testcase name="testMasterRunnerPlanningToolReturnsTwoTasks" classname="tech.yesboss.runner.RunnerSkeletonTest" time="2.025">
+    <system-out><![CDATA[18:59:56.377 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+18:59:56.379 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session master-session-003
+18:59:56.379 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Session master-session-003 current status: PLANNING
+18:59:56.379 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 1: Requirement clarification for session master-session-003
+18:59:56.379 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Requirements clarified for session master-session-003
+18:59:56.379 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 2: Environment exploration for session master-session-003
+18:59:56.379 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- No read-only tools available for exploration
+18:59:56.379 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Environment exploration completed for session master-session-003
+18:59:56.379 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 3: Generating execution plan for session master-session-003
+18:59:56.384 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- PlanningTool returned: [{"id":"task-1","description":"Design database schema","priority":"high"},{"id":"task-2","description":"Implement REST API","priority":"medium"}]
+18:59:56.393 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Parsed execution plan with 2 tasks
+18:59:56.393 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated execution plan with 2 tasks for session master-session-003
+18:59:56.393 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 4-5: Creating and executing 2 worker tasks for session master-session-003
+18:59:56.393 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Creating worker task: id=task-1, description=Design database schema, priority=high
+18:59:56.393 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Created worker session worker-1 for task task-1
+18:59:56.394 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Creating worker task: id=task-2, description=Implement REST API, priority=medium
+18:59:56.394 [pool-14-thread-1] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Starting worker execution for session worker-1
+18:59:56.394 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Created worker session worker-2 for task task-2
+18:59:56.394 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- All 2 worker tasks created and started
+18:59:56.394 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 6: Monitoring 2 workers for session master-session-003
+18:59:56.394 [pool-14-thread-2] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Starting worker execution for session worker-2
+18:59:56.394 [main] WARN tech.yesboss.runner.impl.MasterRunnerImpl -- Error updating progress for session master-session-003
+java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.JsonNode.toString()" because "progressBar" is null
+	at tech.yesboss.runner.impl.MasterRunnerImpl.updateProgress(MasterRunnerImpl.java:554)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.waitForWorkersCompletion(MasterRunnerImpl.java:423)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.run(MasterRunnerImpl.java:165)
+	at tech.yesboss.runner.RunnerSkeletonTest.testMasterRunnerPlanningToolReturnsTwoTasks(RunnerSkeletonTest.java:1574)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+18:59:58.395 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Workers monitoring completed: 2 completed, 0 failed for session master-session-003
+18:59:58.396 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 7: Generating final summary for session master-session-003
+18:59:58.396 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated summary: # Task Execution Summary
+
+## Worker Report
+Worker 1 report
+
+## Worker Report
+Worker 2 report
+
+
+18:59:58.398 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Final summary generated and pushed for session master-session-003
+18:59:58.399 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner completed successfully for session master-session-003
+]]></system-out>
+  </testcase>
   <testcase name="testWorkerRunnerSuspensionExitsGracefullyWithoutException" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.007">
-    <system-out><![CDATA[18:44:50.506 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.508 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
-18:44:50.509 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.509 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
-18:44:50.509 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
-18:44:50.509 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
-18:44:50.509 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
-18:44:50.509 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
-18:44:50.509 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
-18:44:50.509 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
-18:44:50.509 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.509 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
-18:44:50.509 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
-18:44:50.509 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.510 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
-18:44:50.510 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: unsafe_tool with toolCallId: call-789
-18:44:50.510 [main] WARN tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool execution intercepted for toolCallId: call-789: 操作触发安全沙箱黑名单，执行已挂起。
-18:44:50.510 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Worker suspended for session session-123, exiting thread gracefully
-18:44:50.511 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
+    <system-out><![CDATA[18:59:58.405 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:58.408 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+18:59:58.408 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:59:58.408 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
+18:59:58.408 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
+18:59:58.408 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
+18:59:58.408 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
+18:59:58.408 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+18:59:58.408 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+18:59:58.408 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
+18:59:58.408 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+18:59:58.409 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
+18:59:58.409 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
+18:59:58.409 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+18:59:58.409 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
+18:59:58.409 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: unsafe_tool with toolCallId: call-789
+18:59:58.409 [main] WARN tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool execution intercepted for toolCallId: call-789: 操作触发安全沙箱黑名单，执行已挂起。
+18:59:58.410 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Worker suspended for session session-123, exiting thread gracefully
+18:59:58.410 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
 ]]></system-out>
   </testcase>
   <testcase name="testWorkerRunnerRunWithValidSessionNewWorker" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.006">
-    <system-out><![CDATA[18:44:50.513 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.514 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
-18:44:50.515 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.515 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
-18:44:50.515 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
-18:44:50.515 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
-18:44:50.515 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
-18:44:50.515 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
-18:44:50.515 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
-18:44:50.515 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
-18:44:50.515 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.515 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
-18:44:50.515 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
-18:44:50.516 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.516 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
-18:44:50.516 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
-18:44:50.516 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
-18:44:50.516 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
+    <system-out><![CDATA[18:59:58.411 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:58.413 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+18:59:58.414 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:59:58.414 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
+18:59:58.414 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
+18:59:58.414 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
+18:59:58.414 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
+18:59:58.414 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+18:59:58.415 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+18:59:58.415 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
+18:59:58.415 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+18:59:58.415 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
+18:59:58.416 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
+18:59:58.416 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+18:59:58.416 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
+18:59:58.416 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
+18:59:58.416 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
+18:59:58.416 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerToolErrorContinuesLoop" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.008">
-    <system-out><![CDATA[18:44:50.519 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.521 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
-18:44:50.521 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.522 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
-18:44:50.522 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
-18:44:50.522 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
-18:44:50.522 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
-18:44:50.522 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
-18:44:50.522 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
-18:44:50.522 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
-18:44:50.522 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.522 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
-18:44:50.522 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
-18:44:50.522 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.522 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
-18:44:50.522 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: failing_tool with toolCallId: call-1
-18:44:50.523 [main] ERROR tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool failing_tool execution failed
+  <testcase name="testWorkerRunnerToolErrorContinuesLoop" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.005">
+    <system-out><![CDATA[18:59:58.418 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:58.419 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+18:59:58.419 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:59:58.419 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
+18:59:58.419 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
+18:59:58.420 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
+18:59:58.420 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
+18:59:58.420 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+18:59:58.420 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+18:59:58.420 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
+18:59:58.420 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+18:59:58.420 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
+18:59:58.420 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
+18:59:58.420 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+18:59:58.420 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
+18:59:58.420 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: failing_tool with toolCallId: call-1
+18:59:58.420 [main] ERROR tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool failing_tool execution failed
 java.lang.RuntimeException: Tool failed
 	at tech.yesboss.runner.impl.WorkerRunnerImpl.run(WorkerRunnerImpl.java:222)
 	at tech.yesboss.runner.RunnerSkeletonTest.lambda$testWorkerRunnerToolErrorContinuesLoop$41(RunnerSkeletonTest.java:1356)
@@ -460,162 +584,622 @@ java.lang.RuntimeException: Tool failed
 	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
-18:44:50.524 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 2 for session session-123
-18:44:50.524 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 2
-18:44:50.524 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.524 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 2
-18:44:50.524 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
-18:44:50.524 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.524 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
-18:44:50.525 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
-18:44:50.525 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
-18:44:50.525 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 2 iterations
+18:59:58.421 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 2 for session session-123
+18:59:58.421 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 2
+18:59:58.421 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+18:59:58.421 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 2
+18:59:58.421 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
+18:59:58.421 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+18:59:58.421 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
+18:59:58.421 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
+18:59:58.421 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
+18:59:58.421 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 2 iterations
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerConstructorWithNullLocalStreamManager" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
+  <testcase name="testWorkerRunnerConstructorWithNullLocalStreamManager" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
   <testcase name="testWorkerRunnerIsResumingFromSuspensionWithMixedMessage" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001">
-    <system-out><![CDATA[18:44:50.529 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.529 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.529 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message contains ToolResult, session session-123 is resuming from suspension
+    <system-out><![CDATA[18:59:58.424 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:58.424 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+18:59:58.424 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message contains ToolResult, session session-123 is resuming from suspension
 ]]></system-out>
   </testcase>
   <testcase name="testWorkerRunnerConstructorWithNullInjectionEngine" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
   <testcase name="testWorkerRunnerConstructorWithNullSuspendResumeEngine" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
-  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithEmptySessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
-    <system-out><![CDATA[18:44:50.534 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.535 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session    is resuming from suspension
+  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithEmptySessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001">
+    <system-out><![CDATA[18:59:58.428 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+18:59:58.428 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session    is resuming from suspension
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerConstructorWithValidParameters" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
-    <system-out><![CDATA[18:44:50.538 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+  <testcase name="testWorkerRunnerConstructorWithValidParameters" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001">
+    <system-out><![CDATA[18:59:58.429 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
 ]]></system-out>
   </testcase>
-  <testcase name="testMasterRunnerConstructorWithNullWorkerRunner" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
-  <testcase name="testWorkerRunnerCircuitBreakerIncrementCount" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.005">
-    <system-out><![CDATA[18:44:50.541 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.542 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
-18:44:50.542 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.542 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
-18:44:50.542 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
-18:44:50.542 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
-18:44:50.542 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
-18:44:50.543 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
-18:44:50.543 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
-18:44:50.543 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
-18:44:50.543 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.543 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
-18:44:50.543 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
-18:44:50.543 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.543 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
-18:44:50.543 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: test_tool with toolCallId: call-1
-18:44:50.543 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool test_tool executed successfully
-18:44:50.543 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 2 for session session-123
-18:44:50.543 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 2
-18:44:50.544 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.544 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 2
-18:44:50.544 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
-18:44:50.544 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.544 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
-18:44:50.544 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: test_tool with toolCallId: call-2
-18:44:50.544 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool test_tool executed successfully
-18:44:50.544 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 3 for session session-123
-18:44:50.544 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 3
-18:44:50.544 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.544 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 3
-18:44:50.545 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
-18:44:50.545 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.545 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
-18:44:50.545 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
-18:44:50.545 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
-18:44:50.545 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 3 iterations
+  <testcase name="testMasterRunnerConstructorWithNullWorkerRunner" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.0"/>
+  <testcase name="testMasterRunnerTransitionsToCompletedAfterWorkersFinish" classname="tech.yesboss.runner.RunnerSkeletonTest" time="2.007">
+    <system-out><![CDATA[18:59:58.431 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+18:59:58.432 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session master-session-005
+18:59:58.432 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Session master-session-005 current status: PLANNING
+18:59:58.432 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 1: Requirement clarification for session master-session-005
+18:59:58.432 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Requirements clarified for session master-session-005
+18:59:58.432 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 2: Environment exploration for session master-session-005
+18:59:58.432 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- No read-only tools available for exploration
+18:59:58.432 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Environment exploration completed for session master-session-005
+18:59:58.432 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 3: Generating execution plan for session master-session-005
+18:59:58.432 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- PlanningTool returned: [{"id":"task-1","description":"Single task","priority":"high"}]
+18:59:58.433 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Parsed execution plan with 1 tasks
+18:59:58.433 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated execution plan with 1 tasks for session master-session-005
+18:59:58.433 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 4-5: Creating and executing 1 worker tasks for session master-session-005
+18:59:58.433 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Creating worker task: id=task-1, description=Single task, priority=high
+18:59:58.433 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Created worker session worker-1 for task task-1
+18:59:58.433 [pool-21-thread-1] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Starting worker execution for session worker-1
+18:59:58.433 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- All 1 worker tasks created and started
+18:59:58.433 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 6: Monitoring 1 workers for session master-session-005
+18:59:58.433 [main] WARN tech.yesboss.runner.impl.MasterRunnerImpl -- Error updating progress for session master-session-005
+java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.JsonNode.toString()" because "progressBar" is null
+	at tech.yesboss.runner.impl.MasterRunnerImpl.updateProgress(MasterRunnerImpl.java:554)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.waitForWorkersCompletion(MasterRunnerImpl.java:423)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.run(MasterRunnerImpl.java:165)
+	at tech.yesboss.runner.RunnerSkeletonTest.testMasterRunnerTransitionsToCompletedAfterWorkersFinish(RunnerSkeletonTest.java:1708)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+19:00:00.434 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Workers monitoring completed: 1 completed, 0 failed for session master-session-005
+19:00:00.434 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 7: Generating final summary for session master-session-005
+19:00:00.434 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated summary: # Task Execution Summary
+
+## Worker Report
+Worker completed successfully
+
+
+19:00:00.434 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Final summary generated and pushed for session master-session-005
+19:00:00.435 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner completed successfully for session master-session-005
 ]]></system-out>
   </testcase>
-  <testcase name="testMasterRunnerRunWithEmptySessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001">
-    <system-out><![CDATA[18:44:50.547 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
-18:44:50.547 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session   
+  <testcase name="testWorkerRunnerCircuitBreakerIncrementCount" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[19:00:00.438 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+19:00:00.439 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
+19:00:00.439 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
+19:00:00.439 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
+19:00:00.439 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
+19:00:00.439 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
+19:00:00.439 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+19:00:00.439 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: test_tool with toolCallId: call-1
+19:00:00.439 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool test_tool executed successfully
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 2 for session session-123
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 2
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 2
+19:00:00.439 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+19:00:00.439 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 1 tool calls
+19:00:00.439 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: test_tool with toolCallId: call-2
+19:00:00.439 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool test_tool executed successfully
+19:00:00.440 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 3 for session session-123
+19:00:00.440 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 3
+19:00:00.440 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+19:00:00.440 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 3
+19:00:00.440 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
+19:00:00.440 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+19:00:00.440 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
+19:00:00.440 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
+19:00:00.440 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
+19:00:00.440 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 3 iterations
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerGeneratesFinalSummaryCard" classname="tech.yesboss.runner.RunnerSkeletonTest" time="2.007">
+    <system-out><![CDATA[19:00:00.441 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+19:00:00.442 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session master-session-006
+19:00:00.443 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Session master-session-006 current status: PLANNING
+19:00:00.443 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 1: Requirement clarification for session master-session-006
+19:00:00.443 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Requirements clarified for session master-session-006
+19:00:00.443 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 2: Environment exploration for session master-session-006
+19:00:00.443 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- No read-only tools available for exploration
+19:00:00.443 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Environment exploration completed for session master-session-006
+19:00:00.443 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 3: Generating execution plan for session master-session-006
+19:00:00.443 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- PlanningTool returned: [{"id":"task-1","description":"Backend API","priority":"high"},{"id":"task-2","description":"Frontend UI","priority":"high"}]
+19:00:00.444 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Parsed execution plan with 2 tasks
+19:00:00.444 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated execution plan with 2 tasks for session master-session-006
+19:00:00.444 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 4-5: Creating and executing 2 worker tasks for session master-session-006
+19:00:00.444 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Creating worker task: id=task-1, description=Backend API, priority=high
+19:00:00.444 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Created worker session worker-backend for task task-1
+19:00:00.444 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Creating worker task: id=task-2, description=Frontend UI, priority=high
+19:00:00.444 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Created worker session worker-frontend for task task-2
+19:00:00.444 [pool-23-thread-1] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Starting worker execution for session worker-backend
+19:00:00.444 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- All 2 worker tasks created and started
+19:00:00.444 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 6: Monitoring 2 workers for session master-session-006
+19:00:00.444 [pool-23-thread-2] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Starting worker execution for session worker-frontend
+19:00:00.444 [main] WARN tech.yesboss.runner.impl.MasterRunnerImpl -- Error updating progress for session master-session-006
+java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.JsonNode.toString()" because "progressBar" is null
+	at tech.yesboss.runner.impl.MasterRunnerImpl.updateProgress(MasterRunnerImpl.java:554)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.waitForWorkersCompletion(MasterRunnerImpl.java:423)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.run(MasterRunnerImpl.java:165)
+	at tech.yesboss.runner.RunnerSkeletonTest.testMasterRunnerGeneratesFinalSummaryCard(RunnerSkeletonTest.java:1784)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+19:00:02.445 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Workers monitoring completed: 2 completed, 0 failed for session master-session-006
+19:00:02.445 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 7: Generating final summary for session master-session-006
+19:00:02.446 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated summary: # Task Execution Summary
+
+## Worker Report
+Backend API: Implemented 5 endpoints, 100% test coverage
+
+## Worker Report
+Frontend UI: Built dashboard, user management, and reporting views
+
+
+19:00:02.446 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Final summary generated and pushed for session master-session-006
+19:00:02.446 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner completed successfully for session master-session-006
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerRunWithEmptySessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[19:00:02.449 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+19:00:02.449 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session   
 ]]></system-out>
   </testcase>
   <testcase name="testMasterRunnerConstructorWithNullUICardRenderer" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
   <testcase name="testMasterRunnerGetVirtualThreadExecutor" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001">
-    <system-out><![CDATA[18:44:50.550 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+    <system-out><![CDATA[19:00:02.452 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerRunWithValidSessionResumingWorker" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.004">
-    <system-out><![CDATA[18:44:50.552 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.553 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
-18:44:50.553 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.553 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message contains ToolResult, session session-123 is resuming from suspension
-18:44:50.553 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: true
-18:44:50.553 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Resuming from suspension, skipping initialization
-18:44:50.553 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
-18:44:50.553 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
-18:44:50.553 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
-18:44:50.553 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 1 messages from local stream
-18:44:50.553 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
-18:44:50.554 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
-18:44:50.554 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.554 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
-18:44:50.554 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
-18:44:50.554 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
-18:44:50.554 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
+  <testcase name="testWorkerRunnerRunWithValidSessionResumingWorker" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[19:00:02.454 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+19:00:02.455 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+19:00:02.455 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+19:00:02.455 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message contains ToolResult, session session-123 is resuming from suspension
+19:00:02.455 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: true
+19:00:02.455 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Resuming from suspension, skipping initialization
+19:00:02.455 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+19:00:02.455 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+19:00:02.455 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
+19:00:02.455 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 1 messages from local stream
+19:00:02.455 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
+19:00:02.455 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
+19:00:02.455 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+19:00:02.455 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
+19:00:02.455 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
+19:00:02.456 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
+19:00:02.456 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithTextMessage" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
-    <system-out><![CDATA[18:44:50.557 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.557 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.558 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message does not contain ToolResult, treating session session-123 as new worker
+  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithTextMessage" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001">
+    <system-out><![CDATA[19:00:02.456 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+19:00:02.456 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+19:00:02.457 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Last message does not contain ToolResult, treating session session-123 as new worker
 ]]></system-out>
   </testcase>
-  <testcase name="testMasterRunnerShutdown" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
-    <system-out><![CDATA[18:44:50.560 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
-18:44:50.561 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Shutting down MasterRunner virtual thread executor
+  <testcase name="testMasterRunnerEnvironmentExploration" classname="tech.yesboss.runner.RunnerSkeletonTest" time="2.007">
+    <system-out><![CDATA[19:00:02.457 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+19:00:02.458 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session master-session-008
+19:00:02.458 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Session master-session-008 current status: PLANNING
+19:00:02.458 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 1: Requirement clarification for session master-session-008
+19:00:02.458 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Requirements clarified for session master-session-008
+19:00:02.458 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 2: Environment exploration for session master-session-008
+19:00:02.461 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Environment exploration decision: CLEAR
+19:00:02.461 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Environment exploration completed for session master-session-008
+19:00:02.461 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 3: Generating execution plan for session master-session-008
+19:00:02.461 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- PlanningTool returned: [{"id":"task-1","description":"Implement feature","priority":"high"}]
+19:00:02.462 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Parsed execution plan with 1 tasks
+19:00:02.462 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated execution plan with 1 tasks for session master-session-008
+19:00:02.462 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 4-5: Creating and executing 1 worker tasks for session master-session-008
+19:00:02.462 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Creating worker task: id=task-1, description=Implement feature, priority=high
+19:00:02.462 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Created worker session worker-1 for task task-1
+19:00:02.462 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- All 1 worker tasks created and started
+19:00:02.462 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 6: Monitoring 1 workers for session master-session-008
+19:00:02.462 [pool-28-thread-1] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Starting worker execution for session worker-1
+19:00:02.462 [main] WARN tech.yesboss.runner.impl.MasterRunnerImpl -- Error updating progress for session master-session-008
+java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.JsonNode.toString()" because "progressBar" is null
+	at tech.yesboss.runner.impl.MasterRunnerImpl.updateProgress(MasterRunnerImpl.java:554)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.waitForWorkersCompletion(MasterRunnerImpl.java:423)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.run(MasterRunnerImpl.java:165)
+	at tech.yesboss.runner.RunnerSkeletonTest.testMasterRunnerEnvironmentExploration(RunnerSkeletonTest.java:1927)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+19:00:04.462 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Workers monitoring completed: 1 completed, 0 failed for session master-session-008
+19:00:04.463 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 7: Generating final summary for session master-session-008
+19:00:04.463 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated summary: # Task Execution Summary
+
+## Worker Report
+Report
+
+
+19:00:04.463 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Final summary generated and pushed for session master-session-008
+19:00:04.464 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner completed successfully for session master-session-008
 ]]></system-out>
   </testcase>
-  <testcase name="testMasterRunnerConstructorWithNullModelRouter" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
-  <testcase name="testWorkerRunnerConstructorWithNullToolRegistry" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
-  <testcase name="testWorkerRunnerGenerateExecutionReport" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
-    <system-out><![CDATA[18:44:50.567 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.568 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Generating execution report for session session-123
-18:44:50.569 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Execution report generated for session session-123
+  <testcase name="testMasterRunnerShutdown" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[19:00:04.466 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+19:00:04.467 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Shutting down MasterRunner virtual thread executor
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerConstructorWithNullSandboxInterceptor" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002"/>
+  <testcase name="testMasterRunnerConstructorWithNullModelRouter" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003"/>
+  <testcase name="testWorkerRunnerConstructorWithNullToolRegistry" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
+  <testcase name="testMasterRunnerClarificationWithUnclearLLMResponse" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[19:00:04.474 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+19:00:04.475 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session master-session-002
+19:00:04.475 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Session master-session-002 current status: PLANNING
+19:00:04.475 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 1: Requirement clarification for session master-session-002
+19:00:04.475 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Requirements unclear, pushing question: What specific features do you need?
+19:00:04.475 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Clarification question pushed for session master-session-002
+19:00:04.475 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Requirements clarification needed, yielding for user response
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerGenerateExecutionReport" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001">
+    <system-out><![CDATA[19:00:04.476 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+19:00:04.477 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Generating execution report for session session-123
+19:00:04.477 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Execution report generated for session session-123
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerConstructorWithNullSandboxInterceptor" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
   <testcase name="testWorkerRunnerConstructorWithNullTaskManager" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
   <testcase name="testWorkerRunnerConstructorWithNullCondensationEngine" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
   <testcase name="testWorkerRunnerConstructorWithNullToolCallTracker" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
-  <testcase name="testMasterRunnerGenerateExecutionPlan" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.027">
-    <system-out><![CDATA[18:44:50.578 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
-18:44:50.579 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generating execution plan for session session-123 (legacy method)
-18:44:50.580 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 3: Generating execution plan for session session-123
-18:44:50.593 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- PlanningTool returned: [{"id":"task-1","description":"Test","priority":"high"}]
-18:44:50.602 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Parsed execution plan with 1 tasks
+  <testcase name="testMasterRunnerGenerateExecutionPlan" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[19:00:04.483 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+19:00:04.483 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generating execution plan for session session-123 (legacy method)
+19:00:04.483 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 3: Generating execution plan for session session-123
+19:00:04.484 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- PlanningTool returned: [{"id":"task-1","description":"Test","priority":"high"}]
+19:00:04.484 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Parsed execution plan with 1 tasks
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerCondensationEngineCalledOnCompletion" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.004">
-    <system-out><![CDATA[18:44:50.606 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.608 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
-18:44:50.608 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.608 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
-18:44:50.608 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
-18:44:50.608 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
-18:44:50.608 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
-18:44:50.608 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
-18:44:50.608 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
-18:44:50.608 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
-18:44:50.608 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.608 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
-18:44:50.608 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
-18:44:50.609 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.609 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
-18:44:50.609 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
-18:44:50.609 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
-18:44:50.609 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
+  <testcase name="testMasterRunnerWaitsForAllWorkersToComplete" classname="tech.yesboss.runner.RunnerSkeletonTest" time="4.005">
+    <system-out><![CDATA[19:00:04.486 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+19:00:04.487 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session master-session-004
+19:00:04.487 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Session master-session-004 current status: PLANNING
+19:00:04.487 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 1: Requirement clarification for session master-session-004
+19:00:04.488 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Requirements clarified for session master-session-004
+19:00:04.488 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 2: Environment exploration for session master-session-004
+19:00:04.488 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- No read-only tools available for exploration
+19:00:04.488 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Environment exploration completed for session master-session-004
+19:00:04.488 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 3: Generating execution plan for session master-session-004
+19:00:04.488 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- PlanningTool returned: [{"id":"task-1","description":"Task 1","priority":"high"},{"id":"task-2","description":"Task 2","priority":"medium"},{"id":"task-3","description":"Task 3","priority":"low"}]
+19:00:04.488 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Parsed execution plan with 3 tasks
+19:00:04.488 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated execution plan with 3 tasks for session master-session-004
+19:00:04.488 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 4-5: Creating and executing 3 worker tasks for session master-session-004
+19:00:04.488 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Creating worker task: id=task-1, description=Task 1, priority=high
+19:00:04.489 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Created worker session worker-1 for task task-1
+19:00:04.489 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Creating worker task: id=task-2, description=Task 2, priority=medium
+19:00:04.489 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Created worker session worker-2 for task task-2
+19:00:04.489 [pool-33-thread-1] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Starting worker execution for session worker-1
+19:00:04.489 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Creating worker task: id=task-3, description=Task 3, priority=low
+19:00:04.489 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Created worker session worker-3 for task task-3
+19:00:04.489 [pool-33-thread-2] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Starting worker execution for session worker-2
+19:00:04.489 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- All 3 worker tasks created and started
+19:00:04.489 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 6: Monitoring 3 workers for session master-session-004
+19:00:04.489 [pool-33-thread-3] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Starting worker execution for session worker-3
+19:00:06.490 [main] WARN tech.yesboss.runner.impl.MasterRunnerImpl -- Error updating progress for session master-session-004
+java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.JsonNode.toString()" because "progressBar" is null
+	at tech.yesboss.runner.impl.MasterRunnerImpl.updateProgress(MasterRunnerImpl.java:554)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.waitForWorkersCompletion(MasterRunnerImpl.java:423)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.run(MasterRunnerImpl.java:165)
+	at tech.yesboss.runner.RunnerSkeletonTest.testMasterRunnerWaitsForAllWorkersToComplete(RunnerSkeletonTest.java:1643)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+19:00:08.490 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Workers monitoring completed: 3 completed, 0 failed for session master-session-004
+19:00:08.490 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 7: Generating final summary for session master-session-004
+19:00:08.490 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated summary: # Task Execution Summary
+
+## Worker Report
+Report
+
+## Worker Report
+Report
+
+## Worker Report
+Report
+
+
+19:00:08.490 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Final summary generated and pushed for session master-session-004
+19:00:08.490 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner completed successfully for session master-session-004
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerRunWithNonExistentSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
-    <system-out><![CDATA[18:44:50.611 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.612 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
-18:44:50.612 [main] ERROR tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner execution failed for session session-123
+  <testcase name="testWorkerRunnerCondensationEngineCalledOnCompletion" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
+    <system-out><![CDATA[19:00:08.492 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+19:00:08.493 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+19:00:08.493 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+19:00:08.493 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
+19:00:08.493 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
+19:00:08.493 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
+19:00:08.493 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
+19:00:08.493 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+19:00:08.493 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+19:00:08.493 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
+19:00:08.493 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+19:00:08.493 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
+19:00:08.493 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
+19:00:08.493 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+19:00:08.493 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
+19:00:08.493 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
+19:00:08.493 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
+19:00:08.493 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 1 iterations
+]]></system-out>
+  </testcase>
+  <testcase name="testWorkerRunnerRunWithNonExistentSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[19:00:08.495 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+19:00:08.495 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+19:00:08.495 [main] ERROR tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner execution failed for session session-123
 java.lang.IllegalStateException: Session not found: session-123
 	at tech.yesboss.runner.impl.WorkerRunnerImpl.run(WorkerRunnerImpl.java:141)
 	at tech.yesboss.runner.RunnerSkeletonTest.lambda$testWorkerRunnerRunWithNonExistentSession$32(RunnerSkeletonTest.java:849)
@@ -696,19 +1280,122 @@ java.lang.IllegalStateException: Session not found: session-123
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-out>
   </testcase>
-  <testcase name="testMasterRunnerGenerateExecutionPlanWithWrongStatus" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003">
-    <system-out><![CDATA[18:44:50.614 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
-18:44:50.615 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generating execution plan for session session-123 (legacy method)
+  <testcase name="testMasterRunnerTransitionsToFailedWhenWorkerFails" classname="tech.yesboss.runner.RunnerSkeletonTest" time="2.004">
+    <system-out><![CDATA[19:00:08.497 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+19:00:08.497 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session master-session-007
+19:00:08.497 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Session master-session-007 current status: PLANNING
+19:00:08.497 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 1: Requirement clarification for session master-session-007
+19:00:08.497 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Requirements clarified for session master-session-007
+19:00:08.497 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 2: Environment exploration for session master-session-007
+19:00:08.498 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- No read-only tools available for exploration
+19:00:08.498 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Environment exploration completed for session master-session-007
+19:00:08.498 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 3: Generating execution plan for session master-session-007
+19:00:08.498 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- PlanningTool returned: [{"id":"task-1","description":"Task 1","priority":"high"},{"id":"task-2","description":"Task 2","priority":"high"}]
+19:00:08.498 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Parsed execution plan with 2 tasks
+19:00:08.498 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generated execution plan with 2 tasks for session master-session-007
+19:00:08.498 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 4-5: Creating and executing 2 worker tasks for session master-session-007
+19:00:08.498 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Creating worker task: id=task-1, description=Task 1, priority=high
+19:00:08.498 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Created worker session worker-1 for task task-1
+19:00:08.499 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Creating worker task: id=task-2, description=Task 2, priority=high
+19:00:08.499 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Created worker session worker-2 for task task-2
+19:00:08.499 [pool-36-thread-1] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Starting worker execution for session worker-1
+19:00:08.499 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- All 2 worker tasks created and started
+19:00:08.499 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 6: Monitoring 2 workers for session master-session-007
+19:00:08.499 [pool-36-thread-2] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Starting worker execution for session worker-2
+19:00:08.499 [main] WARN tech.yesboss.runner.impl.MasterRunnerImpl -- Error updating progress for session master-session-007
+java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.JsonNode.toString()" because "progressBar" is null
+	at tech.yesboss.runner.impl.MasterRunnerImpl.updateProgress(MasterRunnerImpl.java:554)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.waitForWorkersCompletion(MasterRunnerImpl.java:423)
+	at tech.yesboss.runner.impl.MasterRunnerImpl.run(MasterRunnerImpl.java:165)
+	at tech.yesboss.runner.RunnerSkeletonTest.testMasterRunnerTransitionsToFailedWhenWorkerFails(RunnerSkeletonTest.java:1858)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+19:00:10.500 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Workers monitoring completed: 1 completed, 1 failed for session master-session-007
+19:00:10.500 [main] ERROR tech.yesboss.runner.impl.MasterRunnerImpl -- Some workers failed for session master-session-007
+]]></system-out>
+  </testcase>
+  <testcase name="testMasterRunnerGenerateExecutionPlanWithWrongStatus" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[19:00:10.501 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+19:00:10.502 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generating execution plan for session session-123 (legacy method)
 ]]></system-out>
   </testcase>
   <testcase name="testMasterRunnerConstructorWithNullToolRegistry" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
-  <testcase name="testMasterRunnerRunWithValidSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.028">
-    <system-out><![CDATA[18:44:50.619 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
-18:44:50.643 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session session-123
-18:44:50.643 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Session session-123 current status: PLANNING
-18:44:50.643 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 1: Requirement clarification for session session-123
-18:44:50.644 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Context insufficient, initiating clarification for session session-123
-18:44:50.645 [main] ERROR tech.yesboss.runner.impl.MasterRunnerImpl -- Error pushing clarification question for session session-123
+  <testcase name="testMasterRunnerRunWithValidSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.029">
+    <system-out><![CDATA[19:00:10.503 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+19:00:10.530 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunner starting for session session-123
+19:00:10.530 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Session session-123 current status: PLANNING
+19:00:10.530 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Step 1: Requirement clarification for session session-123
+19:00:10.530 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Context insufficient, initiating clarification for session session-123
+19:00:10.531 [main] ERROR tech.yesboss.runner.impl.MasterRunnerImpl -- Error pushing clarification question for session session-123
 java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.JsonNode.toString()" because "card" is null
 	at tech.yesboss.runner.impl.MasterRunnerImpl.pushClarificationQuestion(MasterRunnerImpl.java:530)
 	at tech.yesboss.runner.impl.MasterRunnerImpl.pushClarificationQuestion(MasterRunnerImpl.java:517)
@@ -790,56 +1477,56 @@ java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.Js
 	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
-18:44:50.646 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Requirements clarification needed, yielding for user response
+19:00:10.532 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Requirements clarification needed, yielding for user response
 ]]></system-out>
   </testcase>
-  <testcase name="testMasterRunnerGenerateExecutionPlanWithNonExistentSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
-    <system-out><![CDATA[18:44:50.648 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
-18:44:50.648 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generating execution plan for session session-123 (legacy method)
+  <testcase name="testMasterRunnerGenerateExecutionPlanWithNonExistentSession" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001">
+    <system-out><![CDATA[19:00:10.533 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+19:00:10.533 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- Generating execution plan for session session-123 (legacy method)
 ]]></system-out>
   </testcase>
-  <testcase name="testMasterRunnerConstructorWithValidParameters" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
-    <system-out><![CDATA[18:44:50.650 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
+  <testcase name="testMasterRunnerConstructorWithValidParameters" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001">
+    <system-out><![CDATA[19:00:10.534 [main] INFO tech.yesboss.runner.impl.MasterRunnerImpl -- MasterRunnerImpl initialized with all dependencies
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithNullSessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
-    <system-out><![CDATA[18:44:50.652 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.653 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session null is resuming from suspension
+  <testcase name="testWorkerRunnerIsResumingFromSuspensionWithNullSessionId" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.0">
+    <system-out><![CDATA[19:00:10.535 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+19:00:10.535 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session null is resuming from suspension
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerReActLoopWithMultipleToolCalls" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.007">
-    <system-out><![CDATA[18:44:50.654 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
-18:44:50.656 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
-18:44:50.657 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
-18:44:50.657 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
-18:44:50.657 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
-18:44:50.657 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
-18:44:50.657 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
-18:44:50.657 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
-18:44:50.657 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
-18:44:50.657 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
-18:44:50.657 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.658 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
-18:44:50.658 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
-18:44:50.658 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.658 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 3 tool calls
-18:44:50.658 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: tool_a with toolCallId: call-1
-18:44:50.658 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool tool_a executed successfully
-18:44:50.658 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: tool_b with toolCallId: call-2
-18:44:50.658 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool tool_b executed successfully
-18:44:50.658 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: tool_c with toolCallId: call-3
-18:44:50.659 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool tool_c executed successfully
-18:44:50.659 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 2 for session session-123
-18:44:50.659 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 2
-18:44:50.659 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
-18:44:50.659 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 2
-18:44:50.659 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
-18:44:50.659 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
-18:44:50.659 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
-18:44:50.659 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
-18:44:50.659 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
-18:44:50.659 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 2 iterations
+  <testcase name="testWorkerRunnerReActLoopWithMultipleToolCalls" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.002">
+    <system-out><![CDATA[19:00:10.536 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunnerImpl initialized with thread pool executor
+19:00:10.537 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner starting for session session-123
+19:00:10.537 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Checking if session session-123 is resuming from suspension
+19:00:10.537 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Local stream is empty for session session-123, treating as new worker
+19:00:10.537 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner for session session-123 is resuming from suspension: false
+19:00:10.537 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- New worker session, performing initialization
+19:00:10.537 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Initial context injected for session session-123
+19:00:10.537 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Starting ReAct loop for session session-123
+19:00:10.537 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 1 for session session-123
+19:00:10.537 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 1
+19:00:10.537 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+19:00:10.537 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 1
+19:00:10.537 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=true, isTextOnly=false
+19:00:10.537 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+19:00:10.537 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Processing 3 tool calls
+19:00:10.537 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: tool_a with toolCallId: call-1
+19:00:10.537 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool tool_a executed successfully
+19:00:10.538 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: tool_b with toolCallId: call-2
+19:00:10.538 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool tool_b executed successfully
+19:00:10.538 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Executing tool: tool_c with toolCallId: call-3
+19:00:10.538 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- Tool tool_c executed successfully
+19:00:10.538 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- ReAct loop iteration 2 for session session-123
+19:00:10.538 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- CircuitBreaker check passed for iteration 2
+19:00:10.538 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Fetched 0 messages from local stream
+19:00:10.538 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling LLM for ReAct iteration 2
+19:00:10.538 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- LLM response received: hasToolCalls=false, isTextOnly=true
+19:00:10.538 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Appended LLM response to local stream
+19:00:10.538 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- No more tool calls, task completed for session session-123
+19:00:10.538 [main] DEBUG tech.yesboss.runner.impl.WorkerRunnerImpl -- Calling CondensationEngine for session session-123
+19:00:10.538 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner completed successfully for session session-123
+19:00:10.538 [main] INFO tech.yesboss.runner.impl.WorkerRunnerImpl -- WorkerRunner ReAct loop completed for session session-123 after 2 iterations
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerRunnerConstructorWithNullCircuitBreaker" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.003"/>
+  <testcase name="testWorkerRunnerConstructorWithNullCircuitBreaker" classname="tech.yesboss.runner.RunnerSkeletonTest" time="0.001"/>
 </testsuite>
