@@ -41,6 +41,9 @@ public class TaskManagerImpl implements TaskManager {
 
     private final TaskSessionRepository repository;
 
+    // In-memory cache of recently created session IDs (to handle async DB writes)
+    private final Set<String> sessionCache = ConcurrentHashMap.newKeySet();
+
     /**
      * Create a new TaskManagerImpl.
      *
@@ -91,6 +94,9 @@ public class TaskManagerImpl implements TaskManager {
                 null   // assignedTask is null for Master
         );
 
+        // Add to in-memory cache immediately (since DB write is async)
+        sessionCache.add(sessionId);
+
         logger.info("Created Master task: sessionId={}, imType={}, imGroupId={}, topic={}",
                 sessionId, imType, imGroupId, topic);
 
@@ -131,6 +137,9 @@ public class TaskManagerImpl implements TaskManager {
                 null,  // topic is derived from assignedTask
                 assignedTask
         );
+
+        // Add to in-memory cache immediately (since DB write is async)
+        sessionCache.add(sessionId);
 
         logger.info("Created Worker task: sessionId={}, parentSessionId={}, assignedTask={}",
                 sessionId, parentSessionId, assignedTask);
@@ -221,6 +230,11 @@ public class TaskManagerImpl implements TaskManager {
     public boolean sessionExists(String sessionId) {
         if (sessionId == null || sessionId.trim().isEmpty()) {
             return false;
+        }
+
+        // Check in-memory cache first (for newly created sessions that haven't been written to DB yet)
+        if (sessionCache.contains(sessionId)) {
+            return true;
         }
 
         return repository.findById(sessionId).isPresent();
