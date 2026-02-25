@@ -28,6 +28,7 @@ import tech.yesboss.llm.impl.ClaudeLlmClient;
 import tech.yesboss.llm.impl.ModelRouter;
 import tech.yesboss.persistence.db.DatabaseInitializer;
 import tech.yesboss.persistence.db.SingleThreadDbWriter;
+import tech.yesboss.persistence.db.SQLiteConnectionManager;
 import tech.yesboss.persistence.repository.ChatMessageRepository;
 import tech.yesboss.persistence.repository.ChatMessageRepositoryImpl;
 import tech.yesboss.persistence.repository.TaskSessionRepository;
@@ -83,6 +84,7 @@ public class ApplicationContext {
     private final YesBossConfig config;
 
     // ==================== Infrastructure Layer ====================
+    private SQLiteConnectionManager connectionManager;
     private DatabaseInitializer databaseInitializer;
     private SingleThreadDbWriter dbWriter;
     private ChatMessageRepository chatMessageRepository;
@@ -171,17 +173,17 @@ public class ApplicationContext {
             logger.info("Step 4: Initializing Tool Layer...");
             initializeToolLayer();
 
-            // Step 5: Initialize State Layer
-            logger.info("Step 5: Initializing State Layer...");
+            // Step 5: Initialize UI Layer (before State Layer since SuspendResumeEngine needs imMessagePusher)
+            logger.info("Step 5: Initializing UI Layer...");
+            initializeUiLayer();
+
+            // Step 6: Initialize State Layer
+            logger.info("Step 6: Initializing State Layer...");
             initializeStateLayer();
 
-            // Step 6: Initialize Runner Layer
-            logger.info("Step 6: Initializing Runner Layer...");
+            // Step 7: Initialize Runner Layer
+            logger.info("Step 7: Initializing Runner Layer...");
             initializeRunnerLayer();
-
-            // Step 7: Initialize UI Layer
-            logger.info("Step 7: Initializing UI Layer...");
-            initializeUiLayer();
 
             // Step 8: Initialize Gateway Layer
             logger.info("Step 8: Initializing Gateway Layer...");
@@ -205,20 +207,26 @@ public class ApplicationContext {
     private void initializeInfrastructureLayer() throws Exception {
         logger.info("Initializing Database...");
 
-        // Initialize database
-        databaseInitializer = new DatabaseInitializer(
-                config.getDatabase().getSqlite().getPath()
-        );
+        // Initialize database connection manager
+        String dbPath = config.getDatabase().getSqlite().getPath();
+        logger.info("Database path: {}", dbPath);
+
+        // Create connection manager
+        connectionManager = SQLiteConnectionManager.forFile(java.nio.file.Paths.get(dbPath));
+        java.sql.Connection connection = connectionManager.getConnection();
+
+        // Initialize database schema
+        databaseInitializer = new DatabaseInitializer(connection);
         databaseInitializer.initialize();
 
         logger.info("Initializing SingleThreadDbWriter...");
-        dbWriter = new SingleThreadDbWriter();
+        dbWriter = new SingleThreadDbWriter(connection);
         dbWriter.startConsumer();
 
         logger.info("Initializing Repositories...");
-        chatMessageRepository = new ChatMessageRepositoryImpl(dbWriter);
-        taskSessionRepository = new TaskSessionRepositoryImpl(dbWriter);
-        toolExecutionRepository = new ToolExecutionRepositoryImpl(dbWriter);
+        chatMessageRepository = new ChatMessageRepositoryImpl(connection, dbWriter);
+        taskSessionRepository = new TaskSessionRepositoryImpl(connection, dbWriter);
+        toolExecutionRepository = new ToolExecutionRepositoryImpl(connection, dbWriter);
 
         logger.info("Infrastructure Layer initialized");
     }
@@ -286,7 +294,7 @@ public class ApplicationContext {
         sandboxInterceptor = new SandboxInterceptorImpl();
 
         logger.info("Initializing ToolCallTracker...");
-        toolCallTracker = new ToolCallTrackerImpl(toolExecutionRepository);
+        toolCallTracker = new ToolCallTrackerImpl(dbWriter);
 
         logger.info("Initializing PlanningTool...");
         planningTool = new PlanningTool(modelRouter.routeByRole("MASTER"));
@@ -478,9 +486,20 @@ public class ApplicationContext {
         if (dbWriter != null) {
             try {
                 logger.info("Shutting down SingleThreadDbWriter...");
-                dbWriter.shutdown();
-            } catch (Exception e) {
+                dbWriter.stopConsumer();
+            } catch (InterruptedException e) {
                 logger.error("Error shutting down SingleThreadDbWriter", e);
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        // Close database connection
+        if (connectionManager != null) {
+            try {
+                logger.info("Closing database connection...");
+                connectionManager.close();
+            } catch (Exception e) {
+                logger.error("Error closing database connection", e);
             }
         }
 
