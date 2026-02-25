@@ -1951,3 +1951,32 @@ Next Steps:
 - Integrate WebhookController for signature verification
 - Integrate WebhookEventExecutor for async processing
 - Initialize Master/Worker runners for business logic
+[2026-02-25] Task ID: 应用集成模块_001
+Status: SUCCESS
+Description: Integrate business logic components into YesBossApplication HTTP server
+
+Implementation Summary:
+- Created ClaudeLlmClient: Concrete LlmClient implementation using Anthropic Claude SDK
+- Created ApplicationContext: Centralized component lifecycle and dependency management
+
+Component Initialization Order:
+1. Infrastructure Layer: DatabaseInitializer, SingleThreadDbWriter, Repository implementations
+2. LLM Layer: ModelRouter with Master/Worker ClaudeLlmClient instances
+3. Context Layer: GlobalStreamManager, LocalStreamManager, InjectionEngine, CondensationEngine
+4. Tool Layer: ToolRegistry, SandboxInterceptor, ToolCallTracker, PlanningTool
+5. State Layer: TaskManager, CircuitBreaker, SuspendResumeEngine
+6. Runner Layer: MasterRunnerImpl, WorkerRunnerImpl
+7. UI Layer: UICardRenderer, IMMessagePusher
+8. Gateway Layer: SessionManager, WebhookEventExecutor, WebhookController
+
+Features:
+- Proper dependency injection order across all layers
+- Graceful shutdown hook for resource cleanup
+- Comprehensive logging for component lifecycle
+- Configuration-driven component initialization
+
+Files Created:
+- src/main/java/tech/yesboss/llm/impl/ClaudeLlmClient.java
+- src/main/java/tech/yesboss/ApplicationContext.java
+
+Next Task: Connect WebhookController to Spark HTTP routes in YesBossApplication

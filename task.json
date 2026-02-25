@@ -1142,5 +1142,103 @@
       "技术模块设计.md"
     ],
     "passes": true
+  },
+  {
+    "category": "develop",
+    "module": "应用集成模块",
+    "description": "Integrate business logic components into YesBossApplication HTTP server",
+    "steps": [
+      "Create ApplicationContext class to manage all component lifecycle and dependencies",
+      "Implement component initialization with proper dependency injection order",
+      "Initialize infrastructure layer: DatabaseInitializer, SingleThreadDbWriter, Repository implementations",
+      "Initialize gateway layer: SessionManager, WebhookEventExecutor, WebhookController",
+      "Initialize LLM layer: ModelRouter, ClaudeSdkAdapterImpl (and other vendor adapters)",
+      "Initialize context layer: GlobalStreamManager, LocalStreamManager, InjectionEngine, CondensationEngine",
+      "Initialize tool layer: ToolRegistry, SandboxInterceptor, ToolCallTracker, PlanningTool",
+      "Initialize state layer: TaskManager, CircuitBreaker, SuspendResumeEngine",
+      "Initialize runner layer: MasterRunnerImpl, WorkerRunnerImpl",
+      "Initialize UI layer: UICardRenderer, IMMessagePusher",
+      "Wire all components together with proper constructor injection",
+      "Implement graceful shutdown hook to release resources",
+      "Add comprehensive logging for component initialization"
+    ],
+    "reference_docs": [
+      "整体架构设计.md",
+      "技术模块设计.md",
+      "接入与路由模块设计.md",
+      "状态机与调度引擎模块设计.md",
+      "双流上下文管理模块设计.md",
+      "LLM路由网关模块.md",
+      "统一工具链与沙箱模块设计.md",
+      "异步持久化模块设计.md"
+    ],
+    "passes": true
+  },
+  {
+    "category": "develop",
+    "module": "应用集成模块",
+    "description": "Connect WebhookController to Spark HTTP routes in YesBossApplication",
+    "steps": [
+      "Extract Spark route setup logic from main() into dedicated WebhookRouteHandler class",
+      "Integrate WebhookController.handleFeishuEvent() into /webhook/feishu POST route",
+      "Integrate WebhookController.handleFeishuCallback() into /webhook/feishu/callback POST route",
+      "Integrate WebhookController.handleSlackEvent() into /webhook/slack POST route",
+      "Integrate WebhookController.handleSlackCallback() into /webhook/slack/callback POST route",
+      "Extract HTTP headers (X-Lark-Request-Timestamp, X-Lark-Request-Nonce, X-Lark-Signature) for Feishu",
+      "Extract HTTP headers (X-Slack-Request-Timestamp, X-Slack-Signature) for Slack",
+      "Handle signature verification failures and return appropriate error codes",
+      "Add request body validation and error handling",
+      "Ensure all routes return 200 OK immediately after submitting to async executor"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "应用集成模块",
+    "description": "Test end-to-end webhook processing flow",
+    "steps": [
+      "Start YesBossApplication with test configuration",
+      "Send valid Feishu webhook POST request to /webhook/feishu",
+      "Verify HTTP 200 OK response is returned immediately (<100ms)",
+      "Verify WebhookEventExecutor.processAsync is triggered",
+      "Verify SessionManager.bindOrCreateTaskSession is called",
+      "Verify MasterRunner.run is executed",
+      "Send invalid signature request and verify SecurityException is handled",
+      "Send Slack webhook and verify same processing flow",
+      "Send callback request for human-in-the-loop and verify SuspendResumeEngine.resume is called",
+      "Verify all components are properly initialized and connected",
+      "Test graceful shutdown releases all resources"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "整体架构设计.md",
+      "技术模块设计.md",
+      "状态机与调度引擎模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "应用集成模块",
+    "description": "Add application lifecycle management and health check endpoints",
+    "steps": [
+      "Implement /health endpoint to check all critical components status",
+      "Implement /ready endpoint to verify WebhookController is ready",
+      "Implement /metrics endpoint to expose application metrics (active sessions, queue sizes)",
+      "Add startup banner with component initialization status",
+      "Implement component readiness check before accepting webhook traffic",
+      "Add graceful shutdown handling for SIGTERM (Spark.stop, executor.shutdown)",
+      "Log component lifecycle events (startup ready, shutdown initiated)"
+    ],
+    "reference_docs": [
+      "整体架构设计.md",
+      "技术模块设计.md"
+    ],
+    "passes": false
   }
 ]

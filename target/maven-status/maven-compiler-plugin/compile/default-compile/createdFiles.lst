@@ -26,6 +26,7 @@ tech/yesboss/config/YesBossConfig$SchedulerConfig.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$1.class
 tech/yesboss/persistence/event/UpdateTaskStatusEvent.class
 tech/yesboss/tool/tracker/ToolCallTracker.class
+tech/yesboss/YesBossApplication.class
 tech/yesboss/config/YesBossConfig$FileLogConfig.class
 tech/yesboss/runner/impl/WorkerRunnerImpl.class
 tech/yesboss/persistence/entity/TaskSession$ImType.class

@@ -62,6 +62,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/impl/MasterRunnerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/config/ConfigLoader.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/YesBossApplication.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/SuspendResumeEngine.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteMessagesEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/ToolAccessLevel.java
