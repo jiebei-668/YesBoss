@@ -59,6 +59,9 @@ public class YesBossApplication {
         logger.info("========================================");
 
         try {
+            // Step 0: Auto-load .env file if exists
+            loadEnvFile();
+
             // Step 1: Load configuration
             logger.info("Loading configuration...");
             YesBossConfig config = ConfigurationManager.getInstance().getConfig();
@@ -229,6 +232,71 @@ public class YesBossApplication {
         }, "ShutdownHook-SignalHandler"));
 
         logger.info("Signal handlers registered");
+    }
+
+    /**
+     * Auto-load .env file from project root if it exists.
+     *
+     * <p>This method reads the .env file and sets environment variables as system properties,
+     * making them available to ConfigurationManager for placeholder substitution.</p>
+     */
+    private static void loadEnvFile() {
+        java.nio.file.Path envPath = java.nio.file.Paths.get(".env");
+
+        if (!java.nio.file.Files.exists(envPath)) {
+            logger.debug(".env file not found at {}, skipping", envPath.toAbsolutePath());
+            return;
+        }
+
+        logger.info("Loading .env file from: {}", envPath.toAbsolutePath());
+
+        try {
+            int loadedCount = 0;
+            java.util.List<String> lines = java.nio.file.Files.readAllLines(envPath);
+
+            for (String line : lines) {
+                line = line.trim();
+
+                // Skip empty lines and comments
+                if (line.isEmpty() || line.startsWith("#")) {
+                    continue;
+                }
+
+                // Parse KEY=VALUE format
+                int equalIndex = line.indexOf('=');
+                if (equalIndex > 0) {
+                    String key = line.substring(0, equalIndex).trim();
+                    String value = line.substring(equalIndex + 1).trim();
+
+                    // Set as system property ( ConfigurationManager reads system properties as fallback)
+                    if (!value.isEmpty()) {
+                        String oldValue = System.setProperty(key, value);
+                        if (oldValue == null) {
+                            loadedCount++;
+                            logger.debug("Loaded: {}={}", key, maskSensitiveValue(key, value));
+                        }
+                    }
+                }
+            }
+
+            logger.info("Loaded {} environment variables from .env file", loadedCount);
+
+        } catch (Exception e) {
+            logger.warn("Failed to load .env file: {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Mask sensitive values (API keys, secrets) for logging.
+     */
+    private static String maskSensitiveValue(String key, String value) {
+        if (key.contains("KEY") || key.contains("SECRET") || key.contains("TOKEN")) {
+            if (value.length() > 8) {
+                return value.substring(0, 8) + "...";
+            }
+            return "***";
+        }
+        return value;
     }
 
     /**

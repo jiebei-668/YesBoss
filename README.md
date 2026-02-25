@@ -312,14 +312,20 @@ mvn test
 
 #### 5. Start the Application
 
-**Important**: This project uses Java 17 preview features (virtual threads), so you must run with `--enable-preview` flag.
+**Important**: This project uses Java 17 preview features (virtual threads).
 
-**Method 1: Using Maven + Java (Recommended)**
+The `.mvn/jvm.config` file is already created with `--enable-preview` flag.
+The `.env` file is auto-loaded at startup - no manual export needed!
+
+**Method 1: Using Maven (Recommended)**
 
 ```bash
-# Load environment variables from .env
-export $(cat .env | grep -v '^#' | xargs)
+mvn exec:java
+```
 
+**Method 2: Using Java directly**
+
+```bash
 # Build classpath
 mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
 
@@ -328,31 +334,9 @@ CP=$(cat cp.txt):target/classes
 java --enable-preview -cp "$CP" tech.yesboss.YesBossApplication
 ```
 
-**Method 2: Using Maven exec plugin**
-
-Create `.mvn/jvm.config` file first:
-
-```bash
-mkdir -p .mvn
-echo "--enable-preview" > .mvn/jvm.config
-```
-
-Then run:
-
-```bash
-# Load environment variables
-export $(cat .env | grep -v '^#' | xargs)
-
-# Run with Maven
-mvn exec:java
-```
-
 **Method 3: Background运行**
 
 ```bash
-# Load environment variables
-source .env 2>/dev/null || export $(cat .env | grep -v '^#' | xargs)
-
 # Build classpath and run in background
 mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
 CP=$(cat cp.txt):target/classes
