@@ -2083,3 +2083,43 @@ Files Modified:
 - src/main/java/tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.java
 - src/main/java/tech/yesboss/gateway/webhook/executor/impl/WebhookEventExecutorImpl.java
 
+[2026-02-25 14:06:46] Task ID: Documentation - README Enhancement
+Status: SUCCESS
+Description: Add comprehensive Quick Start guide and deployment instructions
+
+Implementation Summary:
+- Added Quick Start section with prerequisites (Java 17+, Maven 3.6+, Feishu App, LLM API keys)
+- Added detailed Installation steps (clone, configure, build, test, run)
+- Documented 3 methods to start the application (Maven, Java JAR, IDE)
+- Added complete Feishu Webhook configuration guide:
+  * Create Feishu App and obtain credentials
+  * Configure webhook URL (including ngrok for local testing)
+  * Enable bot permissions (im:message, im:message:group_at_msg, im:chat)
+  * Add bot to group chat
+- Added Usage section with startup logs and example commands
+- Added Development section with project structure and testing commands
+- Added Troubleshooting section for common issues:
+  * Port already in use
+  * Database connection errors
+  * Feishu webhook timeout
+  * LLM API errors
+- Added Production Deployment section:
+  * Docker deployment example with Dockerfile
+  * Systemd service configuration
+- Documented health check endpoints (/health, /ready, /metrics)
+- Provided example Feishu task command
+
+Configuration Examples:
+- application.yml configuration for LLM providers (Zhipu, Anthropic, Gemini, OpenAI)
+- Environment variable setup script
+- ngrok local testing command
+- Docker build and run commands
+- Systemd service unit file
+
+Files Modified:
+- README.md (added ~350 lines of comprehensive documentation)
+
+User Impact:
+- New users can now quickly set up and run the YesBoss platform
+- Clear deployment guides for both development and production
+- Reduces onboarding time significantly
