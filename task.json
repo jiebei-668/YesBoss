@@ -1259,5 +1259,64 @@
       "接入与路由模块设计.md"
     ],
     "passes": true
+  },
+  {
+    "category": "develop",
+    "module": "接入与路由模块",
+    "description": "Implement Feishu API client for token and message sending",
+    "steps": [
+      "Create FeishuApiClient class with app_id and app_secret configuration",
+      "Implement getAccessToken() to fetch tenant_access_token from https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal",
+      "Implement sendMessage() to call POST https://open.feishu.cn/open-apis/im/v1/messages",
+      "Implement receive_id_type parameter support (chat_id, open_id, user_id)",
+      "Implement card message formatting with content field (card object)",
+      "Implement text message formatting with text field",
+      "Add error handling for rate limits, invalid tokens, and network failures",
+      "Add retry logic with exponential backoff for transient failures"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "https://open.feishu.cn/document/server-docs/im-v1/message/create"
+    ],
+    "passes": false
+  },
+  {
+    "category": "develop",
+    "module": "接入与路由模块",
+    "description": "Refactor IMMessagePusherImpl to use Feishu API instead of environment variables",
+    "steps": [
+      "Inject FeishuApiClient into IMMessagePusherImpl constructor",
+      "Remove getWebhookUrl() and getEnvKey() methods (no longer needed)",
+      "Refactor pushCardMessage() to call FeishuApiClient.sendMessage() with receive_id_type=chat_id",
+      "Refactor pushTextMessage() to call FeishuApiClient.sendMessage() with text content",
+      "Update error handling to use Feishu API exceptions instead of IllegalArgumentException",
+      "Add logging for successful message sends with message_id",
+      "Remove all FEISHU_WEBHOOK_* environment variable references"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "https://open.feishu.cn/document/server-docs/im-v1/message/create"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "接入与路由模块",
+    "description": "Test Feishu API client and message pushing functionality",
+    "steps": [
+      "Mock FeishuApiClient to simulate successful API responses",
+      "Test getAccessToken() returns valid token and handles authentication errors",
+      "Test sendMessage() correctly formats card and text message payloads",
+      "Test pushCardMessage() calls sendMessage() with correct chat_id and card content",
+      "Test pushTextMessage() calls sendMessage() with correct text content",
+      "Verify error handling for 400, 401, 403, 429 status codes",
+      "Test retry logic for transient network failures",
+      "Verify environment variable fallback is removed"
+    ],
+    "reference_docs": [
+      "接入与路由模块设计.md",
+      "https://open.feishu.cn/document/server-docs/im-v1/message/create"
+    ],
+    "passes": false
   }
 ]
