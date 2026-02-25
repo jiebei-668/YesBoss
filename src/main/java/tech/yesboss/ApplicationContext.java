@@ -55,6 +55,8 @@ import tech.yesboss.tool.sandbox.SandboxInterceptor;
 import tech.yesboss.tool.sandbox.impl.SandboxInterceptorImpl;
 import tech.yesboss.tool.tracker.ToolCallTracker;
 import tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl;
+import tech.yesboss.health.HealthCheckService;
+import tech.yesboss.health.MetricsCollector;
 
 /**
  * ApplicationContext - Application Component Container
@@ -126,8 +128,15 @@ public class ApplicationContext {
     private WebhookEventExecutor webhookEventExecutor;
     private WebhookController webhookController;
 
+    // ==================== Health & Monitoring ====================
+    private HealthCheckService healthCheckService;
+    private MetricsCollector metricsCollector;
+
     // Initialization flag
     private boolean initialized = false;
+
+    // Ready flag - set to true when application is ready to accept webhook traffic
+    private boolean ready = false;
 
     /**
      * Create a new ApplicationContext with the given configuration.
@@ -189,10 +198,16 @@ public class ApplicationContext {
             logger.info("Step 8: Initializing Gateway Layer...");
             initializeGatewayLayer();
 
+            // Step 9: Initialize Health & Monitoring
+            logger.info("Step 9: Initializing Health & Monitoring...");
+            initializeHealthAndMonitoring();
+
             initialized = true;
+            ready = true; // Application is now ready to accept webhook traffic
 
             logger.info("========================================");
             logger.info("ApplicationContext initialized successfully!");
+            logger.info("Application is READY to accept webhook traffic");
             logger.info("========================================");
 
         } catch (Exception e) {
@@ -422,6 +437,34 @@ public class ApplicationContext {
     }
 
     /**
+     * Initialize Health & Monitoring Services.
+     */
+    private void initializeHealthAndMonitoring() throws Exception {
+        logger.info("Initializing Health & Monitoring...");
+
+        logger.info("Initializing HealthCheckService...");
+        java.sql.Connection dbConnection = connectionManager.getConnection();
+        healthCheckService = new HealthCheckService(
+                dbConnection,
+                dbWriter,
+                masterLlmClient,
+                workerLlmClient,
+                taskManager,
+                webhookEventExecutor.getExecutor()
+        );
+
+        logger.info("Initializing MetricsCollector...");
+        metricsCollector = new MetricsCollector(
+                sessionManager,
+                dbWriter,
+                circuitBreaker,
+                webhookEventExecutor.getExecutor()
+        );
+
+        logger.info("Health & Monitoring initialized");
+    }
+
+    /**
      * Setup shutdown hook for graceful resource cleanup.
      */
     public void setupShutdownHook() {
@@ -442,7 +485,13 @@ public class ApplicationContext {
             return;
         }
 
+        logger.info("========================================");
         logger.info("Starting ApplicationContext shutdown...");
+        logger.info("========================================");
+
+        // Set ready flag to false to stop accepting webhook traffic
+        ready = false;
+        logger.info("Application is no longer ready - webhook traffic will be rejected");
 
         // Stop Spark server
         try {
@@ -504,7 +553,9 @@ public class ApplicationContext {
         }
 
         initialized = false;
-        logger.info("ApplicationContext shutdown completed");
+        logger.info("========================================");
+        logger.info("ApplicationContext shutdown completed!");
+        logger.info("========================================");
     }
 
     // ==================== Getters for Components ====================
@@ -567,5 +618,23 @@ public class ApplicationContext {
 
     public boolean isInitialized() {
         return initialized;
+    }
+
+    public HealthCheckService getHealthCheckService() {
+        if (!initialized) {
+            throw new IllegalStateException("ApplicationContext not initialized");
+        }
+        return healthCheckService;
+    }
+
+    public MetricsCollector getMetricsCollector() {
+        if (!initialized) {
+            throw new IllegalStateException("ApplicationContext not initialized");
+        }
+        return metricsCollector;
+    }
+
+    public boolean isReady() {
+        return initialized && ready;
     }
 }

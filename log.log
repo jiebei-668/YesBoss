@@ -2036,3 +2036,50 @@ Files Modified:
 - src/main/java/tech/yesboss/persistence/db/SingleThreadDbWriter.java (added Connection parameter)
 - task.json (marked task as completed)
 
+[2026-02-25T13:56:12+08:00] Task ID: 应用集成模块_045
+Status: SUCCESS
+Description: Add application lifecycle management and health check endpoints
+
+Implementation Summary:
+- Created HealthCheckService for comprehensive component health checking:
+  * Database connectivity check (Connection.isValid)
+  * Database writer consumer thread status check
+  * LLM client availability check (master and worker)
+  * WebhookEventExecutor status check
+  * TaskManager state check
+- Created MetricsCollector for application metrics gathering:
+  * Active sessions count
+  * Database writer queue size (SingleThreadDbWriter.getQueueSize())
+  * CircuitBreaker active sessions
+  * Executor thread pool metrics
+  * JVM metrics (heap/non-heap memory, thread count, available processors)
+  * Application uptime
+- Enhanced ApplicationContext with:
+  * Ready flag to control webhook traffic acceptance
+  * HealthCheckService and MetricsCollector initialization
+  * isReady() method for component readiness check
+  * Enhanced lifecycle logging with shutdown banners
+- Updated YesBossApplication with:
+  * Enhanced /health endpoint returning detailed component status (UP/DOWN/DEGRADED)
+  * Enhanced /ready endpoint returning 503 when application not ready
+  * Enhanced /metrics endpoint returning real application metrics as JSON
+  * SIGTERM signal handler for graceful shutdown
+  * Enhanced startup banner showing component initialization status
+  * Ready flag logging in startup and shutdown
+- Added getExecutor() method to WebhookEventExecutor interface
+- Implemented getExecutor() in WebhookEventExecutorImpl
+
+Test Results:
+- Maven compile: PASSED
+- Maven test: PASSED
+
+Files Created:
+- src/main/java/tech/yesboss/health/HealthCheckService.java
+- src/main/java/tech/yesboss/health/MetricsCollector.java
+
+Files Modified:
+- src/main/java/tech/yesboss/ApplicationContext.java
+- src/main/java/tech/yesboss/YesBossApplication.java
+- src/main/java/tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.java
+- src/main/java/tech/yesboss/gateway/webhook/executor/impl/WebhookEventExecutorImpl.java
+

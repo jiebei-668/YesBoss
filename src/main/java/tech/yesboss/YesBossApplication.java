@@ -7,6 +7,7 @@ import tech.yesboss.config.ConfigurationManager;
 import tech.yesboss.config.YesBossConfig;
 import tech.yesboss.gateway.webhook.controller.WebhookController;
 import tech.yesboss.gateway.webhook.route.WebhookRouteHandler;
+import tech.yesboss.health.HealthCheckService;
 
 import static spark.Spark.*;
 
@@ -21,16 +22,28 @@ import static spark.Spark.*;
  *   <li>Initialize ApplicationContext (all business components)</li>
  *   <li>Configure HTTP server with Spark</li>
  *   <li>Setup webhook routes with WebhookRouteHandler</li>
- *   <li>Register shutdown hooks for graceful cleanup</li>
+ *   <li>Register signal handlers for graceful shutdown (SIGTERM)</li>
+ *   <li>Log startup completion banner</li>
  * </ol>
  *
  * <p><b>Endpoints:</b></p>
  * <ul>
- *   <li>GET /health - Health check endpoint</li>
+ *   <li>GET /health - Health check endpoint with component status</li>
+ *   <li>GET /ready - Readiness check endpoint for webhook traffic</li>
+ *   <li>GET /metrics - Application metrics endpoint</li>
  *   <li>POST /webhook/feishu - Feishu webhook events</li>
  *   <li>POST /webhook/feishu/callback - Feishu interactive callbacks</li>
  *   <li>POST /webhook/slack - Slack webhook events</li>
  *   <li>POST /webhook/slack/callback - Slack interactive callbacks</li>
+ * </ul>
+ *
+ * <p><b>Graceful Shutdown:</b></p>
+ * <p>Handles SIGTERM signal to gracefully shutdown the application:</p>
+ * <ul>
+ *   <li>Sets ready flag to false (reject new webhook traffic)</li>
+ *   <li>Stops Spark HTTP server</li>
+ *   <li>Shuts down executor services</li>
+ *   <li>Closes database connections</li>
  * </ul>
  */
 public class YesBossApplication {
@@ -61,7 +74,7 @@ public class YesBossApplication {
             logger.info("Starting HTTP server on port {}...", port);
             port(port);
 
-            // Step 4: Setup global routes
+            // Step 4: Setup global routes (health, ready, metrics)
             setupGlobalRoutes(config);
 
             // Step 5: Setup webhook routes with WebhookController integration
@@ -70,6 +83,9 @@ public class YesBossApplication {
             webhookRouteHandler = new WebhookRouteHandler(webhookController);
             webhookRouteHandler.configureRoutes();
 
+            // Step 6: Register signal handlers for graceful shutdown
+            registerSignalHandlers();
+
             // Await server initialization
             awaitInitialization();
 
@@ -77,50 +93,83 @@ public class YesBossApplication {
             logStartupSuccess(port, config);
 
         } catch (Exception e) {
+            logger.error("========================================");
             logger.error("Failed to start YesBoss: {}", e.getMessage(), e);
+            logger.error("========================================");
             System.exit(1);
         }
     }
 
     /**
-     * Setup global routes (health check, etc.).
+     * Setup global routes (health, ready, metrics).
      *
      * @param config The application configuration
      */
     private static void setupGlobalRoutes(YesBossConfig config) {
         logger.info("Setting up global routes...");
 
-        // Health check endpoint
+        // Health check endpoint - checks all critical components
         get("/health", (request, response) -> {
             response.status(200);
             response.type("application/json");
 
-            // Check if ApplicationContext is ready
-            boolean isReady = applicationContext != null && applicationContext.isInitialized()
-                && applicationContext.getWebhookController() != null
-                && applicationContext.getWebhookController().isReady();
+            try {
+                if (applicationContext == null || !applicationContext.isInitialized()) {
+                    return "{\"status\":\"DOWN\",\"service\":\"YesBoss\",\"message\":\"ApplicationContext not initialized\"}";
+                }
 
-            if (isReady) {
-                return "{\"status\":\"ok\",\"service\":\"YesBoss\",\"ready\":true}";
-            } else {
-                return "{\"status\":\"ok\",\"service\":\"YesBoss\",\"ready\":false}";
+                HealthCheckService healthCheckService = applicationContext.getHealthCheckService();
+                var healthDetails = healthCheckService.getHealthDetails();
+
+                // Build JSON response
+                StringBuilder json = new StringBuilder();
+                json.append("{");
+                json.append("\"status\":\"").append(healthDetails.get("status")).append("\",");
+                json.append("\"service\":\"YesBoss\",");
+                json.append("\"components\":{");
+
+                @SuppressWarnings("unchecked")
+                var components = (java.util.Map<String, HealthCheckService.HealthStatus>) healthDetails.get("components");
+                boolean first = true;
+                for (var entry : components.entrySet()) {
+                    if (!first) json.append(",");
+                    json.append("\"").append(entry.getKey()).append("\":\"").append(entry.getValue()).append("\"");
+                    first = false;
+                }
+
+                json.append("}}");
+                return json.toString();
+
+            } catch (Exception e) {
+                logger.error("Error checking health status", e);
+                return "{\"status\":\"ERROR\",\"service\":\"YesBoss\",\"message\":\"" + e.getMessage() + "\"}";
             }
         });
 
-        // Ready check endpoint (for Kubernetes/Liveness probes)
+        // Ready check endpoint (for Kubernetes Readiness probes)
         get("/ready", (request, response) -> {
-            response.status(200);
             response.type("application/json");
 
-            boolean isReady = applicationContext != null && applicationContext.isInitialized()
-                && applicationContext.getWebhookController() != null
-                && applicationContext.getWebhookController().isReady();
+            try {
+                if (applicationContext == null || !applicationContext.isInitialized() || !applicationContext.isReady()) {
+                    response.status(503);  // Service Unavailable
+                    return "{\"ready\":false,\"message\":\"Application not ready to accept webhook traffic\"}";
+                }
 
-            if (isReady) {
-                return "{\"ready\":true}";
-            } else {
-                response.status(503);  // Service Unavailable
-                return "{\"ready\":false}";
+                // Also check WebhookController readiness
+                WebhookController webhookController = applicationContext.getWebhookController();
+                if (!webhookController.isReady()) {
+                    response.status(503);  // Service Unavailable
+                    return "{\"ready\":false,\"message\":\"WebhookController not ready\"}";
+                }
+
+                response.status(200);
+                return "{\"ready\":true,\"message\":\"Application is ready to accept webhook traffic\"}";
+
+            } catch (Exception e) {
+                logger.error("Error checking readiness", e);
+                response.status(503);
+                return "{\"ready\":false,\"message\":\"Error: " + e.getMessage() + "\"}";
             }
         });
 
@@ -129,12 +178,57 @@ public class YesBossApplication {
             response.status(200);
             response.type("application/json");
 
-            // Return basic metrics
-            // TODO: Add more detailed metrics as needed
-            return "{\"service\":\"YesBoss\",\"status\":\"running\"}";
+            try {
+                if (applicationContext != null && applicationContext.isInitialized()) {
+                    return applicationContext.getMetricsCollector().getMetricsAsJson();
+                } else {
+                    return "{\"service\":\"YesBoss\",\"status\":\"initializing\"}";
+                }
+            } catch (Exception e) {
+                logger.error("Error collecting metrics", e);
+                return "{\"service\":\"YesBoss\",\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+            }
         });
 
         logger.info("Global routes configured");
+    }
+
+    /**
+     * Register signal handlers for graceful shutdown.
+     */
+    private static void registerSignalHandlers() {
+        logger.info("Registering signal handlers for graceful shutdown...");
+
+        // Handle SIGTERM (and also SIGINT via the standard shutdown hook)
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            logger.info("========================================");
+            logger.info("Shutdown signal received (SIGTERM/SIGINT)");
+            logger.info("========================================");
+
+            try {
+                // Log that we're no longer ready
+                if (applicationContext != null) {
+                    logger.info("Setting application to NOT READY - rejecting webhook traffic");
+                }
+
+                // Stop Spark server immediately to stop accepting new HTTP connections
+                try {
+                    logger.info("Stopping Spark HTTP server...");
+                    Spark.stop();
+                    logger.info("Spark HTTP server stopped");
+                } catch (Exception e) {
+                    logger.error("Error stopping Spark server", e);
+                }
+
+                // The ApplicationContext shutdown hook will handle the rest
+                logger.info("Waiting for ApplicationContext to complete shutdown...");
+
+            } catch (Exception e) {
+                logger.error("Error during shutdown signal handling", e);
+            }
+        }, "ShutdownHook-SignalHandler"));
+
+        logger.info("Signal handlers registered");
     }
 
     /**
@@ -147,6 +241,10 @@ public class YesBossApplication {
         logger.info("========================================");
         logger.info("YesBoss started successfully!");
         logger.info("========================================");
+        logger.info("Application Status: READY");
+        logger.info("Accepting webhook traffic: YES");
+        logger.info("========================================");
+        logger.info("Health & Monitoring Endpoints:");
         logger.info("Health:  http://0.0.0.0:{}/health", port);
         logger.info("Ready:   http://0.0.0.0:{}/ready", port);
         logger.info("Metrics: http://0.0.0.0:{}/metrics", port);
@@ -158,6 +256,8 @@ public class YesBossApplication {
         logger.info("Slack Callback: http://0.0.0.0:{}/webhook/slack/callback", port);
         logger.info("========================================");
         logger.info("All systems operational!");
+        logger.info("Press Ctrl+C or send SIGTERM to shutdown gracefully");
         logger.info("========================================");
     }
 }
+

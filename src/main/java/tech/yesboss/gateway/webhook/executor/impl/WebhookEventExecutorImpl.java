@@ -186,4 +186,9 @@ public class WebhookEventExecutorImpl implements WebhookEventExecutor {
     public boolean isRunning() {
         return running.get();
     }
+
+    @Override
+    public ExecutorService getExecutor() {
+        return executorService;
+    }
 }

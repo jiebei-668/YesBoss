@@ -31,6 +31,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/CircuitBreaker.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/ui/impl/UICardRendererImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/SuspendExecutionException.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/health/MetricsCollector.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/InjectionEngine.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/SingleThreadDbWriter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/im/IMMessagePusher.java
@@ -38,6 +39,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ClaudeLlmClient.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/ToolRegistry.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/health/HealthCheckService.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/tracker/impl/ToolCallTrackerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/TaskSession.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/route/WebhookRouteHandler.java

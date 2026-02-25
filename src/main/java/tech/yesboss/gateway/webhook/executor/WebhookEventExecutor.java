@@ -2,6 +2,8 @@ package tech.yesboss.gateway.webhook.executor;
 
 import tech.yesboss.gateway.webhook.model.ImWebhookEvent;
 
+import java.util.concurrent.ExecutorService;
+
 /**
  * Webhook Async Event Executor
  *
@@ -49,4 +51,11 @@ public interface WebhookEventExecutor {
      * @return true if the executor is accepting new tasks, false otherwise
      */
     boolean isRunning();
+
+    /**
+     * Get the underlying ExecutorService for monitoring purposes.
+     *
+     * @return the executor service
+     */
+    ExecutorService getExecutor();
 }

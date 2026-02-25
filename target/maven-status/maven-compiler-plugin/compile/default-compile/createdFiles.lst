@@ -4,6 +4,7 @@ tech/yesboss/config/YesBossConfig$ServerConfig.class
 tech/yesboss/config/YesBossConfig$ConsoleLogConfig.class
 tech/yesboss/gateway/im/IMMessagePusher.class
 tech/yesboss/config/YesBossConfig$AppConfig.class
+tech/yesboss/health/MetricsCollector.class
 tech/yesboss/persistence/event/DeleteTaskSessionEvent.class
 tech/yesboss/persistence/event/InsertMessageEvent$StreamType.class
 tech/yesboss/config/YesBossConfig$CircuitBreakerConfig.class
@@ -35,6 +36,7 @@ tech/yesboss/gateway/ui/UICardRenderer.class
 tech/yesboss/tool/mcp/McpToolAdapter.class
 tech/yesboss/persistence/event/InsertToolExecutionLogEvent.class
 tech/yesboss/runner/MasterRunner.class
+tech/yesboss/health/HealthCheckService$HealthStatus.class
 tech/yesboss/llm/impl/ClaudeLlmClient.class
 tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.class
 tech/yesboss/context/StreamType.class
@@ -101,6 +103,7 @@ tech/yesboss/context/impl/GlobalStreamManagerImpl.class
 tech/yesboss/tool/registry/ToolRegistry.class
 tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.class
 tech/yesboss/safeguard/impl/CircuitBreakerImpl.class
+tech/yesboss/health/HealthCheckService.class
 tech/yesboss/safeguard/impl/SuspendResumeEngineImpl$SuspensionContext.class
 tech/yesboss/domain/message/UnifiedMessage$ToolResult.class
 tech/yesboss/domain/message/UnifiedMessage$PayloadFormat.class
