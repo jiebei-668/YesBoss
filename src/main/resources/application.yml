@@ -163,7 +163,7 @@ sandbox:
 # Logging Configuration
 # =============================================================================
 logging:
-  level: ${LOG_LEVEL:DEBUG}
+  level: ${LOG_LEVEL:INFO}
   format: ${LOG_FORMAT:text}
   # Console Logging
   console:
