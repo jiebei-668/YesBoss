@@ -229,6 +229,41 @@ cd YesBoss
 
 #### 2. Configure Application
 
+**Option 1: Using .env file (Recommended)**
+
+Create or edit `.env` file in project root:
+
+```bash
+# LLM Provider Configuration (configure at least one)
+ZHIPU_API_KEY=your-zhipu-api-key-here
+# ANTHROPIC_API_KEY=your-anthropic-api-key-here
+
+# Feishu Configuration
+FEISHU_APP_ID=cli_axxxxxxxxxxxx
+FEISHU_APP_SECRET=your-app-secret
+FEISHU_ENCRYPT_KEY=your-encrypt-key
+FEISHU_VERIFICATION_TOKEN=your-token
+
+# Server Configuration (optional)
+SERVER_PORT=8080
+```
+
+Load environment variables before running:
+
+```bash
+# Load .env file
+source .env 2>/dev/null || export $(cat .env | grep -v '^#' | xargs)
+
+# Or load manually
+export ZHIPU_API_KEY="your-api-key"
+export FEISHU_APP_ID="cli_axxxxxxxxxxxx"
+export FEISHU_APP_SECRET="your-app-secret"
+export FEISHU_ENCRYPT_KEY="your-encrypt-key"
+export FEISHU_VERIFICATION_TOKEN="your-token"
+```
+
+**Option 2: Edit application.yml**
+
 Edit `src/main/resources/application.yml` to configure your settings:
 
 ```yaml
@@ -253,7 +288,7 @@ app:
     port: 8080
 ```
 
-**Or use environment variables:**
+**Option 3: Using environment variables directly**
 
 ```bash
 export ZHIPU_API_KEY="your-api-key"
@@ -277,24 +312,50 @@ mvn test
 
 #### 5. Start the Application
 
-**Method 1: Using Maven**
+**Important**: This project uses Java 17 preview features (virtual threads), so you must run with `--enable-preview` flag.
+
+**Method 1: Using Maven + Java (Recommended)**
 
 ```bash
-mvn exec:java -Dexec.mainClass="tech.yesboss.YesBossApplication"
+# Load environment variables from .env
+source .env 2>/dev/null || export $(cat .env | grep -v '^#' | xargs)
+
+# Build classpath
+mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
+
+# Run application
+CP=$(cat cp.txt):target/classes
+java --enable-preview -cp "$CP" tech.yesboss.YesBossApplication
 ```
 
-**Method 2: Using Java directly**
+**Method 2: Using Maven exec plugin**
 
 ```bash
-# Build JAR with dependencies
-mvn clean package
+# Load environment variables
+source .env 2>/dev/null || export $(cat .env | grep -v '^#' | xargs)
 
-# Run the JAR
-java -jar target/yesboss-1.0.0-SNAPSHOT.jar
+# Run with Maven (requires pom.xml exec plugin configuration)
+mvn exec:java
 ```
 
-**Method 3: From IDE**
+**Method 3: Background运行**
+
+```bash
+# Load environment variables
+source .env 2>/dev/null || export $(cat .env | grep -v '^#' | xargs)
+
+# Build classpath and run in background
+mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
+CP=$(cat cp.txt):target/classes
+nohup java --enable-preview -cp "$CP" tech.yesboss.YesBossApplication > app.log 2>&1 &
+
+# View logs
+tail -f app.log
+```
+
+**Method 4: From IDE**
 - Run the `main()` method in `src/main/java/tech/yesboss/YesBossApplication.java`
+- **Important**: Add `--enable-preview` to VM options in IDE run configuration
 
 ### Setting up Feishu Webhook
 

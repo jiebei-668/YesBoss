@@ -260,18 +260,49 @@ public class ApplicationContext {
     private void initializeLlmLayer() {
         logger.info("Initializing LLM Layer...");
 
-        // Create LLM clients for Master and Worker roles
+        // Determine which LLM provider to use based on configuration and API key availability
+        // Priority: 1) Anthropic (if enabled and has API key), 2) Zhipu (if enabled and has API key)
+        boolean anthropicEnabled = config.getLlm().getAnthropic().isEnabled();
         String anthropicKey = config.getLlm().getAnthropic().getApiKey();
-        String masterModel = config.getLlm().getAnthropic().getModel().getMaster();
-        String workerModel = config.getLlm().getAnthropic().getModel().getWorker();
-        int maxTokens = config.getLlm().getAnthropic().getMaxTokens();
-        double temperature = config.getLlm().getAnthropic().getTemperature();
+        boolean zhipuEnabled = config.getLlm().getZhipu().isEnabled();
+        String zhipuKey = config.getLlm().getZhipu().getApiKey();
 
-        logger.info("Creating Master LLM client with model: {}", masterModel);
-        masterLlmClient = new ClaudeLlmClient(anthropicKey, masterModel, maxTokens, temperature);
+        String provider;
+        String apiKey;
+        String masterModel;
+        String workerModel;
+        int maxTokens;
+        double temperature;
 
-        logger.info("Creating Worker LLM client with model: {}", workerModel);
-        workerLlmClient = new ClaudeLlmClient(anthropicKey, workerModel, maxTokens, temperature);
+        if (anthropicEnabled && anthropicKey != null && !anthropicKey.isEmpty()) {
+            // Use Anthropic Claude
+            provider = "Anthropic";
+            apiKey = anthropicKey;
+            masterModel = config.getLlm().getAnthropic().getModel().getMaster();
+            workerModel = config.getLlm().getAnthropic().getModel().getWorker();
+            maxTokens = config.getLlm().getAnthropic().getMaxTokens();
+            temperature = config.getLlm().getAnthropic().getTemperature();
+            logger.info("Using LLM Provider: Anthropic Claude");
+        } else if (zhipuEnabled && zhipuKey != null && !zhipuKey.isEmpty()) {
+            // Use Zhipu GLM
+            provider = "Zhipu";
+            apiKey = zhipuKey;
+            masterModel = config.getLlm().getZhipu().getModel().getMaster();
+            workerModel = config.getLlm().getZhipu().getModel().getWorker();
+            maxTokens = config.getLlm().getZhipu().getMaxTokens();
+            temperature = config.getLlm().getZhipu().getTemperature();
+            logger.info("Using LLM Provider: Zhipu GLM");
+        } else {
+            throw new IllegalArgumentException(
+                "No LLM provider configured. Please set either ANTHROPIC_API_KEY or ZHIPU_API_KEY in .env file or environment variables."
+            );
+        }
+
+        logger.info("Creating Master LLM client with provider: {}, model: {}", provider, masterModel);
+        masterLlmClient = new ClaudeLlmClient(apiKey, masterModel, maxTokens, temperature);
+
+        logger.info("Creating Worker LLM client with provider: {}, model: {}", provider, workerModel);
+        workerLlmClient = new ClaudeLlmClient(apiKey, workerModel, maxTokens, temperature);
 
         logger.info("Initializing ModelRouter...");
         modelRouter = new ModelRouter(masterLlmClient, workerLlmClient);
