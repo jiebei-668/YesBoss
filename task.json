@@ -1317,6 +1317,6 @@
       "接入与路由模块设计.md",
       "https://open.feishu.cn/document/server-docs/im-v1/message/create"
     ],
-    "passes": false
+    "passes": true
   }
 ]
