@@ -244,6 +244,7 @@ public class WebhookRouteHandler {
      */
     private String handleFeishuEvent(Request request, Response response) {
         try {
+            String body_ = request.body();
             // Validate request method
             if (!"POST".equalsIgnoreCase(request.requestMethod())) {
                 logger.warn("Feishu webhook received non-POST request: {}", request.requestMethod());

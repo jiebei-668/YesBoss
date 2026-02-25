@@ -53,6 +53,7 @@ tech/yesboss/gateway/webhook/executor/impl/WebhookEventExecutorImpl.class
 tech/yesboss/config/YesBossConfig$CondensationConfig.class
 tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.class
 tech/yesboss/gateway/im/impl/IMMessagePusherImpl.class
+tech/yesboss/gateway/im/FeishuApiClient$FeishuApiException.class
 tech/yesboss/runner/impl/MasterRunnerImpl$1.class
 tech/yesboss/persistence/repository/ToolExecutionRepository.class
 tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
@@ -118,5 +119,6 @@ tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.class
 tech/yesboss/tool/AgentTool.class
 tech/yesboss/context/engine/impl/CondensationEngineImpl.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$TaskStatus.class
+tech/yesboss/gateway/im/FeishuApiClient.class
 tech/yesboss/safeguard/CircuitBreakerOpenException.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$AgentRole.class

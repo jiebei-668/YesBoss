@@ -62,7 +62,7 @@ im:
   feishu:
     enabled: ${FEISHU_ENABLED:true}
     appId: ${FEISHU_APP_ID:cli_a905a3bc37b85cee}
-    appSecret: ${FEISHU_APP_SECRET:EeSLGM6u01phyKw161Pe3bAOuD5sumNV}
+    appSecret: ${FEISHU_APP_SECRET:}
     encryptKey: ${FEISHU_ENCRYPT_KEY:KOBEforever668!}
     verificationToken: ${FEISHU_VERIFICATION_TOKEN:IN4yV9Fz7DALJKOQlfQo6flufO4rRjFV}
     webhook:

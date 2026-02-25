@@ -78,7 +78,7 @@ class EndToEndWebhookIntegrationTest {
 
         // Setup webhook routes
         WebhookController webhookController = applicationContext.getWebhookController();
-        webhookRouteHandler = new WebhookRouteHandler(webhookController);
+        webhookRouteHandler = new WebhookRouteHandler(webhookController, testConfig);
         webhookRouteHandler.configureRoutes();
 
         // Wait for server initialization

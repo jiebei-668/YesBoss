@@ -2170,3 +2170,32 @@ Known Issues:
 - Hardcoded to use Anthropic Claude even when ZHIPU_API_KEY is available
 - Future enhancement: Add LlmClientFactory to support multiple providers
 
+[2026-02-25 21:27:37] Task ID: 接入与路由模块_Feishu API client
+Status: SUCCESS
+Description: Implement Feishu API client for token and message sending
+
+Implementation Summary:
+- Created FeishuApiClient class with app_id and app_secret configuration
+- Implemented getAccessToken() with token caching and thread-safe refresh mechanism
+- Implemented sendMessage() to call POST https://open.feishu.cn/open-apis/im/v1/messages
+- Implemented receive_id_type parameter support (chat_id, open_id, user_id)
+- Implemented card message formatting with content field (card object)
+- Implemented text message formatting with text field
+- Added error handling for rate limits (429), invalid tokens, and network failures
+- Added retry logic with exponential backoff for transient failures
+- Added FeishuApiException with helper methods for error type detection
+- Added clearTokenCache() and isTokenValid() helper methods
+
+Test Results:
+- 29/29 tests passed (100% success rate)
+- Verified constructor validation for null/empty parameters
+- Verified content parsing for text and card messages
+- Verified token cache management with reflection tests
+- Verified receive_id_type validation (chat_id, open_id, user_id)
+- Verified FeishuApiException error code handling
+- Verified sendTextMessage and sendCardMessage validation
+
+Files Created:
+- src/main/java/tech/yesboss/gateway/im/FeishuApiClient.java
+- src/test/java/tech/yesboss/gateway/im/FeishuApiClientTest.java
+
