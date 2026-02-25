@@ -226,8 +226,16 @@ public class ApplicationContext {
         String dbPath = config.getDatabase().getSqlite().getPath();
         logger.info("Database path: {}", dbPath);
 
+        // Create parent directory if it doesn't exist
+        java.nio.file.Path dbFilePath = java.nio.file.Paths.get(dbPath);
+        java.nio.file.Path parentDir = dbFilePath.getParent();
+        if (parentDir != null && !java.nio.file.Files.exists(parentDir)) {
+            logger.info("Creating database directory: {}", parentDir);
+            java.nio.file.Files.createDirectories(parentDir);
+        }
+
         // Create connection manager
-        connectionManager = SQLiteConnectionManager.forFile(java.nio.file.Paths.get(dbPath));
+        connectionManager = SQLiteConnectionManager.forFile(dbFilePath);
         java.sql.Connection connection = connectionManager.getConnection();
 
         // Initialize database schema

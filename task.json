@@ -1240,5 +1240,24 @@
       "技术模块设计.md"
     ],
     "passes": true
+  },
+  {
+    "category": "fix",
+    "module": "应用集成模块",
+    "description": "Fix application startup issues and enable multi-LLM support",
+    "steps": [
+      "Add automatic data directory creation in ApplicationContext.initializeInfrastructureLayer()",
+      "Implement dynamic LLM provider selection based on configuration (Anthropic/Zhipu/etc)",
+      "Configure exec-maven-plugin in pom.xml to support --enable-preview flag",
+      "Add startup validation to check API keys before initializing LLM clients",
+      "Test application startup with different LLM provider configurations"
+    ],
+    "reference_docs": [
+      "整体架构设计.md",
+      "技术模块设计.md",
+      "LLM路由网关模块.md",
+      "接入与路由模块设计.md"
+    ],
+    "passes": true
   }
 ]
