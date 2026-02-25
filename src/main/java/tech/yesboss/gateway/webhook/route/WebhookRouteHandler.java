@@ -102,12 +102,11 @@ public class WebhookRouteHandler {
      */
     private void setupCorsSupport() {
         before((request, response) -> {
-            // Apply CORS to configured webhook paths
+            // Apply CORS to webhook paths (both configured and standard)
             String path = request.pathInfo();
-            String feishuPath = config.getIm().getFeishu().getWebhook().getPath();
-            String slackPath = config.getIm().getSlack().getWebhook().getPath();
-
-            if (path != null && (path.startsWith(feishuPath) || path.startsWith(slackPath))) {
+            if (path != null && (path.startsWith("/webhook/") ||
+                                 path.startsWith("/feishu/") ||
+                                 path.startsWith("/slack/"))) {
                 response.header("Access-Control-Allow-Origin", "*");
                 response.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
                 response.header("Access-Control-Allow-Headers", "*");
@@ -121,15 +120,16 @@ public class WebhookRouteHandler {
             }
         });
 
-        // Handle OPTIONS requests explicitly for configured paths
-        String feishuPath = config.getIm().getFeishu().getWebhook().getPath();
-        String slackPath = config.getIm().getSlack().getWebhook().getPath();
-
-        options(feishuPath + "/*", (request, response) -> {
+        // Handle OPTIONS requests explicitly
+        options("/webhook/*", (request, response) -> {
             response.status(200);
             return HTTP_200_OK;
         });
-        options(slackPath + "/*", (request, response) -> {
+        options("/feishu/*", (request, response) -> {
+            response.status(200);
+            return HTTP_200_OK;
+        });
+        options("/slack/*", (request, response) -> {
             response.status(200);
             return HTTP_200_OK;
         });
@@ -150,8 +150,18 @@ public class WebhookRouteHandler {
             return handleFeishuEvent(request, response);
         });
 
+        // Also register standard path for backward compatibility
+        post("/webhook/feishu", (request, response) -> {
+            return handleFeishuEvent(request, response);
+        });
+
         // Feishu interactive callback route
         post(feishuWebhookPath + "/callback", (request, response) -> {
+            return handleFeishuCallback(request, response);
+        });
+
+        // Standard callback path for backward compatibility
+        post("/webhook/feishu/callback", (request, response) -> {
             return handleFeishuCallback(request, response);
         });
     }
@@ -166,13 +176,23 @@ public class WebhookRouteHandler {
         String slackWebhookPath = config.getIm().getSlack().getWebhook().getPath();
         logger.info("Slack webhook path from config: {}", slackWebhookPath);
 
-        // Slack webhook event route
+        // Slack webhook event route (configured path)
         post(slackWebhookPath, (request, response) -> {
+            return handleSlackEvent(request, response);
+        });
+
+        // Also register standard path for backward compatibility
+        post("/webhook/slack", (request, response) -> {
             return handleSlackEvent(request, response);
         });
 
         // Slack interactive callback route (for human-in-the-loop)
         post(slackWebhookPath + "/callback", (request, response) -> {
+            return handleSlackCallback(request, response);
+        });
+
+        // Standard callback path for backward compatibility
+        post("/webhook/slack/callback", (request, response) -> {
             return handleSlackCallback(request, response);
         });
     }
