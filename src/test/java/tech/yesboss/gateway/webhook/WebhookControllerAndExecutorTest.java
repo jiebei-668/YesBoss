@@ -301,7 +301,7 @@ class WebhookControllerAndExecutorTest {
         String body = "{\"header\":{\"event_type\":\"im.message.receive_v1\"}}";
 
         // Calculate real signature
-        String baseString = timestamp + nonce + body;
+        String baseString = timestamp + "\n" + nonce + "\n" + body;
         String signature = calculateTestHmacSha256(baseString, FEISHU_SECRET);
 
         CountDownLatch latch = new CountDownLatch(1);
@@ -337,7 +337,7 @@ class WebhookControllerAndExecutorTest {
         String nonce = "test-nonce";
         String body = "{\"header\":{\"event_type\":\"im.message.receive_v1\"}}";
 
-        String baseString = timestamp + nonce + body;
+        String baseString = timestamp + "\n" + nonce + "\n" + body;
         String signature = calculateTestHmacSha256(baseString, FEISHU_SECRET);
 
         assertThrows(SecurityException.class, () -> {
@@ -593,7 +593,7 @@ class WebhookControllerAndExecutorTest {
         String body = buildFeishuCallbackJson("worker-123", "call-456", true);
 
         // Calculate real signature
-        String baseString = timestamp + nonce + body;
+        String baseString = timestamp + "\n" + nonce + "\n" + body;
         String signature = calculateTestHmacSha256(baseString, FEISHU_SECRET);
 
         CountDownLatch latch = new CountDownLatch(1);

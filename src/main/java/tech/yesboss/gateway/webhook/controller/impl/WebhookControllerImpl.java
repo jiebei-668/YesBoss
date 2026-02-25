@@ -96,11 +96,9 @@ public class WebhookControllerImpl implements WebhookController {
                 return HTTP_200_OK;
             }
 
-            // Skip signature verification if secret is not configured (for testing)
-            // TEMPORARY: DISABLED FOR DEBUGGING
+            // Verify signature if secret is configured
             if (!feishuAppSecret.isEmpty()) {
-                logger.warn("⚠️ SIGNATURE VERIFICATION DISABLED FOR DEBUGGING!");
-                //verifyFeishuSignature(timestamp, nonce, signature, body);  // TEMPORARILY DISABLED
+                verifyFeishuSignature(timestamp, nonce, signature, body);
             } else {
                 logger.debug("Feishu signature verification skipped (no secret configured)");
             }
@@ -476,11 +474,9 @@ public class WebhookControllerImpl implements WebhookController {
                 return HTTP_200_OK;
             }
 
-            // Skip signature verification if secret is not configured (for testing)
-            // TEMPORARY: DISABLED FOR DEBUGGING
+            // Verify signature if secret is configured
             if (!feishuAppSecret.isEmpty()) {
-                logger.warn("⚠️ SIGNATURE VERIFICATION DISABLED FOR DEBUGGING!");
-                //verifyFeishuSignature(timestamp, nonce, signature, body);  // TEMPORARILY DISABLED
+                verifyFeishuSignature(timestamp, nonce, signature, body);
             } else {
                 logger.debug("Feishu signature verification skipped (no secret configured)");
             }

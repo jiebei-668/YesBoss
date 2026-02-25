@@ -40,8 +40,11 @@ class IMMessagePusherImplTest {
     }
 
     @Test
-    void testConstructorWithNullFeishuApiClientThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new IMMessagePusherImpl(null));
+    void testConstructorWithNullFeishuApiClient() {
+        // Null is now allowed - message pushing will be disabled
+        assertDoesNotThrow(() -> new IMMessagePusherImpl(null));
+        IMMessagePusherImpl pusher = new IMMessagePusherImpl(null);
+        assertNotNull(pusher);
     }
 
     @Test
@@ -210,5 +213,23 @@ class IMMessagePusherImplTest {
         assertDoesNotThrow(() -> pusher.pushTextMessage("FEISHU", chatId, emptyMessage));
 
         verify(mockFeishuApiClient, times(1)).sendTextMessage(chatId, "chat_id", emptyMessage);
+    }
+
+    @Test
+    void testPushTextMessageWithNullFeishuApiClientSkips() throws Exception {
+        // Create pusher with null FeishuApiClient
+        IMMessagePusherImpl nullPusher = new IMMessagePusherImpl(null, objectMapper);
+
+        // Should not throw exception, just skip
+        assertDoesNotThrow(() -> nullPusher.pushTextMessage("FEISHU", "test_chat", "message"));
+    }
+
+    @Test
+    void testPushCardMessageWithNullFeishuApiClientSkips() throws Exception {
+        // Create pusher with null FeishuApiClient
+        IMMessagePusherImpl nullPusher = new IMMessagePusherImpl(null, objectMapper);
+
+        // Should not throw exception, just skip
+        assertDoesNotThrow(() -> nullPusher.pushCardMessage("FEISHU", "test_chat", "{}"));
     }
 }

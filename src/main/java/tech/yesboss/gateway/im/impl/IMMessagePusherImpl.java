@@ -24,6 +24,7 @@ import tech.yesboss.gateway.im.IMMessagePusher;
  *   <li>使用 FeishuApiClient 进行飞书消息推送（OAuth2 认证）</li>
  *   <li>同步阻塞调用，调用方负责异步处理</li>
  *   <li>支持 receive_id_type 为 chat_id 的消息发送</li>
+ *   <li>FeishuApiClient 为可选配置，未配置时消息推送为空操作</li>
  * </ul>
  */
 public class IMMessagePusherImpl implements IMMessagePusher {
@@ -38,16 +39,16 @@ public class IMMessagePusherImpl implements IMMessagePusher {
     private final ObjectMapper objectMapper;
 
     /**
-     * Default constructor with FeishuApiClient injection.
+     * Default constructor with FeishuApiClient injection (nullable).
      *
-     * @param feishuApiClient Feishu API client for message sending
+     * @param feishuApiClient Feishu API client for message sending (optional)
      */
     public IMMessagePusherImpl(FeishuApiClient feishuApiClient) {
-        if (feishuApiClient == null) {
-            throw new IllegalArgumentException("feishuApiClient cannot be null");
-        }
         this.feishuApiClient = feishuApiClient;
         this.objectMapper = new ObjectMapper();
+        if (feishuApiClient == null) {
+            logger.warn("IMMessagePusherImpl initialized without FeishuApiClient - message pushing will be disabled");
+        }
     }
 
     /**
@@ -57,11 +58,11 @@ public class IMMessagePusherImpl implements IMMessagePusher {
      * @param objectMapper    ObjectMapper for JSON processing
      */
     public IMMessagePusherImpl(FeishuApiClient feishuApiClient, ObjectMapper objectMapper) {
-        if (feishuApiClient == null) {
-            throw new IllegalArgumentException("feishuApiClient cannot be null");
-        }
         this.feishuApiClient = feishuApiClient;
         this.objectMapper = objectMapper;
+        if (feishuApiClient == null && objectMapper == null) {
+            logger.warn("IMMessagePusherImpl initialized without FeishuApiClient - message pushing will be disabled");
+        }
     }
 
     @Override
@@ -110,6 +111,10 @@ public class IMMessagePusherImpl implements IMMessagePusher {
      * @throws FeishuApiClient.FeishuApiException if sending fails
      */
     private void pushFeishuCardMessage(String chatId, String cardJson) throws FeishuApiClient.FeishuApiException {
+        if (feishuApiClient == null) {
+            logger.warn("FeishuApiClient not configured, skipping card message to chat_id: {}", chatId);
+            return;
+        }
         try {
             String messageId = feishuApiClient.sendCardMessage(chatId, RECEIVE_ID_TYPE_CHAT_ID, cardJson);
             logger.info("Card message sent successfully to Feishu chat_id: {}, message_id: {}", chatId, messageId);
@@ -127,6 +132,10 @@ public class IMMessagePusherImpl implements IMMessagePusher {
      * @throws FeishuApiClient.FeishuApiException if sending fails
      */
     private void pushFeishuTextMessage(String chatId, String message) throws FeishuApiClient.FeishuApiException {
+        if (feishuApiClient == null) {
+            logger.warn("FeishuApiClient not configured, skipping text message to chat_id: {}", chatId);
+            return;
+        }
         try {
             String messageId = feishuApiClient.sendTextMessage(chatId, RECEIVE_ID_TYPE_CHAT_ID, message);
             logger.info("Text message sent successfully to Feishu chat_id: {}, message_id: {}", chatId, messageId);
