@@ -385,11 +385,25 @@ public class WebhookControllerImpl implements WebhookController {
     }
 
     private String extractFeishuGroupId(JsonNode rootNode) {
-        // Feishu group chat ID is in event.chat.chat_id
+        // Feishu group chat ID location depends on event type
+        // For message events: event.message.chat_id
+        // For other events: event.chat.chat_id
+
+        // Try message event path first
+        JsonNode messageNode = rootNode.path("event").path("message");
+        if (messageNode.has("chat_id")) {
+            return messageNode.get("chat_id").asText();
+        }
+
+        // Fallback to generic chat path
         JsonNode chatNode = rootNode.path("event").path("chat");
         if (chatNode.has("chat_id")) {
             return chatNode.get("chat_id").asText();
         }
+
+        // Log warning for debugging
+        logger.warn("Unable to extract chat_id from Feishu event. Event structure: {}",
+            rootNode.toPrettyString());
 
         // Fallback to empty string
         return "unknown-group";
