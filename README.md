@@ -334,7 +334,10 @@ java --enable-preview -cp "$CP" tech.yesboss.YesBossApplication
 # Load environment variables
 source .env 2>/dev/null || export $(cat .env | grep -v '^#' | xargs)
 
-# Run with Maven (requires pom.xml exec plugin configuration)
+# Set MAVEN_OPTS to enable preview features
+export MAVEN_OPTS="--enable-preview"
+
+# Run with Maven
 mvn exec:java
 ```
 
