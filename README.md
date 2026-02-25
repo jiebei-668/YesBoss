@@ -318,7 +318,7 @@ mvn test
 
 ```bash
 # Load environment variables from .env
-source .env 2>/dev/null || export $(cat .env | grep -v '^#' | xargs)
+export $(cat .env | grep -v '^#' | xargs)
 
 # Build classpath
 mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
@@ -330,12 +330,18 @@ java --enable-preview -cp "$CP" tech.yesboss.YesBossApplication
 
 **Method 2: Using Maven exec plugin**
 
+Create `.mvn/jvm.config` file first:
+
+```bash
+mkdir -p .mvn
+echo "--enable-preview" > .mvn/jvm.config
+```
+
+Then run:
+
 ```bash
 # Load environment variables
-source .env 2>/dev/null || export $(cat .env | grep -v '^#' | xargs)
-
-# Set MAVEN_OPTS to enable preview features
-export MAVEN_OPTS="--enable-preview"
+export $(cat .env | grep -v '^#' | xargs)
 
 # Run with Maven
 mvn exec:java
