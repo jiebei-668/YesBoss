@@ -2199,3 +2199,42 @@ Files Created:
 - src/main/java/tech/yesboss/gateway/im/FeishuApiClient.java
 - src/test/java/tech/yesboss/gateway/im/FeishuApiClientTest.java
 
+[2025-02-25 21:34:30] Task ID: 接入与路由模块_046
+Status: SUCCESS
+Description: Refactor IMMessagePusherImpl to use Feishu API instead of environment variables
+
+Implementation Summary:
+- Refactored IMMessagePusherImpl to use FeishuApiClient instead of environment variables
+- Injected FeishuApiClient into the constructor (removed default constructor)
+- Removed obsolete methods: getWebhookUrl(), getEnvKey(), formatCardPayload(), formatTextPayload(), executeHttpRequest()
+- Refactored pushCardMessage() to call FeishuApiClient.sendCardMessage() with receive_id_type=chat_id
+- Refactored pushTextMessage() to call FeishuApiClient.sendTextMessage() with receive_id_type=chat_id
+- Updated error handling to propagate FeishuApiException instead of IllegalArgumentException
+- Added logging for successful message sends with message_id
+- Removed all FEISHU_WEBHOOK_* and SLACK_WEBHOOK_* environment variable references
+- Updated ApplicationContext to initialize FeishuApiClient and inject it into IMMessagePusherImpl
+- Added support for Slack placeholder (throws UnsupportedOperationException)
+
+Test Results:
+- 16/16 tests passed (100% success rate)
+- testConstructorWithFeishuApiClient: Verifies FeishuApiClient injection
+- testConstructorWithNullFeishuApiClientThrowsException: Validates null parameter
+- testConstructorWithAllParameters: Verifies test constructor with ObjectMapper
+- testPushFeishuTextMessageSuccess: Verifies text message sends correctly
+- testPushFeishuCardMessageSuccess: Verifies card message sends correctly
+- testPushFeishuTextMessagePropagatesApiException: Verifies exception propagation
+- testPushFeishuCardMessagePropagatesApiException: Verifies exception propagation
+- testPushSlackTextMessageThrowsUnsupported: Verifies Slack not supported yet
+- testPushSlackCardMessageThrowsUnsupported: Verifies Slack not supported yet
+- testPushUnsupportedImTypeThrowsException: Verifies validation
+- testPushMessageWithUnifiedMessage: Verifies UnifiedMessage conversion
+- testPushMessageCaseInsensitiveImType: Verifies case-insensitive IM type matching
+- testUnifiedMessageConversion: Verifies UnifiedMessage.getDisplayContent()
+- testUnifiedMessageWithToolResult: Verifies tool result display
+- testUnifiedMessageWithSystemRole: Verifies system message display
+- testPushEmptyMessageUsesFeishuApi: Verifies empty message handling
+
+Files Modified:
+- src/main/java/tech/yesboss/gateway/im/impl/IMMessagePusherImpl.java (complete refactor)
+- src/main/java/tech/yesboss/ApplicationContext.java (added FeishuApiClient initialization)
+- src/test/java/tech/yesboss/gateway/im/IMMessagePusherImplTest.java (complete rewrite with Mockito)

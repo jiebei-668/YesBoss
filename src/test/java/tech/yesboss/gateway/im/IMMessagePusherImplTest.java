@@ -1,244 +1,170 @@
 package tech.yesboss.gateway.im;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import tech.yesboss.domain.message.UnifiedMessage;
 import tech.yesboss.gateway.im.impl.IMMessagePusherImpl;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.net.http.HttpClient;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 /**
  * 测试 IMMessagePusherImpl 的消息推送功能
  *
- * <p>注意：此测试使用反射来测试内部方法，避免需要实际的环境变量和 HTTP 服务器。</p>
+ * <p>此测试使用 Mockito 模拟 FeishuApiClient，避免实际的 HTTP 调用。</p>
  */
+@ExtendWith(MockitoExtension.class)
 class IMMessagePusherImplTest {
+
+    @Mock
+    private FeishuApiClient mockFeishuApiClient;
 
     private IMMessagePusherImpl pusher;
     private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
-        pusher = new IMMessagePusherImpl();
         objectMapper = new ObjectMapper();
+        pusher = new IMMessagePusherImpl(mockFeishuApiClient, objectMapper);
     }
 
     @Test
-    void testConstructorDefault() {
+    void testConstructorWithFeishuApiClient() {
         assertNotNull(pusher);
-        assertDoesNotThrow(() -> new IMMessagePusherImpl());
+        assertDoesNotThrow(() -> new IMMessagePusherImpl(mockFeishuApiClient));
     }
 
     @Test
-    void testConstructorWithParameters() {
-        HttpClient customClient = HttpClient.newHttpClient();
-        assertDoesNotThrow(() -> new IMMessagePusherImpl(customClient, objectMapper));
+    void testConstructorWithNullFeishuApiClientThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> new IMMessagePusherImpl(null));
     }
 
     @Test
-    void testPushTextMessageWithoutWebhookUrlThrowsException() {
-        // 不设置环境变量，应该抛出异常
-        assertThrows(Exception.class, () -> {
-            pusher.pushTextMessage("FEISHU", "NONEXISTENT_GROUP", "测试消息");
+    void testConstructorWithAllParameters() {
+        assertNotNull(pusher);
+        assertDoesNotThrow(() -> new IMMessagePusherImpl(mockFeishuApiClient, objectMapper));
+    }
+
+    @Test
+    void testPushFeishuTextMessageSuccess() throws Exception {
+        String chatId = "test_chat_id";
+        String message = "测试消息";
+        String expectedMessageId = "om_1234567890";
+
+        when(mockFeishuApiClient.sendTextMessage(chatId, "chat_id", message))
+                .thenReturn(expectedMessageId);
+
+        assertDoesNotThrow(() -> pusher.pushTextMessage("FEISHU", chatId, message));
+
+        verify(mockFeishuApiClient, times(1)).sendTextMessage(chatId, "chat_id", message);
+    }
+
+    @Test
+    void testPushFeishuCardMessageSuccess() throws Exception {
+        String chatId = "test_chat_id";
+        String cardJson = "{\"card\": \"content\"}";
+        String expectedMessageId = "om_9876543210";
+
+        when(mockFeishuApiClient.sendCardMessage(chatId, "chat_id", cardJson))
+                .thenReturn(expectedMessageId);
+
+        assertDoesNotThrow(() -> pusher.pushCardMessage("FEISHU", chatId, cardJson));
+
+        verify(mockFeishuApiClient, times(1)).sendCardMessage(chatId, "chat_id", cardJson);
+    }
+
+    @Test
+    void testPushFeishuTextMessagePropagatesApiException() throws Exception {
+        String chatId = "test_chat_id";
+        String message = "测试消息";
+        FeishuApiClient.FeishuApiException apiException =
+                new FeishuApiClient.FeishuApiException("API Error", 401);
+
+        when(mockFeishuApiClient.sendTextMessage(anyString(), anyString(), anyString()))
+                .thenThrow(apiException);
+
+        FeishuApiClient.FeishuApiException thrown = assertThrows(
+                FeishuApiClient.FeishuApiException.class,
+                () -> pusher.pushTextMessage("FEISHU", chatId, message)
+        );
+
+        assertEquals("API Error", thrown.getMessage());
+        assertEquals(401, thrown.getCode());
+    }
+
+    @Test
+    void testPushFeishuCardMessagePropagatesApiException() throws Exception {
+        String chatId = "test_chat_id";
+        String cardJson = "{\"card\": \"content\"}";
+        FeishuApiClient.FeishuApiException apiException =
+                new FeishuApiClient.FeishuApiException("Card send failed", 400);
+
+        when(mockFeishuApiClient.sendCardMessage(anyString(), anyString(), anyString()))
+                .thenThrow(apiException);
+
+        FeishuApiClient.FeishuApiException thrown = assertThrows(
+                FeishuApiClient.FeishuApiException.class,
+                () -> pusher.pushCardMessage("FEISHU", chatId, cardJson)
+        );
+
+        assertEquals("Card send failed", thrown.getMessage());
+        assertEquals(400, thrown.getCode());
+    }
+
+    @Test
+    void testPushSlackTextMessageThrowsUnsupported() {
+        assertThrows(UnsupportedOperationException.class, () -> {
+            pusher.pushTextMessage("SLACK", "test_chat", "message");
         });
     }
 
     @Test
-    void testPushCardMessageWithoutWebhookUrlThrowsException() {
-        // 不设置环境变量，应该抛出异常
-        String cardJson = "{}";
-        assertThrows(Exception.class, () -> {
-            pusher.pushCardMessage("FEISHU", "NONEXISTENT_GROUP", cardJson);
+    void testPushSlackCardMessageThrowsUnsupported() {
+        assertThrows(UnsupportedOperationException.class, () -> {
+            pusher.pushCardMessage("SLACK", "test_chat", "{}");
         });
     }
 
     @Test
-    void testPushMessageWithoutWebhookUrlThrowsException() {
-        // 不设置环境变量，应该抛出异常
-        UnifiedMessage message = UnifiedMessage.user("测试消息");
-        assertThrows(Exception.class, () -> {
-            pusher.pushMessage("FEISHU", "NONEXISTENT_GROUP", message);
+    void testPushUnsupportedImTypeThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            pusher.pushTextMessage("UNSUPPORTED", "test_chat", "message");
         });
     }
 
     @Test
-    void testUnsupportedImTypeThrowsException() {
-        String groupName = "UNSUPPORTED_GROUP";
-        // 对于不支持的 IM 类型，formatTextPayload 方法会捕获异常并返回原始文本
-        // 所以这个测试验证的是 getEnvKey 会抛出异常
-        assertThrows(Exception.class, () -> {
-            try {
-                Method method = IMMessagePusherImpl.class.getDeclaredMethod("getEnvKey", String.class, String.class);
-                method.setAccessible(true);
-                method.invoke(pusher, "UNSUPPORTED", "test-group");
-            } catch (Exception e) {
-                if (e.getCause() instanceof IllegalArgumentException) {
-                    throw (IllegalArgumentException) e.getCause();
-                }
-                throw new RuntimeException(e);
-            }
-        });
+    void testPushMessageWithUnifiedMessage() throws Exception {
+        String chatId = "test_chat_id";
+        String expectedMessageId = "om_1111111111";
+        UnifiedMessage message = UnifiedMessage.user("用户消息");
+
+        when(mockFeishuApiClient.sendTextMessage(eq(chatId), eq("chat_id"), anyString()))
+                .thenReturn(expectedMessageId);
+
+        assertDoesNotThrow(() -> pusher.pushMessage("FEISHU", chatId, message));
+
+        verify(mockFeishuApiClient, times(1)).sendTextMessage(eq(chatId), eq("chat_id"), anyString());
     }
 
     @Test
-    void testFormatFeishuTextPayload() throws Exception {
-        // 使用反射测试 formatTextPayload 方法
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("formatTextPayload", String.class, String.class);
-        method.setAccessible(true);
+    void testPushMessageCaseInsensitiveImType() throws Exception {
+        String expectedMessageId = "om_2222222222";
 
-        String result = (String) method.invoke(pusher, "FEISHU", "这是一条测试消息");
+        when(mockFeishuApiClient.sendTextMessage(anyString(), eq("chat_id"), anyString()))
+                .thenReturn(expectedMessageId);
 
-        assertNotNull(result);
-        JsonNode json = objectMapper.readTree(result);
-        assertEquals("text", json.get("msg_type").asText());
-        assertEquals("这是一条测试消息", json.get("content").get("text").asText());
-    }
+        // Test lowercase
+        assertDoesNotThrow(() -> pusher.pushTextMessage("feishu", "chat1", "msg"));
 
-    @Test
-    void testFormatSlackTextPayload() throws Exception {
-        // 使用反射测试 formatTextPayload 方法
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("formatTextPayload", String.class, String.class);
-        method.setAccessible(true);
+        // Test mixed case
+        assertDoesNotThrow(() -> pusher.pushTextMessage("FeIsHu", "chat2", "msg"));
 
-        String result = (String) method.invoke(pusher, "SLACK", "This is a test message");
-
-        assertNotNull(result);
-        JsonNode json = objectMapper.readTree(result);
-        assertEquals("This is a test message", json.get("text").asText());
-    }
-
-    @Test
-    void testFormatFeishuCardPayload() throws Exception {
-        // 构建飞书卡片 JSON
-        ObjectNode wrapper = objectMapper.createObjectNode();
-        ObjectNode feishuCard = objectMapper.createObjectNode();
-        feishuCard.put("msg_type", "interactive");
-        ObjectNode feishuContent = objectMapper.createObjectNode();
-        feishuContent.put("title", "测试卡片");
-        feishuCard.set("content", feishuContent);
-        wrapper.set("feishu_card", feishuCard);
-
-        String cardJson = objectMapper.writeValueAsString(wrapper);
-
-        // 使用反射测试 formatCardPayload 方法
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("formatCardPayload", String.class, String.class);
-        method.setAccessible(true);
-
-        String result = (String) method.invoke(pusher, "FEISHU", cardJson);
-
-        assertNotNull(result);
-        JsonNode json = objectMapper.readTree(result);
-        assertEquals("interactive", json.get("msg_type").asText());
-        assertTrue(json.has("content"));
-    }
-
-    @Test
-    void testFormatSlackCardPayload() throws Exception {
-        // 构建 Slack 卡片 JSON
-        ObjectNode wrapper = objectMapper.createObjectNode();
-        ObjectNode attachment = objectMapper.createObjectNode();
-        attachment.put("title", "测试卡片");
-        attachment.put("text", "这是一张测试卡片");
-        attachment.put("color", "good");
-        wrapper.set("slack_attachments", objectMapper.createArrayNode().add(attachment));
-
-        String cardJson = objectMapper.writeValueAsString(wrapper);
-
-        // 使用反射测试 formatCardPayload 方法
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("formatCardPayload", String.class, String.class);
-        method.setAccessible(true);
-
-        String result = (String) method.invoke(pusher, "SLACK", cardJson);
-
-        assertNotNull(result);
-        JsonNode json = objectMapper.readTree(result);
-        assertTrue(json.has("attachments"));
-        assertTrue(json.get("attachments").isArray());
-    }
-
-    @Test
-    void testFormatCardPayloadWithInvalidJson() throws Exception {
-        // 测试无效的 JSON 输入
-        String invalidJson = "{invalid json}";
-
-        // 使用反射测试 formatCardPayload 方法
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("formatCardPayload", String.class, String.class);
-        method.setAccessible(true);
-
-        // 应该返回原始 JSON，而不是抛出异常
-        String result = (String) method.invoke(pusher, "FEISHU", invalidJson);
-
-        assertNotNull(result);
-        assertEquals(invalidJson, result);
-    }
-
-    @Test
-    void testGetEnvKeyForFeishu() throws Exception {
-        // 使用反射测试 getEnvKey 方法
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("getEnvKey", String.class, String.class);
-        method.setAccessible(true);
-
-        String result = (String) method.invoke(pusher, "FEISHU", "test-group-123");
-
-        assertEquals("FEISHU_WEBHOOK_TEST_GROUP_123", result);
-    }
-
-    @Test
-    void testGetEnvKeyForSlack() throws Exception {
-        // 使用反射测试 getEnvKey 方法
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("getEnvKey", String.class, String.class);
-        method.setAccessible(true);
-
-        String result = (String) method.invoke(pusher, "SLACK", "test.group@special");
-
-        assertEquals("SLACK_WEBHOOK_TEST_GROUP_SPECIAL", result);
-    }
-
-    @Test
-    void testGetEnvKeyForSpecialCharacters() throws Exception {
-        // 使用反射测试 getEnvKey 方法
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("getEnvKey", String.class, String.class);
-        method.setAccessible(true);
-
-        String result = (String) method.invoke(pusher, "FEISHU", "my.group-123@id");
-
-        assertEquals("FEISHU_WEBHOOK_MY_GROUP_123_ID", result);
-    }
-
-    @Test
-    void testGetEnvKeyForUnsupportedImType() throws Exception {
-        // 使用反射测试 getEnvKey 方法
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("getEnvKey", String.class, String.class);
-        method.setAccessible(true);
-
-        assertThrows(Exception.class, () -> {
-            try {
-                method.invoke(pusher, "UNSUPPORTED", "test-group");
-            } catch (Exception e) {
-                if (e.getCause() instanceof IllegalArgumentException) {
-                    throw (IllegalArgumentException) e.getCause();
-                }
-                throw new RuntimeException(e);
-            }
-        });
-    }
-
-    @Test
-    void testGetWebhookUrlReturnsNullWhenNotSet() throws Exception {
-        // 使用反射测试 getWebhookUrl 方法
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("getWebhookUrl", String.class, String.class);
-        method.setAccessible(true);
-
-        String result = (String) method.invoke(pusher, "FEISHU", "NONEXISTENT_GROUP");
-
-        assertNull(result);
+        verify(mockFeishuApiClient, times(2)).sendTextMessage(anyString(), eq("chat_id"), anyString());
     }
 
     @Test
@@ -273,44 +199,16 @@ class IMMessagePusherImplTest {
     }
 
     @Test
-    void testFeishuTextPayloadStructure() throws Exception {
-        // 测试飞书文本消息负载结构
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("formatTextPayload", String.class, String.class);
-        method.setAccessible(true);
+    void testPushEmptyMessageUsesFeishuApi() throws Exception {
+        String chatId = "test_chat_id";
+        String emptyMessage = "";
+        String expectedMessageId = "om_3333333333";
 
-        String result = (String) method.invoke(pusher, "FEISHU", "测试消息");
+        when(mockFeishuApiClient.sendTextMessage(chatId, "chat_id", emptyMessage))
+                .thenReturn(expectedMessageId);
 
-        JsonNode json = objectMapper.readTree(result);
-        assertTrue(json.has("msg_type"));
-        assertTrue(json.has("content"));
-        assertTrue(json.get("content").isObject());
-        assertTrue(json.get("content").has("text"));
-    }
+        assertDoesNotThrow(() -> pusher.pushTextMessage("FEISHU", chatId, emptyMessage));
 
-    @Test
-    void testSlackTextPayloadStructure() throws Exception {
-        // 测试 Slack 文本消息负载结构
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("formatTextPayload", String.class, String.class);
-        method.setAccessible(true);
-
-        String result = (String) method.invoke(pusher, "SLACK", "Test message");
-
-        JsonNode json = objectMapper.readTree(result);
-        assertTrue(json.has("text"));
-        assertEquals("Test message", json.get("text").asText());
-    }
-
-    @Test
-    void testFormatTextPayloadErrorHandling() throws Exception {
-        // 测试格式化文本消息时的错误处理
-        // 对于不支持的 IM 类型，formatTextPayload 会捕获异常并返回原始文本
-        Method method = IMMessagePusherImpl.class.getDeclaredMethod("formatTextPayload", String.class, String.class);
-        method.setAccessible(true);
-
-        // 应该返回原始文本，而不是抛出异常（内部有 try-catch）
-        String result = (String) method.invoke(pusher, "UNSUPPORTED", "测试");
-        assertNotNull(result);
-        // 当格式化失败时，返回原始文本
-        assertEquals("测试", result);
+        verify(mockFeishuApiClient, times(1)).sendTextMessage(chatId, "chat_id", emptyMessage);
     }
 }

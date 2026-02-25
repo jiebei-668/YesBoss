@@ -15,6 +15,7 @@ import tech.yesboss.context.engine.impl.CondensationEngineImpl;
 import tech.yesboss.context.engine.impl.InjectionEngineImpl;
 import tech.yesboss.context.impl.GlobalStreamManagerImpl;
 import tech.yesboss.context.impl.LocalStreamManagerImpl;
+import tech.yesboss.gateway.im.FeishuApiClient;
 import tech.yesboss.gateway.im.IMMessagePusher;
 import tech.yesboss.gateway.im.impl.IMMessagePusherImpl;
 import tech.yesboss.gateway.ui.UICardRenderer;
@@ -121,6 +122,7 @@ public class ApplicationContext {
 
     // ==================== UI Layer ====================
     private UICardRenderer uiCardRenderer;
+    private FeishuApiClient feishuApiClient;
     private IMMessagePusher imMessagePusher;
 
     // ==================== Gateway Layer ====================
@@ -434,8 +436,21 @@ public class ApplicationContext {
         ObjectMapper objectMapper = new ObjectMapper();
         uiCardRenderer = new UICardRendererImpl(objectMapper);
 
+        logger.info("Initializing FeishuApiClient...");
+        String feishuAppId = config.getIm().getFeishu().getAppId();
+        String feishuAppSecret = config.getIm().getFeishu().getAppSecret();
+        int feishuTimeout = config.getIm().getFeishu().getTimeoutSeconds();
+
+        if (feishuAppId != null && !feishuAppId.isEmpty()
+                && feishuAppSecret != null && !feishuAppSecret.isEmpty()) {
+            feishuApiClient = new FeishuApiClient(feishuAppId, feishuAppSecret, feishuTimeout);
+            logger.info("FeishuApiClient initialized with app_id: {}", feishuAppId);
+        } else {
+            logger.warn("Feishu credentials not configured, FeishuApiClient will be null");
+        }
+
         logger.info("Initializing IMMessagePusher...");
-        imMessagePusher = new IMMessagePusherImpl();
+        imMessagePusher = new IMMessagePusherImpl(feishuApiClient);
 
         logger.info("UI Layer initialized");
     }
