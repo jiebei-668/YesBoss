@@ -231,7 +231,9 @@ public class WebhookControllerImpl implements WebhookController {
     /**
      * Verify Feishu webhook signature.
      *
-     * Feishu signature format: base64(hmac_sha256(secret, timestamp + nonce + body))
+     * Feishu signature format: base64(hmac_sha256(secret, timestamp + "\n" + nonce + "\n" + body))
+     *
+     * Reference: https://open.feishu.cn/document/server-docs/webhook/event-subscription-guide
      *
      * @param timestamp The timestamp header
      * @param nonce     The nonce header
@@ -250,14 +252,18 @@ public class WebhookControllerImpl implements WebhookController {
                 throw new SecurityException("Feishu timestamp expired: diff=" + timeDiff + "s");
             }
 
-            // Build signature base string
-            String baseString = timestamp + nonce + body;
+            // Build signature base string (FEISHU REQUIRES NEWLINES!)
+            // Format: timestamp + "\n" + nonce + "\n" + body
+            String baseString = timestamp + "\n" + nonce + "\n" + body;
 
             // Calculate expected signature
             String expectedSignature = calculateHmacSha256(baseString, feishuAppSecret);
 
             // Compare signatures (timing-safe comparison)
             if (!constantTimeEquals(expectedSignature, signature)) {
+                logger.error("Feishu signature mismatch!");
+                logger.debug("  Received: {}", signature);
+                logger.debug("  Expected: {}", expectedSignature);
                 throw new SecurityException("Feishu signature mismatch");
             }
 

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
+import tech.yesboss.config.YesBossConfig;
 import tech.yesboss.gateway.webhook.controller.WebhookController;
 
 import static spark.Spark.*;
@@ -47,18 +48,24 @@ public class WebhookRouteHandler {
     private static final String SLACK_HEADER_SIGNATURE = "X-Slack-Signature";
 
     private final WebhookController webhookController;
+    private final YesBossConfig config;
 
     /**
      * Creates a new WebhookRouteHandler.
      *
      * @param webhookController The webhook controller that processes events
-     * @throws IllegalArgumentException if webhookController is null
+     * @param config            The application configuration
+     * @throws IllegalArgumentException if webhookController or config is null
      */
-    public WebhookRouteHandler(WebhookController webhookController) {
+    public WebhookRouteHandler(WebhookController webhookController, YesBossConfig config) {
         if (webhookController == null) {
             throw new IllegalArgumentException("webhookController cannot be null");
         }
+        if (config == null) {
+            throw new IllegalArgumentException("config cannot be null");
+        }
         this.webhookController = webhookController;
+        this.config = config;
     }
 
     /**
@@ -95,9 +102,12 @@ public class WebhookRouteHandler {
      */
     private void setupCorsSupport() {
         before((request, response) -> {
-            // Only apply CORS to webhook routes
+            // Apply CORS to configured webhook paths
             String path = request.pathInfo();
-            if (path != null && path.startsWith("/webhook/")) {
+            String feishuPath = config.getIm().getFeishu().getWebhook().getPath();
+            String slackPath = config.getIm().getSlack().getWebhook().getPath();
+
+            if (path != null && (path.startsWith(feishuPath) || path.startsWith(slackPath))) {
                 response.header("Access-Control-Allow-Origin", "*");
                 response.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
                 response.header("Access-Control-Allow-Headers", "*");
@@ -111,8 +121,15 @@ public class WebhookRouteHandler {
             }
         });
 
-        // Handle OPTIONS requests explicitly
-        options("/webhook/*", (request, response) -> {
+        // Handle OPTIONS requests explicitly for configured paths
+        String feishuPath = config.getIm().getFeishu().getWebhook().getPath();
+        String slackPath = config.getIm().getSlack().getWebhook().getPath();
+
+        options(feishuPath + "/*", (request, response) -> {
+            response.status(200);
+            return HTTP_200_OK;
+        });
+        options(slackPath + "/*", (request, response) -> {
             response.status(200);
             return HTTP_200_OK;
         });
@@ -124,13 +141,17 @@ public class WebhookRouteHandler {
     private void setupFeishuRoutes() {
         logger.info("Setting up Feishu webhook routes...");
 
-        // Feishu webhook event route
-        post("/webhook/feishu", (request, response) -> {
+        // Get webhook path from configuration
+        String feishuWebhookPath = config.getIm().getFeishu().getWebhook().getPath();
+        logger.info("Feishu webhook path from config: {}", feishuWebhookPath);
+
+        // Feishu webhook event route (configured path)
+        post(feishuWebhookPath, (request, response) -> {
             return handleFeishuEvent(request, response);
         });
 
-        // Feishu interactive callback route (for human-in-the-loop)
-        post("/webhook/feishu/callback", (request, response) -> {
+        // Feishu interactive callback route
+        post(feishuWebhookPath + "/callback", (request, response) -> {
             return handleFeishuCallback(request, response);
         });
     }
@@ -141,13 +162,17 @@ public class WebhookRouteHandler {
     private void setupSlackRoutes() {
         logger.info("Setting up Slack webhook routes...");
 
+        // Get webhook path from configuration
+        String slackWebhookPath = config.getIm().getSlack().getWebhook().getPath();
+        logger.info("Slack webhook path from config: {}", slackWebhookPath);
+
         // Slack webhook event route
-        post("/webhook/slack", (request, response) -> {
+        post(slackWebhookPath, (request, response) -> {
             return handleSlackEvent(request, response);
         });
 
         // Slack interactive callback route (for human-in-the-loop)
-        post("/webhook/slack/callback", (request, response) -> {
+        post(slackWebhookPath + "/callback", (request, response) -> {
             return handleSlackCallback(request, response);
         });
     }

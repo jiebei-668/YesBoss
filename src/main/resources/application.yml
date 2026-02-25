@@ -66,7 +66,7 @@ im:
     encryptKey: ${FEISHU_ENCRYPT_KEY:KOBEforever668!}
     verificationToken: ${FEISHU_VERIFICATION_TOKEN:IN4yV9Fz7DALJKOQlfQo6flufO4rRjFV}
     webhook:
-      path: ${FEISHU_WEBHOOK_PATH:/webhook/feishu}
+      path: ${FEISHU_WEBHOOK_PATH:/feishu/webhook}
       port: ${FEISHU_WEBHOOK_PORT:8080}
     push:
       baseUrl: ${FEISHU_PUSH_BASE_URL:https://open.feishu.cn}

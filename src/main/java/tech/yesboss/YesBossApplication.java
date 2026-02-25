@@ -83,7 +83,7 @@ public class YesBossApplication {
             // Step 5: Setup webhook routes with WebhookController integration
             logger.info("Setting up webhook routes...");
             WebhookController webhookController = applicationContext.getWebhookController();
-            webhookRouteHandler = new WebhookRouteHandler(webhookController);
+            webhookRouteHandler = new WebhookRouteHandler(webhookController, config);
             webhookRouteHandler.configureRoutes();
 
             // Step 6: Register signal handlers for graceful shutdown
