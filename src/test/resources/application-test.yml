@@ -1,0 +1,45 @@
+# YesBoss Test Configuration File
+
+# =============================================================================
+# LLM Provider Configuration for Testing
+# =============================================================================
+llm:
+  # Zhipu GLM Configuration for Testing
+  zhipu:
+    enabled: ${ZHIPU_ENABLED:true}
+    apiKey: ${ZHIPU_API_KEY:}
+    baseUrl: ${ZHIPU_BASE_URL:https://open.bigmodel.cn}
+    model:
+      master: ${ZHIPU_MODEL_MASTER:glm-4-flash}
+      worker: ${ZHIPU_MODEL_WORKER:glm-4-flash}
+    maxTokens: ${ZHIPU_MAX_TOKENS:4096}
+    temperature: ${ZHIPU_TEMPERATURE:0.7}
+    timeoutSeconds: ${ZHIPU_TIMEOUT:120}
+
+  # Anthropic Claude Configuration (disabled for testing by default)
+  anthropic:
+    enabled: ${ANTHROPIC_ENABLED:false}
+    apiKey: ${ANTHROPIC_API_KEY:}
+    model:
+      master: claude-3-5-sonnet-20241022
+      worker: claude-3-5-sonnet-20241022
+
+# =============================================================================
+# Database Configuration (in-memory for testing)
+# =============================================================================
+database:
+  type: sqlite
+  sqlite:
+    path: :memory:
+    journalMode: MEMORY
+
+# =============================================================================
+# Logging Configuration for Testing
+# =============================================================================
+logging:
+  level: DEBUG
+  console:
+    enabled: true
+    colorized: false
+  file:
+    enabled: false

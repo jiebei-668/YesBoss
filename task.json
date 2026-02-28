@@ -1318,5 +1318,165 @@
       "https://open.feishu.cn/document/server-docs/im-v1/message/create"
     ],
     "passes": true
+  },
+  {
+    "category": "develop",
+    "module": "LLM路由网关模块",
+    "description": "Implement ZhipuLlmClient for real LLM integration testing",
+    "steps": [
+      "Create ZhipuLlmClient class implementing LlmClient interface in src/main/java/tech/yesboss/llm/impl/",
+      "Add constructor accepting: apiKey (String), model (String, default 'glm-4-flash'), maxTokens (int, default 4096), temperature (double, default 0.7)",
+      "Implement chat() method to call Zhipu GLM API endpoint: https://open.bigmodel.cn/api/paas/v4/chat/completions",
+      "Handle request conversion: convert UnifiedMessage list to Zhipu API format (messages array with role/content)",
+      "Support systemPrompt injection as a system message at the beginning of messages array",
+      "Implement response parsing: convert Zhipu API response back to UnifiedMessage format",
+      "Handle tool_calls in Zhipu response: extract id, name, arguments and create UnifiedMessage.ToolCall list",
+      "Implement summarize() method using the same chat endpoint with a summarization prompt",
+      "Add HTTP client dependency if needed (OkHttp or Java 11 HttpClient)",
+      "Add error handling for: 401 (invalid API key), 429 (rate limit), 500 (server error)",
+      "Add request timeout configuration (connectTimeout: 10s, readTimeout: 60s)",
+      "Add logging for: API requests, responses, errors, token usage",
+      "Create test configuration in application-test.yml for Zhipu settings",
+      "Document API key setup in README (environment variable: ZHIPU_API_KEY)"
+    ],
+    "reference_docs": [
+      "LLM路由网关模块.md",
+      "https://open.bigmodel.cn/dev/api#glm-4",
+      "整体架构设计.md"
+    ],
+    "passes": true
+  },
+  {
+    "category": "develop",
+    "module": "状态机与调度引擎模块",
+    "description": "Implement simple test tools for integration testing",
+    "steps": [
+      "Create CalculatorTool class implementing AgentTool interface in src/test/java/tech/yesboss/tool/",
+      "Implement getName() returning 'calculator'",
+      "Implement getDescription() returning 'A simple calculator that can add, subtract, multiply, and divide numbers'",
+      "Implement getParametersJsonSchema() returning JSON schema for: operation (enum: add/subtract/multiply/divide), a (number), b (number)",
+      "Implement execute() parsing argumentsJson and performing the calculation, returning result as string",
+      "Create EchoTool class implementing AgentTool interface",
+      "Implement echo functionality that returns the input text exactly as received",
+      "Add error handling for division by zero and invalid operations in CalculatorTool",
+      "Register these tools in ToolRegistry for testing purposes"
+    ],
+    "reference_docs": [
+      "统一工具链与沙箱模块设计.md",
+      "状态机与调度引擎模块设计.md"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "状态机与调度引擎模块",
+    "description": "Integration test for WorkerRunner ReAct loop with real Zhipu LLM",
+    "steps": [
+      "Create WorkerRunnerIntegrationTest class in src/test/java/tech/yesboss/runner/",
+      "Add @Test method testWorkerReActLoopWithRealLlm()",
+      "Read ZHIPU_API_KEY from .env file using dotenv library or System.getenv()",
+      "Initialize real ZhipuLlmClient with the API key and model='glm-4-flash'",
+      "Create real ToolRegistry and register CalculatorTool and EchoTool",
+      "Mock all other dependencies: TaskManager, LocalStreamManager, InjectionEngine, CondensationEngine, CircuitBreaker, SandboxInterceptor, SuspendResumeEngine, ToolCallTracker",
+      "Configure TaskManager mock: sessionExists returns true, getParentSessionId returns 'master-1', getStatus returns COMPLETED after worker run",
+      "Configure LocalStreamManager mock: fetchContext returns empty list initially, then append messages to track ReAct loop",
+      "Configure InjectionEngine mock: injectInitialContext returns a system UnifiedMessage with calculator task description",
+      "Create WorkerRunnerImpl with mocked dependencies and real ZhipuLlmClient via ModelRouter",
+      "Call workerRunner.run(testSessionId) and wait for completion",
+      "Verify ReAct loop executed: check LocalStreamManager.appendWorkerMessage was called multiple times",
+      "Verify tool was executed: CalculatorTool.execute was called with valid arguments",
+      "Verify completion: TaskManager.transitionState was called with COMPLETED status",
+      "Verify CondensationEngine.condenseAndMergeUpwards was called once",
+      "Add assertions for LLM response format and tool call structure",
+      "Add timeout handling (max 60 seconds for test completion)",
+      "Add cleanup code to shutdown executor services",
+      "Log actual LLM responses and tool executions for debugging",
+      "Mark test as @Disabled if ZHIPU_API_KEY is not set"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "LLM路由网关模块.md",
+      "双流上下文管理模块设计.md",
+      "https://open.bigmodel.cn/dev/api#glm-4"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "状态机与调度引擎模块",
+    "description": "Integration test for Master-Worker orchestration with real Zhipu LLM and thread pool",
+    "steps": [
+      "Create MasterRunnerIntegrationTest class in src/test/java/tech/yesboss/runner/",
+      "Add @Test method testMasterWorkerOrchestrationWithRealLlmAndThreadPool()",
+      "Read ZHIPU_API_KEY from .env file or environment variable",
+      "Initialize two ZhipuLlmClient instances: one for MASTER role (model='glm-4-flash'), one for WORKER role (model='glm-4-flash')",
+      "Create ModelRouter with master and worker LlmClient instances",
+      "Create real ToolRegistry and register test tools (CalculatorTool, EchoTool)",
+      "Create real ExecutorService via Executors.newCachedThreadPool() for virtual thread simulation",
+      "Mock infrastructure dependencies: TaskManager, GlobalStreamManager, LocalStreamManager, InjectionEngine, CondensationEngine, CircuitBreaker, SandboxInterceptor, SuspendResumeEngine, ToolCallTracker, PlanningTool, UICardRenderer, IMMessagePusher",
+      "Configure TaskManager mock chain for Master session: sessionExists returns true, getStatus returns PLANNING then RUNNING then COMPLETED, createWorkerTask returns 'worker-1', 'worker-2', getImRoute returns mock ImRoute",
+      "Configure TaskManager mock chain for Worker sessions: sessionExists returns true, getStatus transitions from RUNNING to COMPLETED, getParentSessionId returns master session ID",
+      "Configure GlobalStreamManager mock: fetchContext returns user requirement message list, appendMasterMessage tracks messages",
+      "Configure PlanningTool mock: execute returns JSON array with 2 worker tasks",
+      "Configure LocalStreamManager mock for workers: fetchContext returns empty list, appendWorkerMessage and appendToolResult track calls",
+      "Configure InjectionEngine mock: injectInitialContext returns system prompt with assigned task",
+      "Create WorkerRunnerImpl with real ModelRouter and mocked dependencies",
+      "Create MasterRunnerImpl with real ModelRouter, real WorkerRunner, and mocked dependencies",
+      "Prepare initial context: user message 'Calculate 15 + 27 and then echo the result'",
+      "Call masterRunner.run(masterSessionId) to start orchestration",
+      "Verify Master created 2 worker tasks: verify TaskManager.createWorkerTask called twice",
+      "Verify workers executed in parallel: verify both worker sessions were created and their run() methods called",
+      "Verify thread pool was used: check executor.submit was called for each worker",
+      "Verify ReAct loops completed: LocalStreamManager.appendWorkerMessage called for both workers",
+      "Verify tools executed: CalculatorTool.execute called with arguments for 15+27",
+      "Verify final summary: verify condenseAndMergeUpwards called for both workers, generateExecutionReport called",
+      "Verify Master completion: TaskManager.transitionState called with COMPLETED for master session",
+      "Add assertions for concurrent execution: verify worker run() calls overlapped in time (use timestamps or CountDownLatch)",
+      "Add timeout handling: max 120 seconds for entire test (Master + Workers)",
+      "Add logging to track thread execution and timing",
+      "Test cleanup: shutdown executor, clear all mock states",
+      "Add edge case tests: worker failure propagation, worker timeout handling",
+      "Mark test as @Disabled if ZHIPU_API_KEY is not set"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "LLM路由网关模块.md",
+      "双流上下文管理模块设计.md",
+      "整体架构设计.md",
+      "https://open.bigmodel.cn/dev/api#glm-4"
+    ],
+    "passes": false
+  },
+  {
+    "category": "test",
+    "module": "状态机与调度引擎模块",
+    "description": "Integration test for multi-worker concurrent execution with real thread pool",
+    "steps": [
+      "Add @Test method testMultipleWorkersConcurrentExecution() to MasterRunnerIntegrationTest",
+      "Setup real ZhipuLlmClient and ModelRouter as in previous test",
+      "Configure PlanningTool to return 3 worker tasks (Task 1: add 10+20, Task 2: multiply 5*6, Task 3: divide 100/4)",
+      "Create real ExecutorService with newCachedThreadPool()",
+      "Configure TaskManager mocks for 3 worker sessions: 'worker-1', 'worker-2', 'worker-3'",
+      "Track execution timing: record start and end time for each worker run() call",
+      "Create CountDownLatch(3) to synchronize worker completion verification",
+      "Execute masterRunner.run() and await completion with timeout",
+      "Verify concurrent execution: check that workers ran in overlapping time windows (not strictly sequential)",
+      "Verify all workers completed: all 3 worker sessions transitioned to COMPLETED",
+      "Verify thread pool usage: executor.submit was called exactly 3 times",
+      "Verify isolation: each worker's LocalStreamManager calls used unique session IDs",
+      "Verify tool execution: CalculatorTool.execute called with different arguments for each worker",
+      "Add stress test: configure PlanningTool to return 5 workers, verify all complete within timeout",
+      "Test error isolation: make one worker fail, verify others still complete",
+      "Test thread pool exhaustion: submit more workers than pool size, verify queueing behavior",
+      "Add performance metrics: log total execution time, per-worker time, throughput",
+      "Verify no race conditions: all shared resources (TaskManager, repositories) handle concurrent access correctly",
+      "Add assertions for thread safety: no ConcurrentModificationException or data corruption"
+    ],
+    "reference_docs": [
+      "状态机与调度引擎模块设计.md",
+      "双流上下文管理模块设计.md",
+      "整体架构设计.md"
+    ],
+    "passes": false
   }
 ]

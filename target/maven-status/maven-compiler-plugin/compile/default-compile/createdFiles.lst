@@ -16,9 +16,11 @@ tech/yesboss/persistence/event/InsertMessageEvent.class
 tech/yesboss/config/YesBossConfig$TaskConfig.class
 tech/yesboss/config/YesBossConfig$PushConfig.class
 tech/yesboss/context/engine/InjectionEngine.class
+tech/yesboss/llm/impl/ZhipuLlmClient$Usage.class
 tech/yesboss/domain/message/UnifiedMessage$Role.class
 tech/yesboss/config/YesBossConfig$FeishuConfig.class
 tech/yesboss/ApplicationContext.class
+tech/yesboss/llm/impl/ZhipuLlmClient.class
 tech/yesboss/config/YesBossConfig$DatabaseConfig.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent.class
 tech/yesboss/runner/impl/MasterRunnerImpl.class
@@ -28,6 +30,7 @@ tech/yesboss/config/YesBossConfig$SchedulerConfig.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$1.class
 tech/yesboss/persistence/event/UpdateTaskStatusEvent.class
 tech/yesboss/tool/tracker/ToolCallTracker.class
+tech/yesboss/llm/impl/ZhipuLlmClient$ToolCall.class
 tech/yesboss/YesBossApplication.class
 tech/yesboss/config/YesBossConfig$FileLogConfig.class
 tech/yesboss/runner/impl/WorkerRunnerImpl.class
@@ -51,6 +54,7 @@ tech/yesboss/session/impl/SessionManagerImpl.class
 tech/yesboss/safeguard/SuspendResumeEngine.class
 tech/yesboss/gateway/webhook/executor/impl/WebhookEventExecutorImpl.class
 tech/yesboss/config/YesBossConfig$CondensationConfig.class
+tech/yesboss/llm/impl/ZhipuLlmClient$ErrorResponse.class
 tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.class
 tech/yesboss/gateway/im/impl/IMMessagePusherImpl.class
 tech/yesboss/gateway/im/FeishuApiClient$FeishuApiException.class
@@ -61,6 +65,7 @@ tech/yesboss/config/ConfigLoader$ConfigLoadException.class
 tech/yesboss/runner/AgentRunner.class
 tech/yesboss/config/YesBossConfig$SQLiteConfig.class
 tech/yesboss/llm/VendorSdkAdapter.class
+tech/yesboss/llm/impl/ZhipuLlmClient$ChatResponse.class
 tech/yesboss/session/SessionManager.class
 tech/yesboss/persistence/repository/TaskSessionRepositoryImpl.class
 tech/yesboss/persistence/event/DeleteMessagesEvent.class
@@ -80,6 +85,7 @@ tech/yesboss/tool/planning/PlanningTool$PlanningRequest.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$2.class
 tech/yesboss/config/YesBossConfig$SlackConfig.class
 tech/yesboss/persistence/entity/TaskSession$Status.class
+tech/yesboss/llm/impl/ZhipuLlmClient$Function.class
 tech/yesboss/domain/message/UnifiedMessage$ToolCall.class
 tech/yesboss/tool/sandbox/SandboxInterceptor.class
 tech/yesboss/config/YesBossConfig$OpenAIConfig.class
@@ -95,9 +101,12 @@ tech/yesboss/config/YesBossConfig$WebhookConfig.class
 tech/yesboss/config/YesBossConfig$GeminiConfig.class
 tech/yesboss/llm/impl/ModelRouter.class
 tech/yesboss/config/YesBossConfig$ComponentLogConfig.class
+tech/yesboss/llm/impl/ZhipuLlmClient$1.class
 tech/yesboss/tool/registry/impl/ToolRegistryImpl.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.class
+tech/yesboss/llm/impl/ZhipuLlmClient$ChatMessage.class
 tech/yesboss/persistence/db/SingleThreadDbWriter.class
+tech/yesboss/llm/impl/ZhipuLlmClient$ChatRequest.class
 tech/yesboss/gateway/webhook/model/ImWebhookEvent.class
 tech/yesboss/config/YesBossConfig$SandboxConfig.class
 tech/yesboss/context/impl/GlobalStreamManagerImpl.class
@@ -113,6 +122,7 @@ tech/yesboss/persistence/db/DatabaseInitializer.class
 tech/yesboss/tool/ToolAccessLevel.class
 tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.class
 tech/yesboss/state/impl/TaskManagerImpl.class
+tech/yesboss/llm/impl/ZhipuLlmClient$ChatChoice.class
 tech/yesboss/config/YesBossConfig$ModelConfig.class
 tech/yesboss/config/YesBossConfig.class
 tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.class
