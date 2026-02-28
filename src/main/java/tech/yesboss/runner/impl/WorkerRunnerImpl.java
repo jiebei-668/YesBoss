@@ -155,18 +155,36 @@ public class WorkerRunnerImpl implements WorkerRunner {
                     throw new IllegalStateException("Worker has no parent Master session");
                 }
 
-                // 获取分配的任务（从 TaskSession 的 plan_json 字段中）
-                // TODO: 在完整实现中，这里应该从数据库读取分配的任务
-                String assignedTask = "Assigned task placeholder";  // 骨架实现
+                // 获取分配的任务（从当前Worker session读取）
+                String assignedTask = taskManager.getAssignedTask(sessionId);
+                if (assignedTask == null || assignedTask.trim().isEmpty()) {
+                    throw new IllegalStateException("No assigned task found for worker session: " + sessionId);
+                }
+                logger.info("Retrieved assigned task for worker {}: {}", sessionId, assignedTask);
 
                 // 注入初始上下文
                 UnifiedMessage initialPrompt = injectionEngine.injectInitialContext(
                     masterSessionId, assignedTask);
 
-                // 追加到局部流
-                localStreamManager.appendWorkerMessage(sessionId, initialPrompt);
+                // 追加到局部流（system prompt）- 同步写入确保数据持久化
+                try {
+                    boolean promptSaved = localStreamManager.appendWorkerMessageSync(sessionId, initialPrompt, 5000);
+                    if (!promptSaved) {
+                        throw new IllegalStateException("Failed to save initial prompt for worker session: " + sessionId);
+                    }
 
-                logger.info("Initial context injected for session {}", sessionId);
+                    // 添加初始用户消息以触发LLM响应 - 同步写入确保数据持久化
+                    UnifiedMessage initialUserMessage = UnifiedMessage.user("请开始执行任务");
+                    boolean userMessageSaved = localStreamManager.appendWorkerMessageSync(sessionId, initialUserMessage, 5000);
+                    if (!userMessageSaved) {
+                        throw new IllegalStateException("Failed to save initial user message for worker session: " + sessionId);
+                    }
+
+                    logger.info("Initial context injected and persisted for session {}", sessionId);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw new IllegalStateException("Worker initialization interrupted for session: " + sessionId, e);
+                }
             } else {
                 logger.info("Resuming from suspension, skipping initialization");
             }

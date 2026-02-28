@@ -59,6 +59,32 @@ public class LocalStreamManagerImpl implements LocalStreamManager {
     }
 
     @Override
+    public boolean appendWorkerMessageSync(String workerSessionId, UnifiedMessage workerMessage, long timeoutMs) throws InterruptedException {
+        if (workerSessionId == null || workerSessionId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Worker session ID cannot be null or empty");
+        }
+        if (workerMessage == null) {
+            throw new IllegalArgumentException("Worker message cannot be null");
+        }
+
+        // Get next sequence number
+        int nextSeq = chatMessageRepository.getCurrentSequenceNumber(workerSessionId,
+                InsertMessageEvent.StreamType.LOCAL) + 1;
+
+        // Save message synchronously
+        boolean success = chatMessageRepository.saveMessageSync(workerSessionId,
+                InsertMessageEvent.StreamType.LOCAL, nextSeq, workerMessage, timeoutMs);
+
+        if (success) {
+            logger.debug("Appended worker message synchronously to session {}: seq={}", workerSessionId, nextSeq);
+        } else {
+            logger.warn("Failed to append worker message synchronously to session {}: seq={}", workerSessionId, nextSeq);
+        }
+
+        return success;
+    }
+
+    @Override
     public void appendToolResult(String workerSessionId, UnifiedMessage toolResult) {
         if (workerSessionId == null || workerSessionId.trim().isEmpty()) {
             throw new IllegalArgumentException("Worker session ID cannot be null or empty");

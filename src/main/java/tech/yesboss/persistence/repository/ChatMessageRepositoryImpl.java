@@ -91,6 +91,20 @@ public class ChatMessageRepositoryImpl implements ChatMessageRepository {
     }
 
     @Override
+    public boolean saveMessageSync(String sessionId, StreamType streamType, int sequenceNum, UnifiedMessage message, long timeoutMs) throws InterruptedException {
+        InsertMessageEvent event = new InsertMessageEvent(sessionId, streamType, sequenceNum, message);
+        boolean success = dbWriter.submitEventAndWait(event, timeoutMs);
+
+        if (success) {
+            logger.debug("Saved message synchronously for session={}, stream={}, seq={}", sessionId, streamType, sequenceNum);
+        } else {
+            logger.warn("Failed to save message synchronously for session={}, stream={}, seq={}", sessionId, streamType, sequenceNum);
+        }
+
+        return success;
+    }
+
+    @Override
     public void deleteBySession(String sessionId) {
         DeleteMessagesEvent event = new DeleteMessagesEvent(sessionId);
         boolean submitted = dbWriter.submitEvent(event);

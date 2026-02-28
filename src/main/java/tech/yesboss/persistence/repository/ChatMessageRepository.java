@@ -50,6 +50,26 @@ public interface ChatMessageRepository {
     void saveMessage(String sessionId, StreamType streamType, int sequenceNum, UnifiedMessage message);
 
     /**
+     * Synchronously save a single message record and wait for completion.
+     *
+     * <p>This method creates an InsertMessageEvent and submits it to the
+     * SingleThreadDbWriter queue, then blocks until the write completes.
+     * Use this when you need to ensure the data is persisted before continuing.</p>
+     *
+     * <p>This is particularly useful for Worker initialization where messages
+     * must be written before the Worker starts its ReAct loop.</p>
+     *
+     * @param sessionId   The session ID this message belongs to
+     * @param streamType  The stream type (GLOBAL or LOCAL)
+     * @param sequenceNum The monotonically increasing sequence number
+     * @param message     The UnifiedMessage to persist
+     * @param timeoutMs   Maximum time to wait in milliseconds
+     * @return {@code true} if the message was saved successfully, {@code false} if timeout occurred
+     * @throws InterruptedException if the thread is interrupted while waiting
+     */
+    boolean saveMessageSync(String sessionId, StreamType streamType, int sequenceNum, UnifiedMessage message, long timeoutMs) throws InterruptedException;
+
+    /**
      * Delete all messages for a specific session.
      *
      * <p>This creates a DeleteMessagesEvent and submits it to the queue.

@@ -28,6 +28,20 @@ public interface LocalStreamManager {
     void appendWorkerMessage(String workerSessionId, UnifiedMessage workerMessage);
 
     /**
+     * 追加 Worker 的执行思考或工具调用指令（同步等待写入完成）
+     *
+     * <p>此方法会阻塞直到消息成功写入数据库。适用于 Worker 初始化阶段，
+     * 需要确保消息持久化后再继续执行 ReAct 循环。</p>
+     *
+     * @param workerSessionId Worker 的会话 ID
+     * @param workerMessage Worker 产出的 UnifiedMessage
+     * @param timeoutMs 最大等待时间（毫秒）
+     * @return {@code true} 如果消息成功写入，{@code false} 如果超时
+     * @throws InterruptedException 如果线程被中断
+     */
+    boolean appendWorkerMessageSync(String workerSessionId, UnifiedMessage workerMessage, long timeoutMs) throws InterruptedException;
+
+    /**
      * 追加底层沙箱工具的执行结果
      *
      * <p>包括成功输出和报错信息。</p>

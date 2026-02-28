@@ -14,6 +14,7 @@ import tech.yesboss.session.SessionManager;
 import tech.yesboss.state.TaskManager;
 import tech.yesboss.runner.MasterRunner;
 import tech.yesboss.safeguard.SuspendResumeEngine;
+import tech.yesboss.context.GlobalStreamManager;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +51,9 @@ class WebhookControllerAndExecutorTest {
     @Mock
     private SuspendResumeEngine mockSuspendResumeEngine;
 
+    @Mock
+    private GlobalStreamManager mockGlobalStreamManager;
+
     private WebhookEventExecutor executor;
     private WebhookController controller;
     private AutoCloseable mockCloseable;
@@ -69,7 +73,7 @@ class WebhookControllerAndExecutorTest {
         doNothing().when(mockSuspendResumeEngine).resume(anyString(), anyString(), anyBoolean(), anyString());
 
         // Initialize executor and controller
-        executor = new WebhookEventExecutorImpl(mockSessionManager, mockTaskManager, mockMasterRunner);
+        executor = new WebhookEventExecutorImpl(mockSessionManager, mockTaskManager, mockMasterRunner, mockGlobalStreamManager);
         controller = new WebhookControllerImpl(executor, mockSuspendResumeEngine, FEISHU_SECRET, SLACK_SECRET);
     }
 
@@ -86,7 +90,7 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testExecutorConstructorNullSessionManager() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new WebhookEventExecutorImpl(null, mockTaskManager, mockMasterRunner);
+            new WebhookEventExecutorImpl(null, mockTaskManager, mockMasterRunner, mockGlobalStreamManager);
         });
 
         assertTrue(exception.getMessage().contains("sessionManager"));
@@ -95,7 +99,7 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testExecutorConstructorNullTaskManager() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new WebhookEventExecutorImpl(mockSessionManager, null, mockMasterRunner);
+            new WebhookEventExecutorImpl(mockSessionManager, null, mockMasterRunner, mockGlobalStreamManager);
         });
 
         assertTrue(exception.getMessage().contains("taskManager"));
@@ -104,7 +108,7 @@ class WebhookControllerAndExecutorTest {
     @Test
     void testExecutorConstructorNullMasterRunner() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new WebhookEventExecutorImpl(mockSessionManager, mockTaskManager, null);
+            new WebhookEventExecutorImpl(mockSessionManager, mockTaskManager, null, mockGlobalStreamManager);
         });
 
         assertTrue(exception.getMessage().contains("masterRunner"));
