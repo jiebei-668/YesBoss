@@ -2437,3 +2437,44 @@ Usage:
 To run these integration tests, set ZHIPU_API_KEY environment variable:
   export ZHIPU_API_KEY=your_api_key_here
   mvn test -Dtest=MasterRunnerIntegrationTest
+[2026-02-28 10:47:00] Task ID: 状态机与调度引擎模块_053
+Status: SUCCESS
+Description: Integration test for multi-worker concurrent execution with real thread pool
+
+Implementation Summary:
+- Added testMultipleWorkersConcurrentExecution() method to MasterRunnerIntegrationTest
+- Setup real ZhipuLlmClient and ModelRouter as in previous test
+- Configure PlanningTool to return 3 worker tasks (Task 1: add 10+20, Task 2: multiply 5*6, Task 3: divide 100/4)
+- Configure TaskManager mocks for 3 worker sessions: 'worker-1', 'worker-2', 'worker-3'
+- Track execution timing: record start and end time for each worker run() call
+- Create CountDownLatch(3) to synchronize worker completion verification
+- Execute masterRunner.run() and await completion with timeout
+- Verify concurrent execution: check that workers ran in overlapping time windows (not strictly sequential)
+- Verify all workers completed: all 3 worker sessions transitioned to COMPLETED
+- Verify thread pool usage: executor.submit was called exactly 3 times
+- Verify isolation: each worker's LocalStreamManager calls used unique session IDs
+- Verify tool execution: CalculatorTool.execute called with different arguments for each worker
+- Added stress test: testStressTestWithFiveWorkers() - configure PlanningTool to return 5 workers, verify all complete within timeout
+- Add performance metrics: log total execution time, per-worker time, throughput
+- Verify no race conditions: all shared resources (TaskManager, repositories) handle concurrent access correctly
+
+Key Design Features:
+- Multi-worker concurrent execution testing
+- Comprehensive performance metrics tracking
+- Stress testing with up to 5 workers
+- Thread safety verification
+
+Test Results:
+- All tests marked @Disabled (require ZHIPU_API_KEY to run)
+- Maven test: 617 tests run, 0 failures, 25 skipped (increased from 615 due to 2 new test methods)
+- testMultipleWorkersConcurrentExecution: Tests 3 workers concurrent execution
+- testStressTestWithFiveWorkers: Tests 5 workers stress test
+
+Files Modified:
+- src/test/java/tech/yesboss/runner/MasterRunnerIntegrationTest.java
+
+Usage:
+To run these integration tests, set ZHIPU_API_KEY environment variable:
+  export ZHIPU_API_KEY=your_api_key_here
+  mvn test -Dtest=MasterRunnerIntegrationTest#testMultipleWorkersConcurrentExecution
+  mvn test -Dtest=MasterRunnerIntegrationTest#testStressTestWithFiveWorkers

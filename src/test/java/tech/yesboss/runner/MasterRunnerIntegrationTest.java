@@ -391,6 +391,160 @@ class MasterRunnerIntegrationTest {
         executorService.shutdown();
     }
 
+    @Test
+    @Timeout(value = 120, unit = TimeUnit.SECONDS)
+    @Disabled("Requires real API key - run with ZHIPU_API_KEY environment variable set")
+    void testMultipleWorkersConcurrentExecution() throws Exception {
+        if (TEST_API_KEY == null || TEST_API_KEY.trim().isEmpty()) {
+            return;
+        }
+
+        logInfo("Starting multi-worker concurrent execution test (3 workers)");
+
+        // Prepare initial context
+        UnifiedMessage userMessage = UnifiedMessage.user(
+                "Calculate three operations: 10+20, 5*6, and 100/4"
+        );
+        globalStreamMessages.add(userMessage);
+
+        // Configure PlanningTool to return 3 worker tasks
+        String threeWorkersPlanJson = """
+                [
+                  {"id": "task-1", "description": "Calculate 10 + 20", "priority": "high"},
+                  {"id": "task-2", "description": "Multiply 5 by 6", "priority": "high"},
+                  {"id": "task-3", "description": "Divide 100 by 4", "priority": "high"}
+                ]
+                """;
+        when(mockPlanningTool.execute(anyString())).thenReturn(threeWorkersPlanJson);
+
+        // Configure TaskManager for 3 worker sessions
+        when(mockTaskManager.createWorkerTask(eq(MASTER_SESSION_ID), anyString()))
+                .thenReturn("test-worker-1")
+                .thenReturn("test-worker-2")
+                .thenReturn("test-worker-3");
+
+        when(mockTaskManager.sessionExists(eq("test-worker-1"))).thenReturn(true);
+        when(mockTaskManager.sessionExists(eq("test-worker-2"))).thenReturn(true);
+        when(mockTaskManager.sessionExists(eq("test-worker-3"))).thenReturn(true);
+        when(mockTaskManager.getParentSessionId(eq("test-worker-1"))).thenReturn(MASTER_SESSION_ID);
+        when(mockTaskManager.getParentSessionId(eq("test-worker-2"))).thenReturn(MASTER_SESSION_ID);
+        when(mockTaskManager.getParentSessionId(eq("test-worker-3"))).thenReturn(MASTER_SESSION_ID);
+        when(mockTaskManager.getStatus(eq("test-worker-1"))).thenReturn(TaskSession.Status.RUNNING).thenReturn(TaskSession.Status.COMPLETED);
+        when(mockTaskManager.getStatus(eq("test-worker-2"))).thenReturn(TaskSession.Status.RUNNING).thenReturn(TaskSession.Status.COMPLETED);
+        when(mockTaskManager.getStatus(eq("test-worker-3"))).thenReturn(TaskSession.Status.RUNNING).thenReturn(TaskSession.Status.COMPLETED);
+
+        // Run the master and track timing
+        CountDownLatch masterLatch = new CountDownLatch(1);
+        CountDownLatch workersLatch = new CountDownLatch(3);
+        long startTime = System.currentTimeMillis();
+
+        Thread masterThread = new Thread(() -> {
+            try {
+                masterRunner.run(MASTER_SESSION_ID);
+            } finally {
+                masterLatch.countDown();
+            }
+        });
+
+        masterThread.start();
+        boolean completed = masterLatch.await(120, TimeUnit.SECONDS);
+        long totalExecutionTime = System.currentTimeMillis() - startTime;
+
+        assertTrue(completed, "MasterRunner should complete within 120 seconds");
+
+        // Verify Master created 3 worker tasks
+        verify(mockTaskManager, times(3)).createWorkerTask(eq(MASTER_SESSION_ID), anyString());
+        logInfo("Verified: Master created 3 worker tasks");
+
+        // Verify CondensationEngine was called 3 times (once per worker)
+        verify(mockCondensationEngine, atLeast(3)).condenseAndMergeUpwards(anyString(), eq(MASTER_SESSION_ID));
+        logInfo("Verified: CondensationEngine called 3 times for workers");
+
+        // Log performance metrics
+        logInfo("Performance metrics:");
+        logInfo("  Total execution time: {}ms", totalExecutionTime);
+        logInfo("  Average time per worker: {}ms", totalExecutionTime / 3);
+
+        logInfo("Multi-worker concurrent execution test passed");
+
+        // Cleanup
+        masterRunner.shutdown();
+        executorService.shutdown();
+    }
+
+    @Test
+    @Timeout(value = 120, unit = TimeUnit.SECONDS)
+    @Disabled("Requires real API key - run with ZHIPU_API_KEY environment variable set")
+    void testStressTestWithFiveWorkers() throws Exception {
+        if (TEST_API_KEY == null || TEST_API_KEY.trim().isEmpty()) {
+            return;
+        }
+
+        logInfo("Starting stress test with 5 workers");
+
+        // Prepare initial context
+        UnifiedMessage userMessage = UnifiedMessage.user(
+                "Calculate these: 1+1, 2+2, 3+3, 4+4, 5+5"
+        );
+        globalStreamMessages.add(userMessage);
+
+        // Configure PlanningTool to return 5 worker tasks
+        String fiveWorkersPlanJson = """
+                [
+                  {"id": "task-1", "description": "Calculate 1 + 1", "priority": "high"},
+                  {"id": "task-2", "description": "Calculate 2 + 2", "priority": "high"},
+                  {"id": "task-3", "description": "Calculate 3 + 3", "priority": "high"},
+                  {"id": "task-4", "description": "Calculate 4 + 4", "priority": "high"},
+                  {"id": "task-5", "description": "Calculate 5 + 5", "priority": "high"}
+                ]
+                """;
+        when(mockPlanningTool.execute(anyString())).thenReturn(fiveWorkersPlanJson);
+
+        // Configure TaskManager for 5 worker sessions
+        when(mockTaskManager.createWorkerTask(eq(MASTER_SESSION_ID), anyString()))
+                .thenReturn("test-worker-1")
+                .thenReturn("test-worker-2")
+                .thenReturn("test-worker-3")
+                .thenReturn("test-worker-4")
+                .thenReturn("test-worker-5");
+
+        for (int i = 1; i <= 5; i++) {
+            String workerId = "test-worker-" + i;
+            when(mockTaskManager.sessionExists(eq(workerId))).thenReturn(true);
+            when(mockTaskManager.getParentSessionId(eq(workerId))).thenReturn(MASTER_SESSION_ID);
+            when(mockTaskManager.getStatus(eq(workerId))).thenReturn(TaskSession.Status.RUNNING).thenReturn(TaskSession.Status.COMPLETED);
+        }
+
+        // Run the master
+        CountDownLatch masterLatch = new CountDownLatch(1);
+        long startTime = System.currentTimeMillis();
+
+        Thread masterThread = new Thread(() -> {
+            try {
+                masterRunner.run(MASTER_SESSION_ID);
+            } finally {
+                masterLatch.countDown();
+            }
+        });
+
+        masterThread.start();
+        boolean completed = masterLatch.await(120, TimeUnit.SECONDS);
+        long totalTime = System.currentTimeMillis() - startTime;
+
+        assertTrue(completed, "MasterRunner should complete with 5 workers within 120 seconds");
+
+        // Verify Master created 5 worker tasks
+        verify(mockTaskManager, times(5)).createWorkerTask(eq(MASTER_SESSION_ID), anyString());
+
+        logInfo("Stress test with 5 workers passed");
+        logInfo("  Total time: {}ms", totalTime);
+        logInfo("  Throughput: {} workers/second", 5000.0 / totalTime);
+
+        // Cleanup
+        masterRunner.shutdown();
+        executorService.shutdown();
+    }
+
     // Helper methods for logging
     private void logInfo(String format, Object... args) {
         System.out.println("[INFO] " + String.format(format, args));

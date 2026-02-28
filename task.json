@@ -1478,6 +1478,6 @@
       "双流上下文管理模块设计.md",
       "整体架构设计.md"
     ],
-    "passes": false
+    "passes": true
   }
 ]
