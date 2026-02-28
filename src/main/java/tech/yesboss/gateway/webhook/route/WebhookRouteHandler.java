@@ -252,30 +252,45 @@ public class WebhookRouteHandler {
                 return HTTP_200_OK;
             }
 
+            // Extract and validate body first (needed for URL verification check)
+            String body = request.body();
+            if (body == null || body.isEmpty()) {
+                logger.warn("Feishu webhook received empty body");
+                throw new IllegalArgumentException("Empty request body");
+            }
+
+            // Check if this is a URL verification request (no signature headers needed)
+            // Reference: https://open.feishu.cn/document/server-docs/webhook/event-subscription-guide
+            boolean isUrlVerification = false;
+            try {
+                com.fasterxml.jackson.databind.JsonNode rootNode = new com.fasterxml.jackson.databind.ObjectMapper().readTree(body);
+                isUrlVerification = rootNode.has("type") && "url_verification".equals(rootNode.get("type").asText());
+            } catch (Exception e) {
+                // Not valid JSON, continue with normal flow
+            }
+
             // Extract headers
             String timestamp = request.headers(FEISHU_HEADER_TIMESTAMP);
             String nonce = request.headers(FEISHU_HEADER_NONCE);
             String signature = request.headers(FEISHU_HEADER_SIGNATURE);
 
-            // Validate headers presence
-            if (timestamp == null || timestamp.isEmpty()) {
-                logger.warn("Feishu webhook missing {} header", FEISHU_HEADER_TIMESTAMP);
-                throw new IllegalArgumentException("Missing timestamp header");
-            }
-            if (nonce == null || nonce.isEmpty()) {
-                logger.warn("Feishu webhook missing {} header", FEISHU_HEADER_NONCE);
-                throw new IllegalArgumentException("Missing nonce header");
-            }
-            if (signature == null || signature.isEmpty()) {
-                logger.warn("Feishu webhook missing {} header", FEISHU_HEADER_SIGNATURE);
-                throw new IllegalArgumentException("Missing signature header");
-            }
-
-            // Extract and validate body
-            String body = request.body();
-            if (body == null || body.isEmpty()) {
-                logger.warn("Feishu webhook received empty body");
-                throw new IllegalArgumentException("Empty request body");
+            // Only validate signature headers for non-URL-verification requests
+            // URL verification requests from Feishu don't include signature headers
+            if (!isUrlVerification) {
+                if (timestamp == null || timestamp.isEmpty()) {
+                    logger.warn("Feishu webhook missing {} header", FEISHU_HEADER_TIMESTAMP);
+                    throw new IllegalArgumentException("Missing timestamp header");
+                }
+                if (nonce == null || nonce.isEmpty()) {
+                    logger.warn("Feishu webhook missing {} header", FEISHU_HEADER_NONCE);
+                    throw new IllegalArgumentException("Missing nonce header");
+                }
+                if (signature == null || signature.isEmpty()) {
+                    logger.warn("Feishu webhook missing {} header", FEISHU_HEADER_SIGNATURE);
+                    throw new IllegalArgumentException("Missing signature header");
+                }
+            } else {
+                logger.debug("Feishu URL verification request detected, skipping signature validation");
             }
 
             // Log incoming request (without exposing sensitive data)
