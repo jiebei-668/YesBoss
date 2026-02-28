@@ -106,6 +106,15 @@ public class WebhookControllerImpl implements WebhookController {
             // Parse JSON payload
             JsonNode rootNode = objectMapper.readTree(body);
 
+            // Handle URL verification challenge (Feishu webhook handshake)
+            // Reference: https://open.feishu.cn/document/server-docs/webhook/event-subscription-guide
+            if (rootNode.has("type") && "url_verification".equals(rootNode.get("type").asText())) {
+                String challenge = rootNode.get("challenge").asText();
+                logger.info("Feishu URL verification challenge received");
+                // Return JSON format as required by Feishu (not plain text like Slack)
+                return "{\"challenge\":\"" + challenge + "\"}";
+            }
+
             // Extract event details from Feishu/Lark format
             String eventType = extractFeishuEventType(rootNode);
             String imGroupId = extractFeishuGroupId(rootNode);

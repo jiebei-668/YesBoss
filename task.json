@@ -1479,5 +1479,53 @@
       "整体架构设计.md"
     ],
     "passes": true
+  },
+  {
+    "category": "develop",
+    "module": "网关模块",
+    "description": "Implement Feishu webhook URL verification with challenge response",
+    "steps": [
+      "In WebhookControllerImpl.handleFeishuEvent(), after parsing JSON payload, add challenge verification logic before event type extraction",
+      "Check if request contains 'type' field equals 'url_verification' (飞书URL验证请求类型)",
+      "Extract 'challenge' field from the JSON payload",
+      "Log info message: 'Feishu URL verification challenge received'",
+      "Return JSON format response: {\"challenge\":\"<extracted_challenge_value>\"}",
+      "The response must be valid JSON string, not plain text like Slack implementation",
+      "Ensure response is returned immediately without async processing (no executor.processAsync call)",
+      "Add comment referencing 飞书官方文档: https://open.feishu.cn/document/server-docs/webhook/event-subscription-guide",
+      "The challenge response must be returned within 1 second as per Feishu requirement",
+      "Follow the same pattern as Slack URL verification (line 162-167) but return JSON format"
+    ],
+    "reference_docs": [
+      "飞书官方文档: https://open.feishu.cn/document/server-docs/webhook/event-subscription-guide",
+      "飞书官方文档: https://open.feishu.cn/document/common-capabilities/event-subscription/register-webhook-event",
+      "TODO/TODO.md (line 13: feishu订阅地址改成 后缀为webhook/feishu，第一次配置需要处理challenge)",
+      "src/main/java/tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.java (reference Slack implementation at lines 162-167)"
+    ],
+    "passes": true
+  },
+  {
+    "category": "test",
+    "module": "网关模块",
+    "description": "Unit test for Feishu webhook URL verification challenge response",
+    "steps": [
+      "Add new test method: testHandleFeishuEventWithUrlVerificationChallenge() to WebhookControllerAndExecutorTest",
+      "Create WebhookController with mocked executor and suspendResumeEngine (use no-verification constructor: empty appSecret and slackSigningSecret)",
+      "Prepare test timestamp using System.currentTimeMillis() / 1000",
+      "Create test challenge value: 'test-feishu-challenge-12345'",
+      "Construct Feishu URL verification request body as JSON: {\"type\":\"url_verification\",\"challenge\":\"test-feishu-challenge-12345\"}",
+      "Call webhookController.handleFeishuEvent(timestamp, nonce, signature, body)",
+      "Assert response is NOT '200 OK' (should be the challenge JSON)",
+      "Assert response equals: {\"challenge\":\"test-feishu-challenge-12345\"}",
+      "Verify executor.processAsync was NOT called (no async processing for challenge requests)",
+      "Add test log assertion: verify 'Feishu URL verification challenge received' was logged",
+      "Test edge cases: missing challenge field, invalid JSON, empty challenge",
+      "Add test with actual async executor to verify no background processing occurs for challenge requests"
+    ],
+    "reference_docs": [
+      "src/test/java/tech/yesboss/gateway/webhook/WebhookControllerAndExecutorTest.java (reference testHandleSlackEventWithUrlVerificationChallenge at lines 394-401)",
+      "飞书官方文档: https://open.feishu.cn/document/server-docs/webhook/event-subscription-guide"
+    ],
+    "passes": false
   }
 ]
