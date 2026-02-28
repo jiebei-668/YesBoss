@@ -285,7 +285,14 @@ public class WebhookRouteHandler {
             // Delegate to WebhookController
             String result = webhookController.handleFeishuEvent(timestamp, nonce, signature, body);
 
-            // Set response
+            // Check if this is a Feishu URL verification challenge
+            // In that case, return the challenge JSON with application/json content type
+            if (!HTTP_200_OK.equals(result)) {
+                response.status(200);
+                response.type(CONTENT_TYPE_JSON);
+                return result;
+            }
+
             response.status(200);
             response.type("text/plain");
 
