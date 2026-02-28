@@ -474,7 +474,11 @@ public class MasterRunnerImpl implements MasterRunner {
 
             // 推送总结卡片
             ImRoute imRoute = taskManager.getImRoute(masterSessionId);
-            imMessagePusher.pushCardMessage(imRoute.imType(), imRoute.imGroupId(), summaryCard.toString());
+            // Extract Feishu card JSON from the wrapper
+            String feishuCardJson = summaryCard.has("feishu_card_json")
+                ? summaryCard.get("feishu_card_json").asText()
+                : summaryCard.toString();
+            imMessagePusher.pushCardMessage(imRoute.imType(), imRoute.imGroupId(), feishuCardJson);
 
             // 将总结追加到全局流
             globalStreamManager.appendMasterMessage(masterSessionId, UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, summaryText));
@@ -527,7 +531,11 @@ public class MasterRunnerImpl implements MasterRunner {
         try {
             ImRoute imRoute = taskManager.getImRoute(sessionId);
             var card = uiCardRenderer.renderSummaryCard(sessionId, "Question: " + question, false);
-            imMessagePusher.pushCardMessage(imRoute.imType(), imRoute.imGroupId(), card.toString());
+            // Extract Feishu card JSON from the wrapper
+            String feishuCardJson = card.has("feishu_card_json")
+                ? card.get("feishu_card_json").asText()
+                : card.toString();
+            imMessagePusher.pushCardMessage(imRoute.imType(), imRoute.imGroupId(), feishuCardJson);
 
             // 追加到全局流
             globalStreamManager.appendSystemMessage(sessionId, "Clarification question sent to user: " + question);

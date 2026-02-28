@@ -256,19 +256,28 @@ public class FeishuApiClient {
 
             // Build request payload
             ObjectNode payload = objectMapper.createObjectNode();
-            payload.put("receive_id_type", receiveIdType);
             payload.put("receive_id", receiveId);
             payload.put("msg_type", messageType);
-            payload.set("content", parseContent(messageType, content));
+
+            // For interactive messages, content must be a JSON string
+            // For text messages, content must be a JSON object {"text":"..."}
+            if ("interactive".equals(messageType)) {
+                payload.put("content", content);  // Set as JSON string
+            } else {
+                payload.set("content", parseContent(messageType, content));  // Set as JsonNode
+            }
 
             String jsonPayload = objectMapper.writeValueAsString(payload);
 
+            // Build URL with receive_id_type as query parameter
+            String messageUrl = MESSAGE_URL + "?receive_id_type=" + receiveIdType;
+
             logger.info("Sending {} message to {}: {}", messageType, receiveIdType, receiveId);
-            logger.debug("Message payload: {}", jsonPayload);
+            logger.info("Message payload: {}", jsonPayload);  // Changed to INFO for debugging
 
             // Build HTTP request
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(MESSAGE_URL))
+                    .uri(URI.create(messageUrl))
                     .timeout(Duration.ofSeconds(timeoutSeconds))
                     .header("Content-Type", "application/json; charset=UTF-8")
                     .header("Authorization", "Bearer " + accessToken)

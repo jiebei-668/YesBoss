@@ -63,43 +63,51 @@ public class UICardRendererImpl implements UICardRenderer {
         int progress = totalTasks > 0 ? (completedTasks * 100 / totalTasks) : 0;
         card.put("progress_percent", progress);
 
-        // 飞书格式的进度条
+        // 飞书格式的进度条 - 使用成功的直接结构
         ObjectNode feishuCard = objectMapper.createObjectNode();
-        feishuCard.put("msg_type", "interactive");
-        ObjectNode feishuContent = objectMapper.createObjectNode();
 
-        // 构建飞书卡片元素
-        ArrayNode elements = feishuContent.putArray("elements");
+        // 创建header
+        ObjectNode header = objectMapper.createObjectNode();
+        ObjectNode title = objectMapper.createObjectNode();
+        title.put("tag", "plain_text");
+        title.put("content", "任务执行进度");
+        header.set("title", title);
+        feishuCard.set("header", header);
 
-        // 添加标题
-        ObjectNode titleElement = objectMapper.createObjectNode();
-        titleElement.put("tag", "div");
-        titleElement.put("text", "**任务执行进度**");
-        elements.add(titleElement);
+        // 创建elements数组
+        ArrayNode elements = objectMapper.createArrayNode();
 
         // 添加进度文本
+        String progressText = String.format("已完成 %d/%d 个子任务 (%d%%)",
+                completedTasks, totalTasks, progress);
         ObjectNode progressElement = objectMapper.createObjectNode();
         progressElement.put("tag", "div");
-        progressElement.put("text", String.format("已完成 %d/%d 个子任务 (%d%%)", completedTasks, totalTasks, progress));
+        ObjectNode ptext = objectMapper.createObjectNode();
+        ptext.put("tag", "plain_text");
+        ptext.put("content", progressText);
+        progressElement.set("text", ptext);
         elements.add(progressElement);
 
         // 添加当前任务
         if (currentTask != null && !currentTask.isEmpty()) {
             ObjectNode currentElement = objectMapper.createObjectNode();
             currentElement.put("tag", "div");
-            currentElement.put("text", String.format("正在执行：%s", currentTask));
+            ObjectNode ctext = objectMapper.createObjectNode();
+            ctext.put("tag", "plain_text");
+            ctext.put("content", currentTask);
+            currentElement.set("text", ctext);
             elements.add(currentElement);
         }
 
-        // 添加进度条（使用 md 格式的简单表示）
-        ObjectNode barElement = objectMapper.createObjectNode();
-        barElement.put("tag", "div");
-        barElement.put("text", buildProgressBar(progress));
-        elements.add(barElement);
+        feishuCard.set("elements", elements);
 
-        feishuContent.set("elements", elements);
-        feishuCard.set("content", feishuContent);
-        card.set("feishu_card", feishuCard);
+        // 将飞书card转换为JSON字符串，用于sendMessage
+        try {
+            String feishuCardJson = objectMapper.writeValueAsString(feishuCard);
+            card.put("feishu_card_json", feishuCardJson);
+        } catch (Exception e) {
+            logger.error("Failed to convert Feishu card to JSON", e);
+        }
 
         // Slack 格式的进度条
         ObjectNode slackAttachment = objectMapper.createObjectNode();
@@ -134,29 +142,38 @@ public class UICardRendererImpl implements UICardRenderer {
         card.put("tool_name", toolName != null ? toolName : "未知工具");
         card.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 
-        // 飞书格式的审批卡片
+        // 飞书格式的审批卡片 - 使用成功的直接结构
         ObjectNode feishuCard = objectMapper.createObjectNode();
-        feishuCard.put("msg_type", "interactive");
-        ObjectNode feishuContent = objectMapper.createObjectNode();
-        ArrayNode elements = feishuContent.putArray("elements");
 
-        // 添加警告标题
-        ObjectNode warningElement = objectMapper.createObjectNode();
-        warningElement.put("tag", "div");
-        warningElement.put("text", String.format("⚠️ **高危操作拦截** - 工具：%s", toolName));
-        elements.add(warningElement);
+        // 创建header
+        ObjectNode header = objectMapper.createObjectNode();
+        ObjectNode title = objectMapper.createObjectNode();
+        title.put("tag", "plain_text");
+        title.put("content", String.format("⚠️ 高危操作拦截 - %s", toolName));
+        header.set("title", title);
+        feishuCard.set("header", header);
 
-        // 添加拦截命令详情
+        // 创建elements数组
+        ArrayNode elements = objectMapper.createArrayNode();
+
+        // 添加命令详情
+        String commandMsg = String.format("被拦截的命令: %s",
+                interceptedCommand != null ? interceptedCommand : "未知");
         ObjectNode commandElement = objectMapper.createObjectNode();
         commandElement.put("tag", "div");
-        commandElement.put("text", String.format("**被拦截的命令：**\\n```\\n%s\\n```",
-                interceptedCommand != null ? interceptedCommand : "未知"));
+        ObjectNode commandText = objectMapper.createObjectNode();
+        commandText.put("tag", "plain_text");
+        commandText.put("content", commandMsg);
+        commandElement.set("text", commandText);
         elements.add(commandElement);
 
-        // 添加说明文本
+        // 添加说明
         ObjectNode noticeElement = objectMapper.createObjectNode();
         noticeElement.put("tag", "div");
-        noticeElement.put("text", "该操作存在安全风险，需要您手动授权后才能继续执行。");
+        ObjectNode noticeText = objectMapper.createObjectNode();
+        noticeText.put("tag", "plain_text");
+        noticeText.put("content", "该操作存在安全风险，需要您手动授权后才能继续执行。");
+        noticeElement.set("text", noticeText);
         elements.add(noticeElement);
 
         // 添加操作按钮
@@ -167,7 +184,7 @@ public class UICardRendererImpl implements UICardRenderer {
         // 批准按钮
         ObjectNode approveButton = objectMapper.createObjectNode();
         approveButton.put("tag", "button");
-        approveButton.put("text", objectMapper.createObjectNode().put("tag", "plain_text").put("content", "✓ 批准执行"));
+        approveButton.set("text", objectMapper.createObjectNode().put("tag", "plain_text").put("content", "✓ 批准执行"));
         approveButton.put("type", "primary");
         approveButton.put("value", String.format("{\"session_id\":\"%s\",\"tool_call_id\":\"%s\",\"approved\":true}",
                 sessionId, toolCallId));
@@ -176,16 +193,22 @@ public class UICardRendererImpl implements UICardRenderer {
         // 拒绝按钮
         ObjectNode rejectButton = objectMapper.createObjectNode();
         rejectButton.put("tag", "button");
-        rejectButton.put("text", objectMapper.createObjectNode().put("tag", "plain_text").put("content", "✗ 拒绝执行"));
+        rejectButton.set("text", objectMapper.createObjectNode().put("tag", "plain_text").put("content", "✗ 拒绝执行"));
         rejectButton.put("type", "danger");
         rejectButton.put("value", String.format("{\"session_id\":\"%s\",\"tool_call_id\":\"%s\",\"approved\":false}",
                 sessionId, toolCallId));
         actions.add(rejectButton);
 
         elements.add(actionsElement);
-        feishuContent.set("elements", elements);
-        feishuCard.set("content", feishuContent);
-        card.set("feishu_card", feishuCard);
+        feishuCard.set("elements", elements);
+
+        // 将飞书card转换为JSON字符串，用于sendMessage
+        try {
+            String feishuCardJson = objectMapper.writeValueAsString(feishuCard);
+            card.put("feishu_card_json", feishuCardJson);
+        } catch (Exception e) {
+            logger.error("Failed to convert Feishu card to JSON", e);
+        }
 
         // Slack 格式的审批卡片
         ObjectNode slackAttachment = objectMapper.createObjectNode();
@@ -242,41 +265,39 @@ public class UICardRendererImpl implements UICardRenderer {
         String statusLabel = success ? "✓ 任务完成" : "✗ 任务失败";
         String statusColor = success ? "green" : "red";
 
-        // 飞书格式的总结卡片
+        // 飞书格式的总结卡片 - 使用官方示例格式
+        // 参考：https://open.feishu.cn/document/common-capabilities/message-card/message-cards-content
         ObjectNode feishuCard = objectMapper.createObjectNode();
-        feishuCard.put("msg_type", "interactive");
-        ObjectNode feishuContent = objectMapper.createObjectNode();
-        ArrayNode elements = feishuContent.putArray("elements");
 
-        // 添加状态标题
-        ObjectNode statusElement = objectMapper.createObjectNode();
-        statusElement.put("tag", "div");
-        statusElement.put("text", String.format("**%s**", statusLabel));
-        elements.add(statusElement);
+        // 创建header
+        ObjectNode header = objectMapper.createObjectNode();
+        ObjectNode title = objectMapper.createObjectNode();
+        title.put("tag", "plain_text");
+        title.put("content", statusLabel);
+        header.set("title", title);
+        feishuCard.set("header", header);
 
-        // 添加总结内容
-        if (summaryText != null && !summaryText.isEmpty()) {
-            ObjectNode summaryElement = objectMapper.createObjectNode();
-            summaryElement.put("tag", "div");
-            summaryElement.put("text", String.format("**任务总结：**\\n%s", summaryText));
-            elements.add(summaryElement);
-        }
+        // 创建elements数组
+        ArrayNode elements = objectMapper.createArrayNode();
 
-        // 添加分隔线
-        ObjectNode hrElement = objectMapper.createObjectNode();
-        hrElement.put("tag", "hr");
-        elements.add(hrElement);
+        // 添加文本元素
+        ObjectNode divElement = objectMapper.createObjectNode();
+        divElement.put("tag", "div");
+        ObjectNode textObj = objectMapper.createObjectNode();
+        textObj.put("tag", "plain_text");
+        textObj.put("content", summaryText != null ? summaryText : "任务已完成");
+        divElement.set("text", textObj);
+        elements.add(divElement);
 
-        // 添加时间戳
-        ObjectNode timeElement = objectMapper.createObjectNode();
-        timeElement.put("tag", "div");
-        timeElement.put("text", String.format("完成时间：%s",
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-        elements.add(timeElement);
+        feishuCard.set("elements", elements);
 
-        feishuContent.set("elements", elements);
-        feishuCard.set("content", feishuContent);
-        card.set("feishu_card", feishuCard);
+        // 将飞书card转换为JSON字符串，用于sendMessage
+        try {
+            String feishuCardJson = objectMapper.writeValueAsString(feishuCard);
+            card.put("feishu_card_json", feishuCardJson);
+        } catch (Exception e) {
+            logger.error("Failed to convert Feishu card to JSON", e);
+        }  // Store as string for later use
 
         // Slack 格式的总结卡片
         ObjectNode slackAttachment = objectMapper.createObjectNode();
