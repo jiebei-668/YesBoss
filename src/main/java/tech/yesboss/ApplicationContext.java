@@ -477,7 +477,8 @@ public class ApplicationContext {
         );
 
         logger.info("Initializing WebhookController...");
-        String feishuAppSecret = config.getIm().getFeishu().getAppSecret();
+        // Use encryptKey for webhook signature verification (not appSecret)
+        String feishuAppSecret = config.getIm().getFeishu().getEncryptKey();
         String slackSigningSecret = config.getIm().getSlack().getSigningSecret();
 
         webhookController = new WebhookControllerImpl(
