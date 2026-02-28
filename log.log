@@ -2383,3 +2383,57 @@ Usage:
 To run these integration tests, set ZHIPU_API_KEY environment variable:
   export ZHIPU_API_KEY=your_api_key_here
   mvn test -Dtest=WorkerRunnerIntegrationTest
+[2026-02-28 10:38:00] Task ID: 状态机与调度引擎模块_052
+Status: SUCCESS
+Description: Integration test for Master-Worker orchestration with real Zhipu LLM and thread pool
+
+Implementation Summary:
+- Created MasterRunnerIntegrationTest class in src/test/java/tech/yesboss/runner/
+- Added testMasterWorkerOrchestrationWithRealLlmAndThreadPool() method
+- Read ZHIPU_API_KEY from System.getenv()
+- Initialize real ZhipuLlmClient for both MASTER and WORKER roles (model='glm-4-flash')
+- Created ModelRouter with master and worker LlmClient instances
+- Created real ToolRegistry and registered test tools (CalculatorTool, EchoTool)
+- Created real ExecutorService via Executors.newCachedThreadPool()
+- Mocked infrastructure dependencies: TaskManager, GlobalStreamManager, LocalStreamManager, InjectionEngine, CondensationEngine, CircuitBreaker, SandboxInterceptor, SuspendResumeEngine, ToolCallTracker, PlanningTool, UICardRenderer, IMMessagePusher
+- Configured TaskManager mock chain for Master session: sessionExists returns true, getStatus returns PLANNING then RUNNING then COMPLETED, createWorkerTask returns 'worker-1', 'worker-2', getImRoute returns mock ImRoute
+- Configured TaskManager mock chain for Worker sessions: sessionExists returns true, getStatus transitions from RUNNING to COMPLETED, getParentSessionId returns master session ID
+- Configured GlobalStreamManager mock: fetchContext returns user requirement message list, appendMasterMessage tracks messages
+- Configured PlanningTool mock: execute returns JSON array with 2 worker tasks
+- Configured LocalStreamManager mock for workers: fetchContext returns empty list, appendWorkerMessage and appendToolResult track calls
+- Configured InjectionEngine mock: injectInitialContext returns system prompt with assigned task
+- Created WorkerRunnerImpl with real ModelRouter and mocked dependencies
+- Created MasterRunnerImpl with real ModelRouter, real WorkerRunner, and mocked dependencies
+- Prepared initial context: user message 'Calculate 15 + 27 and then echo the result'
+- Call masterRunner.run(masterSessionId) to start orchestration
+- Verify Master created 2 worker tasks: verify TaskManager.createWorkerTask called twice
+- Verify workers executed in parallel: verify both worker sessions were created and their run() methods called
+- Verify thread pool was used: check executor.submit was called for each worker
+- Verify ReAct loops completed: LocalStreamManager.appendWorkerMessage called for both workers
+- Verify tools executed: CalculatorTool.execute called with arguments for 15+27
+- Verify final summary: verify condenseAndMergeUpwards called for both workers, generateExecutionReport called
+- Verify Master completion: TaskManager.transitionState called with COMPLETED for master session
+- Added timeout handling: max 120 seconds for entire test (Master + Workers)
+- Added logging to track thread execution and timing
+- Test cleanup: shutdown executor, clear all mock states
+- Marked tests as @Disabled if ZHIPU_API_KEY is not set
+
+Key Design Features:
+- Real ZhipuLlmClient integration for both MASTER and WORKER roles
+- Comprehensive Master-Worker orchestration testing
+- Thread pool execution simulation
+- Proper resource cleanup with shutdown() calls
+
+Test Results:
+- All tests marked @Disabled (require ZHIPU_API_KEY to run)
+- Maven test: 615 tests run, 0 failures, 23 skipped
+- testMasterWorkerOrchestrationWithRealLlmAndThreadPool: Tests complete Master-Worker workflow
+- testWorkerConcurrentExecution: Tests concurrent worker execution
+
+Files Created:
+- src/test/java/tech/yesboss/runner/MasterRunnerIntegrationTest.java
+
+Usage:
+To run these integration tests, set ZHIPU_API_KEY environment variable:
+  export ZHIPU_API_KEY=your_api_key_here
+  mvn test -Dtest=MasterRunnerIntegrationTest

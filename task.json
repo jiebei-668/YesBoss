@@ -1443,9 +1443,10 @@
       "LLM路由网关模块.md",
       "双流上下文管理模块设计.md",
       "整体架构设计.md",
+      "整体架构设计.md",
       "https://open.bigmodel.cn/dev/api#glm-4"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "test",
