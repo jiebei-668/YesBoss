@@ -13,6 +13,7 @@ import java.time.Instant;
  * @param imGroupId    The external group chat ID from the IM platform
  * @param userId       The user ID who triggered the event
  * @param payload      The original JSON payload string
+ * @param messageText   The extracted message text content (null for non-message events)
  * @param receivedAt   The timestamp when this event was received
  */
 public record ImWebhookEvent(
@@ -21,10 +22,41 @@ public record ImWebhookEvent(
     String imGroupId,
     String userId,
     String payload,
+    String messageText,
     long receivedAt
 ) {
     /**
      * Creates a new ImWebhookEvent with the current timestamp.
+     *
+     * @param imType     The IM platform type
+     * @param eventType  The event type
+     * @param imGroupId  The group chat ID
+     * @param userId     The user ID
+     * @param payload    The JSON payload
+     * @param messageText The message text content (null for non-message events)
+     * @return A new ImWebhookEvent instance
+     */
+    public static ImWebhookEvent create(
+        String imType,
+        String eventType,
+        String imGroupId,
+        String userId,
+        String payload,
+        String messageText
+    ) {
+        return new ImWebhookEvent(
+            imType,
+            eventType,
+            imGroupId,
+            userId,
+            payload,
+            messageText,
+            Instant.now().toEpochMilli()
+        );
+    }
+
+    /**
+     * Creates a new ImWebhookEvent without message text (for non-message events).
      *
      * @param imType    The IM platform type
      * @param eventType The event type
@@ -46,6 +78,7 @@ public record ImWebhookEvent(
             imGroupId,
             userId,
             payload,
+            null,
             Instant.now().toEpochMilli()
         );
     }
@@ -130,5 +163,14 @@ public record ImWebhookEvent(
      */
     public boolean isCli() {
         return "CLI".equalsIgnoreCase(imType);
+    }
+
+    /**
+     * Gets the message text content.
+     *
+     * @return the message text, or null if not a message event or no text available
+     */
+    public String messageText() {
+        return messageText;
     }
 }

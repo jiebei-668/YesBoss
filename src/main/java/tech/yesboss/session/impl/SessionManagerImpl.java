@@ -108,10 +108,20 @@ public class SessionManagerImpl implements SessionManager {
         // 检查是否已有绑定
         String existingSessionId = bindingMap.get(bindingKey);
         if (existingSessionId != null) {
-            // 验证会话仍然存在
+            // 验证会话仍然存在且状态可用
             if (taskManager.sessionExists(existingSessionId)) {
-                logger.info("Existing binding found for {}:{}, returning sessionId: {}", imType, imGroupId, existingSessionId);
-                return existingSessionId;
+                // 检查session状态，如果是terminal状态则创建新的
+                var status = taskManager.getStatus(existingSessionId);
+                if (status == tech.yesboss.persistence.entity.TaskSession.Status.FAILED
+                    || status == tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED) {
+                    logger.info("Existing session {} is in terminal state {}, creating new session", existingSessionId, status);
+                    // 清理旧绑定
+                    bindingMap.remove(bindingKey);
+                } else {
+                    logger.info("Existing binding found for {}:{}, returning sessionId: {} (status: {})",
+                        imType, imGroupId, existingSessionId, status);
+                    return existingSessionId;
+                }
             } else {
                 // 会话已不存在，清理旧绑定
                 logger.warn("Existing sessionId {} not found, removing stale binding", existingSessionId);

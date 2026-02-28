@@ -53,4 +53,13 @@ public interface UICardRenderer {
      * @return 总结卡片的 JSON 结构
      */
     JsonNode renderSummaryCard(String sessionId, String summaryText, boolean success);
+
+    /**
+     * 渲染需求澄清问题卡片
+     *
+     * @param sessionId 会话 ID
+     * @param question 澄清问题
+     * @return 澄清问题卡片的 JSON 结构
+     */
+    JsonNode renderClarificationCard(String sessionId, String question);
 }

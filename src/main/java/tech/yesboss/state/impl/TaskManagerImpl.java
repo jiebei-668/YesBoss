@@ -134,7 +134,7 @@ public class TaskManagerImpl implements TaskManager {
                 parent.imGroupId(), // inherit imGroupId
                 Role.WORKER,
                 Status.RUNNING,   // Workers start in RUNNING state
-                null,  // topic is derived from assignedTask
+                assignedTask,  // use assignedTask as topic
                 assignedTask
         );
 
@@ -258,6 +258,30 @@ public class TaskManagerImpl implements TaskManager {
 
         Optional<TaskSession> sessionOpt = repository.findById(sessionId);
         return sessionOpt.isPresent() && sessionOpt.get().role() == Role.WORKER;
+    }
+
+    @Override
+    public String getAssignedTask(String workerSessionId) {
+        if (workerSessionId == null || workerSessionId.trim().isEmpty()) {
+            throw new IllegalArgumentException("workerSessionId cannot be null or empty");
+        }
+
+        Optional<TaskSession> sessionOpt = repository.findById(workerSessionId);
+        if (sessionOpt.isEmpty()) {
+            throw new IllegalStateException("Session not found: " + workerSessionId);
+        }
+
+        TaskSession session = sessionOpt.get();
+        if (session.role() != Role.WORKER) {
+            throw new IllegalStateException("Session is not a Worker: " + workerSessionId);
+        }
+
+        String assignedTask = session.assignedTask();
+        if (assignedTask == null || assignedTask.trim().isEmpty()) {
+            throw new IllegalStateException("No assigned task found for worker session: " + workerSessionId);
+        }
+
+        return assignedTask;
     }
 
     /**

@@ -92,6 +92,8 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
 
         this.objectMapper = new ObjectMapper();
         this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        // Ignore unknown properties to handle API changes gracefully
+        this.objectMapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         logger.info("ZhipuLlmClient initialized with model: {}, baseUrl: {}", model, this.baseUrl);
     }
@@ -115,6 +117,20 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
      */
     public ZhipuLlmClient(String apiKey, String model) {
         this(apiKey, model, 4096, 0.7,
+                DEFAULT_CONNECT_TIMEOUT_SECONDS, DEFAULT_READ_TIMEOUT_SECONDS,
+                "https://open.bigmodel.cn");
+    }
+
+    /**
+     * Create a new ZhipuLlmClient with custom parameters.
+     *
+     * @param apiKey      Zhipu API key
+     * @param model       Model name
+     * @param maxTokens   Maximum tokens in response
+     * @param temperature Temperature for response generation
+     */
+    public ZhipuLlmClient(String apiKey, String model, int maxTokens, double temperature) {
+        this(apiKey, model, maxTokens, temperature,
                 DEFAULT_CONNECT_TIMEOUT_SECONDS, DEFAULT_READ_TIMEOUT_SECONDS,
                 "https://open.bigmodel.cn");
     }
@@ -380,13 +396,17 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
      */
     private static class ChatMessage {
         @JsonProperty("role")
-        private final String role;
+        private String role;
 
         @JsonProperty("content")
-        private final String content;
+        private String content;
 
         @JsonProperty("tool_calls")
         private List<ToolCall> toolCalls;
+
+        // Default constructor for Jackson deserialization
+        public ChatMessage() {
+        }
 
         public ChatMessage(String role, String content) {
             this.role = role;
@@ -404,13 +424,17 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
      */
     private static class ToolCall {
         @JsonProperty("id")
-        private final String id;
+        private String id;
 
         @JsonProperty("type")
-        private final String type = "function";
+        private String type = "function";
 
         @JsonProperty("function")
-        private final Function function;
+        private Function function;
+
+        // Default constructor for Jackson deserialization
+        public ToolCall() {
+        }
 
         public ToolCall(String id, Function function) {
             this.id = id;
@@ -423,10 +447,14 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
      */
     private static class Function {
         @JsonProperty("name")
-        private final String name;
+        private String name;
 
         @JsonProperty("arguments")
-        private final String arguments;
+        private String arguments;
+
+        // Default constructor for Jackson deserialization
+        public Function() {
+        }
 
         public Function(String name, String arguments) {
             this.name = name;
@@ -440,6 +468,12 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
     private static class ChatResponse {
         @JsonProperty("id")
         private String id;
+
+        @JsonProperty("request_id")
+        private String requestId;
+
+        @JsonProperty("object")
+        private String object;
 
         @JsonProperty("created")
         private long created;

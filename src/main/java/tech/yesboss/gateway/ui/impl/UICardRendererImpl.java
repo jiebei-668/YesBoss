@@ -314,6 +314,80 @@ public class UICardRendererImpl implements UICardRenderer {
         return card;
     }
 
+    @Override
+    public JsonNode renderClarificationCard(String sessionId, String question) {
+        logger.info("Rendering clarification card for session: {}, question: {}", sessionId, question);
+
+        ObjectNode card = objectMapper.createObjectNode();
+
+        // 通用字段
+        card.put("card_type", "clarification");
+        card.put("session_id", sessionId);
+        card.put("question", question != null ? question : "请提供更多需求细节");
+        card.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+
+        // 飞书格式的澄清问题卡片
+        ObjectNode feishuCard = objectMapper.createObjectNode();
+
+        // 创建header
+        ObjectNode header = objectMapper.createObjectNode();
+        ObjectNode title = objectMapper.createObjectNode();
+        title.put("tag", "plain_text");
+        title.put("content", "📋 需求澄清");
+        header.set("title", title);
+        feishuCard.set("header", header);
+
+        // 创建elements数组
+        ArrayNode elements = objectMapper.createArrayNode();
+
+        // 添加问题文本
+        ObjectNode divElement = objectMapper.createObjectNode();
+        divElement.put("tag", "div");
+        ObjectNode textObj = objectMapper.createObjectNode();
+        textObj.put("tag", "plain_text");
+        textObj.put("content", question != null ? question : "请提供更多需求细节");
+        divElement.set("text", textObj);
+        elements.add(divElement);
+
+        // 添加分隔线
+        ObjectNode hrElement = objectMapper.createObjectNode();
+        hrElement.put("tag", "hr");
+        elements.add(hrElement);
+
+        // 添加提示文本
+        ObjectNode tipElement = objectMapper.createObjectNode();
+        tipElement.put("tag", "div");
+        ObjectNode tipText = objectMapper.createObjectNode();
+        tipText.put("tag", "plain_text");
+        tipText.put("content", "💬 请在群聊中回复，帮助我更好地理解您的需求");
+        tipElement.set("text", tipText);
+        elements.add(tipElement);
+
+        feishuCard.set("elements", elements);
+
+        // 将飞书card转换为JSON字符串
+        try {
+            String feishuCardJson = objectMapper.writeValueAsString(feishuCard);
+            card.put("feishu_card_json", feishuCardJson);
+        } catch (Exception e) {
+            logger.error("Failed to convert Feishu card to JSON", e);
+        }
+
+        // Slack 格式的澄清问题卡片
+        ObjectNode slackAttachment = objectMapper.createObjectNode();
+        slackAttachment.put("color", "warning"); // 黄色表示等待
+        slackAttachment.put("title", "📋 需求澄清");
+        slackAttachment.put("text", question != null ? question : "请提供更多需求细节");
+        slackAttachment.put("footer", "YesBoss 智能助手");
+        slackAttachment.put("ts", System.currentTimeMillis() / 1000);
+
+        ArrayNode slackAttachments = objectMapper.createArrayNode();
+        slackAttachments.add(slackAttachment);
+        card.set("slack_attachments", slackAttachments);
+
+        return card;
+    }
+
     /**
      * 构建文本进度条
      *

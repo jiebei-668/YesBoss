@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.yesboss.gateway.webhook.executor.WebhookEventExecutor;
 import tech.yesboss.gateway.webhook.model.ImWebhookEvent;
+import tech.yesboss.context.GlobalStreamManager;
+import tech.yesboss.domain.message.UnifiedMessage;
 import tech.yesboss.runner.MasterRunner;
 import tech.yesboss.session.SessionManager;
 import tech.yesboss.state.TaskManager;
@@ -38,20 +40,23 @@ public class WebhookEventExecutorImpl implements WebhookEventExecutor {
     private final SessionManager sessionManager;
     private final TaskManager taskManager;
     private final MasterRunner masterRunner;
+    private final GlobalStreamManager globalStreamManager;
     private final AtomicBoolean running;
 
     /**
      * Creates a new WebhookEventExecutorImpl.
      *
-     * @param sessionManager The session manager for routing
-     * @param taskManager    The task manager for state management
-     * @param masterRunner   The master runner for orchestration
+     * @param sessionManager       The session manager for routing
+     * @param taskManager          The task manager for state management
+     * @param masterRunner         The master runner for orchestration
+     * @param globalStreamManager   The global stream manager for message context
      * @throws IllegalArgumentException if any parameter is null
      */
     public WebhookEventExecutorImpl(
         SessionManager sessionManager,
         TaskManager taskManager,
-        MasterRunner masterRunner
+        MasterRunner masterRunner,
+        GlobalStreamManager globalStreamManager
     ) {
         if (sessionManager == null) {
             throw new IllegalArgumentException("sessionManager cannot be null");
@@ -62,10 +67,14 @@ public class WebhookEventExecutorImpl implements WebhookEventExecutor {
         if (masterRunner == null) {
             throw new IllegalArgumentException("masterRunner cannot be null");
         }
+        if (globalStreamManager == null) {
+            throw new IllegalArgumentException("globalStreamManager cannot be null");
+        }
 
         this.sessionManager = sessionManager;
         this.taskManager = taskManager;
         this.masterRunner = masterRunner;
+        this.globalStreamManager = globalStreamManager;
         // Use cached thread pool for Java 17 compatibility
         // TODO: Upgrade to Executors.newVirtualThreadPerTaskExecutor() when migrating to Java 21+
         this.executorService = Executors.newCachedThreadPool();
@@ -142,6 +151,13 @@ public class WebhookEventExecutorImpl implements WebhookEventExecutor {
                 "IM Task: " + event.imGroupId()
             );
             logger.info("Session bound/created for event: session={}, group={}", sessionId, event.imGroupId());
+
+            // Extract and save user message to context
+            if (event.isMessageEvent() && event.messageText() != null) {
+                logger.info("Saving user message to context: session={}, text={}",
+                        sessionId, event.messageText());
+                globalStreamManager.appendHumanMessage(sessionId, event.messageText());
+            }
 
             // Start master runner orchestration
             masterRunner.run(sessionId);

@@ -205,6 +205,17 @@ public class MasterRunnerImpl implements MasterRunner {
                 return false;
             }
 
+            // 统计用户消息数量（如果有>=3条用户消息，认为需求已明确）
+            long userMessageCount = context.stream()
+                .filter(msg -> msg.role() == UnifiedMessage.Role.USER)
+                .count();
+
+            if (userMessageCount >= 3) {
+                logger.info("Sufficient user messages ({}) for session {}, considering requirements clarified",
+                    userMessageCount, sessionId);
+                return true;
+            }
+
             // 调用 LLM 判断需求是否清晰
             LlmClient llmClient = modelRouter.routeByRole("MASTER");
             String systemPrompt = "分析以下对话历史，判断用户需求是否清晰明确。如果清晰，返回 'CLEAR'。如果不清晰或需要更多信息，返回 'UNCLEAR: ' 后面跟随具体问题。";
@@ -530,7 +541,7 @@ public class MasterRunnerImpl implements MasterRunner {
     private void pushClarificationQuestion(String sessionId, String question) {
         try {
             ImRoute imRoute = taskManager.getImRoute(sessionId);
-            var card = uiCardRenderer.renderSummaryCard(sessionId, "Question: " + question, false);
+            var card = uiCardRenderer.renderClarificationCard(sessionId, question);
             // Extract Feishu card JSON from the wrapper
             String feishuCardJson = card.has("feishu_card_json")
                 ? card.get("feishu_card_json").asText()
@@ -558,8 +569,13 @@ public class MasterRunnerImpl implements MasterRunner {
             String currentTask = String.format("Progress: %d/%d tasks completed", completedTasks, totalTasks);
             var progressBar = uiCardRenderer.renderProgressBar(totalTasks, completedTasks, currentTask);
 
+            // Extract Feishu card JSON from the wrapper
+            String feishuCardJson = progressBar.has("feishu_card_json")
+                ? progressBar.get("feishu_card_json").asText()
+                : progressBar.toString();
+
             ImRoute imRoute = taskManager.getImRoute(sessionId);
-            imMessagePusher.pushCardMessage(imRoute.imType(), imRoute.imGroupId(), progressBar.toString());
+            imMessagePusher.pushCardMessage(imRoute.imType(), imRoute.imGroupId(), feishuCardJson);
 
             logger.debug("Progress updated for session {}: {}/{}", sessionId, completedTasks, totalTasks);
         } catch (Exception e) {

@@ -126,4 +126,14 @@ public interface TaskManager {
      * @return true if the session is a Worker, false otherwise
      */
     boolean isWorkerSession(String sessionId);
+
+    /**
+     * Get the assigned task for a Worker session.
+     *
+     * @param workerSessionId The Worker session ID
+     * @return The assigned task description
+     * @throws IllegalArgumentException if workerSessionId is null/empty
+     * @throws IllegalStateException    if session not found or not a Worker
+     */
+    String getAssignedTask(String workerSessionId);
 }

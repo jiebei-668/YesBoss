@@ -223,38 +223,83 @@ public class PlanningTool implements AgentTool {
      * @throws Exception 如果提取或验证失败
      */
     private String extractAndValidatePlan(String llmResponse) throws Exception {
-        // 尝试直接解析 JSON
-        try {
-            // 验证是否为有效的 JSON 数组
-            Object parsed = objectMapper.readValue(llmResponse, Object.class);
+        logger.debug("Attempting to extract JSON from LLM response (length: {})", llmResponse.length());
 
-            // 如果是数组，直接返回
+        // Step 1: 尝试直接解析 JSON
+        try {
+            Object parsed = objectMapper.readValue(llmResponse, Object.class);
             if (parsed instanceof java.util.List) {
+                logger.info("Direct JSON parsing succeeded");
                 return llmResponse.trim();
             }
-
             throw new Exception("LLM response is not a valid JSON array");
-
         } catch (Exception e) {
-            // 尝试从响应中提取 JSON（处理可能包含额外文本的情况）
-            logger.warn("Direct JSON parsing failed, attempting to extract JSON from response");
-
-            // 查找 JSON 数组的开始和结束
-            int startIndex = llmResponse.indexOf('[');
-            int endIndex = llmResponse.lastIndexOf(']');
-
-            if (startIndex >= 0 && endIndex > startIndex) {
-                String extractedJson = llmResponse.substring(startIndex, endIndex + 1);
-
-                // 验证提取的 JSON
-                objectMapper.readValue(extractedJson, Object.class);
-
-                logger.info("Successfully extracted JSON from LLM response");
-                return extractedJson.trim();
-            }
-
-            throw new Exception("Failed to extract valid JSON from LLM response: " + e.getMessage(), e);
+            logger.debug("Direct JSON parsing failed: {}", e.getMessage());
         }
+
+        // Step 2: 尝试从 markdown 代码块中提取 JSON
+        String cleaned = llmResponse.trim();
+
+        // 移除 markdown 代码块标记 (```json ... ```)
+        if (cleaned.startsWith("```")) {
+            int firstNewline = cleaned.indexOf('\n');
+            int lastBackticks = cleaned.lastIndexOf("```");
+            if (firstNewline > 0 && lastBackticks > firstNewline) {
+                cleaned = cleaned.substring(firstNewline + 1, lastBackticks).trim();
+                logger.debug("Extracted content from markdown code block");
+            }
+        }
+
+        // Step 3: 查找 JSON 数组的开始和结束（处理对话式文本）
+        int startIndex = cleaned.indexOf('[');
+        int endIndex = cleaned.lastIndexOf(']');
+
+        if (startIndex >= 0 && endIndex > startIndex) {
+            String extractedJson = cleaned.substring(startIndex, endIndex + 1);
+            logger.debug("Extracted JSON substring (length: {}): {}", extractedJson.length(),
+                        extractedJson.substring(0, Math.min(100, extractedJson.length())));
+
+            // 验证提取的 JSON
+            try {
+                Object parsed = objectMapper.readValue(extractedJson, Object.class);
+                if (parsed instanceof java.util.List) {
+                    logger.info("Successfully extracted and validated JSON array from LLM response");
+                    return extractedJson.trim();
+                } else {
+                    logger.warn("Extracted JSON is not an array: {}", parsed.getClass().getSimpleName());
+                }
+            } catch (Exception validationError) {
+                logger.error("Failed to parse extracted JSON: {}", validationError.getMessage());
+                logger.error("Extracted content: {}", extractedJson);
+            }
+        } else {
+            logger.error("Could not find JSON array delimiters: startIndex={}, endIndex={}", startIndex, endIndex);
+        }
+
+        // Step 4: 尝试使用正则表达式提取 JSON 数组
+        try {
+            java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("\\[\\s*\\{.*\\}\\s*\\]", java.util.regex.Pattern.DOTALL);
+            java.util.regex.Matcher matcher = pattern.matcher(cleaned);
+            if (matcher.find()) {
+                String regexExtracted = matcher.group();
+                logger.debug("Extracted JSON using regex pattern (length: {})", regexExtracted.length());
+
+                Object parsed = objectMapper.readValue(regexExtracted, Object.class);
+                if (parsed instanceof java.util.List) {
+                    logger.info("Successfully extracted JSON using regex pattern");
+                    return regexExtracted.trim();
+                }
+            }
+        } catch (Exception regexError) {
+            logger.debug("Regex extraction failed: {}", regexError.getMessage());
+        }
+
+        // 所有方法都失败
+        logger.error("Failed to extract valid JSON from LLM response");
+        logger.error("Raw LLM response (first 500 chars): {}",
+                    llmResponse.substring(0, Math.min(500, llmResponse.length())));
+        throw new Exception("Failed to extract valid JSON array from LLM response. " +
+                          "The response may not contain valid JSON or may be malformed.");
     }
 
     /**

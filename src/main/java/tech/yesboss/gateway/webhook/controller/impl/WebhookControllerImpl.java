@@ -136,16 +136,22 @@ public class WebhookControllerImpl implements WebhookController {
             String imGroupId = extractFeishuGroupId(rootNode);
             String userId = extractFeishuUserId(rootNode);
 
-            // Create internal event
+            // Extract message text content
+            String messageText = extractFeishuMessageText(rootNode);
+
+            // Create internal event with message text
             ImWebhookEvent event = ImWebhookEvent.create(
                 "FEISHU",
                 eventType,
                 imGroupId,
                 userId,
-                body
+                body,
+                messageText
             );
 
-            logger.info("Feishu event parsed: type={}, group={}, user={}", eventType, imGroupId, userId);
+            logger.info("Feishu event parsed: type={}, group={}, user={}, text={}",
+                eventType, imGroupId, userId,
+                messageText != null ? messageText : "(no text)");
 
             // Submit to async executor (non-blocking)
             executor.processAsync(event);
@@ -509,6 +515,36 @@ public class WebhookControllerImpl implements WebhookController {
 
         // Fallback to empty string
         return "unknown-user";
+    }
+
+    private String extractFeishuMessageText(JsonNode rootNode) {
+        // Feishu message text location: event.text (for text messages)
+        JsonNode eventNode = rootNode.path("event");
+
+        // Method 1: Try event.text (v2 API)
+        if (eventNode.has("text")) {
+            return eventNode.get("text").asText();
+        }
+
+        // Method 2: Try event.message.content (v1 API)
+        JsonNode messageNode = eventNode.path("message");
+        if (messageNode.has("content")) {
+            String content = messageNode.get("content").asText();
+            try {
+                // content is JSON string like "{\"text\":\"hello\"}"
+                JsonNode contentJson = objectMapper.readTree(content);
+                if (contentJson.has("text")) {
+                    return contentJson.get("text").asText();
+                }
+            } catch (Exception e) {
+                logger.debug("Failed to parse message content as JSON: {}", content);
+            }
+            // Fallback to raw content
+            return content;
+        }
+
+        // No message text found
+        return null;
     }
 
     // ==================== Slack Payload Parsing Methods ====================

@@ -301,10 +301,18 @@ public class ApplicationContext {
         }
 
         logger.info("Creating Master LLM client with provider: {}, model: {}", provider, masterModel);
-        masterLlmClient = new ClaudeLlmClient(apiKey, masterModel, maxTokens, temperature);
+        if ("Zhipu".equals(provider)) {
+            masterLlmClient = new tech.yesboss.llm.impl.ZhipuLlmClient(apiKey, masterModel, maxTokens, temperature);
+        } else {
+            masterLlmClient = new ClaudeLlmClient(apiKey, masterModel, maxTokens, temperature);
+        }
 
         logger.info("Creating Worker LLM client with provider: {}, model: {}", provider, workerModel);
-        workerLlmClient = new ClaudeLlmClient(apiKey, workerModel, maxTokens, temperature);
+        if ("Zhipu".equals(provider)) {
+            workerLlmClient = new tech.yesboss.llm.impl.ZhipuLlmClient(apiKey, workerModel, maxTokens, temperature);
+        } else {
+            workerLlmClient = new ClaudeLlmClient(apiKey, workerModel, maxTokens, temperature);
+        }
 
         logger.info("Initializing ModelRouter...");
         modelRouter = new ModelRouter(masterLlmClient, workerLlmClient);
@@ -473,7 +481,8 @@ public class ApplicationContext {
         webhookEventExecutor = new WebhookEventExecutorImpl(
                 sessionManager,
                 taskManager,
-                masterRunner
+                masterRunner,
+                globalStreamManager
         );
 
         logger.info("Initializing WebhookController...");
