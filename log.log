@@ -2300,3 +2300,45 @@ Configuration:
 - Environment variable: ZHIPU_API_KEY
 - Default model: glm-4-flash
 - Supports custom models via constructor or configuration
+[2026-02-28 10:29:00] Task ID: 状态机与调度引擎模块_050
+Status: SUCCESS
+Description: Implement simple test tools for integration testing
+
+Implementation Summary:
+- Created CalculatorTool class implementing AgentTool interface
+- Implemented getName() returning 'calculator'
+- Implemented getDescription() with clear tool description
+- Implemented getParametersJsonSchema() with JSON schema for operation, a, b parameters
+- Implemented execute() parsing argumentsJson and performing calculations
+- Created EchoTool class implementing AgentTool interface
+- Implemented echo functionality returning input text exactly as received
+- Added error handling for division by zero in CalculatorTool
+- Added error handling for invalid operations and missing parameters
+- Properly formatted results (removes unnecessary .0 for whole numbers)
+
+Key Design Features:
+- CalculatorTool supports: add, subtract, multiply, divide operations
+- EchoTool simply returns the input text
+- Both tools implement execute() and executeWithBypass() methods
+- CalculatorTool uses READ_WRITE access level
+- EchoTool uses READ_ONLY access level
+- Comprehensive error messages for invalid inputs
+
+Test Results:
+- CalculatorToolTest: 16/16 tests passed (100%)
+  * Basic operations: add, subtract, multiply, divide
+  * Edge cases: division by zero, invalid operation, decimal results
+  * Error handling: missing parameters, invalid JSON
+  * Negative and decimal numbers
+- EchoToolTest: 14/14 tests passed (100%)
+  * Basic echo functionality
+  * Edge cases: empty string, special characters, newlines, unicode
+  * Error handling: missing text parameter, invalid JSON
+  * Long text handling
+- Total: 30/30 tests passed (100%)
+
+Files Created:
+- src/test/java/tech/yesboss/tool/CalculatorTool.java
+- src/test/java/tech/yesboss/tool/CalculatorToolTest.java
+- src/test/java/tech/yesboss/tool/EchoTool.java
+- src/test/java/tech/yesboss/tool/EchoToolTest.java

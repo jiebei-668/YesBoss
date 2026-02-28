@@ -1365,7 +1365,7 @@
       "统一工具链与沙箱模块设计.md",
       "状态机与调度引擎模块设计.md"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "test",
