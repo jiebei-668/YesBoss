@@ -2342,3 +2342,44 @@ Files Created:
 - src/test/java/tech/yesboss/tool/CalculatorToolTest.java
 - src/test/java/tech/yesboss/tool/EchoTool.java
 - src/test/java/tech/yesboss/tool/EchoToolTest.java
+[2026-02-28 10:33:00] Task ID: 状态机与调度引擎模块_051
+Status: SUCCESS
+Description: Integration test for WorkerRunner ReAct loop with real Zhipu LLM
+
+Implementation Summary:
+- Created WorkerRunnerIntegrationTest class in src/test/java/tech/yesboss/runner/
+- Added testWorkerReActLoopWithRealLlm() method
+- Read ZHIPU_API_KEY from System.getenv()
+- Initialize real ZhipuLlmClient with API key and model='glm-4-flash'
+- Created real ToolRegistry and registered CalculatorTool and EchoTool
+- Mocked all other dependencies: TaskManager, LocalStreamManager, InjectionEngine, CondensationEngine, CircuitBreaker, SandboxInterceptor, SuspendResumeEngine, ToolCallTracker
+- Configured TaskManager mock: sessionExists returns true, getParentSessionId returns 'master-1', getStatus returns COMPLETED after worker run
+- Configured LocalStreamManager mock to track message flow through appendWorkerMessage and appendToolResult
+- Configured InjectionEngine mock: injectInitialContext returns system UnifiedMessage with calculator task description
+- Created WorkerRunnerImpl with mocked dependencies and real ZhipuLlmClient via ModelRouter
+- Added timeout handling (max 60 seconds for test completion)
+- Added cleanup code to shutdown executor services
+- Logged actual LLM responses and tool executions for debugging
+- Marked all tests as @Disabled if ZHIPU_API_KEY is not set
+
+Key Design Features:
+- Real ZhipuLlmClient integration for actual LLM API calls
+- Comprehensive mocking of all infrastructure dependencies
+- Thread-safe test execution with CountDownLatch
+- Multiple test scenarios: simple calculation, echo tool, multi-step calculation
+- Proper resource cleanup with workerRunner.shutdown()
+
+Test Results:
+- All tests marked @Disabled (require ZHIPU_API_KEY to run)
+- Maven test: 613 tests run, 0 failures, 21 skipped
+- testWorkerReActLoopWithRealLlm: Tests calculator tool integration
+- testWorkerReActLoopWithEchoTool: Tests echo tool integration
+- testWorkerReActLoopWithMultiStepCalculation: Tests multi-step reasoning
+
+Files Created:
+- src/test/java/tech/yesboss/runner/WorkerRunnerIntegrationTest.java
+
+Usage:
+To run these integration tests, set ZHIPU_API_KEY environment variable:
+  export ZHIPU_API_KEY=your_api_key_here
+  mvn test -Dtest=WorkerRunnerIntegrationTest

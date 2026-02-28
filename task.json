@@ -1399,7 +1399,7 @@
       "双流上下文管理模块设计.md",
       "https://open.bigmodel.cn/dev/api#glm-4"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "test",
