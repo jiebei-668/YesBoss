@@ -124,6 +124,7 @@ tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.class
 tech/yesboss/state/impl/TaskManagerImpl.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatChoice.class
 tech/yesboss/config/YesBossConfig$ModelConfig.class
+tech/yesboss/persistence/db/SingleThreadDbWriter$SyncRequestWrapper.class
 tech/yesboss/config/YesBossConfig.class
 tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.class
 tech/yesboss/tool/AgentTool.class

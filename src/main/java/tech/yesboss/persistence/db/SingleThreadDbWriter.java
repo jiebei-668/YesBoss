@@ -7,6 +7,8 @@ import tech.yesboss.persistence.event.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -54,8 +56,9 @@ public class SingleThreadDbWriter {
      * Lock-free queue for database write events.
      * Producers call offer() which is non-blocking.
      * Consumer calls take() which blocks until an event is available.
+     * Can contain either DbWriteEvent or SyncRequestWrapper instances.
      */
-    private final LinkedBlockingQueue<DbWriteEvent> memoryWriteQueue;
+    private final LinkedBlockingQueue<Object> memoryWriteQueue;
 
     /**
      * Database connection for executing SQL.
@@ -75,6 +78,12 @@ public class SingleThreadDbWriter {
     private Thread consumerThread;
 
     /**
+     * Map of pending futures for synchronous event processing.
+     * Key: marker string, Value: CompletableFuture that completes when event is processed
+     */
+    private final ConcurrentHashMap<String, CompletableFuture<Boolean>> pendingFutures;
+
+    /**
      * Create a new SingleThreadDbWriter.
      *
      * @param connection the database connection to use for writes
@@ -83,6 +92,15 @@ public class SingleThreadDbWriter {
         this.connection = connection;
         this.memoryWriteQueue = new LinkedBlockingQueue<>();
         this.isRunning = new AtomicBoolean(false);
+        this.pendingFutures = new ConcurrentHashMap<>();
+    }
+
+    /**
+     * Get the actual write queue (for repository access).
+     * This is package-private for use by SingleThreadDbWriter only.
+     */
+    LinkedBlockingQueue<Object> getMemoryWriteQueue() {
+        return memoryWriteQueue;
     }
 
     /**
@@ -108,6 +126,84 @@ public class SingleThreadDbWriter {
             logger.warn("Failed to submit event: {}, queue may be full", event.getEventType());
         }
         return offered;
+    }
+
+    /**
+     * Submit a database write event and wait for it to be processed synchronously.
+     *
+     * <p>This method blocks until the event has been processed by the consumer thread.
+     * Use this when you need to ensure the data is persisted before continuing.</p>
+     *
+     * @param event the database write event to submit
+     * @param timeoutMs maximum time to wait in milliseconds
+     * @return {@code true} if the event was processed successfully, {@code false} if timeout occurred
+     * @throws IllegalArgumentException if event is null
+     * @throws InterruptedException if the thread is interrupted while waiting
+     */
+    public boolean submitEventAndWait(DbWriteEvent event, long timeoutMs) throws InterruptedException {
+        if (event == null) {
+            throw new IllegalArgumentException("DbWriteEvent cannot be null");
+        }
+
+        // Create a unique token for this request
+        String syncToken = "sync_" + System.nanoTime();
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+        // Store the future before submitting the event
+        pendingFutures.put(syncToken, future);
+
+        // Create a wrapper that includes the sync token
+        SyncRequestWrapper wrapper = new SyncRequestWrapper(event, syncToken);
+
+        // Submit to queue
+        boolean offered = memoryWriteQueue.offer(wrapper);
+        if (!offered) {
+            pendingFutures.remove(syncToken);
+            logger.warn("Failed to submit event: {}, queue may be full", event.getEventType());
+            return false;
+        }
+
+        // Wait for completion
+        try {
+            Boolean result = future.get(timeoutMs, java.util.concurrent.TimeUnit.MILLISECONDS);
+            if (Boolean.TRUE.equals(result)) {
+                logger.debug("Event processed synchronously: {}", event.getEventType());
+                return true;
+            } else {
+                logger.warn("Event processing failed: {}", event.getEventType());
+                return false;
+            }
+        } catch (java.util.concurrent.TimeoutException e) {
+            logger.warn("Timeout waiting for event processing: {}", event.getEventType());
+            pendingFutures.remove(syncToken);
+            return false;
+        } catch (java.util.concurrent.ExecutionException e) {
+            logger.error("Error during synchronous event processing: {}", event.getEventType(), e);
+            pendingFutures.remove(syncToken);
+            return false;
+        }
+    }
+
+    /**
+     * Wrapper class for synchronous requests that includes a completion token.
+     * Does NOT implement DbWriteEvent to avoid sealed interface restrictions.
+     */
+    private static class SyncRequestWrapper {
+        private final DbWriteEvent originalEvent;
+        private final String syncToken;
+
+        SyncRequestWrapper(DbWriteEvent originalEvent, String syncToken) {
+            this.originalEvent = originalEvent;
+            this.syncToken = syncToken;
+        }
+
+        DbWriteEvent originalEvent() {
+            return originalEvent;
+        }
+
+        String syncToken() {
+            return syncToken;
+        }
     }
 
     /**
@@ -176,8 +272,16 @@ public class SingleThreadDbWriter {
         while (isRunning.get()) {
             try {
                 // Block until an event is available (or interrupted)
-                DbWriteEvent event = memoryWriteQueue.take();
-                dispatchAndExecuteSql(event);
+                Object item = memoryWriteQueue.take();
+
+                // Handle both DbWriteEvent and SyncRequestWrapper
+                if (item instanceof SyncRequestWrapper wrapper) {
+                    dispatchAndExecuteSql(wrapper);
+                } else if (item instanceof DbWriteEvent event) {
+                    dispatchAndExecuteSql(event);
+                } else {
+                    logger.warn("Unknown item type in queue: {}", item.getClass());
+                }
             } catch (InterruptedException e) {
                 // Thread was interrupted, check if we should continue
                 logger.debug("Consumer thread interrupted");
@@ -216,6 +320,29 @@ public class SingleThreadDbWriter {
         }
 
         logger.debug("Completed event: {}", event.getEventType());
+    }
+
+    /**
+     * Dispatch and execute SQL for a synchronous request wrapper.
+     *
+     * @param wrapper the sync request wrapper containing the event and completion token
+     * @throws SQLException if SQL execution fails
+     */
+    private void dispatchAndExecuteSql(SyncRequestWrapper wrapper) throws SQLException {
+        DbWriteEvent event = wrapper.originalEvent();
+        String syncToken = wrapper.syncToken();
+
+        logger.debug("Processing sync event: {}", event.getEventType());
+
+        // Execute the actual event
+        dispatchAndExecuteSql(event);
+
+        // Complete the future
+        CompletableFuture<Boolean> future = pendingFutures.remove(syncToken);
+        if (future != null) {
+            future.complete(true);
+            logger.debug("Completed sync request: {}", syncToken);
+        }
     }
 
     /**

@@ -151,12 +151,18 @@ public class TaskSessionRepositoryImpl implements TaskSessionRepository {
                 InsertTaskSessionEvent.TaskStatus.valueOf(status.name()),
                 topic, null, assignedTask, 0
         );
-        boolean submitted = dbWriter.submitEvent(event);
 
-        if (submitted) {
-            logger.debug("Submitted session save event for id={}", sessionId);
-        } else {
-            logger.warn("Failed to submit session save event for id={}", sessionId);
+        // Use synchronous write to ensure session is persisted before returning
+        // This fixes the race condition where MasterRunner queries before the async write completes
+        try {
+            boolean processed = dbWriter.submitEventAndWait(event, 5000);  // Wait up to 5 seconds
+            if (!processed) {
+                throw new RuntimeException("Failed to persist session within timeout: " + sessionId);
+            }
+            logger.debug("Session saved synchronously: {}", sessionId);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Interrupted while saving session: " + sessionId, e);
         }
     }
 
