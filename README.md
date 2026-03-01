@@ -1,401 +1,132 @@
 # YesBoss - Multi-Agent Task Orchestration Platform
 
-A result-oriented, minimalist Multi-Agent system designed for complex engineering and business task automation through Master-Worker hierarchy architecture with deep office IM integration.
+一个结果导向、极简的多Agent系统，通过Master-Worker分层架构和深度IM集成，自动化处理复杂的工程和业务任务。
 
-## Project Overview
+## 快速开始
 
-YesBoss is an intelligent task orchestration platform that uses a hierarchical multi-agent architecture to autonomously handle complex tasks. The system features:
+### 1. 环境要求
 
-- **Master-Worker Architecture**: A central orchestrator (Master) manages multiple execution units (Workers)
-- **Deep IM Integration**: Seamless integration with Feishu and Slack for natural user interaction
-- **Dual-Stream Context Management**: Separate global and local context streams for optimal token usage
-- **Human-in-the-Loop**: Safety mechanisms requiring human approval for high-risk operations
-- **Multi-LLM Support**: Compatible with Claude, Gemini, GPT, and ZhipuGLM
-- **MCP Protocol**: Full support for Model Context Protocol tools
+- **Java**: JDK 17+ (需要启用preview特性)
+- **Maven**: 3.6+
+- **飞书应用**: 需要创建飞书应用并获取相关凭证
+- **LLM API密钥**: 智谱AI/Claude/Gemini/GPT至少一个
 
-## Architecture
+### 2. 配置 .env 文件
 
-### Core Components
-
-1. **Gateway Layer (接入路由层)**
-   - IM Webhook routing for real-time event capture
-   - Session lifecycle management (one task per group chat)
-   - Minimalist UI renderer for progress bars and summary cards
-
-2. **Agent Orchestration Layer (业务编排层)**
-   - **Master Agent**: Global controller responsible for:
-     - Requirement clarification
-     - Environment exploration with read-only tools
-     - Task planning and distribution
-     - Final summary generation
-   - **Worker Agents**: Isolated execution units responsible for:
-     - Micro ReAct loops for autonomous tool calling
-     - Task execution with sandbox protection
-     - Local context management
-
-3. **Shared Core Engine Layer (共享核心引擎层)**
-   - **Dual-Stream Context Manager**:
-     - Global Stream: Maintains master's global constraints and exploration summaries
-     - Local Stream: Maintains worker's isolated task context
-   - **Unified Toolchain & Sandbox**:
-     - RBAC-based tool access control
-     - Blacklist-based高危命令拦截
-   - **Multi-Model Router**: Flexible LLM allocation for different roles
-
-4. **Infrastructure Layer (基础设施层)**
-   - SQLite concurrent persistence with lock-free async queue
-   - Cascade data deletion mechanism for privacy
-
-## Tech Stack
-
-- **Language**: Java 21+
-- **Key Features**:
-  - Java Records for immutable data structures
-  - Virtual Threads for high-concurrency async operations
-  - Sealed interfaces for type-safe patterns
-- **Database**: SQLite with custom single-thread writer
-- **LLM Providers**: Anthropic Claude, Google Gemini, OpenAI GPT, ZhipuGLM
-- **IM Platforms**: Feishu, Slack
-
-## Workflow
-
-### Standard Task Execution Flow
-
-```
-1. User inputs task via IM
-   ↓
-2. Gateway creates dedicated group chat
-   ↓
-3. Master Agent wakes up for requirement clarification
-   ↓
-4. Environment exploration (read-only tools)
-   ↓
-5. Fixed planning process generates sub-tasks
-   ↓
-6. Framework injects initial context to Workers
-   ↓
-7. Workers execute in isolated ReAct loops
-   ├─ Normal execution with tool calls
-   ├─ Circuit breaker after 20 rounds
-   └─ Human-in-the-loop for blacklisted commands
-   ↓
-8. Context condensation (bottom-up merging)
-   ↓
-9. Master generates final summary card
-```
-
-### Human-in-the-Loop Flow
-
-```
-1. Worker attempts blacklisted tool
-   ↓
-2. SandboxInterceptor throws SuspendExecutionException
-   ↓
-3. SuspendResumeEngine suspends task (SUSPENDED state)
-   ↓
-4. System spoofs global message and pushes UI card to IM
-   ↓
-5. User clicks approve/reject button
-   ↓
-6. Webhook routes decision back to SuspendResumeEngine
-   ↓
-7a. Approved: Execute with bypass and resume
-7b. Rejected: Forge error and resume
-```
-
-## Directory Structure
-
-```
-YesBoss/
-├── docs/                          # Design documents
-│   ├── 整体架构设计.md
-│   ├── 功能需求文档.txt
-│   ├── 技术模块设计.md
-│   ├── LLM路由网关模块.md
-│   ├── 双流上下文管理模块设计.md
-│   ├── 统一工具链与沙箱模块设计.md
-│   ├── 状态机与调度引擎模块设计.md
-│   ├── 接入与路由模块设计.md
-│   ├── 异步持久化模块设计.md
-│   └── 时序图/
-├── task.json                      # Task tracking database
-├── log.log                        # Execution history log
-└── README.md                      # This file
-```
-
-## Autonomous Agent Workflow
-
-This project follows a strict autonomous agent workflow:
-
-### Phase 1: Project Initialization
-1. Initialize Git repository
-2. Create `log.log` for execution tracking
-3. Create `README.md` with project documentation
-4. Initial commit
-
-### Phase 2: Standard Operating Procedure (SOP)
-
-**Step 1: Context Synchronization**
-- Read `README.md` for project overview
-- Read `log.log` for recent execution history
-- Check git history for latest code changes
-
-**Step 2: Task Acquisition**
-- Read `task.json`
-- Find first task with `"passes": false`
-- If all complete, output "ALL TASKS COMPLETED"
-
-**Step 3: Task Execution**
-- Execute task requirements
-- Follow TDD approach (develop → test pairs)
-
-**Step 4: Status Update & Logging**
-- Update `"passes"` to `true` on success
-- Append execution summary to `log.log`
-- Commit changes with descriptive message
-
-### Strict Rules
-
-**CRITICAL**: The agent is strictly forbidden from modifying `task.json` except for updating `"passes"` values:
-- ❌ DO NOT add new tasks
-- ❌ DO NOT delete existing tasks
-- ❌ DO NOT alter task descriptions or IDs
-- ✅ ONLY update `"passes": false` to `"passes": true` upon success
-
-## Development Status
-
-### Task Modules
-
-1. **异步持久化模块 (Async Persistence Module)**
-   - SQLite schema initialization
-   - DbWriteEvent definitions
-   - SingleThreadDbWriter engine
-   - Repository layer implementation
-
-2. **LLM路由网关模块 (LLM Routing Gateway)**
-   - UnifiedMessage domain entity
-   - VendorSdkAdapter implementations
-   - LlmClient and ModelRouter
-
-3. **统一工具链与沙箱模块 (Unified Toolchain & Sandbox)**
-   - AgentTool interface
-   - SandboxInterceptor with blacklist
-   - ToolRegistry for RBAC
-   - McpToolAdapter for external services
-
-4. **双流上下文管理模块 (Dual-Stream Context Manager)**
-   - GlobalStreamManager
-   - LocalStreamManager
-   - InjectionEngine for top-down context assembly
-   - CondensationEngine for bottom-up summarization
-
-5. **状态机与调度引擎模块 (State Machine & Scheduling)**
-   - TaskManager with status transitions
-   - CircuitBreaker for infinite loop prevention
-   - SuspendResumeEngine for human-in-the-loop
-   - MasterRunner and WorkerRunner orchestration
-
-6. **接入与路由模块 (Access & Routing)**
-   - SessionManager for IM route binding
-   - UICardRenderer and IMMessagePusher
-   - WebhookController for async API handling
-   - Interactive UI callback handling
-
-## Key Design Principles
-
-1. **Hybrid Engine**: Separation of AI-driven problem solving and framework-controlled lifecycle management
-2. **Unified Tool Abstraction**: All tools (native and MCP) exposed through a standard interface
-3. **Async-First**: Webhook responses return immediately; actual processing happens on virtual threads
-4. **Safety by Default**: Blacklist sandbox with mandatory human approval for risky operations
-5. **Resource Efficiency**: Suspended workers release all threads; resumed workers create new threads
-
-## Quick Start
-
-### Prerequisites
-
-- **Java**: JDK 17 or higher (with preview features enabled)
-- **Maven**: 3.6+ for building the project
-- **Feishu App**: A Feishu/Lark app with webhook permissions
-- **LLM API Key**: At least one LLM provider API key (Anthropic Claude, Google Gemini, OpenAI, or ZhipuGLM)
-
-### Installation
-
-#### 1. Clone the Repository
+在项目根目录创建 `.env` 文件：
 
 ```bash
+# =============================================================================
+# LLM 配置（至少配置一个）
+# =============================================================================
+
+# 智谱AI（推荐，已测试）
+ZHIPU_API_KEY=your_zhipu_api_key_here
+
+# 如果使用其他LLM提供商，取消注释相应的配置：
+# ANTHROPIC_API_KEY=your_anthropic_api_key_here
+# GEMINI_API_KEY=your_gemini_api_key_here
+# OPENAI_API_KEY=your_openai_api_key_here
+
+# =============================================================================
+# 飞书配置（必需）
+# =============================================================================
+
+# 飞书应用凭证（从飞书开放平台获取）
+FEISHU_APP_ID=cli_aaaaaaaabbbbbbbb
+FEISHU_APP_SECRET=your_feishu_app_secret_here
+
+# 飞书加密密钥（用于webhook签名验证）
+FEISHU_ENCRYPT_KEY=your_feishu_encrypt_key_here
+
+# 飞书验证令牌（可选，用于URL验证）
+FEISHU_VERIFICATION_TOKEN=your_verification_token_here
+
+# Webhook配置（可选，有默认值）
+FEISHU_WEBHOOK_PATH=/feishu/webhook
+FEISHU_WEBHOOK_PORT=6000
+
+# =============================================================================
+# 服务器配置（可选）
+# =============================================================================
+
+# 服务监听端口（默认6000）
+SERVER_PORT=6000
+
+# =============================================================================
+# 数据库配置（可选）
+# =============================================================================
+
+# SQLite数据库文件路径（默认 data/yesboss.db）
+SQLITE_PATH=data/yesboss.db
+
+# =============================================================================
+# 日志配置（可选）
+# =============================================================================
+
+# 日志级别（默认 INFO）
+LOG_LEVEL=INFO
+
+# 日志文件路径（默认 logs/yesboss.log）
+LOG_FILE_PATH=logs/yesboss.log
+```
+
+#### 如何获取飞书应用凭证？
+
+1. **创建飞书应用**
+   - 访问 [飞书开放平台](https://open.feishu.cn/)
+   - 创建企业自建应用
+   - 记录 `App ID` 和 `App Secret`
+
+2. **配置加密密钥**
+   - 在应用管理 → 功能权限 → 事件订阅
+   - 启用"加密"并设置 `Encrypt Key`
+   - 记录这个密钥
+
+3. **获取权限**
+   - 在应用权限管理中启用：
+     - `im:message` - 收发消息
+     - `im:message:group_at_msg` - 群组@消息
+     - `im:chat` - 获取群聊信息
+
+#### 如何获取LLM API密钥？
+
+**智谱AI（推荐）**：
+1. 访问 [智谱AI开放平台](https://open.bigmodel.cn/)
+2. 注册/登录账号
+3. 进入API密钥管理
+4. 创建新的API密钥
+
+**其他提供商**：
+- Anthropic Claude: https://console.anthropic.com/
+- Google Gemini: https://makersuite.google.com/
+- OpenAI GPT: https://platform.openai.com/
+
+### 3. 构建项目
+
+```bash
+# 克隆项目
 git clone <repository-url>
 cd YesBoss
-```
 
-#### 2. Configure Application
-
-**Option 1: Using .env file (Recommended)**
-
-Create or edit `.env` file in project root:
-
-```bash
-# LLM Provider Configuration (configure at least one)
-ZHIPU_API_KEY=your-zhipu-api-key-here
-# ANTHROPIC_API_KEY=your-anthropic-api-key-here
-
-# Feishu Configuration
-FEISHU_APP_ID=cli_axxxxxxxxxxxx
-FEISHU_APP_SECRET=your-app-secret
-FEISHU_ENCRYPT_KEY=your-encrypt-key
-FEISHU_VERIFICATION_TOKEN=your-token
-
-# Server Configuration (optional)
-SERVER_PORT=8080
-```
-
-Load environment variables before running:
-
-```bash
-# Load .env file
-source .env 2>/dev/null || export $(cat .env | grep -v '^#' | xargs)
-
-# Or load manually
-export ZHIPU_API_KEY="your-api-key"
-export FEISHU_APP_ID="cli_axxxxxxxxxxxx"
-export FEISHU_APP_SECRET="your-app-secret"
-export FEISHU_ENCRYPT_KEY="your-encrypt-key"
-export FEISHU_VERIFICATION_TOKEN="your-token"
-```
-
-**Option 2: Edit application.yml**
-
-Edit `src/main/resources/application.yml` to configure your settings:
-
-```yaml
-# LLM Provider Configuration (configure at least one)
-llm:
-  zhipu:
-    enabled: true
-    apiKey: YOUR_ZHIPU_API_KEY  # Replace with your API key
-
-# Feishu Configuration
-im:
-  feishu:
-    enabled: true
-    appId: cli_axxxxxxxxxxxx      # Your Feishu App ID
-    appSecret: YOUR_APP_SECRET     # Your Feishu App Secret
-    encryptKey: YOUR_ENCRYPT_KEY   # Your Feishu Encrypt Key
-    verificationToken: YOUR_TOKEN  # Your Verification Token
-
-# Server Configuration
-app:
-  server:
-    port: 8080
-```
-
-**Option 3: Using environment variables directly**
-
-```bash
-export ZHIPU_API_KEY="your-api-key"
-export FEISHU_APP_ID="cli_axxxxxxxxxxxx"
-export FEISHU_APP_SECRET="your-app-secret"
-export FEISHU_ENCRYPT_KEY="your-encrypt-key"
-export FEISHU_VERIFICATION_TOKEN="your-token"
-```
-
-#### 3. Build the Project
-
-```bash
+# 编译项目
 mvn clean compile
 ```
 
-#### 4. Run Tests (Optional)
+### 4. 启动应用
 
 ```bash
-mvn test
-```
-
-#### 5. Start the Application
-
-**Important**: This project uses Java 17 preview features (virtual threads).
-
-The `.mvn/jvm.config` file is already created with `--enable-preview` flag.
-The `.env` file is auto-loaded at startup - no manual export needed!
-
-**Method 1: Using Maven (Recommended)**
-
-```bash
+# 前台启动（开发调试）
 mvn exec:java
-```
 
-**Method 2: Using Java directly**
+# 后台启动（生产环境）
+nohup mvn exec:java > app.log 2>&1 &
 
-```bash
-# Build classpath
-mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
-
-# Run application
-CP=$(cat cp.txt):target/classes
-java --enable-preview -cp "$CP" tech.yesboss.YesBossApplication
-```
-
-**Method 3: Background运行**
-
-```bash
-# Build classpath and run in background
-mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
-CP=$(cat cp.txt):target/classes
-nohup java --enable-preview -cp "$CP" tech.yesboss.YesBossApplication > app.log 2>&1 &
-
-# View logs
+# 查看日志
 tail -f app.log
 ```
 
-**Method 4: From IDE**
-- Run the `main()` method in `src/main/java/tech/yesboss/YesBossApplication.java`
-- **Important**: Add `--enable-preview` to VM options in IDE run configuration
-
-### Setting up Feishu Webhook
-
-#### 1. Create Feishu App
-
-1. Go to [Feishu Open Platform](https://open.feishu.cn/)
-2. Create a new app and get:
-   - App ID
-   - App Secret
-   - Encrypt Key
-   - Verification Token
-
-#### 2. Configure Webhook in Feishu
-
-In your Feishu app settings:
-
-1. Go to **Event Subscriptions**
-2. Add Request URL:
-   ```
-   https://your-domain.com/webhook/feishu
-   ```
-   For local testing, use ngrok:
-   ```bash
-   ngrok http 8080
-   ```
-3. Subscribe to events:
-   - `im.message.receive_v1` - Receive messages
-   - (Optional) Group chat events
-
-#### 3. Enable Bot Permissions
-
-In Feishu app permissions, enable:
-- `im:message` - Send and receive messages
-- `im:message:group_at_msg` - Group @ mentions
-- `im:chat` - Access chat information
-
-#### 4. Add Bot to Group
-
-1. In Feishu, create a group chat
-2. Add your app bot to the group
-3. Grant necessary permissions
-
-### Using the Application
-
-#### Start the Application
-
-When the application starts successfully, you should see:
+启动成功后，你应该看到：
 
 ```
 ========================================
@@ -405,156 +136,320 @@ Application Status: READY
 Accepting webhook traffic: YES
 ========================================
 Webhook Endpoints:
-Feishu:  http://0.0.0.0:8080/webhook/feishu
-Feishu Callback: http://0.0.0.0:8080/webhook/feishu/callback
+Feishu:  http://0.0.0.0:6000/webhook/feishu
+Feishu Callback: http://0.0.0.0:6000/webhook/feishu/callback
 ========================================
 All systems operational!
 ========================================
 ```
 
-#### Check Health Status
+### 5. 配置飞书Webhook
+
+#### 本地开发（使用ngrok）
+
+1. 安装ngrok: https://ngrok.com/download
+2. 启动ngrok隧道：
+   ```bash
+   ngrok http 6000
+   ```
+3. 复制ngrok提供的HTTPS地址
+4. 在飞书开放平台配置事件订阅：
+   - **请求URL**: `https://xxxxx.ngrok.io/webhook/feishu`
+   - **订阅事件**: `im.message.receive_v1`
+
+#### 生产环境
+
+1. 确保服务器有公网IP
+2. 配置域名和HTTPS证书（推荐使用Nginx）
+3. 在飞书开放平台配置事件订阅：
+   - **请求URL**: `https://your-domain.com/webhook/feishu`
+   - **订阅事件**: `im.message.receive_v1`
+
+### 6. 添加Bot到飞书群
+
+1. 在飞书中创建一个群聊
+2. 群设置 → 群机器人 → 添加机器人
+3. 选择你创建的应用
+4. 授予必要的权限（发送消息、@消息等）
+
+## 程序使用指南
+
+### 基本使用流程
+
+在飞书群中直接@Bot并发送任务：
+
+```
+@YesBoss 你的任务描述
+```
+
+### 执行流程
+
+```
+1. 用户发送任务
+   ↓
+2. Master Agent 分析需求
+   ↓
+3. 如需澄清，Master会提问
+   ↓
+4. 环境探索（只读工具）
+   ↓
+5. 任务分解为子任务
+   ↓
+6. Workers 并行执行
+   ├─ 正常执行：调用工具完成任务
+   ├─ 高危操作：要求人工批准
+   └─ 循环限制：最多20轮
+   ↓
+7. 生成最终总结报告
+```
+
+### 使用示例
+
+#### 示例1：代码分析
+
+```
+@YesBoss 分析当前项目的代码结构，生成详细报告
+```
+
+#### 示例2：技术调研
+
+```
+@YesBoss 调研Web3技术的核心概念、应用场景和发展趋势
+```
+
+#### 示例3：文档生成
+
+```
+@YesBoss 根据src/main/java目录下的代码，生成API文档
+```
+
+#### 示例4：问题排查
+
+```
+@YesBoss 分析app.log中的错误，给出解决方案
+```
+
+### 查看执行进度
+
+程序会实时在群聊中推送进度条：
+
+```
+任务执行进度
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+已完成 3/6 个子任务 (50%)
+Progress: 3/6 tasks completed
+
+正在执行：分析核心算法模块
+```
+
+### 查看最终报告
+
+任务完成后，会推送总结卡片：
+
+```
+📋 任务完成报告
+
+## 总体概述
+所有 6 个子任务已成功完成！本次任务围绕"分析代码结构"展开...
+
+## 各子任务执行详情
+
+### 1. 分析项目结构
+[详细报告...]
+
+### 2. 分析核心模块
+[详细报告...]
+```
+
+### 高危操作审批
+
+当Worker尝试执行高危操作（如删除文件、格式化磁盘等）时：
+
+1. 系统自动拦截操作
+2. 推送审批卡片到群聊
+3. 你点击"批准"或"拒绝"按钮
+4. 系统根据你的决定继续或终止
+
+## 配置详解
+
+### 最小化配置（仅必需项）
 
 ```bash
-curl http://localhost:8080/health
-curl http://localhost:8080/ready
-curl http://localhost:8080/metrics
+# .env 文件
+ZHIPU_API_KEY=your_api_key
+FEISHU_APP_ID=cli_xxxxxxxxx
+FEISHU_APP_SECRET=your_secret
+FEISHU_ENCRYPT_KEY=your_encrypt_key
 ```
 
-#### Send a Task
+### 推荐配置（完整功能）
 
-In your Feishu group chat:
+参考上面的"配置 .env 文件"部分。
 
-```
-@YesBoss 分析当前项目的代码结构并生成报告
-```
+### 高级配置（application.yml）
 
-The bot will:
-1. Acknowledge the request with a progress bar
-2. Use Master Agent to clarify requirements
-3. Create a plan with Worker Agents
-4. Execute tools to analyze code
-5. Generate and send a summary card
+如果需要更细粒度的控制，可以编辑 `src/main/resources/application.yml`。
 
-### Development
+**注意**: 环境变量（.env）优先级高于application.yml。
 
-#### Project Structure
-
-```
-YesBoss/
-├── src/main/java/tech/yesboss/
-│   ├── YesBossApplication.java    # Main entry point
-│   ├── ApplicationContext.java     # Component lifecycle
-│   ├── config/                     # Configuration management
-│   ├── gateway/                    # Webhook & IM integration
-│   ├── llm/                        # LLM routing & adapters
-│   ├── state/                      # Task state machine
-│   ├── runner/                     # Master/Worker orchestration
-│   ├── context/                    # Context management
-│   ├── tool/                       # Tool chain & sandbox
-│   ├── persistence/                # Database layer
-│   └── health/                     # Health checks
-├── src/main/resources/
-│   └── application.yml             # Configuration file
-└── src/test/                       # Test suites
-```
-
-#### Running Tests
-
-```bash
-# Run all tests
-mvn test
-
-# Run specific test class
-mvn test -Dtest=WebhookControllerTest
-
-# Run with coverage
-mvn test jacoco:report
-```
-
-#### Debug Mode
-
-Enable debug logging:
-
-```bash
-export LOG_LEVEL=DEBUG
-mvn exec:java -Dexec.mainClass="tech.yesboss.YesBossApplication"
-```
-
-Or in `application.yml`:
+#### 启用其他LLM提供商
 
 ```yaml
-logging:
-  level: DEBUG
+llm:
+  anthropic:
+    enabled: true
+    apiKey: ${ANTHROPIC_API_KEY:}
+    model:
+      master: claude-sonnet-4-20250514
+      worker: claude-haiku-4-20250514
+
+  gemini:
+    enabled: true
+    apiKey: ${GEMINI_API_KEY:}
+    model:
+      master: gemini-2.0-flash-exp
+      worker: gemini-1.5-flash
 ```
 
-### Troubleshooting
+#### 调整任务执行参数
 
-#### Port Already in Use
-
-```bash
-# Change port in application.yml
+```yaml
 app:
-  server:
-    port: 8081
-
-# Or set environment variable
-export SERVER_PORT=8081
+  task:
+    defaultTimeoutMinutes: 60      # 任务默认超时时间
+    maxConcurrentTasks: 10         # 最大并发任务数
+  hitl:
+    approvalTimeoutMinutes: 30     # 审批超时时间
+    maxRetries: 3                  # 最大重试次数
 ```
 
-#### Database Connection Error
+#### 配置沙箱安全
+
+```yaml
+sandbox:
+  enabled: true
+  toolNameBlacklist:
+    - format_disk
+    - delete_all
+    - wipe_system
+  argumentBlacklist:
+    - "rm\\s+-rf\\s+/"
+    - "curl.*\\|\\s*bash"
+  pathBlacklist:
+    - /etc/passwd
+    - ~/.ssh/
+```
+
+## 健康检查
 
 ```bash
-# Ensure data directory exists
-mkdir -p data
+# 检查应用状态
+curl http://localhost:6000/health
 
-# Check SQLite is available
-java -jar target/yesboss-1.0.0-SNAPSHOT.jar
+# 检查就绪状态
+curl http://localhost:6000/ready
+
+# 查看指标
+curl http://localhost:6000/metrics
 ```
 
-#### Feishu Webhook Timeout
+## 故障排查
 
-- Ensure your server is publicly accessible
-- Use ngrok for local testing:
-  ```bash
-  ngrok http 8080
-  ```
-- Check firewall settings
+### 问题1：端口被占用
 
-#### LLM API Errors
-
-- Verify API key is correct
-- Check API quota/billing
-- Ensure network connectivity to LLM provider
-
-### Production Deployment
-
-#### Docker Deployment
-
-Create `Dockerfile`:
-
-```dockerfile
-FROM openjdk:17-slim
-WORKDIR /app
-COPY target/yesboss-1.0.0-SNAPSHOT.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+**症状**：
+```
+ERROR: Address already in use
 ```
 
-Build and run:
+**解决**：
+```bash
+# 查找占用端口的进程
+fuser -k 6000/tcp
 
+# 或修改.env中的端口
+SERVER_PORT=6001
+```
+
+### 问题2：LLM API调用失败
+
+**症状**：
+```
+ERROR: 401 Unauthorized
+```
+
+**解决**：
+1. 检查 `.env` 中的API密钥是否正确
+2. 确认API余额充足
+3. 检查网络连接
+
+### 问题3：飞书Webhook接收不到
+
+**症状**：
+```
+在飞书群@Bot没有反应
+```
+
+**解决**：
+1. 检查应用是否正常运行：`curl http://localhost:6000/health`
+2. 确认飞书Webhook配置正确
+3. 检查 `FEISHU_ENCRYPT_KEY` 是否匹配
+4. 查看应用日志：`tail -f app.log`
+
+### 问题4：签名验证失败
+
+**症状**：
+```
+ERROR: Feishu signature verification failed
+```
+
+**解决**：
+1. 确保 `.env` 中的 `FEISHU_ENCRYPT_KEY` 与飞书平台配置的完全一致
+2. 检查密钥前后没有多余的空格
+3. 重启应用使配置生效
+
+### 问题5：数据库错误
+
+**症状**：
+```
+ERROR: SQLite database file locked
+```
+
+**解决**：
+```bash
+# 停止应用
+pkill -f YesBossApplication
+
+# 删除数据库文件（会丢失历史数据，谨慎操作）
+rm data/yesboss.db
+
+# 重新启动应用
+mvn exec:java
+```
+
+## 生产部署
+
+### Docker部署
+
+1. 构建镜像：
 ```bash
 docker build -t yesboss:latest .
-docker run -d -p 8080:8080 \
-  -e ZHIPU_API_KEY="${ZHIPU_API_KEY}" \
-  -e FEISHU_APP_ID="${FEISHU_APP_ID}" \
-  -e FEISHU_APP_SECRET="${FEISHU_APP_SECRET}" \
+```
+
+2. 运行容器：
+```bash
+docker run -d \
+  --name yesboss \
+  -p 6000:6000 \
+  --env-file .env \
+  -v $(pwd)/data:/app/data \
+  -v $(pwd)/logs:/app/logs \
   yesboss:latest
 ```
 
-#### Systemd Service
+### Systemd服务
 
-Create `/etc/systemd/system/yesboss.service`:
-
+1. 创建服务文件 `/etc/systemd/system/yesboss.service`：
 ```ini
 [Unit]
 Description=YesBoss Multi-Agent Platform
@@ -562,9 +457,9 @@ After=network.target
 
 [Service]
 Type=simple
-User=yesboss
+User=your-username
 WorkingDirectory=/opt/yesboss
-ExecStart=/usr/bin/java -jar /opt/yesboss/yesboss-1.0.0-SNAPSHOT.jar
+ExecStart=/usr/bin/java -jar /opt/yesboss/yesboss.jar
 Restart=always
 RestartSec=10
 EnvironmentFile=/opt/yesboss/.env
@@ -573,8 +468,7 @@ EnvironmentFile=/opt/yesboss/.env
 WantedBy=multi-user.target
 ```
 
-Start service:
-
+2. 启动服务：
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable yesboss
@@ -582,10 +476,107 @@ sudo systemctl start yesboss
 sudo systemctl status yesboss
 ```
 
-## License
+## 项目架构
 
-[Specify your license here]
+### 核心组件
 
-## Contributing
+```
+┌─────────────────────────────────────────────────┐
+│          飞书/Slack IM（用户交互层）             │
+└───────────────┬─────────────────────────────────┘
+                │
+┌───────────────▼─────────────────────────────────┐
+│       Webhook Controller（接入路由层）          │
+│       SessionManager（会话管理）                │
+└───────────────┬─────────────────────────────────┘
+                │
+┌───────────────▼─────────────────────────────────┐
+│        Master Agent（业务编排层）              │
+│   - 需求澄清                                    │
+│   - 环境探索                                    │
+│   - 任务分解                                    │
+│   - 最终总结                                    │
+└───────────────┬─────────────────────────────────┘
+                │
+        ┌───────┴───────┐
+        │               │
+┌───────▼────┐   ┌───▼─────────┐
+│ Worker 1   │   │ Worker 2    │  ...
+└───────┬────┘   └───┬─────────┘
+        │             │
+┌───────▼─────────────▼─────────────────────────┐
+│     Tool Registry（统一工具链 + 沙箱）        │
+│   - Bash命令                                  │
+│   - 文件操作                                  │
+│   - Web搜索                                  │
+│   - MCP工具                                  │
+└────────────────────────────────────────────────┘
+```
 
-[Specify contribution guidelines here]
+### 技术栈
+
+- **Java 17**: Records, Virtual Threads, Sealed Interfaces
+- **SQLite**: 单线程写入 + 异步队列
+- **LLM**: 智谱/Claude/Gemini/GPT多模型支持
+- **IM**: 飞书/Slack深度集成
+
+## 开发指南
+
+### 项目结构
+
+```
+YesBoss/
+├── docs/                      # 设计文档
+├── src/main/java/tech/yesboss/
+│   ├── YesBossApplication.java   # 主入口
+│   ├── ApplicationContext.java    # 组件生命周期
+│   ├── config/                  # 配置管理
+│   ├── gateway/                 # Webhook & IM
+│   ├── llm/                     # LLM路由
+│   ├── runner/                  # Master/Worker编排
+│   ├── context/                 # 上下文管理
+│   ├── tool/                    # 工具链
+│   ├── state/                   # 状态机
+│   └── persistence/             # 数据持久化
+├── src/main/resources/
+│   └── application.yml          # 配置文件
+└── .env                        # 环境变量（需创建）
+```
+
+### 运行测试
+
+```bash
+# 运行所有测试
+mvn test
+
+# 运行特定测试
+mvn test -Dtest=WebhookControllerTest
+
+# 生成覆盖率报告
+mvn test jacoco:report
+```
+
+### 调试模式
+
+```bash
+# 启用调试日志
+export LOG_LEVEL=DEBUG
+mvn exec:java
+
+# 或在 .env 中配置
+LOG_LEVEL=DEBUG
+```
+
+## 许可证
+
+[指定您的许可证]
+
+## 贡献指南
+
+[指定贡献指南]
+
+---
+
+**文档版本**: 1.0
+**更新日期**: 2026-03-01
+**维护者**: YesBoss Team
