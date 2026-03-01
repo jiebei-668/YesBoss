@@ -61,13 +61,13 @@ im:
   # Feishu Configuration
   feishu:
     enabled: ${FEISHU_ENABLED:true}
-    appId: ${FEISHU_APP_ID:cli_a905a3bc37b85cee}
+    appId: ${FEISHU_APP_ID:}
     appSecret: ${FEISHU_APP_SECRET:}
-    encryptKey: ${FEISHU_ENCRYPT_KEY:KOBEforever668!}
-    verificationToken: ${FEISHU_VERIFICATION_TOKEN:IN4yV9Fz7DALJKOQlfQo6flufO4rRjFV}
+    encryptKey: ${FEISHU_ENCRYPT_KEY:}
+    verificationToken: ${FEISHU_VERIFICATION_TOKEN:}
     webhook:
       path: ${FEISHU_WEBHOOK_PATH:/feishu/webhook}
-      port: ${FEISHU_WEBHOOK_PORT:8080}
+      port: ${FEISHU_WEBHOOK_PORT:6000}
     push:
       baseUrl: ${FEISHU_PUSH_BASE_URL:https://open.feishu.cn}
       messageApi: ${FEISHU_MESSAGE_API:/open-apis/im/v1/messages}
