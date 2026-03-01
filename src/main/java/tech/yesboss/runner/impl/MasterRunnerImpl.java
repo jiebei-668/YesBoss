@@ -463,25 +463,36 @@ public class MasterRunnerImpl implements MasterRunner {
         logger.info("Step 7: Generating final summary for session {}", masterSessionId);
 
         try {
-            StringBuilder summary = new StringBuilder();
-            summary.append("# Task Execution Summary\n\n");
+            // 1. 生成总体概述
+            String overview = generateOverview(masterSessionId, workerSessionIds);
 
-            // 收集所有 Worker 的执行报告
-            for (String workerSessionId : workerSessionIds) {
+            // 2. 收集所有 Worker 的执行报告
+            StringBuilder detailReports = new StringBuilder();
+            detailReports.append("\n\n## 各子任务执行详情\n\n");
+
+            for (int i = 0; i < workerSessionIds.size(); i++) {
+                String workerSessionId = workerSessionIds.get(i);
                 try {
                     String report = workerRunner.generateExecutionReport(workerSessionId);
-                    summary.append("## Worker Report\n").append(report).append("\n\n");
+                    String assignedTask = taskManager.getAssignedTask(workerSessionId);
+                    String taskNumber = String.valueOf(i + 1);
+
+                    detailReports.append(String.format("### %s. %s\n\n%s\n\n",
+                        taskNumber,
+                        assignedTask != null ? assignedTask : "子任务 " + taskNumber,
+                        report));
                 } catch (Exception e) {
                     logger.warn("Failed to get report from worker {}", workerSessionId, e);
-                    summary.append("## Worker Report\n").append("Report unavailable\n\n");
+                    detailReports.append("### 子任务报告\n\n报告生成失败\n\n");
                 }
             }
 
-            String summaryText = summary.toString();
-            logger.info("Generated summary: {}", summaryText);
+            // 3. 组合最终总结
+            String finalSummary = overview + detailReports.toString();
+            logger.info("Generated summary: {}", finalSummary);
 
             // 渲染总结卡片
-            var summaryCard = uiCardRenderer.renderSummaryCard(masterSessionId, summaryText, true);
+            var summaryCard = uiCardRenderer.renderSummaryCard(masterSessionId, finalSummary, true);
 
             // 推送总结卡片
             ImRoute imRoute = taskManager.getImRoute(masterSessionId);
@@ -492,12 +503,101 @@ public class MasterRunnerImpl implements MasterRunner {
             imMessagePusher.pushCardMessage(imRoute.imType(), imRoute.imGroupId(), feishuCardJson);
 
             // 将总结追加到全局流
-            globalStreamManager.appendMasterMessage(masterSessionId, UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, summaryText));
+            globalStreamManager.appendMasterMessage(masterSessionId, UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, finalSummary));
 
             logger.info("Final summary generated and pushed for session {}", masterSessionId);
 
         } catch (Exception e) {
             logger.error("Error generating final summary for session {}", masterSessionId, e);
+        }
+    }
+
+    /**
+     * 生成总体概述
+     *
+     * @param masterSessionId Master 会话 ID
+     * @param workerSessionIds Worker 会话 ID 列表
+     * @return 总体概述文本
+     */
+    private String generateOverview(String masterSessionId, List<String> workerSessionIds) {
+        logger.info("Generating overview for {} workers", workerSessionIds.size());
+
+        try {
+            // 1. 收集所有 Worker 的任务信息和状态
+            StringBuilder workerInfo = new StringBuilder();
+            workerInfo.append("以下是所有子任务的执行情况：\n\n");
+
+            for (int i = 0; i < workerSessionIds.size(); i++) {
+                String workerSessionId = workerSessionIds.get(i);
+                String assignedTask = taskManager.getAssignedTask(workerSessionId);
+                var status = taskManager.getStatus(workerSessionId);
+
+                workerInfo.append(String.format("%d. 任务: %s\n   状态: %s\n",
+                    i + 1,
+                    assignedTask != null ? assignedTask : "未知任务",
+                    status));
+
+                // 尝试从全局上下文中获取Worker摘要
+                List<UnifiedMessage> masterContext = globalStreamManager.fetchContext(masterSessionId);
+                for (UnifiedMessage msg : masterContext) {
+                    if (msg.content() != null && msg.content().contains("[Worker Report - Session: " + workerSessionId + "]")) {
+                        // 提取摘要内容（在"]"之后的部分）
+                        String content = msg.content();
+                        int summaryStart = content.indexOf("]") + 1;
+                        if (summaryStart > 0 && summaryStart < content.length()) {
+                            String summary = content.substring(summaryStart).trim();
+                            if (summary.length() > 200) {
+                                summary = summary.substring(0, 200) + "...";
+                            }
+                            workerInfo.append("   摘要: ").append(summary).append("\n");
+                        }
+                        break;
+                    }
+                }
+                workerInfo.append("\n");
+            }
+
+            // 2. 获取原始任务描述
+            List<UnifiedMessage> masterContext = globalStreamManager.fetchContext(masterSessionId);
+            String originalTask = extractTaskDescription(masterContext);
+
+            // 3. 调用 Master LLM 生成总体概述
+            LlmClient llmClient = modelRouter.routeByRole("MASTER");
+            String systemPrompt = """
+                你是一个任务总结专家。请根据以下信息生成一个简洁、友好的总体概述：
+
+                ## 要求
+                1. 用 Markdown 格式输出
+                2. 包含一个吸引人的标题（使用 emoji）
+                3. 简要说明任务是否成功完成
+                4. 列出所有子任务的主题
+                5. 不要重复详细的子任务内容，只需要总体概览
+                6. 语言要友好、专业
+                """;
+
+            List<UnifiedMessage> context = new ArrayList<>();
+            context.add(UnifiedMessage.ofText(UnifiedMessage.Role.SYSTEM, systemPrompt));
+            context.add(UnifiedMessage.ofText(UnifiedMessage.Role.USER,
+                String.format("原始任务: %s\n\n%s", originalTask, workerInfo.toString())));
+
+            UnifiedMessage response = llmClient.chat(context, "");
+            String overview = response.content();
+
+            logger.info("Generated overview for session {}", masterSessionId);
+            return overview;
+
+        } catch (Exception e) {
+            logger.error("Error generating overview for session {}", masterSessionId, e);
+            // 降级：返回简单的概述
+            return String.format("""
+                # 📋 任务完成报告
+
+                ## 总体概述
+                所有 %d 个子任务已完成。
+
+                由于技术原因，无法生成详细概述。
+
+                """, workerSessionIds.size());
         }
     }
 
