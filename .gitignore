@@ -32,7 +32,8 @@ buildNumber.properties
 *.log.*
 logs/
 app*.log
-log.*
+# log.log is tracked in git
+# log.*
 
 # Database
 *.db
