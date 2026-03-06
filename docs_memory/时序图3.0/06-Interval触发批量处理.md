@@ -41,18 +41,26 @@ sequenceDiagram
         Note over MemoryService: 批量处理流程
 
         loop 对每个conversation
-            MemoryService->>ContentProcessor: ContentProcessor::batchGenerateCaptions(conversationContents)
+            MemoryService->>ContentProcessor: ContentProcessor::batchGenerateAbstracts(conversationContents)
             activate ContentProcessor
-            ContentProcessor-->>MemoryService: List<String> captions
+            ContentProcessor-->>MemoryService: List<String> abstracts
             deactivate ContentProcessor
 
-            MemoryService->>EmbeddingService: EmbeddingService::batchGenerateEmbeddings(texts)
-            activate EmbeddingService
-            EmbeddingService-->>MemoryService: List<float[]> captionEmbeddings
-            deactivate EmbeddingService
+            Note over MemoryService: 构建Resource对象列表（不含embedding）
+
+            MemoryService->>MemoryService: buildResources(conversationContents, abstracts)
 
             MemoryService->>MemoryManager: MemoryManager::saveResources(resources)
             activate MemoryManager
+
+            Note over MemoryManager: 批量生成embedding
+
+            MemoryManager->>EmbeddingService: EmbeddingService::batchGenerateEmbeddings(resources.map(r -> r.abstract))
+            activate EmbeddingService
+            EmbeddingService-->>MemoryManager: List<float[]> abstractEmbeddings
+            deactivate EmbeddingService
+
+            Note over MemoryManager: 保存resources（含embedding）
 
             MemoryManager->>ResourceRepository: ResourceRepository::saveAll(resources)
             activate ResourceRepository
@@ -75,15 +83,23 @@ sequenceDiagram
         ContentProcessor-->>MemoryService: List<String> summaries
         deactivate ContentProcessor
 
-        MemoryService->>EmbeddingService: EmbeddingService::batchGenerateEmbeddings(texts)
-        activate EmbeddingService
-        EmbeddingService-->>MemoryService: List<float[]> summaryEmbeddings
-        deactivate EmbeddingService
+        Note over MemoryService: 构建Snippet对象列表（不含embedding）
 
-        MemoryService->>MemoryManager: MemoryManager::createSnippets(requests)
+        MemoryService->>MemoryService: buildSnippets(summaries, memoryTypes, resourceIds)
+
+        MemoryService->>MemoryManager: MemoryManager::saveSnippets(snippets)
         activate MemoryManager
 
-        MemoryManager->>SnippetRepository: SnippetRepository::createAll(requests)
+        Note over MemoryManager: 批量生成embedding
+
+        MemoryManager->>EmbeddingService: EmbeddingService::batchGenerateEmbeddings(snippets.map(s -> s.summary))
+        activate EmbeddingService
+        EmbeddingService-->>MemoryManager: List<float[]> summaryEmbeddings
+        deactivate EmbeddingService
+
+        Note over MemoryManager: 保存snippets（含embedding）
+
+        MemoryManager->>SnippetRepository: SnippetRepository::saveAll(snippets)
         activate SnippetRepository
         SnippetRepository-->>MemoryManager: List<Snippet>
         deactivate SnippetRepository
@@ -103,26 +119,30 @@ sequenceDiagram
         ContentProcessor-->>MemoryService: List<String> updatedSummaries
         deactivate ContentProcessor
 
-        MemoryService->>EmbeddingService: EmbeddingService::batchGenerateEmbeddings(texts)
-        activate EmbeddingService
-        EmbeddingService-->>MemoryService: List<float[]> summaryEmbeddings
-        deactivate EmbeddingService
+        Note over MemoryService: 更新Preferences
 
-        MemoryService->>MemoryManager: MemoryManager::createOrUpdatePreferences(requests)
-        activate MemoryManager
+        loop 对每个preference
+            MemoryService->>MemoryManager: MemoryManager::updatePreferenceSummary(preferenceId, updatedSummary, null)
+            activate MemoryManager
 
-        MemoryManager->>PreferenceRepository: PreferenceRepository::upsertAll(requests)
-        activate PreferenceRepository
-        PreferenceRepository-->>MemoryManager: List<Preference>
-        deactivate PreferenceRepository
+            MemoryManager->>EmbeddingService: EmbeddingService::generateEmbedding(updatedSummary)
+            activate EmbeddingService
+            EmbeddingService-->>MemoryManager: float[] summaryEmbedding
+            deactivate EmbeddingService
 
-        MemoryManager->>VectorStore: VectorStore::bulkInsert("preference_index", vectorDataList)
-        activate VectorStore
-        VectorStore-->>MemoryManager: void
-        deactivate VectorStore
+            MemoryManager->>PreferenceRepository: PreferenceRepository::updateSummaryAndEmbedding(preferenceId, updatedSummary, summaryEmbedding)
+            activate PreferenceRepository
+            PreferenceRepository-->>MemoryManager: void
+            deactivate PreferenceRepository
 
-        MemoryManager-->>MemoryService: List<Preference>
-        deactivate MemoryManager
+            MemoryManager->>VectorStore: VectorStore::update("preference_index", preferenceId, summaryEmbedding, metadata)
+            activate VectorStore
+            VectorStore-->>MemoryManager: void
+            deactivate VectorStore
+
+            MemoryManager-->>MemoryService: void
+            deactivate MemoryManager
+        end
 
         MemoryService-->>Scheduler: ExtractionResult
         deactivate MemoryService

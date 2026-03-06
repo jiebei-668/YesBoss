@@ -1,10 +1,10 @@
-# SnippetSummary生成流程
+# 提取结构化记忆流程
 
 ## 流程说明
 
-本流程描述了如何从对话内容中提取结构化记忆（Snippet）并生成summary。
+本流程描述了如何从Resource中提取结构化记忆（Snippet）。
 
-**v3.0-Final修正**：调用链修正，通过MemoryManager协调。
+**v3.0-Final修正**：调用链修正，通过MemoryManager协调。沿袭memU设计，从Resource中提取特定类型的结构化记忆片段。
 
 ## 时序图
 
@@ -19,44 +19,50 @@ sequenceDiagram
     participant SnippetRepository as SnippetRepository
     participant VectorStore as VectorStore
 
-    MemoryService->>ContentProcessor: ContentProcessor::generateSummary(content, memoryType)
+    Note over MemoryService: 对每个Resource提取结构化记忆
+
+    MemoryService->>ContentProcessor: ContentProcessor::extractStructuredMemories(resourceContent, memoryType)
     activate ContentProcessor
 
-    Note over ContentProcessor: 根据MemoryType构建不同的prompt
+    Note over ContentProcessor: LLM根据MemoryType提取特定类型的结构化记忆片段
 
-    ContentProcessor-->>MemoryService: summary
+    ContentProcessor-->>MemoryService: List<String> structuredMemories
     deactivate ContentProcessor
 
-    Note over MemoryService: 生成向量嵌入
+    Note over MemoryService: 对每个structuredMemory创建Snippet
 
-    MemoryService->>EmbeddingService: EmbeddingService::generateEmbedding(text)
-    activate EmbeddingService
-    EmbeddingService-->>MemoryService: float[] summaryEmbedding
-    deactivate EmbeddingService
+    loop 对每个structuredMemory
+        Note over MemoryService: 构建Snippet对象（不含embedding）
 
-    Note over MemoryService: 创建Snippet请求对象
+        MemoryService->>MemoryService: buildSnippet(structuredMemory, memoryType, resourceId)
 
-    MemoryService->>MemoryService: buildSnippetRequest(summary, memoryType, conversationId, sessionId)
+        MemoryService->>MemoryManager: MemoryManager::saveSnippet(snippet)
+        activate MemoryManager
 
-    MemoryService->>MemoryManager: MemoryManager::createSnippet(request)
-    activate MemoryManager
+        Note over MemoryManager: 生成embedding
 
-    Note over MemoryManager: 创建Snippet对象
+        MemoryManager->>EmbeddingService: EmbeddingService::generateEmbedding(snippet.summary)
+        activate EmbeddingService
+        EmbeddingService-->>MemoryManager: float[] summaryEmbedding
+        deactivate EmbeddingService
 
-    MemoryManager->>SnippetRepository: SnippetRepository::create(request)
-    activate SnippetRepository
-    SnippetRepository-->>MemoryManager: Snippet
-    deactivate SnippetRepository
+        Note over MemoryManager: 保存snippet（含embedding）
 
-    Note over MemoryManager: 存储向量
+        MemoryManager->>SnippetRepository: SnippetRepository::save(snippet)
+        activate SnippetRepository
+        SnippetRepository-->>MemoryManager: Snippet
+        deactivate SnippetRepository
 
-    MemoryManager->>VectorStore: VectorStore::insert("snippet_index", snippetId, summaryEmbedding, metadata)
-    activate VectorStore
-    VectorStore-->>MemoryManager: void
-    deactivate VectorStore
+        Note over MemoryManager: 存储向量
 
-    MemoryManager-->>MemoryService: Snippet
-    deactivate MemoryManager
+        MemoryManager->>VectorStore: VectorStore::insert("snippet_index", snippetId, summaryEmbedding, metadata)
+        activate VectorStore
+        VectorStore-->>MemoryManager: void
+        deactivate VectorStore
+
+        MemoryManager-->>MemoryService: Snippet
+        deactivate MemoryManager
+    end
 ```
 
 ## v3.0-Final关键修正
@@ -68,36 +74,45 @@ sequenceDiagram
 MemoryService → SnippetRepository::create()
 
 // ✅ v3.0-Final（三层协调）
-MemoryService → MemoryManager::createSnippet()
-MemoryManager → SnippetRepository::create()
+MemoryService → MemoryManager::saveSnippet()
+MemoryManager → SnippetRepository::save()
 ```
 
-**理由**：MemoryManager作为三层协调者，应该负责Snippet的创建和向量存储的协调。
+**理由**：MemoryManager作为三层协调者，应该负责Snippet的保存和向量存储的协调。
 
 ### 修正2：明确内部方法
 
 ```
 // ✅ 内部方法用Note说明
-MemoryService->>MemoryService: buildSnippetRequest(summary, memoryType, conversationId, sessionId)
+MemoryService->>MemoryService: buildSnippet(summary, memoryType, conversationId, sessionId)
 ```
 
-**说明**：buildSnippetRequest是MemoryService的内部方法，不是对外接口。
+**说明**：buildSnippet是MemoryService的内部方法，用于构建Snippet对象（不含embedding）。
+
+### 修正3：embedding在MemoryManager中生成
+
+```
+// ✅ v3.0-Final
+MemoryManager → EmbeddingService::generateEmbedding(snippet.summary)
+```
+
+**理由**：embedding生成应该在MemoryManager中进行，与数据持久化保持在一起。
 
 ## 架构说明
 
 ### MemoryManager的作用
 ```java
-// MemoryManager::createSnippet()内部流程
-public Snippet createSnippet(SnippetCreateRequest request) {
-    // 1. 调用SnippetRepository创建Snippet
-    Snippet snippet = snippetRepository.create(request);
-
-    // 2. 向量化并存储
+// MemoryManager::saveSnippet()内部流程
+public Snippet saveSnippet(Snippet snippet) {
+    // 1. 生成embedding
     float[] embedding = embeddingService.generateEmbedding(snippet.getSummary());
-    snippet.setEmbedding(embedding);
+    snippet.setSummaryEmbedding(embedding);
+
+    // 2. 保存Snippet
+    Snippet savedSnippet = snippetRepository.save(snippet);
 
     // 3. 存储向量
-    vectorStore.insert("snippet_index", snippet.getId(), embedding, metadata);
+    vectorStore.insert("snippet_index", savedSnippet.getId(), embedding, metadata);
 
     return snippet;
 }
