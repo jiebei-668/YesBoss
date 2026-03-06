@@ -1,10 +1,15 @@
-# PreferenceSummary更新流程（修正版）
+# PreferenceSummary更新流程
 
 ## 流程说明
 
 本流程描述了如何更新Preference（偏好主题）的summary。
 
-**v3.0-最终修正**：修正了Preference字段和数据结构。
+**核心设计**：
+- Preference是硬编码的，不会动态创建
+- 一个Snippet可以更新多个Preference
+- 使用LLM动态判断Snippet属于哪些硬编码的Preferences（返回ID）
+- 更新时只使用"existing summary + 新snippet"
+- 不需要存储Snippet-Preference关联关系
 
 ## 时序图
 
@@ -13,7 +18,6 @@ sequenceDiagram
     autonumber
 
     participant MemoryService as MemoryService
-    participant SnippetRepository as SnippetRepository
     participant PreferenceRepository as PreferenceRepository
     participant ContentProcessor as ContentProcessor
     participant EmbeddingService as EmbeddingService
@@ -22,150 +26,122 @@ sequenceDiagram
 
     Note over MemoryService: 新Snippet创建完成，触发Preference更新
 
-    MemoryService->>MemoryService: identifyPreferencesForSnippet(newSnippet)
+    Note over MemoryService: 步骤1: LLM识别该Snippet属于哪些硬编码Preference
 
-    alt 存在相关Preference
-        MemoryService->>PreferenceRepository: PreferenceRepository::findByName(preferenceName)
-        activate PreferenceRepository
-        PreferenceRepository-->>MemoryService: Optional<Preference>
-        deactivate PreferenceRepository
+    MemoryService->>ContentProcessor: ContentProcessor::identifyPreferencesForSnippet(snippetSummary, existingPreferences)
+    activate ContentProcessor
 
-        MemoryService->>SnippetRepository: SnippetRepository::findByPreference(preferenceId)
-        activate SnippetRepository
-        SnippetRepository-->>MemoryService: List<Snippet> allSnippets
-        deactivate SnippetRepository
+    Note over ContentProcessor: LLM分析Snippet内容<br/>判断应该关联到哪些现有硬编码Preference<br/>返回Preference ID列表
 
-        MemoryService->>ContentProcessor: ContentProcessor::updatePreferenceSummary(existingSummary, allSnippets)
-        activate ContentProcessor
+    ContentProcessor-->>MemoryService: List<String> preferenceIds
+    deactivate ContentProcessor
 
-        Note over ContentProcessor: 构建聚合prompt
+    Note over MemoryService: 步骤2: 如果没有匹配的Preference，跳过更新
 
-        ContentProcessor-->>MemoryService: updatedSummary
-        deactivate ContentProcessor
+    alt preferenceIds不为空
+        Note over MemoryService: 步骤3: 依次更新每个识别出的Preference
 
-        Note over MemoryService: 生成新的向量嵌入
+        loop 对每个preferenceId
+            MemoryService->>PreferenceRepository: PreferenceRepository::findById(preferenceId)
+            activate PreferenceRepository
+            PreferenceRepository-->>MemoryService: Optional<Preference>
+            deactivate PreferenceRepository
 
-        MemoryService->>EmbeddingService: EmbeddingService::generateEmbedding(text)
-        activate EmbeddingService
-        EmbeddingService-->>MemoryService: float[] summaryEmbedding
-        deactivate EmbeddingService
+            Note over MemoryService: 步骤4: 使用existing summary + 新snippet更新
 
-        Note over MemoryService: 更新Preference
+            MemoryService->>ContentProcessor: ContentProcessor::updatePreferenceSummary(pref.summary, List.of(snippet))
+            activate ContentProcessor
 
-        MemoryService->>MemoryManager: MemoryManager::createOrUpdatePreference(request)
-        activate MemoryManager
+            Note over ContentProcessor: LLM执行merge操作<br/>Update: 用新信息覆盖旧信息<br/>Add: 添加新信息
 
-        Note over MemoryManager: 构建更新请求
+            ContentProcessor-->>MemoryService: updatedSummary
+            deactivate ContentProcessor
 
-        MemoryManager->>PreferenceRepository: PreferenceRepository::upsert(request)
-        activate PreferenceRepository
-        PreferenceRepository-->>MemoryManager: Preference
-        deactivate PreferenceRepository
+            Note over MemoryService: 步骤5: 更新Preference的summary和embedding
 
-        Note over MemoryManager: 更新向量
+            MemoryService->>MemoryManager: MemoryManager::updatePreferenceSummary(preferenceId, updatedSummary, null)
+            activate MemoryManager
 
-        MemoryManager->>VectorStore: VectorStore::insert("preference_index", preferenceId, summaryEmbedding, metadata)
-        activate VectorStore
-        VectorStore-->>MemoryManager: void
-        deactivate VectorStore
+            Note over MemoryManager: 生成embedding
 
-        Note over MemoryManager: 更新统计信息
+            MemoryManager->>EmbeddingService: EmbeddingService::generateEmbedding(updatedSummary)
+            activate EmbeddingService
+            EmbeddingService-->>MemoryManager: float[] summaryEmbedding
+            deactivate EmbeddingService
 
-        MemoryManager->>PreferenceRepository: PreferenceRepository::updateStats(String preferenceId, PreferenceUpdateStatsRequest request)
-        activate PreferenceRepository
-        PreferenceRepository-->>MemoryManager: void
-        deactivate PreferenceRepository
+            MemoryManager->>PreferenceRepository: PreferenceRepository::updateSummaryAndEmbedding(preferenceId, updatedSummary, summaryEmbedding)
+            activate PreferenceRepository
+            PreferenceRepository-->>MemoryManager: void
+            deactivate PreferenceRepository
 
-        MemoryManager-->>MemoryService: Preference
-        deactivate MemoryManager
+            MemoryManager->>VectorStore: VectorStore::update("preference_index", preferenceId, summaryEmbedding, metadata)
+            activate VectorStore
+            VectorStore-->>MemoryManager: void
+            deactivate VectorStore
 
-    else 不存在相关Preference
-        MemoryService->>ContentProcessor: ContentProcessor::generatePreferenceName(newSnippets)
-        activate ContentProcessor
-
-        ContentProcessor-->>MemoryService: preferenceName
-        deactivate ContentProcessor
-
-        MemoryService->>ContentProcessor: ContentProcessor::generateInitialPreferenceSummary(newSnippets)
-        activate ContentProcessor
-
-        ContentProcessor-->>MemoryService: initialSummary
-        deactivate ContentProcessor
-
-        MemoryService->>EmbeddingService: EmbeddingService::generateEmbedding(text)
-        activate EmbeddingService
-        EmbeddingService-->>MemoryService: float[] summaryEmbedding
-        deactivate EmbeddingService
-
-        MemoryService->>MemoryManager: MemoryManager::createOrUpdatePreference(request)
-        activate MemoryManager
-
-        MemoryManager->>PreferenceRepository: PreferenceRepository::upsert(request)
-        activate PreferenceRepository
-        PreferenceRepository-->>MemoryManager: Preference
-        deactivate PreferenceRepository
-
-        MemoryManager->>VectorStore: VectorStore::insert("preference_index", preferenceId, summaryEmbedding, metadata)
-        activate VectorStore
-        VectorStore-->>MemoryManager: void
-        deactivate VectorStore
-
-        MemoryManager-->>MemoryService: Preference
-        deactivate MemoryManager
+            MemoryManager-->>MemoryService: void
+            deactivate MemoryManager
+        end
+    else preferenceIds为空
+        Note over MemoryService: 该Snippet不属于任何硬编码Preference<br/>跳过更新，Snippet仍然被保存
     end
 ```
 
-## v3.0-最终修正
+## 核心设计点
 
-### 修正1：Preference数据结构
+### 1. Preference是硬编码的
+- Preference不是动态创建的
+- 系统启动时预定义所有Preference
+- LLM只能从现有的硬编码Preferences中选择
 
+### 2. Many-to-Many关系（不存储）
+```
+一个Snippet → 多个Preference
+一个Preference → 多个Snippet
+
+通过LLM动态判断，不存储关联关系
+```
+
+### 3. LLM返回ID而不是名称
 ```java
-// v3.0文档中的正确字段
-public class Preference {
-    private String id;
-    private String name;
-    private String description;
-    private String summary;
-    private float[] embedding;
-    private int snippetCount;
-    private double totalImportance;      // ⭐ 使用totalImportance
-    private double averageImportance;   // ⭐ 使用averageImportance
-    private long lastAccessTime;
-    // ...
-}
+// LLM返回ID（唯一确定，不会出错）
+List<String> preferenceIds = contentProcessor.identifyPreferencesForSnippet(
+    snippet.getSummary(),
+    allPreferences  // 传入所有硬编码的preferences（id、name、summary）
+);
+
+// 直接用ID查找
+Preference pref = preferenceRepository.findById(preferenceId).get();
 ```
 
-**修正**：时序图中应使用totalImportance/averageImportance，而不是单一的importance。
-
-### 修正2：PreferenceCreateRequest字段
-
+### 4. 增量更新（只传新的）
 ```java
-// v3.0文档中的定义
-public class PreferenceCreateRequest {
-    private String name;
-    private String description;
-    private Map<String, Object> metadata;
-}
+// 更新时只传入新的snippet
+String updatedSummary = contentProcessor.updatePreferenceSummary(
+    pref.getSummary(),      // existing summary
+    List.of(snippet)        // 新的snippet（只有1个）
+);
 ```
 
-**说明**：时序图中不应该包含summary、embedding、snippetIds、importance等字段，这些字段应该在创建时由系统自动生成，而不是在请求中传入。
+### 5. 不创建新Preference
+- 如果snippet不属于任何硬编码Preference，就不更新任何Preference
+- Snippet仍然被保存，只是不触发Preference更新
+- 没有"创建新Preference"的逻辑
 
-### 修正3：创建流程
-
-```
-// ✅ 正确的创建流程
-1. 通过ContentProcessor生成name
-2. 通过ContentProcessor生成initialSummary
-3. 通过EmbeddingService生成embedding
-4. 创建PreferenceCreateRequest(name, description, metadata)
-5. 调用MemoryManager::createOrUpdatePreference()
-```
+### 6. 不需要关联表
+- ❌ 不需要snippet_preference关联表
+- ❌ 不需要在Snippet.metadata中存储linkedPreferences
+- ✅ 只在创建时用LLM判断，更新完成后结束
 
 ## 符合度评估
 
 | 项目 | 状态 |
 |------|------|
-| Preference数据结构 | ✅ 已修正 |
-| PreferenceCreateRequest | ✅ 已澄清 |
-| 所有接口方法 | ✅ 100% |
+| Preference硬编码 | ✅ 是 |
+| LLM返回ID | ✅ 返回preferenceId |
+| Many-to-Many关系 | ✅ 支持（通过LLM判断） |
+| LLM动态识别 | ✅ 实现 |
+| 增量更新 | ✅ 只用新的snippet |
+| 不存储关联 | ✅ 不需要关联表 |
+| 不创建新Preference | ✅ 移除创建逻辑 |
 | **整体符合度** | **✅ 100%** |
