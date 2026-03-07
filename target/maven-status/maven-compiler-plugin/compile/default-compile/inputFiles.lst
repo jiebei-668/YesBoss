@@ -42,6 +42,8 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/im/IMMessagePusher.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/executor/impl/WebhookEventExecutorImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/PreferenceRepository.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/model/Preference.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ClaudeLlmClient.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/ToolRegistry.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/health/HealthCheckService.java
@@ -78,6 +80,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/config/ConfigLoader.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/YesBossApplication.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/PreferenceRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/SuspendResumeEngine.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/VectorStoreException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteMessagesEvent.java

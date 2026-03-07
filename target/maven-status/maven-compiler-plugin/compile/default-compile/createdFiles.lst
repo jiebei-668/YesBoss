@@ -70,6 +70,7 @@ tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
 tech/yesboss/config/ConfigLoader$ConfigLoadException.class
 tech/yesboss/runner/AgentRunner.class
 tech/yesboss/config/YesBossConfig$SQLiteConfig.class
+tech/yesboss/memory/model/Preference$Builder.class
 tech/yesboss/memory/repository/ResourceRepository.class
 tech/yesboss/llm/VendorSdkAdapter.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatResponse.class
@@ -94,6 +95,7 @@ tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$2.class
 tech/yesboss/memory/repository/ResourceRepositoryImpl.class
 tech/yesboss/config/YesBossConfig$SlackConfig.class
 tech/yesboss/persistence/entity/TaskSession$Status.class
+tech/yesboss/memory/repository/PreferenceRepository.class
 tech/yesboss/llm/impl/ZhipuLlmClient$Function.class
 tech/yesboss/domain/message/UnifiedMessage$ToolCall.class
 tech/yesboss/tool/sandbox/SandboxInterceptor.class
@@ -127,7 +129,9 @@ tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.class
 tech/yesboss/safeguard/impl/CircuitBreakerImpl.class
 tech/yesboss/health/HealthCheckService.class
 tech/yesboss/safeguard/impl/SuspendResumeEngineImpl$SuspensionContext.class
+tech/yesboss/memory/model/Preference.class
 tech/yesboss/domain/message/UnifiedMessage$ToolResult.class
+tech/yesboss/memory/repository/PreferenceRepositoryImpl.class
 tech/yesboss/memory/vectorstore/VectorStoreFactory$1.class
 tech/yesboss/domain/message/UnifiedMessage$PayloadFormat.class
 tech/yesboss/persistence/repository/TaskSessionRepository.class
