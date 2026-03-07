@@ -6881,3 +6881,138 @@ File Location: src/test/java/tech/yesboss/memory/migration/DataMigrationToolTest
 ================================================================================
 Task 45 completed successfully
 ================================================================================
+
+================================================================================
+Task Execution Report: Task 46 - 性能监控指标
+Date: 2026-03-08
+Status: SUCCESS
+================================================================================
+
+Implementation Complete:
+- Created MemoryMetrics.java (Interface)
+- Created MemoryMetricsImpl.java (Implementation)
+- Created MemoryMetricsConfig.java (Configuration management)
+- Created MemoryMetricsFactory.java (Factory for creating instances)
+- Created MemoryMetricsException.java (Exception handling)
+
+Interface Definition (Step 1):
+✓ Method signatures for all metric categories:
+  - Resource operations (save, query)
+  - Snippet operations (save, extract)
+  - Preference operations (save, update)
+  - Cache metrics (hits, misses, evictions)
+  - Database metrics (queries, transactions, connections)
+  - Vector store metrics (insert, search, update, delete)
+  - LLM metrics (calls, retries, tokens)
+  - Error metrics (by category and type)
+
+Core Functionality (Step 2):
+✓ Thread-safe metric collection using LongAdder and AtomicLong
+✓ Performance timing tracking (min, max, average)
+✓ Success/failure rate calculation
+✓ Result count tracking
+✓ Token usage tracking
+
+Data Validation (Step 3):
+✓ Null checks for all record methods
+✓ Enabled flag check before recording metrics
+✓ Performance and error tracking flags honored
+
+Configuration Management (Step 4):
+✓ MemoryMetricsConfig with builder pattern
+✓ Support for loading from Map (for application-memory.yml integration)
+✓ Default values and overrides
+✓ Performance thresholds for alerting
+✓ Batch processing configuration
+
+Error Handling (Step 5):
+✓ MemoryMetricsException with error types:
+  - CONFIGURATION_ERROR
+  - COLLECTION_ERROR
+  - EXPORT_ERROR
+  - INITIALIZATION_ERROR
+  - VALIDATION_ERROR
+  - TIMEOUT_ERROR
+✓ Static factory methods for common error scenarios
+✓ Proper exception chaining
+
+Performance Optimization (Step 6):
+✓ Thread-safe concurrent data structures (ConcurrentHashMap)
+✓ Lock-free counters (LongAdder)
+✓ Atomic updates for min/max values
+✓ Efficient snapshot generation
+✓ Minimal overhead when metrics disabled
+
+Monitoring Metrics (Step 7):
+✓ Operation timing (min, max, avg for all operations)
+✓ Success/failure rates
+✓ Cache hit/miss rates
+✓ Database query performance by type
+✓ Vector store operation metrics
+✓ LLM call metrics with token tracking
+✓ Error tracking by category and type
+✓ getSnapshot() - returns Map<String, Object> with all metrics
+✓ getSnapshotAsJson() - returns JSON-formatted metrics
+✓ getSummary() - returns human-readable summary
+
+Additional Features:
+✓ Factory pattern for singleton/instance management
+✓ Named metrics instances for different contexts
+✓ Hot reload support for configuration changes
+✓ Reset functionality for all metrics
+✓ JSON serialization support
+✓ Comprehensive JavaDoc documentation
+
+Files Created:
+- src/main/java/tech/yesboss/memory/metrics/MemoryMetrics.java
+- src/main/java/tech/yesboss/memory/metrics/MemoryMetricsImpl.java
+- src/main/java/tech/yesboss/memory/metrics/MemoryMetricsConfig.java
+- src/main/java/tech/yesboss/memory/metrics/MemoryMetricsFactory.java
+- src/main/java/tech/yesboss/memory/metrics/MemoryMetricsException.java
+
+Key Metrics Tracked:
+1. Resource Operations:
+   - Save: count, success rate, timing
+   - Query: count, success rate, result count, timing
+
+2. Snippet Operations:
+   - Save: count, success rate, timing
+   - Extraction: count, success rate, snippet count, timing
+
+3. Preference Operations:
+   - Save: count, success rate, timing
+   - Update: count, success rate, timing
+
+4. Cache Metrics:
+   - Hit rate, miss count, evictions
+   - Refresh timing
+
+5. Database Metrics:
+   - Query performance by type (SELECT, INSERT, UPDATE, DELETE)
+   - Connection pool usage
+   - Transaction performance
+
+6. Vector Store Metrics:
+   - Insert: count, timing, vector count
+   - Search: count, timing, result count
+   - Update/Delete: count, timing, success rate
+
+7. LLM Metrics:
+   - Call count, success rate, timing
+   - Token usage
+   - Retry count
+
+8. Error Metrics:
+   - Error counts by category:operation
+   - Error rate tracking
+
+Design Patterns:
+- Interface-Implementation separation
+- Builder pattern for configuration
+- Factory pattern for instance creation
+- Singleton pattern for default instance
+- Static factory methods for exceptions
+
+================================================================================
+Task 46 completed successfully
+================================================================================

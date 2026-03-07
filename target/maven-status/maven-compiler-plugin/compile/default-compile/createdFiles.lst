@@ -18,6 +18,7 @@ tech/yesboss/memory/processor/ZhipuContentProcessorImpl.class
 tech/yesboss/domain/message/UnifiedMessage$Role.class
 tech/yesboss/memory/api/MemoryController$SemanticSearchRequest.class
 tech/yesboss/runner/impl/MasterRunnerImpl.class
+tech/yesboss/memory/metrics/MemoryMetrics.class
 tech/yesboss/memory/migration/DataMigrationTool$MigrationConfig.class
 tech/yesboss/memory/service/MemoryService$BatchEmbeddingRequest.class
 tech/yesboss/config/YesBossConfig$SchedulerConfig.class
@@ -32,10 +33,13 @@ tech/yesboss/runner/impl/WorkerRunnerImpl.class
 tech/yesboss/memory/vectorstore/VectorStoreException.class
 tech/yesboss/persistence/entity/TaskSession$ImType.class
 tech/yesboss/gateway/ui/UICardRenderer.class
+tech/yesboss/memory/metrics/MemoryMetricsFactory.class
 tech/yesboss/memory/api/MemoryApiException$ErrorCode.class
 tech/yesboss/tool/mcp/McpToolAdapter.class
 tech/yesboss/health/HealthCheckService$HealthStatus.class
 tech/yesboss/memory/model/MemoryChain.class
+tech/yesboss/memory/metrics/MemoryMetricsImpl.class
+tech/yesboss/memory/metrics/MemoryMetricsException.class
 tech/yesboss/context/StreamType.class
 tech/yesboss/memory/manager/MemoryManagerImpl.class
 tech/yesboss/config/YesBossConfig$LlmConfig.class
@@ -56,6 +60,7 @@ tech/yesboss/memory/embedding/EmbeddingException.class
 tech/yesboss/persistence/repository/ToolExecutionRepository.class
 tech/yesboss/memory/processor/ContentProcessor.class
 tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
+tech/yesboss/memory/metrics/MemoryMetricsException$ErrorType.class
 tech/yesboss/runner/AgentRunner.class
 tech/yesboss/memory/repository/ResourceRepository.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatResponse.class
@@ -148,6 +153,7 @@ tech/yesboss/ApplicationContext.class
 tech/yesboss/llm/impl/ZhipuLlmClient.class
 tech/yesboss/config/YesBossConfig$DatabaseConfig.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent.class
+tech/yesboss/memory/metrics/MemoryMetricsConfig.class
 tech/yesboss/gateway/webhook/controller/WebhookController.class
 tech/yesboss/memory/model/Snippet.class
 tech/yesboss/llm/LlmClient.class
@@ -157,6 +163,7 @@ tech/yesboss/memory/migration/DataMigrationException.class
 tech/yesboss/memory/service/MemoryService$BatchEmbeddingResult.class
 tech/yesboss/persistence/event/InsertToolExecutionLogEvent.class
 tech/yesboss/runner/MasterRunner.class
+tech/yesboss/memory/metrics/MemoryMetricsConfig$Builder.class
 tech/yesboss/memory/embedding/ZhipuEmbeddingServiceImpl$Usage.class
 tech/yesboss/llm/impl/ClaudeLlmClient.class
 tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.class
