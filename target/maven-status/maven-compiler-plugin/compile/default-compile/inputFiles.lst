@@ -11,6 +11,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/controller/WebhookController.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/state/TaskManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/impl/WorkerRunnerImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/VectorStoreFactory.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/SQLiteConnectionManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ToolExecutionRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/tracker/ToolCallTracker.java
@@ -59,8 +60,10 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/planning/PlanningTool.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/CircuitBreakerOpenException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/LocalStreamManager.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/VectorStore.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ModelRouter.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/SQLiteVecStore.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/ToolExecutionLog.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/im/impl/IMMessagePusherImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/TaskSessionRepository.java
@@ -70,6 +73,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/config/ConfigLoader.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/YesBossApplication.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/SuspendResumeEngine.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/VectorStoreException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteMessagesEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/ToolAccessLevel.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/mcp/McpToolAdapter.java

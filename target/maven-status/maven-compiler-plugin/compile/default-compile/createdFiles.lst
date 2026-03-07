@@ -1,6 +1,7 @@
 tech/yesboss/safeguard/CircuitBreaker.class
 tech/yesboss/context/engine/CondensationEngine.class
 tech/yesboss/config/YesBossConfig$ServerConfig.class
+tech/yesboss/memory/vectorstore/VectorStoreException$ErrorCodes.class
 tech/yesboss/config/YesBossConfig$ConsoleLogConfig.class
 tech/yesboss/gateway/im/IMMessagePusher.class
 tech/yesboss/config/YesBossConfig$AppConfig.class
@@ -9,6 +10,7 @@ tech/yesboss/persistence/event/DeleteTaskSessionEvent.class
 tech/yesboss/persistence/event/InsertMessageEvent$StreamType.class
 tech/yesboss/config/YesBossConfig$CircuitBreakerConfig.class
 tech/yesboss/config/YesBossConfig$AnthropicConfig.class
+tech/yesboss/memory/vectorstore/SQLiteVecStore.class
 tech/yesboss/persistence/entity/ToolExecutionLog.class
 tech/yesboss/config/ConfigurationManager.class
 tech/yesboss/config/YesBossConfig$ThreadPoolConfig.class
@@ -34,6 +36,7 @@ tech/yesboss/llm/impl/ZhipuLlmClient$ToolCall.class
 tech/yesboss/YesBossApplication.class
 tech/yesboss/config/YesBossConfig$FileLogConfig.class
 tech/yesboss/runner/impl/WorkerRunnerImpl.class
+tech/yesboss/memory/vectorstore/VectorStoreException.class
 tech/yesboss/persistence/entity/TaskSession$ImType.class
 tech/yesboss/gateway/ui/UICardRenderer.class
 tech/yesboss/tool/mcp/McpToolAdapter.class
@@ -51,6 +54,7 @@ tech/yesboss/persistence/repository/ChatMessageRepository.class
 tech/yesboss/config/YesBossConfig$ImConfig.class
 tech/yesboss/gateway/webhook/route/WebhookRouteHandler.class
 tech/yesboss/session/impl/SessionManagerImpl.class
+tech/yesboss/memory/vectorstore/VectorStore.class
 tech/yesboss/safeguard/SuspendResumeEngine.class
 tech/yesboss/gateway/webhook/executor/impl/WebhookEventExecutorImpl.class
 tech/yesboss/config/YesBossConfig$CondensationConfig.class
@@ -98,11 +102,13 @@ tech/yesboss/config/YesBossConfig$LoggingConfig.class
 tech/yesboss/config/ConfigLoader$EnvironmentResolver.class
 tech/yesboss/tool/SuspendExecutionException.class
 tech/yesboss/config/YesBossConfig$WebhookConfig.class
+tech/yesboss/memory/vectorstore/VectorStore$SearchResult.class
 tech/yesboss/config/YesBossConfig$GeminiConfig.class
 tech/yesboss/llm/impl/ModelRouter.class
 tech/yesboss/config/YesBossConfig$ComponentLogConfig.class
 tech/yesboss/llm/impl/ZhipuLlmClient$1.class
 tech/yesboss/tool/registry/impl/ToolRegistryImpl.class
+tech/yesboss/memory/vectorstore/VectorStoreFactory.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatMessage.class
 tech/yesboss/persistence/db/SingleThreadDbWriter.class
@@ -116,6 +122,7 @@ tech/yesboss/safeguard/impl/CircuitBreakerImpl.class
 tech/yesboss/health/HealthCheckService.class
 tech/yesboss/safeguard/impl/SuspendResumeEngineImpl$SuspensionContext.class
 tech/yesboss/domain/message/UnifiedMessage$ToolResult.class
+tech/yesboss/memory/vectorstore/VectorStoreFactory$1.class
 tech/yesboss/domain/message/UnifiedMessage$PayloadFormat.class
 tech/yesboss/persistence/repository/TaskSessionRepository.class
 tech/yesboss/persistence/db/DatabaseInitializer.class
@@ -123,6 +130,7 @@ tech/yesboss/tool/ToolAccessLevel.class
 tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.class
 tech/yesboss/state/impl/TaskManagerImpl.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatChoice.class
+tech/yesboss/memory/vectorstore/VectorStoreFactory$VectorStoreType.class
 tech/yesboss/config/YesBossConfig$ModelConfig.class
 tech/yesboss/persistence/db/SingleThreadDbWriter$SyncRequestWrapper.class
 tech/yesboss/config/YesBossConfig.class
