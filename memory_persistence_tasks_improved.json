@@ -927,7 +927,7 @@
       "docs_memory/时序图3.0/06-Interval触发批量处理.md"
     ],
     "requires_human_intervention": false,
-    "passes": false
+    "passes": true
   },
   {
     "category": "unit_test",

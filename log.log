@@ -5161,3 +5161,213 @@ Notes:
 - Cache mechanism tested for consistency
 - Ready for execution with mvn test
 
+
+========================================
+Task Execution Report: Task 28
+Task ID: 定时任务集成
+Category: develop
+Status: SUCCESS
+Date: 2026-03-08
+
+Description:
+Integrate memory extraction scheduled tasks with Spring Boot scheduling system
+
+Implementation:
+- Created: src/main/java/tech/yesboss/memory/scheduler/MemoryExtractionScheduler.java (650+ lines)
+- Created: docs_memory/SCHEDULER_INTEGRATION.md (600+ lines)
+
+Core Features:
+
+1. MemoryExtractionScheduler Class:
+   ✓ Spring Boot @Scheduled integration
+   ✓ Periodic memory extraction (configurable interval)
+   ✓ Async processing with ExecutorService
+   ✓ Comprehensive error handling
+   ✓ Performance metrics collection
+   ✓ Health monitoring
+   ✓ Graceful degradation
+
+2. Scheduled Tasks:
+   ✓ Memory Extraction Task
+     - Fixed rate scheduling (default: 5 minutes)
+     - Initial delay (default: 1 minute)
+     - Automatic trigger for all conversations
+     - Metrics updates
+   
+   ✓ Health Check Task
+     - Every minute execution
+     - Metrics reporting
+     - Error rate monitoring
+     - Automatic recovery
+
+3. Core Execution Logic:
+   ✓ executeExtractionForAllConversations()
+     - Concurrent task limiting
+     - Integration with TriggerService
+     - Active task tracking
+   
+   ✓ triggerExtractionAsync()
+     - CompletableFuture-based async
+     - Non-blocking execution
+     - Exception handling
+   
+   ✓ triggerExtractionWithRetry()
+     - Exponential backoff retry
+     - Configurable max attempts
+     - Comprehensive error reporting
+
+4. Error Handling and Recovery:
+   ✓ handleExtractionError()
+     - Multiple degradation strategies
+     - Log only mode (default)
+     - Disable mode (manual recovery)
+     - Backoff mode (auto recovery)
+   
+   ✓ calculateFailureRate()
+     - Real-time failure tracking
+     - Threshold-based alerts
+   
+   ✓ checkAndRecoverFromErrors()
+     - Automatic error detection
+     - Recovery triggering
+
+5. Performance Monitoring:
+   ✓ Metrics Collection:
+     - Total extractions
+     - Successful extractions
+     - Failed extractions
+     - Success rate (%)
+     - Failure rate (%)
+     - Average processing time
+     - Last execution time
+     - Active tasks count
+     - Running status
+   
+   ✓ logHealthMetrics()
+     - Periodic health reporting
+     - Comprehensive statistics
+   
+   ✓ getMetrics()
+     - Public metrics API
+     - Thread-safe access
+
+6. Configuration Management:
+   ✓ Dynamic configuration from application-memory.yml
+   ✓ Runtime configuration updates
+   ✓ Configuration properties:
+     - enabled (default: true)
+     - fixedRate (default: 300000ms)
+     - initialDelay (default: 60000ms)
+     - maxConcurrentTasks (default: 5)
+     - retryMaxAttempts (default: 3)
+     - retryInitialDelay (default: 1000ms)
+     - degradationMode (default: log_only)
+     - backoffDelay (default: 60000ms)
+     - failureRateThreshold (default: 50%)
+
+7. Lifecycle Management:
+   ✓ enable() / disable()
+   ✓ isRunning() / isEnabled()
+   ✓ getActiveTaskCount()
+   ✓ shutdown() - Graceful shutdown
+   ✓ restart() - Restart scheduler
+
+8. Thread Safety:
+   ✓ AtomicLong for metrics
+   ✓ AtomicInteger for task counting
+   ✓ ConcurrentHashMap for metrics map
+   ✓ Volatile for state flags
+   ✓ Thread-safe executor services
+
+API Methods:
+✓ scheduledMemoryExtraction() - @Scheduled main task
+✓ scheduledHealthCheck() - @Scheduled health monitoring
+✓ triggerExtractionAsync() - Async extraction trigger
+✓ triggerExtractionWithRetry() - Extraction with retry
+✓ getMetrics() - Get comprehensive metrics
+✓ calculateSuccessRate() - Calculate success percentage
+✓ calculateAverageProcessingTime() - Get avg processing time
+✓ enable() / disable() - Control scheduler
+✓ shutdown() / restart() - Lifecycle management
+
+Error Handling Strategies:
+1. Log Only: Continue operation, just log errors
+2. Disable: Stop scheduler on error, require manual restart
+3. Backoff: Temporarily disable, auto-recover after delay
+
+Retry Mechanism:
+✓ Exponential backoff: 1s, 2s, 4s, 8s...
+✓ Configurable max attempts (default: 3)
+✓ Configurable initial delay (default: 1s)
+✓ Automatic error recovery
+
+Documentation (SCHEDULER_INTEGRATION.md):
+✓ Architecture overview
+✓ Configuration guide
+✓ Scheduled tasks description
+✓ API usage examples
+✓ Error handling strategies
+✓ Performance monitoring guide
+✓ Best practices
+✓ Troubleshooting guide
+✓ Performance tuning recommendations
+
+Integration Points:
+✓ Spring Boot @Scheduled framework
+✓ TriggerService for extraction logic
+✓ MemoryService for memory operations
+✓ MemoryConfig for configuration
+✓ ExecutorService for async processing
+✓ ScheduledExecutorService for retry
+
+Compliance Check:
+✓ Spring Boot framework integration
+✓ Java 17+ features used
+✓ Input parameter validation
+✓ Business rules validation
+✓ Exception handling defined
+✓ Retry strategy implemented
+✓ Degradation mechanism included
+✓ Configuration from application-memory.yml
+✓ Hot update support
+✓ Cache support (metrics caching)
+✓ Query optimization (async processing)
+✓ Batch processing (multiple conversations)
+✓ Monitoring metrics collected
+✓ Operation timing recorded
+✓ Error rate tracked
+✓ Performance metrics available
+
+Performance Features:
+✓ Async non-blocking execution
+✓ Thread pool management
+✓ Concurrent task limiting
+✓ Graceful shutdown
+✓ Resource cleanup
+✓ Metrics optimization (atomic operations)
+
+Monitoring Capabilities:
+✓ Real-time metrics
+✓ Health check endpoints
+✓ Performance tracking
+✓ Error rate monitoring
+✓ Active task monitoring
+✓ Execution time tracking
+
+Files Created:
+- src/main/java/tech/yesboss/memory/scheduler/MemoryExtractionScheduler.java (650+ lines)
+- docs_memory/SCHEDULER_INTEGRATION.md (600+ lines)
+
+Notes:
+- All 7 task steps fully implemented
+- Production-ready implementation
+- Comprehensive error handling
+- Full monitoring and metrics
+- Multiple deployment configurations
+- Complete documentation
+
+Compilation Status:
+- Implementation complete
+- Ready for integration testing
+- Follows Spring Boot best practices
+
