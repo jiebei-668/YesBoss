@@ -9,6 +9,7 @@ tech/yesboss/health/MetricsCollector.class
 tech/yesboss/persistence/event/DeleteTaskSessionEvent.class
 tech/yesboss/persistence/event/InsertMessageEvent$StreamType.class
 tech/yesboss/config/YesBossConfig$CircuitBreakerConfig.class
+tech/yesboss/memory/model/Snippet$MemoryType.class
 tech/yesboss/config/YesBossConfig$AnthropicConfig.class
 tech/yesboss/memory/vectorstore/SQLiteVecStore.class
 tech/yesboss/persistence/entity/ToolExecutionLog.class
@@ -27,6 +28,7 @@ tech/yesboss/config/YesBossConfig$DatabaseConfig.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent.class
 tech/yesboss/runner/impl/MasterRunnerImpl.class
 tech/yesboss/gateway/webhook/controller/WebhookController.class
+tech/yesboss/memory/model/Snippet.class
 tech/yesboss/llm/LlmClient.class
 tech/yesboss/config/YesBossConfig$SchedulerConfig.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$1.class
@@ -71,6 +73,7 @@ tech/yesboss/config/YesBossConfig$SQLiteConfig.class
 tech/yesboss/memory/repository/ResourceRepository.class
 tech/yesboss/llm/VendorSdkAdapter.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatResponse.class
+tech/yesboss/memory/repository/SnippetRepositoryImpl.class
 tech/yesboss/session/SessionManager.class
 tech/yesboss/persistence/repository/TaskSessionRepositoryImpl.class
 tech/yesboss/persistence/event/DeleteMessagesEvent.class
@@ -102,6 +105,7 @@ tech/yesboss/state/TaskManager.class
 tech/yesboss/config/ConfigLoader.class
 tech/yesboss/config/YesBossConfig$LoggingConfig.class
 tech/yesboss/config/ConfigLoader$EnvironmentResolver.class
+tech/yesboss/memory/model/Snippet$Builder.class
 tech/yesboss/tool/SuspendExecutionException.class
 tech/yesboss/config/YesBossConfig$WebhookConfig.class
 tech/yesboss/memory/vectorstore/VectorStore$SearchResult.class
@@ -133,6 +137,7 @@ tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.class
 tech/yesboss/state/impl/TaskManagerImpl.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatChoice.class
 tech/yesboss/memory/vectorstore/VectorStoreFactory$VectorStoreType.class
+tech/yesboss/memory/repository/SnippetRepository.class
 tech/yesboss/memory/model/Resource$Builder.class
 tech/yesboss/memory/model/Resource.class
 tech/yesboss/config/YesBossConfig$ModelConfig.class
