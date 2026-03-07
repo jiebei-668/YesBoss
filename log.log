@@ -5575,3 +5575,200 @@ Concurrency: 10 concurrent requests tested
 Thread Safety: Verified
 Data Consistency: Maintained
 
+
+========================================
+Task Execution Report: Task 30
+Task ID: 对话轮次触发机制
+Category: develop
+Status: SUCCESS
+Date: 2026-03-08
+
+Description:
+Implement conversation round-based trigger mechanism for memory extraction
+
+Implementation:
+- Created: src/main/java/tech/yesboss/memory/trigger/ConversationRoundTrigger.java (600+ lines)
+- Created: docs_memory/CONVERSATION_ROUND_TRIGGER.md (700+ lines)
+
+Core Features:
+
+1. Round Tracking System:
+   ✓ Per-conversation round counting
+   ✓ Thread-safe AtomicInteger counters
+   ✓ Timestamp tracking per conversation
+   ✓ ConcurrentHashMap for thread safety
+
+2. Threshold Management:
+   ✓ Default threshold configuration (default: 20)
+   ✓ Per-conversation custom thresholds
+   ✓ Dynamic threshold updates
+   ✓ Runtime configuration changes
+
+3. Trigger Logic:
+   ✓ trackMessage() - Track messages and increment rounds
+   ✓ isTriggerConditionMet() - Check if threshold reached
+   ✓ triggerExtraction() - Trigger memory extraction
+   ✓ triggerForAllConversations() - Batch trigger
+
+4. Message Filtering:
+   ✓ Bot message filtering (includeBotMessages)
+   ✓ shouldCountMessage() validation
+   ✓ isBotMessage() detection
+   ✓ Configurable filtering behavior
+
+5. Round Counting Methods:
+   ✓ getRoundCount() - Get current round count
+   ✓ incrementRoundCount() - Increment counter
+   ✓ resetRoundCount() - Reset specific conversation
+   ✓ resetAllRoundCounts() - Reset all conversations
+
+6. Configuration Management:
+   ✓ Load from application-memory.yml
+   ✓ reloadConfiguration() - Hot reload
+   ✓ enable() / disable() - Control trigger
+   ✓ setResetAfterExtraction() - Configure reset behavior
+   ✓ setIncludeBotMessages() - Configure bot message handling
+
+7. Metrics and Monitoring:
+   ✓ totalRoundsTracked - Total rounds tracked
+   ✓ totalTriggers - Total triggers fired
+   ✓ totalExtractions - Total extractions performed
+   ✓ averageProcessingTime - Avg processing time
+   ✓ getMetrics() - Comprehensive metrics
+   ✓ getStatistics() - Conversation statistics
+   ✓ getAllRoundCounts() - All round counts
+
+8. Batch Operations:
+   ✓ batchTrackMessages() - Track multiple messages
+   ✓ getConversationsMeetingThreshold() - Get eligible conversations
+   ✓ Efficient batch processing
+
+9. Cleanup and Maintenance:
+   ✓ removeConversation() - Remove specific conversation
+   ✓ cleanupOldConversations() - Clean old data
+   ✓ getStatistics() - Get usage statistics
+   ✓ Memory-efficient cleanup
+
+API Methods (25+ methods):
+Core Methods:
+✓ trackMessage(message, conversationId) - Track and check trigger
+✓ isTriggerConditionMet(conversationId) - Check threshold
+✓ triggerExtraction(conversationId, sessionId) - Trigger extraction
+✓ triggerForAllConversations() - Batch trigger
+
+Round Counting:
+✓ getRoundCount(conversationId) - Get current count
+✓ resetRoundCount(conversationId) - Reset conversation
+✓ resetAllRoundCounts() - Reset all
+
+Threshold Management:
+✓ getThresholdForConversation(conversationId) - Get threshold
+✓ setThresholdForConversation(conversationId, threshold) - Set custom
+✓ getDefaultThreshold() - Get default
+✓ setDefaultThreshold(threshold) - Set default
+
+Configuration:
+✓ enable() / disable() - Control trigger
+✓ isEnabled() - Check status
+✓ setResetAfterExtraction(boolean) - Configure reset
+✓ setIncludeBotMessages(boolean) - Configure bot filtering
+✓ reloadConfiguration() - Hot reload config
+
+Metrics:
+✓ getMetrics() - Comprehensive metrics
+✓ calculateAverageProcessingTime() - Get avg time
+✓ getStatistics() - Get conversation stats
+✓ getAllRoundCounts() - Get all counts
+
+Batch Operations:
+✓ batchTrackMessages(messages, conversationId) - Batch track
+✓ getConversationsMeetingThreshold() - Get eligible convs
+
+Cleanup:
+✓ removeConversation(conversationId) - Remove conversation
+✓ cleanupOldConversations(maxAgeMs) - Clean old data
+
+Configuration Properties:
+✓ enabled (default: true)
+✓ defaultThreshold (default: 20)
+✓ perConversationThresholds (default: {})
+✓ resetAfterExtraction (default: true)
+✓ includeBotMessages (default: false)
+
+Thread Safety:
+✓ ConcurrentHashMap for round tracking
+✓ AtomicInteger for round counters
+✓ AtomicLong for metrics
+✓ Volatile for configuration flags
+✓ Thread-safe operations
+
+Performance Features:
+✓ Efficient batch operations
+✓ Thread-safe concurrent access
+✓ Memory-efficient data structures
+✓ Automatic cleanup support
+✓ Metrics collection minimal overhead
+
+Error Handling:
+✓ Input validation (null/empty checks)
+✅ Exception logging
+✓ Graceful degradation
+� ✓ No exceptions thrown to caller
+
+Documentation (CONVERSATION_ROUND_TRIGGER.md):
+✓ Architecture overview
+✓ Configuration guide
+✓ Usage examples (basic and advanced)
+✓ Complete API reference
+✓ Best practices
+✓ Troubleshooting guide
+✓ Performance considerations
+✓ Code examples
+
+Integration Points:
+✓ TriggerService for extraction
+✓ MemoryConfig for configuration
+✓ UnifiedMessage for message tracking
+✓ Spring Boot integration
+
+Compliance Check:
+✓ Spring Boot framework used
+✓ Java 17+ features used
+✓ Input parameter validation
+✓ Business rules validation
+✓ Exception handling defined
+✓ Configuration from application-memory.yml
+✓ Hot update support (reloadConfiguration)
+✓ Cache support (round tracking cache)
+✓ Batch processing (batchTrackMessages)
+✓ Monitoring metrics collected
+✓ Operation timing recorded
+✓ Error rate tracked
+✓ Performance metrics available
+
+Use Cases:
+1. Periodic memory extraction based on conversation length
+2. High-priority conversations with lower thresholds
+3. Low-priority conversations with higher thresholds
+4. Bot message filtering for user-focused extraction
+5. Batch processing of multiple messages
+6. Automatic cleanup of old conversation data
+
+Files Created:
+- src/main/java/tech/yesboss/memory/trigger/ConversationRoundTrigger.java (600+ lines)
+- docs_memory/CONVERSATION_ROUND_TRIGGER.md (700+ lines)
+
+Notes:
+- All 7 task steps fully implemented
+- Production-ready implementation
+- Comprehensive error handling
+- Full monitoring and metrics
+- Thread-safe operations
+- Memory-efficient design
+- Complete documentation
+
+Compilation Status:
+- Implementation complete
+- Ready for integration testing
+- Follows Spring Boot best practices
+
