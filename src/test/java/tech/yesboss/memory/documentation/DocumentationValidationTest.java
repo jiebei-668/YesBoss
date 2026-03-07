@@ -328,9 +328,9 @@ class DocumentationValidationTest {
             String content = Files.readString(Path.of(filePath));
 
             // Check for consistent heading hierarchy (no jumps from h1 to h3)
-            Pattern h1 = Pattern.compile("^# [^#]"));
-            Pattern h2 = Pattern.compile("^## [^#]"));
-            Pattern h3 = Pattern.compile("^### [^#]"));
+            Pattern h1 = Pattern.compile("^# [^#]");
+            Pattern h2 = Pattern.compile("^## [^#]");
+            Pattern h3 = Pattern.compile("^### [^#]");
 
             // Should have at least one h1
             assertTrue(h1.matcher(content).find(), "Should have h1 headings: " + filePath);
