@@ -6,6 +6,7 @@ import tech.yesboss.memory.model.Preference;
 import tech.yesboss.memory.model.Resource;
 import tech.yesboss.memory.model.Snippet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -171,6 +172,57 @@ public interface MemoryService {
      */
     int processPendingResources();
 
+    // ==================== Batch Vectorization ====================
+
+    /**
+     * Collect all texts that need embedding from resources, snippets, and preferences.
+     *
+     * <p>This method performs parallel collection of items without embeddings from all three repositories:
+     * <ul>
+     *   <li>Resources without embeddings</li>
+     *   <li>Snippets without embeddings</li>
+     *   <li>Preferences without embeddings</li>
+     * </ul>
+     *
+     * @return BatchEmbeddingResult containing counts and any errors
+     * @throws MemoryServiceException if collection fails
+     */
+    BatchEmbeddingResult collectTextsForEmbedding();
+
+    /**
+     * Prepare batch embedding requests for resources, snippets, and preferences.
+     *
+     * <p>This method processes the items and prepares them for batch embedding generation:
+     * <ol>
+     *   <li>Generate abstracts for resources using ContentProcessor</li>
+     *   <li>Generate summaries for snippets using ContentProcessor</li>
+     *   <li>Organize items by type for efficient batch processing</li>
+     * </ol>
+     *
+     * @param resources List of resources to process
+     * @param snippets List of snippets to process
+     * @param preferences List of preferences to process
+     * @return BatchEmbeddingRequest containing prepared data
+     * @throws MemoryServiceException if preparation fails
+     */
+    BatchEmbeddingRequest prepareBatchEmbeddingRequests(List<Resource> resources, List<Snippet> snippets, List<Preference> preferences);
+
+    /**
+     * Process batch embedding for all items that need vectorization.
+     *
+     * <p>This is the main orchestration method that:
+     * <ol>
+     *   <li>Collects items without embeddings from all repositories</li>
+     *   <li>Prepares batch embedding requests</li>
+     *   <li>Generates embeddings using ContentProcessor</li>
+     *   <li>Updates items with embeddings using MemoryManager</li>
+     * </ol>
+     *
+     * @return BatchEmbeddingResult with processing statistics
+     * @throws MemoryServiceException if batch processing fails
+     */
+    BatchEmbeddingResult processBatchEmbedding();
+
     // ==================== Availability ====================
 
     /**
@@ -207,5 +259,71 @@ public interface MemoryService {
         public String getSessionId() {
             return sessionId;
         }
+    }
+
+    /**
+     * Result of batch embedding operation.
+     */
+    class BatchEmbeddingResult {
+        private final int resourceCount;
+        private final int snippetCount;
+        private final int preferenceCount;
+        private final int successCount;
+        private final int failureCount;
+        private final List<String> errors;
+        private final long processingTimeMs;
+
+        public BatchEmbeddingResult(int resourceCount, int snippetCount, int preferenceCount,
+                                   int successCount, int failureCount,
+                                   List<String> errors, long processingTimeMs) {
+            this.resourceCount = resourceCount;
+            this.snippetCount = snippetCount;
+            this.preferenceCount = preferenceCount;
+            this.successCount = successCount;
+            this.failureCount = failureCount;
+            this.errors = errors != null ? errors : new ArrayList<>();
+            this.processingTimeMs = processingTimeMs;
+        }
+
+        public int getResourceCount() { return resourceCount; }
+        public int getSnippetCount() { return snippetCount; }
+        public int getPreferenceCount() { return preferenceCount; }
+        public int getTotalCount() { return resourceCount + snippetCount + preferenceCount; }
+        public int getSuccessCount() { return successCount; }
+        public int getFailureCount() { return failureCount; }
+        public List<String> getErrors() { return errors; }
+        public long getProcessingTimeMs() { return processingTimeMs; }
+    }
+
+    /**
+     * Prepared batch embedding request.
+     */
+    class BatchEmbeddingRequest {
+        private final List<Resource> resources;
+        private final List<Snippet> snippets;
+        private final List<Preference> preferences;
+        private final List<String> resourceAbstracts;
+        private final List<String> snippetSummaries;
+        private final List<String> preferenceSummaries;
+
+        public BatchEmbeddingRequest(List<Resource> resources, List<Snippet> snippets,
+                                   List<Preference> preferences,
+                                   List<String> resourceAbstracts,
+                                   List<String> snippetSummaries,
+                                   List<String> preferenceSummaries) {
+            this.resources = resources != null ? resources : new ArrayList<>();
+            this.snippets = snippets != null ? snippets : new ArrayList<>();
+            this.preferences = preferences != null ? preferences : new ArrayList<>();
+            this.resourceAbstracts = resourceAbstracts != null ? resourceAbstracts : new ArrayList<>();
+            this.snippetSummaries = snippetSummaries != null ? snippetSummaries : new ArrayList<>();
+            this.preferenceSummaries = preferenceSummaries != null ? preferenceSummaries : new ArrayList<>();
+        }
+
+        public List<Resource> getResources() { return resources; }
+        public List<Snippet> getSnippets() { return snippets; }
+        public List<Preference> getPreferences() { return preferences; }
+        public List<String> getResourceAbstracts() { return resourceAbstracts; }
+        public List<String> getSnippetSummaries() { return snippetSummaries; }
+        public List<String> getPreferenceSummaries() { return preferenceSummaries; }
     }
 }

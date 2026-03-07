@@ -458,6 +458,241 @@ public class MemoryServiceImpl implements MemoryService {
     /**
      * Shutdown the executor service.
      */
+
+    @Override
+    public BatchEmbeddingResult collectTextsForEmbedding() {
+        long startTime = System.currentTimeMillis();
+        List<String> errors = new ArrayList<>();
+
+        try {
+            logger.info("Starting collection of texts for embedding");
+
+            // Parallel collection from all three repositories
+            CompletableFuture<List<Resource>> resourcesFuture = CompletableFuture.supplyAsync(() -> {
+                try {
+                    return resourceRepository.findResourcesWithoutEmbedding();
+                } catch (Exception e) {
+                    logger.error("Failed to collect resources without embedding: {}", e.getMessage());
+                    errors.add("Resources: " + e.getMessage());
+                    return new ArrayList<>();
+                }
+            }, executorService);
+
+            CompletableFuture<List<Snippet>> snippetsFuture = CompletableFuture.supplyAsync(() -> {
+                try {
+                    return snippetRepository.findSnippetsWithoutEmbedding();
+                } catch (Exception e) {
+                    logger.error("Failed to collect snippets without embedding: {}", e.getMessage());
+                    errors.add("Snippets: " + e.getMessage());
+                    return new ArrayList<>();
+                }
+            }, executorService);
+
+            CompletableFuture<List<Preference>> preferencesFuture = CompletableFuture.supplyAsync(() -> {
+                try {
+                    return preferenceRepository.findPreferencesWithoutEmbedding();
+                } catch (Exception e) {
+                    logger.error("Failed to collect preferences without embedding: {}", e.getMessage());
+                    errors.add("Preferences: " + e.getMessage());
+                    return new ArrayList<>();
+                }
+            }, executorService);
+
+            // Wait for all to complete
+            CompletableFuture.allOf(resourcesFuture, snippetsFuture, preferencesFuture).join();
+
+            List<Resource> resources = resourcesFuture.get();
+            List<Snippet> snippets = snippetsFuture.get();
+            List<Preference> preferences = preferencesFuture.get();
+
+            long processingTime = System.currentTimeMillis() - startTime;
+
+            BatchEmbeddingResult result = new BatchEmbeddingResult(
+                    resources.size(),
+                    snippets.size(),
+                    preferences.size(),
+                    0,  // successCount - will be updated during processing
+                    errors.size(),
+                    errors,
+                    processingTime
+            );
+
+            logger.info("Collected {} resources, {} snippets, {} preferences for embedding",
+                    resources.size(), snippets.size(), preferences.size());
+
+            return result;
+
+        } catch (Exception e) {
+            long processingTime = System.currentTimeMillis() - startTime;
+            errors.add("Collection failed: " + e.getMessage());
+            logger.error("Failed to collect texts for embedding: {}", e.getMessage(), e);
+
+            return new BatchEmbeddingResult(0, 0, 0, 0, errors.size(), errors, processingTime);
+        }
+    }
+
+    @Override
+    public BatchEmbeddingRequest prepareBatchEmbeddingRequests(List<Resource> resources,
+                                                              List<Snippet> snippets,
+                                                              List<Preference> preferences) {
+        try {
+            logger.info("Preparing batch embedding requests for {} resources, {} snippets, {} preferences",
+                    resources != null ? resources.size() : 0,
+                    snippets != null ? snippets.size() : 0,
+                    preferences != null ? preferences.size() : 0);
+
+            // Prepare resource abstracts
+            List<String> resourceAbstracts = new ArrayList<>();
+            if (resources != null && !resources.isEmpty()) {
+                List<String> resourceContents = resources.stream()
+                        .map(r -> r.getAbstract() != null ? r.getAbstract() : r.getContent())
+                        .collect(Collectors.toList());
+
+                resourceAbstracts = contentProcessor.batchGenerateAbstracts(resourceContents);
+                logger.debug("Generated {} abstracts for resources", resourceAbstracts.size());
+            }
+
+            // Prepare snippet summaries (they already have summaries, just collect them)
+            List<String> snippetSummaries = new ArrayList<>();
+            if (snippets != null && !snippets.isEmpty()) {
+                snippetSummaries = snippets.stream()
+                        .map(Snippet::getSummary)
+                        .collect(Collectors.toList());
+                logger.debug("Collected {} snippet summaries", snippetSummaries.size());
+            }
+
+            // Prepare preference summaries (they already have summaries, just collect them)
+            List<String> preferenceSummaries = new ArrayList<>();
+            if (preferences != null && !preferences.isEmpty()) {
+                preferenceSummaries = preferences.stream()
+                        .map(Preference::getSummary)
+                        .collect(Collectors.toList());
+                logger.debug("Collected {} preference summaries", preferenceSummaries.size());
+            }
+
+            logger.info("Prepared batch embedding request successfully");
+
+            return new BatchEmbeddingRequest(
+                    resources != null ? resources : new ArrayList<>(),
+                    snippets != null ? snippets : new ArrayList<>(),
+                    preferences != null ? preferences : new ArrayList<>(),
+                    resourceAbstracts,
+                    snippetSummaries,
+                    preferenceSummaries
+            );
+
+        } catch (Exception e) {
+            logger.error("Failed to prepare batch embedding requests: {}", e.getMessage(), e);
+            throw new MemoryServiceException("Failed to prepare batch embedding requests: " + e.getMessage(),
+                    MemoryServiceException.ERROR_BATCH_OPERATION_FAILURE, e);
+        }
+    }
+
+    @Override
+    public BatchEmbeddingResult processBatchEmbedding() {
+        long startTime = System.currentTimeMillis();
+        List<String> errors = new ArrayList<>();
+
+        try {
+            logger.info("Starting batch embedding processing");
+
+            // Step 1: Collect items without embeddings
+            BatchEmbeddingResult collectionResult = collectTextsForEmbedding();
+            errors.addAll(collectionResult.getErrors());
+
+            if (collectionResult.getTotalCount() == 0) {
+                logger.info("No items found requiring embedding");
+                return new BatchEmbeddingResult(0, 0, 0, 0, 0, errors,
+                        System.currentTimeMillis() - startTime);
+            }
+
+            // Step 2: Fetch the actual items
+            CompletableFuture<List<Resource>> resourcesFuture = CompletableFuture.supplyAsync(
+                    () -> resourceRepository.findResourcesWithoutEmbedding(), executorService);
+            CompletableFuture<List<Snippet>> snippetsFuture = CompletableFuture.supplyAsync(
+                    () -> snippetRepository.findSnippetsWithoutEmbedding(), executorService);
+            CompletableFuture<List<Preference>> preferencesFuture = CompletableFuture.supplyAsync(
+                    () -> preferenceRepository.findPreferencesWithoutEmbedding(), executorService);
+
+            CompletableFuture.allOf(resourcesFuture, snippetsFuture, preferencesFuture).join();
+
+            List<Resource> resources = resourcesFuture.get();
+            List<Snippet> snippets = snippetsFuture.get();
+            List<Preference> preferences = preferencesFuture.get();
+
+            // Step 3: Prepare batch requests (generates abstracts if needed)
+            BatchEmbeddingRequest request = prepareBatchEmbeddingRequests(resources, snippets, preferences);
+
+            // Step 4: Process embeddings in parallel using MemoryManager
+            List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+            if (!request.getResources().isEmpty()) {
+                futures.add(CompletableFuture.runAsync(() -> {
+                    try {
+                        memoryManager.batchUpdateResourceEmbeddings(request.getResources());
+                        logger.info("Successfully processed {} resource embeddings", request.getResources().size());
+                    } catch (Exception e) {
+                        logger.error("Failed to process resource embeddings: {}", e.getMessage());
+                        errors.add("Resource embeddings: " + e.getMessage());
+                    }
+                }, executorService));
+            }
+
+            if (!request.getSnippets().isEmpty()) {
+                futures.add(CompletableFuture.runAsync(() -> {
+                    try {
+                        memoryManager.batchUpdateSnippetEmbeddings(request.getSnippets());
+                        logger.info("Successfully processed {} snippet embeddings", request.getSnippets().size());
+                    } catch (Exception e) {
+                        logger.error("Failed to process snippet embeddings: {}", e.getMessage());
+                        errors.add("Snippet embeddings: " + e.getMessage());
+                    }
+                }, executorService));
+            }
+
+            if (!request.getPreferences().isEmpty()) {
+                futures.add(CompletableFuture.runAsync(() -> {
+                    try {
+                        memoryManager.batchUpdatePreferenceEmbeddings(request.getPreferences());
+                        logger.info("Successfully processed {} preference embeddings", request.getPreferences().size());
+                    } catch (Exception e) {
+                        logger.error("Failed to process preference embeddings: {}", e.getMessage());
+                        errors.add("Preference embeddings: " + e.getMessage());
+                    }
+                }, executorService));
+            }
+
+            // Wait for all processing to complete
+            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+
+            long processingTime = System.currentTimeMillis() - startTime;
+            int successCount = resources.size() + snippets.size() + preferences.size() - errors.size();
+            int failureCount = errors.size();
+
+            BatchEmbeddingResult result = new BatchEmbeddingResult(
+                    resources.size(),
+                    snippets.size(),
+                    preferences.size(),
+                    successCount,
+                    failureCount,
+                    errors,
+                    processingTime
+            );
+
+            logger.info("Batch embedding processing completed: {} successes, {} failures, {} ms",
+                    successCount, failureCount, processingTime);
+
+            return result;
+
+        } catch (Exception e) {
+            long processingTime = System.currentTimeMillis() - startTime;
+            errors.add("Batch processing failed: " + e.getMessage());
+            logger.error("Batch embedding processing failed: {}", e.getMessage(), e);
+
+            return new BatchEmbeddingResult(0, 0, 0, 0, errors.size(), errors, processingTime);
+        }
+    }
+
     public void shutdown() {
         executorService.shutdown();
         logger.info("MemoryServiceImpl shutdown complete");

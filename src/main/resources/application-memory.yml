@@ -1,0 +1,64 @@
+# =============================================================================
+# Memory Module Configuration
+# =============================================================================
+
+memory:
+  # Vector Store Configuration
+  vectorStore:
+    type: ${MEMORY_VECTOR_STORE_TYPE:sqlite}  # sqlite or postgresql
+    dimension: ${MEMORY_VECTOR_DIMENSION:1536}  # Embedding dimension (1536 for OpenAI/Claude)
+
+  # Batch Processing Configuration
+  batch:
+    # Batch size for vectorization operations
+    vectorizationBatchSize: ${MEMORY_BATCH_VECTORIZATION_SIZE:100}
+    # Maximum number of items to process in one batch operation
+    maxItemsPerBatch: ${MEMORY_BATCH_MAX_ITEMS:1000}
+    # Timeout for batch operations (seconds)
+    timeoutSeconds: ${MEMORY_BATCH_TIMEOUT:300}
+    # Enable parallel processing of batches
+    parallelProcessing: ${MEMORY_BATCH_PARALLEL:true}
+    # Number of threads for parallel batch processing
+    parallelThreads: ${MEMORY_BATCH_THREADS:4}
+
+  # Retry Configuration
+  retry:
+    # Maximum number of retry attempts for failed operations
+    maxRetries: ${MEMORY_RETRY_MAX:3}
+    # Delay between retries (milliseconds)
+    delayMs: ${MEMORY_RETRY_DELAY:1000}
+    # Exponential backoff multiplier
+    backoffMultiplier: ${MEMORY_RETRY_BACKOFF:2.0}
+    # Enable retry for embedding generation failures
+    retryEmbedding: ${MEMORY_RETRY_EMBEDDING:true}
+    # Enable retry for database operations
+    retryDatabase: ${MEMORY_RETRY_DATABASE:true}
+
+  # Caching Configuration
+  cache:
+    # Enable caching for frequently accessed embeddings
+    enabled: ${MEMORY_CACHE_ENABLED:true}
+    # Cache size (number of entries)
+    maxSize: ${MEMORY_CACHE_SIZE:10000}
+    # Cache expiration time (seconds)
+    expireAfterWriteSeconds: ${MEMORY_CACHE_EXPIRY:3600}
+
+  # Monitoring Configuration
+  monitoring:
+    # Enable collection of metrics
+    enabled: ${MEMORY_MONITORING_ENABLED:true}
+    # Metrics collection interval (seconds)
+    intervalSeconds: ${MEMORY_MONITORING_INTERVAL:60}
+    # Enable performance tracking
+    trackPerformance: ${MEMORY_MONITORING_PERFORMANCE:true}
+    # Enable error rate tracking
+    trackErrors: ${MEMORY_MONITORING_ERRORS:true}
+
+  # Performance Targets
+  performance:
+    # Target response time for single operations (milliseconds)
+    responseTimeMs: ${MEMORY_PERF_RESPONSE_TIME:100}
+    # Target time for batch processing (milliseconds for 100 items)
+    batchProcessingMs: ${MEMORY_PERF_BATCH_TIME:1000}
+    # Maximum memory usage (MB)
+    maxMemoryUsageMb: ${MEMORY_PERF_MAX_MEMORY:512}

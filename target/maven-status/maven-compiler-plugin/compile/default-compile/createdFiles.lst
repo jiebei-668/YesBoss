@@ -28,6 +28,7 @@ tech/yesboss/ApplicationContext.class
 tech/yesboss/config/YesBossConfig$DatabaseConfig.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent.class
 tech/yesboss/gateway/webhook/controller/WebhookController.class
+tech/yesboss/memory/service/MemoryService$BatchEmbeddingRequest.class
 tech/yesboss/memory/model/Snippet.class
 tech/yesboss/llm/LlmClient.class
 tech/yesboss/config/YesBossConfig$SchedulerConfig.class
@@ -40,6 +41,7 @@ tech/yesboss/memory/service/MemoryService$MessageBatch.class
 tech/yesboss/YesBossApplication.class
 tech/yesboss/config/YesBossConfig$FileLogConfig.class
 tech/yesboss/runner/impl/WorkerRunnerImpl.class
+tech/yesboss/memory/service/MemoryService$BatchEmbeddingResult.class
 tech/yesboss/memory/vectorstore/VectorStoreException.class
 tech/yesboss/persistence/entity/TaskSession$ImType.class
 tech/yesboss/gateway/ui/UICardRenderer.class

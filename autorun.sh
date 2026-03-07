@@ -37,9 +37,17 @@ YOU ARE STRICTLY FORBIDDEN FROM MODIFYING ANY CONTENT IN `memory_persistence_tas
 VIOLATION OF THIS RULE WILL CAUSE SYSTEM FAILURE.
 
 remember when processing a task that needs a human interaction, ask me for help!
-Now, begin Step 1 and state the next task you will perform. Now to finish 1 tasks!
+remember do not commit auto run.sh
+Now, begin Step 1 and state the next task you will perform. Now to finish 5 tasks(if there are more than 5 tasks)!
 EOF
 )
 
 # 将变量安全地传递给 claude
+claude -p "$PROMPT" --dangerously-skip-permissions
+claude -p "$PROMPT" --dangerously-skip-permissions
+claude -p "$PROMPT" --dangerously-skip-permissions
+claude -p "$PROMPT" --dangerously-skip-permissions
+claude -p "$PROMPT" --dangerously-skip-permissions
+claude -p "$PROMPT" --dangerously-skip-permissions
+claude -p "$PROMPT" --dangerously-skip-permissions
 claude -p "$PROMPT" --dangerously-skip-permissions
