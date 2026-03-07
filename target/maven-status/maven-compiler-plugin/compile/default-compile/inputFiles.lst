@@ -8,6 +8,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/controller/WebhookController.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/impl/WorkerRunnerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/VectorStoreFactory.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/manager/MemoryManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertMessageEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/VendorSdkAdapter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/AgentRunner.java
@@ -46,6 +47,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/PreferenceRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteMessagesEvent.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/manager/MemoryManagerException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/ToolAccessLevel.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/mcp/McpToolAdapter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertTaskSessionEvent.java
@@ -88,6 +90,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/impl/LocalStreamManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/sandbox/SandboxInterceptor.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/LocalStreamManager.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/manager/MemoryManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/model/Resource.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/SQLiteVecStore.java

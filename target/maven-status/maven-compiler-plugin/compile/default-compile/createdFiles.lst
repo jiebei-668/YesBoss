@@ -52,6 +52,7 @@ tech/yesboss/health/HealthCheckService$HealthStatus.class
 tech/yesboss/llm/impl/ClaudeLlmClient.class
 tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.class
 tech/yesboss/context/StreamType.class
+tech/yesboss/memory/manager/MemoryManagerImpl.class
 tech/yesboss/context/GlobalStreamManager.class
 tech/yesboss/config/YesBossConfig$LlmConfig.class
 tech/yesboss/runner/WorkerRunner.class
@@ -86,6 +87,7 @@ tech/yesboss/llm/impl/ZhipuLlmClient$ChatResponse.class
 tech/yesboss/memory/embedding/ZhipuEmbeddingServiceImpl$EmbeddingResponse.class
 tech/yesboss/memory/repository/SnippetRepositoryImpl.class
 tech/yesboss/session/SessionManager.class
+tech/yesboss/memory/manager/MemoryManagerException.class
 tech/yesboss/persistence/repository/TaskSessionRepositoryImpl.class
 tech/yesboss/persistence/event/DeleteMessagesEvent.class
 tech/yesboss/persistence/db/SQLiteConnectionManager.class
@@ -116,6 +118,7 @@ tech/yesboss/domain/message/UnifiedMessage.class
 tech/yesboss/state/model/ImRoute.class
 tech/yesboss/tool/planning/PlanningTool.class
 tech/yesboss/state/TaskManager.class
+tech/yesboss/memory/manager/MemoryManager.class
 tech/yesboss/config/ConfigLoader.class
 tech/yesboss/config/YesBossConfig$LoggingConfig.class
 tech/yesboss/config/ConfigLoader$EnvironmentResolver.class
