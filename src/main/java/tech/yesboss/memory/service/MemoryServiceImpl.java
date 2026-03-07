@@ -252,10 +252,9 @@ public class MemoryServiceImpl implements MemoryService {
                 List<String> memories = extractMemoriesByType(resourceContent, memoryType);
 
                 for (String memory : memories) {
-                    Snippet snippet = Snippet.builder()
-                            .summary(memory)
-                            .memoryType(memoryType)
-                            .build();
+                    Snippet snippet = new Snippet();
+                    snippet.setSummary(memory);
+                    snippet.setMemoryType(memoryType);
                     snippets.add(snippet);
                 }
             }

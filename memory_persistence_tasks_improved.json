@@ -579,7 +579,7 @@
       "docs_memory/时序图3.0/01-自动触发记忆提取流程.md"
     ],
     "requires_human_intervention": false,
-    "passes": false
+    "passes": true
   },
   {
     "category": "unit_test",
