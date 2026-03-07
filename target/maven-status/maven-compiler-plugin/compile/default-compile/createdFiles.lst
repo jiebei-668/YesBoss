@@ -38,6 +38,7 @@ tech/yesboss/memory/embedding/ZhipuEmbeddingServiceImpl$EmbeddingRequest.class
 tech/yesboss/persistence/event/UpdateTaskStatusEvent.class
 tech/yesboss/tool/tracker/ToolCallTracker.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ToolCall.class
+tech/yesboss/memory/service/MemoryService$MessageBatch.class
 tech/yesboss/YesBossApplication.class
 tech/yesboss/config/YesBossConfig$FileLogConfig.class
 tech/yesboss/runner/impl/WorkerRunnerImpl.class
@@ -68,6 +69,7 @@ tech/yesboss/config/YesBossConfig$CondensationConfig.class
 tech/yesboss/memory/embedding/EmbeddingServiceFactory.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ErrorResponse.class
 tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.class
+tech/yesboss/memory/service/MemoryServiceException.class
 tech/yesboss/gateway/im/impl/IMMessagePusherImpl.class
 tech/yesboss/gateway/im/FeishuApiClient$FeishuApiException.class
 tech/yesboss/memory/embedding/EmbeddingException.class
@@ -96,6 +98,7 @@ tech/yesboss/context/LocalStreamManager.class
 tech/yesboss/tool/tracker/impl/ToolCallTrackerImpl.class
 tech/yesboss/persistence/event/DbWriteEvent.class
 tech/yesboss/memory/embedding/EmbeddingService.class
+tech/yesboss/memory/service/MemoryServiceImpl.class
 tech/yesboss/config/YesBossConfig$PoolConfig.class
 tech/yesboss/config/YesBossConfig$HitlConfig.class
 tech/yesboss/config/YesBossConfig$ZhipuConfig.class
@@ -144,6 +147,7 @@ tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.class
 tech/yesboss/safeguard/impl/CircuitBreakerImpl.class
 tech/yesboss/health/HealthCheckService.class
 tech/yesboss/safeguard/impl/SuspendResumeEngineImpl$SuspensionContext.class
+tech/yesboss/memory/service/MemoryService.class
 tech/yesboss/memory/model/Preference.class
 tech/yesboss/domain/message/UnifiedMessage$ToolResult.class
 tech/yesboss/memory/repository/PreferenceRepositoryImpl.class
