@@ -123,7 +123,11 @@ public class VectorStoreConfigFactory {
      * Create PostgreSQL vector store
      *
      * @param dataSource Data source
-
+     * @return PostgreSQL vector store
+     * @throws VectorStoreException if creation fails
+     */
+    private VectorStore createPostgreSQLVectorStore(DataSource dataSource) throws VectorStoreException {
+        try {
             VectorStoreFactory factory = VectorStoreFactory.getInstance(dataSource);
             return factory.getVectorStore("memory_vectors", VectorStoreFactory.VectorStoreType.POSTGRESQL);
         } catch (Exception e) {
@@ -131,6 +135,7 @@ public class VectorStoreConfigFactory {
             logger.error(message, e);
             throw new VectorStoreException(message, e);
         }
+    }
     /**
      * Switch to a different backend
      *

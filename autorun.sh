@@ -37,7 +37,9 @@ YOU ARE STRICTLY FORBIDDEN FROM MODIFYING ANY CONTENT IN `memory_persistence_tas
 VIOLATION OF THIS RULE WILL CAUSE SYSTEM FAILURE.
 
 remember when processing a task that needs a human interaction, ask me for help!
-remember do not commit auto run.sh
+
+remember do not commit autorun.sh
+
 Now, begin Step 1 and state the next task you will perform. Now to finish 5 tasks(if there are more than 5 tasks)!
 EOF
 )

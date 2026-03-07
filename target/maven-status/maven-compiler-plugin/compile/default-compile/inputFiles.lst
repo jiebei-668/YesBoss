@@ -71,6 +71,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/im/FeishuApiClient.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/embedding/EmbeddingService.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/processor/ProcessorCache.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/trigger/TriggerServiceImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/ResourceRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/scheduler/MemoryExtractionScheduler.java
@@ -94,6 +95,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/InjectionEngine.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/im/IMMessagePusher.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/query/MemoryQueryServiceImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/processor/ProcessorMetrics.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ClaudeLlmClient.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/ResourceRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/TaskSession.java
@@ -105,6 +107,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/state/impl/TaskManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/impl/ToolRegistryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/processor/ContentProcessor.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/processor/MemoryProcessorConfig.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/impl/LocalStreamManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/sandbox/SandboxInterceptor.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/model/AgenticRagResult.java

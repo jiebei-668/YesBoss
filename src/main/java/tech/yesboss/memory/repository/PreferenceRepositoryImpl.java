@@ -233,6 +233,40 @@ public class PreferenceRepositoryImpl implements PreferenceRepository {
     }
 
     @Override
+    public List<Preference> findBySessionId(String sessionId) {
+        if (sessionId == null || sessionId.isEmpty()) {
+            return List.of();
+        }
+        // Preferences don't have session_id in their schema, return empty list
+        // This method exists for interface compatibility
+        logger.debug("findBySessionId called on PreferenceRepository, returning empty list (preferences are not session-scoped)");
+        return List.of();
+    }
+
+    @Override
+    public List<Preference> findByUserId(String userId) {
+        if (userId == null || userId.isEmpty()) {
+            return List.of();
+        }
+        // Preferences don't have user_id in their schema, return empty list
+        // This method exists for interface compatibility
+        logger.debug("findByUserId called on PreferenceRepository, returning empty list (preferences are not user-scoped)");
+        return List.of();
+    }
+
+    @Override
+    public Optional<Preference> findByUserIdAndKey(String userId, String key) {
+        if (userId == null || userId.isEmpty() || key == null || key.isEmpty()) {
+            return Optional.empty();
+        }
+        // Preferences don't have user_id and key in their schema, return empty
+        // This method exists for interface compatibility
+        logger.debug("findByUserIdAndKey called on PreferenceRepository, returning empty (preferences are not user-key scoped)");
+        return Optional.empty();
+    }
+
+
+    @Override
     public List<Preference> findByTimeRange(long startTime, long endTime) {
         String sql = """
             SELECT * FROM preferences

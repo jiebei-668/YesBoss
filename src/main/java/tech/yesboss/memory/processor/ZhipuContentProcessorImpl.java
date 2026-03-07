@@ -14,6 +14,7 @@ import tech.yesboss.memory.model.Snippet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -21,6 +22,14 @@ import java.util.stream.Collectors;
  *
  * <p>This implementation uses Zhipu's LLM API to process conversation content,
  * generate summaries, extract structured memories, and classify snippets.</p>
+ *
+ * <p>v2.0 Features:
+ * <ul>
+ *   <li>Configuration management from application-memory.yml</li>
+ *   <li>Caching support with LRU eviction policy</li>
+ *   <li>Monitoring metrics for performance and error tracking</li>
+ *   <li>Configurable retry strategy with exponential backoff</li>
+ * </ul>
  */
 public class ZhipuContentProcessorImpl implements ContentProcessor {
 
@@ -28,19 +37,76 @@ public class ZhipuContentProcessorImpl implements ContentProcessor {
 
     private LlmClient llmClient;
     private final ObjectMapper objectMapper;
-    private final int maxRetries;
-    private final long retryDelayMs;
+
+    // Configuration
+    private final MemoryProcessorConfig config;
+
+    // Caching
+    private final ProcessorCache<String, List<ConversationSegment>> segmentCache;
+    private final ProcessorCache<String, String> abstractCache;
+    private final ProcessorCache<CacheKey, List<String>> extractionCache;
+
+    // Metrics
+    private final ProcessorMetrics metrics;
+
+    /**
+     * Cache key for extraction operations
+     */
+    private static class CacheKey {
+        private final String content;
+        private final MemoryType memoryType;
+
+        CacheKey(String content, MemoryType memoryType) {
+            this.content = content;
+            this.memoryType = memoryType;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CacheKey cacheKey = (CacheKey) o;
+            return content.equals(cacheKey.content) && memoryType == cacheKey.memoryType;
+        }
+
+        @Override
+        public int hashCode() {
+            return content.hashCode() * 31 + memoryType.hashCode();
+        }
+    }
 
     /**
      * Create a new ZhipuContentProcessorImpl with default settings.
+     * Loads configuration from application-memory.yml.
      */
     public ZhipuContentProcessorImpl() {
-        this.llmClient = null;
-        this.maxRetries = 3;
-        this.retryDelayMs = 1000;
+        this.config = MemoryProcessorConfig.getInstance();
         this.objectMapper = new ObjectMapper();
         this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         this.objectMapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        // Initialize cache if enabled
+        if (config.isCacheEnabled()) {
+            long expireMs = config.getCacheExpireAfterWriteSeconds() * 1000;
+            this.segmentCache = new ProcessorCache<>(config.getCacheMaxSize(), expireMs);
+            this.abstractCache = new ProcessorCache<>(config.getCacheMaxSize(), expireMs);
+            this.extractionCache = new ProcessorCache<>(config.getCacheMaxSize(), expireMs);
+            logger.info("Processor caching enabled: maxSize={}, expireAfterWrite={}s",
+                    config.getCacheMaxSize(), config.getCacheExpireAfterWriteSeconds());
+        } else {
+            this.segmentCache = null;
+            this.abstractCache = null;
+            this.extractionCache = null;
+        }
+
+        // Initialize metrics
+        this.metrics = new ProcessorMetrics(
+                config.isMonitoringEnabled(),
+                config.isTrackPerformance(),
+                config.isTrackErrors()
+        );
+
+        logger.info("ZhipuContentProcessorImpl initialized with config: {}", config);
     }
 
     /**
@@ -51,22 +117,6 @@ public class ZhipuContentProcessorImpl implements ContentProcessor {
     public ZhipuContentProcessorImpl(LlmClient llmClient) {
         this();
         this.llmClient = llmClient;
-    }
-
-    /**
-     * Create a new ZhipuContentProcessorImpl with full configuration.
-     *
-     * @param llmClient The LLM client to use
-     * @param maxRetries Maximum number of retries
-     * @param retryDelayMs Delay between retries in milliseconds
-     */
-    public ZhipuContentProcessorImpl(LlmClient llmClient, int maxRetries, long retryDelayMs) {
-        this.llmClient = llmClient;
-        this.maxRetries = maxRetries;
-        this.retryDelayMs = retryDelayMs;
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        this.objectMapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     /**
@@ -96,14 +146,44 @@ public class ZhipuContentProcessorImpl implements ContentProcessor {
                     ContentProcessingException.ERROR_INVALID_INPUT);
         }
 
+        metrics.recordSegmentConversationStart();
+
+        // Check cache
+        if (segmentCache != null) {
+            List<ConversationSegment> cached = segmentCache.get(conversationContent);
+            if (cached != null) {
+                logger.debug("Segmentation cache hit for conversation of length {}", conversationContent.length());
+                return cached;
+            }
+        }
+
+        long startTime = System.currentTimeMillis();
+
         try {
             String prompt = buildSegmentationPrompt(conversationContent);
+
+            long llmStart = System.currentTimeMillis();
             String response = executeWithRetry(() ->
                 llmClient.chat(createMessages(prompt), buildSystemPrompt()).content()
             );
+            metrics.recordLlmCall(System.currentTimeMillis() - llmStart);
 
-            return parseSegments(response, conversationContent);
+            List<ConversationSegment> segments = parseSegments(response, conversationContent);
+
+            long duration = System.currentTimeMillis() - startTime;
+            metrics.recordSegmentConversationSuccess(duration);
+
+            // Cache result
+            if (segmentCache != null) {
+                segmentCache.put(conversationContent, segments);
+                logger.debug("Cached segmentation result for conversation of length {}", conversationContent.length());
+            }
+
+            logger.debug("Segmented conversation into {} segments in {}ms", segments.size(), duration);
+            return segments;
         } catch (Exception e) {
+            long duration = System.currentTimeMillis() - startTime;
+            metrics.recordSegmentConversationFailure(e.getClass().getSimpleName());
             throw new ContentProcessingException("Failed to segment conversation: " + e.getMessage(),
                     ContentProcessingException.ERROR_SEGMENTATION_FAILURE, e);
         }
@@ -117,14 +197,44 @@ public class ZhipuContentProcessorImpl implements ContentProcessor {
                     ContentProcessingException.ERROR_INVALID_INPUT);
         }
 
+        metrics.recordGenerateAbstractStart();
+
+        // Check cache
+        if (abstractCache != null) {
+            String cached = abstractCache.get(segmentContent);
+            if (cached != null) {
+                logger.debug("Abstract cache hit for segment of length {}", segmentContent.length());
+                return cached;
+            }
+        }
+
+        long startTime = System.currentTimeMillis();
+
         try {
             String prompt = buildAbstractPrompt(segmentContent);
+
+            long llmStart = System.currentTimeMillis();
             String response = executeWithRetry(() ->
                 llmClient.chat(createMessages(prompt), buildSystemPrompt()).content()
             );
+            metrics.recordLlmCall(System.currentTimeMillis() - llmStart);
 
-            return extractAbstractFromResponse(response);
+            String abstractText = extractAbstractFromResponse(response);
+
+            long duration = System.currentTimeMillis() - startTime;
+            metrics.recordGenerateAbstractSuccess(duration);
+
+            // Cache result
+            if (abstractCache != null) {
+                abstractCache.put(segmentContent, abstractText);
+                logger.debug("Cached abstract for segment of length {}", segmentContent.length());
+            }
+
+            logger.debug("Generated abstract in {}ms", duration);
+            return abstractText;
         } catch (Exception e) {
+            long duration = System.currentTimeMillis() - startTime;
+            metrics.recordGenerateAbstractFailure(e.getClass().getSimpleName());
             throw new ContentProcessingException("Failed to generate segment abstract: " + e.getMessage(),
                     ContentProcessingException.ERROR_LLM_FAILURE, e);
         }
@@ -148,14 +258,42 @@ public class ZhipuContentProcessorImpl implements ContentProcessor {
                     ContentProcessingException.ERROR_INVALID_INPUT);
         }
 
+        metrics.recordExtractMemoriesStart();
+
+        // Check cache
+        if (extractionCache != null) {
+            CacheKey key = new CacheKey(resourceContent, memoryType);
+            List<String> cached = extractionCache.get(key);
+            if (cached != null) {
+                logger.debug("Extraction cache hit for memory type {}", memoryType);
+                return cached;
+            }
+        }
+
         try {
             String prompt = buildExtractionPrompt(resourceContent, memoryType);
+
+            long llmStart = System.currentTimeMillis();
             String response = executeWithRetry(() ->
                 llmClient.chat(createMessages(prompt), buildSystemPrompt()).content()
             );
+            metrics.recordLlmCall(System.currentTimeMillis() - llmStart);
 
-            return parseExtractedMemories(response, memoryType);
+            List<String> memories = parseExtractedMemories(response, memoryType);
+
+            metrics.recordExtractMemoriesSuccess();
+
+            // Cache result
+            if (extractionCache != null) {
+                CacheKey key = new CacheKey(resourceContent, memoryType);
+                extractionCache.put(key, memories);
+                logger.debug("Cached extraction result for memory type {}", memoryType);
+            }
+
+            logger.debug("Extracted {} memories of type {}", memories.size(), memoryType);
+            return memories;
         } catch (Exception e) {
+            metrics.recordExtractMemoriesFailure(e.getClass().getSimpleName());
             throw new ContentProcessingException("Failed to extract structured memories: " + e.getMessage(),
                     ContentProcessingException.ERROR_EXTRACTION_FAILURE, e);
         }
@@ -172,14 +310,25 @@ public class ZhipuContentProcessorImpl implements ContentProcessor {
             return new ArrayList<>();
         }
 
+        metrics.recordIdentifyPreferencesStart();
+
         try {
             String prompt = buildClassificationPrompt(snippetSummary, existingPreferences);
+
+            long llmStart = System.currentTimeMillis();
             String response = executeWithRetry(() ->
                 llmClient.chat(createMessages(prompt), buildSystemPrompt()).content()
             );
+            metrics.recordLlmCall(System.currentTimeMillis() - llmStart);
 
-            return parsePreferenceIds(response, existingPreferences);
+            List<String> preferenceIds = parsePreferenceIds(response, existingPreferences);
+
+            metrics.recordIdentifyPreferencesSuccess();
+
+            logger.debug("Identified {} preferences for snippet", preferenceIds.size());
+            return preferenceIds;
         } catch (Exception e) {
+            metrics.recordIdentifyPreferencesFailure(e.getClass().getSimpleName());
             throw new ContentProcessingException("Failed to identify preferences: " + e.getMessage(),
                     ContentProcessingException.ERROR_CLASSIFICATION_FAILURE, e);
         }
@@ -193,14 +342,25 @@ public class ZhipuContentProcessorImpl implements ContentProcessor {
                     ContentProcessingException.ERROR_INVALID_INPUT);
         }
 
+        metrics.recordUpdatePreferenceStart();
+
         try {
             String prompt = buildPreferenceUpdatePrompt(existingSummary, newSnippets);
+
+            long llmStart = System.currentTimeMillis();
             String response = executeWithRetry(() ->
                 llmClient.chat(createMessages(prompt), buildSystemPrompt()).content()
             );
+            metrics.recordLlmCall(System.currentTimeMillis() - llmStart);
 
-            return extractUpdatedSummary(response);
+            String updatedSummary = extractUpdatedSummary(response);
+
+            metrics.recordUpdatePreferenceSuccess();
+
+            logger.debug("Updated preference summary");
+            return updatedSummary;
         } catch (Exception e) {
+            metrics.recordUpdatePreferenceFailure(e.getClass().getSimpleName());
             throw new ContentProcessingException("Failed to update preference summary: " + e.getMessage(),
                     ContentProcessingException.ERROR_LLM_FAILURE, e);
         }
@@ -235,6 +395,67 @@ public class ZhipuContentProcessorImpl implements ContentProcessor {
                 .map(content -> extractStructuredMemories(content, memoryType))
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
+    }
+
+    // ========== Public methods for cache and metrics ==========
+
+    /**
+     * Get processor metrics
+     *
+     * @return Metrics instance
+     */
+    public ProcessorMetrics getMetrics() {
+        return metrics;
+    }
+
+    /**
+     * Get cache statistics
+     *
+     * @return Cache statistics summary
+     */
+    public String getCacheStats() {
+        if (!config.isCacheEnabled()) {
+            return "Caching is disabled";
+        }
+
+        return String.format("SegmentCache: %s\nAbstractCache: %s\nExtractionCache: %s",
+                segmentCache.getStats(), abstractCache.getStats(), extractionCache.getStats());
+    }
+
+    /**
+     * Clear all caches
+     */
+    public void clearCaches() {
+        if (segmentCache != null) {
+            segmentCache.clear();
+        }
+        if (abstractCache != null) {
+            abstractCache.clear();
+        }
+        if (extractionCache != null) {
+            extractionCache.clear();
+        }
+        logger.info("All processor caches cleared");
+    }
+
+    /**
+     * Clean up expired cache entries
+     *
+     * @return Number of entries removed
+     */
+    public int cleanupCache() {
+        int removed = 0;
+        if (segmentCache != null) {
+            removed += segmentCache.cleanupExpired();
+        }
+        if (abstractCache != null) {
+            removed += abstractCache.cleanupExpired();
+        }
+        if (extractionCache != null) {
+            removed += extractionCache.cleanupExpired();
+        }
+        logger.info("Cleaned up {} expired cache entries", removed);
+        return removed;
     }
 
     // ========== Private helper methods ==========
@@ -426,6 +647,9 @@ public class ZhipuContentProcessorImpl implements ContentProcessor {
 
     private <T> T executeWithRetry(java.util.function.Supplier<T> operation) {
         Exception lastException = null;
+        int maxRetries = config.getMaxRetries();
+        long delayMs = config.getRetryDelayMs();
+        double backoffMultiplier = config.getBackoffMultiplier();
 
         for (int attempt = 0; attempt < maxRetries; attempt++) {
             try {
@@ -433,9 +657,10 @@ public class ZhipuContentProcessorImpl implements ContentProcessor {
             } catch (Exception e) {
                 lastException = e;
                 if (attempt < maxRetries - 1) {
-                    long delay = retryDelayMs * (1L << attempt);
+                    long delay = (long) (delayMs * Math.pow(backoffMultiplier, attempt));
                     logger.warn("Operation failed (attempt {}/{}), retrying in {}ms: {}",
                             attempt + 1, maxRetries, delay, e.getMessage());
+                    metrics.recordLlmRetry();
                     try {
                         Thread.sleep(delay);
                     } catch (InterruptedException ie) {
