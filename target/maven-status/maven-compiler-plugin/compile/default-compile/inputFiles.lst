@@ -95,6 +95,5 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/config/ConfigLoader.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/YesBossApplication.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/SuspendResumeEngine.java
-/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/processor/MemoryType.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/VectorStoreException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/ui/UICardRenderer.java

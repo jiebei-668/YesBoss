@@ -1,5 +1,6 @@
 package tech.yesboss.memory.processor;
 
+import tech.yesboss.memory.model.Snippet.MemoryType;
 import tech.yesboss.memory.model.Preference;
 import tech.yesboss.memory.model.Snippet;
 

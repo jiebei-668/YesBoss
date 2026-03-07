@@ -22,7 +22,52 @@ public class Snippet {
         KNOWLEDGE,   // Knowledge and facts
         BEHAVIOR,    // Behavioral patterns
         SKILL,       // Skills and capabilities
-        TOOL         // Tools and utilities
+        TOOL;        // Tools and utilities
+
+        /**
+         * Get the display name in Chinese.
+         * @return Display name
+         */
+        public String getDisplayName() {
+            return switch (this) {
+                case PROFILE -> "人物档案";
+                case EVENT -> "事件";
+                case KNOWLEDGE -> "知识";
+                case BEHAVIOR -> "行为模式";
+                case SKILL -> "技能";
+                case TOOL -> "工具使用";
+            };
+        }
+
+        /**
+         * Get the description in English.
+         * @return Description
+         */
+        public String getDescription() {
+            return switch (this) {
+                case PROFILE -> "User profile and personal characteristics";
+                case EVENT -> "Significant events and occurrences";
+                case KNOWLEDGE -> "Domain knowledge and factual information";
+                case BEHAVIOR -> "Behavioral patterns and habits";
+                case SKILL -> "User skills and capabilities";
+                case TOOL -> "Tool preferences and usage patterns";
+            };
+        }
+
+        /**
+         * Get MemoryType from display name.
+         * @param displayName Display name to match
+         * @return Matching MemoryType or null
+         */
+        public static MemoryType fromDisplayName(String displayName) {
+            for (MemoryType type : values()) {
+                if (type.getDisplayName().equals(displayName)) {
+                    return type;
+                }
+            }
+            return null;
+        }
+
     }
 
     private String id;

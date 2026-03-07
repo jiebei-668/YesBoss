@@ -1,4 +1,3 @@
-tech/yesboss/memory/processor/MemoryType.class
 tech/yesboss/safeguard/CircuitBreaker.class
 tech/yesboss/context/engine/CondensationEngine.class
 tech/yesboss/config/YesBossConfig$ServerConfig.class
@@ -74,6 +73,7 @@ tech/yesboss/memory/embedding/EmbeddingException.class
 tech/yesboss/runner/impl/MasterRunnerImpl$1.class
 tech/yesboss/persistence/repository/ToolExecutionRepository.class
 tech/yesboss/memory/processor/ContentProcessingException.class
+tech/yesboss/memory/model/Snippet$1.class
 tech/yesboss/memory/processor/ContentProcessor.class
 tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
 tech/yesboss/config/ConfigLoader$ConfigLoadException.class

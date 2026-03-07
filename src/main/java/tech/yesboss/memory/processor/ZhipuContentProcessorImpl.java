@@ -1,5 +1,6 @@
 package tech.yesboss.memory.processor;
 
+import tech.yesboss.memory.model.Snippet.MemoryType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
