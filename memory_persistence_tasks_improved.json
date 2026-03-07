@@ -521,7 +521,7 @@
       "docs_memory/记忆持久化模块v3.0.md"
     ],
     "requires_human_intervention": false,
-    "passes": false
+    "passes": true
   },
   {
     "category": "unit_test",
@@ -555,7 +555,7 @@
       "docs_memory/记忆持久化模块v3.0.md"
     ],
     "requires_human_intervention": false,
-    "passes": false
+    "passes": true
   },
   {
     "category": "develop",
