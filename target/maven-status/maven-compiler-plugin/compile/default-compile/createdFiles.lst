@@ -31,6 +31,7 @@ tech/yesboss/YesBossApplication.class
 tech/yesboss/config/YesBossConfig$FileLogConfig.class
 tech/yesboss/runner/impl/WorkerRunnerImpl.class
 tech/yesboss/memory/vectorstore/VectorStoreException.class
+tech/yesboss/memory/cache/MemoryCache$CacheLoader.class
 tech/yesboss/persistence/entity/TaskSession$ImType.class
 tech/yesboss/gateway/ui/UICardRenderer.class
 tech/yesboss/memory/metrics/MemoryMetricsFactory.class
@@ -44,6 +45,7 @@ tech/yesboss/context/StreamType.class
 tech/yesboss/memory/manager/MemoryManagerImpl.class
 tech/yesboss/config/YesBossConfig$LlmConfig.class
 tech/yesboss/runner/WorkerRunner.class
+tech/yesboss/memory/cache/MemoryCacheException.class
 tech/yesboss/persistence/repository/ChatMessageRepository.class
 tech/yesboss/config/YesBossConfig$ImConfig.class
 tech/yesboss/memory/trigger/TriggerServiceImpl.class
@@ -54,10 +56,12 @@ tech/yesboss/memory/config/MemoryConfigValidator$1.class
 tech/yesboss/config/YesBossConfig$CondensationConfig.class
 tech/yesboss/memory/embedding/EmbeddingServiceFactory.class
 tech/yesboss/memory/api/MemoryController$BatchExtractRequest.class
+tech/yesboss/memory/cache/MemoryCacheConfig$EvictionPolicy.class
 tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.class
 tech/yesboss/memory/config/MemoryConfig$Holder.class
 tech/yesboss/memory/embedding/EmbeddingException.class
 tech/yesboss/persistence/repository/ToolExecutionRepository.class
+tech/yesboss/memory/cache/MemoryCacheException$ErrorType.class
 tech/yesboss/memory/processor/ContentProcessor.class
 tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
 tech/yesboss/memory/metrics/MemoryMetricsException$ErrorType.class
@@ -65,6 +69,7 @@ tech/yesboss/runner/AgentRunner.class
 tech/yesboss/memory/repository/ResourceRepository.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatResponse.class
 tech/yesboss/memory/repository/SnippetRepositoryImpl.class
+tech/yesboss/memory/cache/MemoryCacheFactory.class
 tech/yesboss/session/SessionManager.class
 tech/yesboss/persistence/event/DeleteMessagesEvent.class
 tech/yesboss/context/impl/LocalStreamManagerImpl.class
@@ -79,6 +84,7 @@ tech/yesboss/memory/model/DecisionLog$DecisionType.class
 tech/yesboss/memory/api/MemoryApiConfig.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$ImType.class
 tech/yesboss/tool/planning/PlanningTool$PlanningRequest.class
+tech/yesboss/memory/cache/MemoryCacheImpl.class
 tech/yesboss/memory/repository/ResourceRepositoryImpl.class
 tech/yesboss/config/YesBossConfig$SlackConfig.class
 tech/yesboss/memory/config/MemoryConfigValidator.class
@@ -94,6 +100,7 @@ tech/yesboss/memory/api/MemoryController$ExtractResponse.class
 tech/yesboss/state/TaskManager.class
 tech/yesboss/config/ConfigLoader.class
 tech/yesboss/memory/api/MemoryController$HealthResponse.class
+tech/yesboss/memory/cache/MemoryCacheImpl$CacheStatistics.class
 tech/yesboss/config/ConfigLoader$EnvironmentResolver.class
 tech/yesboss/tool/SuspendExecutionException.class
 tech/yesboss/config/YesBossConfig$WebhookConfig.class
@@ -113,6 +120,7 @@ tech/yesboss/gateway/webhook/model/ImWebhookEvent.class
 tech/yesboss/config/YesBossConfig$SandboxConfig.class
 tech/yesboss/context/impl/GlobalStreamManagerImpl.class
 tech/yesboss/tool/registry/ToolRegistry.class
+tech/yesboss/memory/cache/MemoryCache$CacheStats.class
 tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.class
 tech/yesboss/memory/vectorstore/VectorStoreFactory$1.class
 tech/yesboss/persistence/repository/TaskSessionRepository.class
@@ -161,6 +169,7 @@ tech/yesboss/memory/embedding/ZhipuEmbeddingServiceImpl.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ToolCall.class
 tech/yesboss/memory/migration/DataMigrationException.class
 tech/yesboss/memory/service/MemoryService$BatchEmbeddingResult.class
+tech/yesboss/memory/cache/MemoryCacheConfig$CacheLevel.class
 tech/yesboss/persistence/event/InsertToolExecutionLogEvent.class
 tech/yesboss/runner/MasterRunner.class
 tech/yesboss/memory/metrics/MemoryMetricsConfig$Builder.class
@@ -178,6 +187,7 @@ tech/yesboss/gateway/webhook/executor/impl/WebhookEventExecutorImpl.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ErrorResponse.class
 tech/yesboss/memory/api/MemoryController$BatchExtractResponse.class
 tech/yesboss/memory/config/MemoryConfigManager.class
+tech/yesboss/memory/cache/MemoryCacheImpl$CacheEntry.class
 tech/yesboss/memory/service/MemoryServiceException.class
 tech/yesboss/gateway/im/impl/IMMessagePusherImpl.class
 tech/yesboss/memory/config/MemoryConfigValidator$ValidationResult.class
@@ -190,6 +200,7 @@ tech/yesboss/config/ConfigLoader$ConfigLoadException.class
 tech/yesboss/memory/config/DataIsolationValidator$ValidationIssue.class
 tech/yesboss/config/YesBossConfig$SQLiteConfig.class
 tech/yesboss/memory/model/Preference$Builder.class
+tech/yesboss/memory/cache/MemoryCache$CachePredicate.class
 tech/yesboss/llm/VendorSdkAdapter.class
 tech/yesboss/memory/config/DataIsolationValidator.class
 tech/yesboss/memory/query/MemoryQueryService.class
@@ -205,6 +216,7 @@ tech/yesboss/memory/config/VectorStoreConfigFactory$1.class
 tech/yesboss/memory/embedding/EmbeddingService.class
 tech/yesboss/memory/service/MemoryServiceImpl.class
 tech/yesboss/config/YesBossConfig$PoolConfig.class
+tech/yesboss/memory/cache/MemoryCache.class
 tech/yesboss/memory/api/MemoryController$FuzzySearchRequest.class
 tech/yesboss/memory/processor/ZhipuContentProcessorImpl$SegmentationResult.class
 tech/yesboss/gateway/ui/impl/UICardRendererImpl.class
@@ -216,8 +228,11 @@ tech/yesboss/llm/impl/ZhipuLlmClient$Function.class
 tech/yesboss/tool/planning/PlanningTool.class
 tech/yesboss/memory/processor/ProcessorMetrics.class
 tech/yesboss/memory/manager/MemoryManager.class
+tech/yesboss/memory/cache/MemoryCacheConfig$Builder.class
 tech/yesboss/config/YesBossConfig$LoggingConfig.class
+tech/yesboss/memory/cache/MemoryCacheConfig.class
 tech/yesboss/memory/model/Snippet$Builder.class
+tech/yesboss/memory/cache/MemoryCacheImpl$1.class
 tech/yesboss/memory/processor/MemoryProcessorConfig.class
 tech/yesboss/memory/vectorstore/VectorStore$SearchResult.class
 tech/yesboss/config/YesBossConfig$GeminiConfig.class
