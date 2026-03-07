@@ -268,6 +268,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
         try (Connection conn = dataSource.getConnection();
              Statement stmt = conn.createStatement()) {
 
+            stmt.execute(sql);
             return executeQuery(stmt);
 
         } catch (SQLException e) {
