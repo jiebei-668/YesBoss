@@ -1,4 +1,5 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/model/ImWebhookEvent.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/api/MemoryControllerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/query/MemoryQueryService.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.java
@@ -13,6 +14,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/impl/WorkerRunnerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/service/MemoryServiceException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/VectorStoreFactory.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/api/MemoryApiConfig.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/manager/MemoryManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertMessageEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/VendorSdkAdapter.java
@@ -90,6 +92,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/session/impl/SessionManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/embedding/EmbeddingServiceFactory.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/embedding/ZhipuEmbeddingServiceImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/api/MemoryApiException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/SuspendExecutionException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/health/MetricsCollector.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/InjectionEngine.java
@@ -109,6 +112,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/processor/ContentProcessor.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/processor/MemoryProcessorConfig.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/impl/LocalStreamManagerImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/api/MemoryController.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/sandbox/SandboxInterceptor.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/model/AgenticRagResult.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/LocalStreamManager.java

@@ -62,3 +62,14 @@ memory:
     batchProcessingMs: ${MEMORY_PERF_BATCH_TIME:1000}
     # Maximum memory usage (MB)
     maxMemoryUsageMb: ${MEMORY_PERF_MAX_MEMORY:512}
+
+  # API Configuration
+  api:
+    # Default number of results for query operations
+    defaultTopK: ${MEMORY_API_DEFAULT_TOPK:10}
+    # Maximum number of results allowed for query operations
+    maxTopK: ${MEMORY_API_MAX_TOPK:100}
+    # Query timeout (milliseconds)
+    queryTimeoutMs: ${MEMORY_API_QUERY_TIMEOUT:10000}
+    # Maximum number of retry attempts for failed operations
+    maxRetryAttempts: ${MEMORY_API_MAX_RETRIES:3}
