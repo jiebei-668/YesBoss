@@ -4,6 +4,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/service/MemoryService.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/UpdateTaskStatusEvent.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/config/MemoryConfig.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertToolExecutionLogEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/impl/CircuitBreakerImpl.java
@@ -19,6 +20,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/processor/ConversationSegment.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/model/PreferenceAggregationStats.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/CondensationEngine.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/config/MemoryConfigValidator.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/TaskSessionRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/AgentTool.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/SnippetRepository.java
@@ -47,10 +49,12 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/impl/InjectionEngineImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/planning/PlanningTool.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/CircuitBreakerOpenException.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/config/VectorStoreConfigFactory.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/VectorStore.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/trigger/TriggerServiceException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ModelRouter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/ToolExecutionLog.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/config/MemoryConfigManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/TaskSessionRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/session/SessionManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/impl/MasterRunnerImpl.java

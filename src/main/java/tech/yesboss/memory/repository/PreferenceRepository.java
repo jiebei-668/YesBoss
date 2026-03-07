@@ -4,16 +4,15 @@ import tech.yesboss.memory.model.Preference;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Repository interface for Preference entities.
  *
- * Handles CRUD operations for user preference topics with support for:
+ * Handles CRUD operations for user preferences with support for:
  * - Basic CRUD (create, read, update, delete)
- * - Name-based queries
- * - Batch operations
- * - Embedding-related queries
- * - Smart update mechanisms
+ * - Query by user and session
+ * - Preference value updates
  *
  * Note: This is a simplified interface using JDBC (not Spring Data JPA)
  * to match the project's architecture.
@@ -45,25 +44,35 @@ public interface PreferenceRepository {
     Optional<Preference> findById(String id);
 
     /**
-     * Find preference by name.
+     * Find preferences by user ID.
      *
-     * @param name Preference name (unique)
-     * @return Optional containing the preference, or empty if not found
+     * @param userId User ID
+     * @return List of preferences
      */
-    Optional<Preference> findByName(String name);
+    List<Preference> findByUserId(String userId);
 
     /**
-     * Find preferences without embeddings.
+     * Find preference by user ID and key.
      *
-     * @return List of preferences without embeddings (max 1000)
+     * @param userId User ID
+     * @param key Preference key
+     * @return Optional containing the preference, or empty if not found
      */
-    List<Preference> findPreferencesWithoutEmbedding();
+    Optional<Preference> findByUserIdAndKey(String userId, String key);
+
+    /**
+     * Find preferences by session ID.
+     *
+     * @param sessionId Session ID
+     * @return List of preferences
+     */
+    List<Preference> findBySessionId(String sessionId);
 
     /**
      * Find preferences by time range.
      *
-     * @param startTime Start timestamp (millis)
-     * @param endTime End timestamp (millis)
+     * @param startTime Start timestamp
+     * @param endTime End timestamp
      * @return List of preferences
      */
     List<Preference> findByTimeRange(long startTime, long endTime);
@@ -77,14 +86,14 @@ public interface PreferenceRepository {
     Preference update(Preference preference);
 
     /**
-     * Update summary and embedding by name.
+     * Update preference value by user ID and key.
      *
-     * @param name Preference name
-     * @param newSummary New summary text
-     * @param newEmbedding New embedding (can be null to remove)
+     * @param userId User ID
+     * @param key Preference key
+     * @param value New value
      * @return true if updated, false if not found
      */
-    boolean updateSummaryAndEmbedding(String name, String newSummary, byte[] newEmbedding);
+    boolean updateValue(String userId, String key, String value);
 
     /**
      * Delete a preference by ID.
@@ -95,20 +104,28 @@ public interface PreferenceRepository {
     boolean deleteById(String id);
 
     /**
-     * Delete a preference by name.
-     *
-     * @param name Preference name
-     * @return true if deleted, false if not found
-     */
-    boolean deleteByName(String name);
-
-    /**
      * Delete multiple preferences by IDs.
      *
      * @param ids Preference IDs to delete
      * @return Number of deleted preferences
      */
     int deleteAll(List<String> ids);
+
+    /**
+     * Delete preferences by user ID.
+     *
+     * @param userId User ID
+     * @return Number of deleted preferences
+     */
+    int deleteByUserId(String userId);
+
+    /**
+     * Delete preferences by session ID.
+     *
+     * @param sessionId Session ID
+     * @return Number of deleted preferences
+     */
+    int deleteBySessionId(String sessionId);
 
     /**
      * Check if a preference exists by ID.
@@ -119,14 +136,6 @@ public interface PreferenceRepository {
     boolean existsById(String id);
 
     /**
-     * Check if a preference exists by name.
-     *
-     * @param name Preference name
-     * @return true if exists, false otherwise
-     */
-    boolean existsByName(String name);
-
-    /**
      * Get total preference count.
      *
      * @return Total count
@@ -134,46 +143,24 @@ public interface PreferenceRepository {
     long count();
 
     /**
+     * Get preference count by user ID.
+     *
+     * @param userId User ID
+     * @return Preference count
+     */
+    long countByUserId(String userId);
+
+    /**
+     * Get preference count by session ID.
+     *
+     * @param sessionId Session ID
+     * @return Preference count
+     */
+
+    /**
      * Clear all preferences.
      */
     void clear();
-
-    /**
-     * Find preferences by multiple IDs.
-     *
-     * @param ids List of preference IDs
-     * @return List of preferences
-     */
-    List<Preference> findByIds(List<String> ids);
-
-    /**
-     * Find preference by ID (non-optional version).
-     *
-     * @param id Preference ID
-     * @return Preference or null if not found
-     */
-
-    /**
-     * Find preferences by session ID (STUBBED - requires schema update).
-     *
-     * @param sessionId Session ID
-     * @return List of preferences
-     */
-    default List<Preference> findBySessionId(String sessionId) {
-        // STUB: Requires session_id field in preferences table
-        return List.of();
-    }
-
-    /**
-     * Find preference by ID (non-optional version).
-     *
-     * @param id Preference ID
-     * @return Preference or null if not found
-     */
-    default Preference find(String id) {
-        return findById(id).orElse(null);
-    }
-}
 
     /**
      * Find preferences by multiple IDs.
@@ -191,3 +178,71 @@ public interface PreferenceRepository {
                 .map(Optional::get)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * Find preference by ID (non-optional version).
+     *
+     * @param id Preference ID
+     * @return Preference or null if not found
+     */
+
+    /**
+     * Update preference summary and embedding by name.
+     *
+     * @param name Preference name
+     * @param newSummary New summary
+     * @param newEmbedding New embedding
+     * @return true if updated, false if not found
+     */
+    boolean updateSummaryAndEmbedding(String name, String newSummary, byte[] newEmbedding);
+
+    /**
+     * Delete preference by name.
+     *
+     * @param name Preference name
+     * @return true if deleted, false if not found
+     */
+    boolean deleteByName(String name);
+
+    /**
+     * Check if a preference exists by name.
+     *
+     * @param name Preference name
+     * @return true if exists, false otherwise
+     */
+    boolean existsByName(String name);
+
+    default Preference find(String id) {
+        return findById(id).orElse(null);
+    }
+
+    /**
+     * Find preference by name.
+     *
+     * @param name Preference name
+     * @return Optional containing the preference, or empty if not found
+     */
+    Optional<Preference> findByName(String name);
+
+    /**
+     * Find preferences without embeddings.
+     *
+     * @return List of preferences without embeddings
+     */
+    List<Preference> findPreferencesWithoutEmbedding();
+
+    /**
+     * Get preference count by session ID.
+     *
+     * @param sessionId Session ID
+     * @return Preference count
+     */
+
+    /**
+     * Get preference count by session ID.
+     *
+     * @param sessionId Session ID
+     * @return Preference count
+     */
+    long countBySessionId(String sessionId);
+}

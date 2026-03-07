@@ -4,6 +4,7 @@ import tech.yesboss.memory.model.Resource;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Repository interface for Resource entities.
@@ -159,14 +160,16 @@ public interface ResourceRepository {
      * @param ids List of resource IDs
      * @return List of resources
      */
-    List<Resource> findByIds(List<String> ids);
-
-    /**
-     * Find resource by ID (non-optional version).
-     *
-     * @param id Resource ID
-     * @return Resource or null if not found
-     */
+    default List<Resource> findByIds(List<String> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+        return ids.stream()
+                .map(this::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+    }
 
     /**
      * Find resource by ID (non-optional version).
@@ -178,20 +181,3 @@ public interface ResourceRepository {
         return findById(id).orElse(null);
     }
 }
-
-    /**
-     * Find resources by multiple IDs.
-     *
-     * @param ids List of resource IDs
-     * @return List of resources
-     */
-    default List<Resource> findByIds(List<String> ids) {
-        if (ids == null || ids.isEmpty()) {
-            return List.of();
-        }
-        return ids.stream()
-                .map(this::findById)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toList());
-    }

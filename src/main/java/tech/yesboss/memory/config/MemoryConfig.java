@@ -260,7 +260,7 @@ public class MemoryConfig {
                 logger.warn("Invalid backend type: {}, using default", type);
             }
         }
-        return DEFAULTS.get(BACKEND_TYPE);
+        return (BackendType) DEFAULTS.get(BACKEND_TYPE);
     }
 
     /**
@@ -454,17 +454,17 @@ public class MemoryConfig {
         summary.append("  Backend Type: ").append(backendType).append("\n");
 
         if (backendType == BackendType.SQLITE_VEC) {
-            summary.append("  SQLite Path: ").append(get(SQLITE_PATH)).append("\n");
+            summary.append("  SQLite Path: ").append(String.valueOf(get(SQLITE_PATH))).append("\n");
         } else {
             summary.append("  PostgreSQL URL: ").append(getPostgreSQLUrl()).append("\n");
         }
 
-        summary.append("  Vector Dimension: ").append(get(VECTOR_DIMENSION)).append("\n");
-        summary.append("  Similarity Threshold: ").append(get(SIMILARITY_THRESHOLD)).append("\n");
-        summary.append("  Batch Size: ").append(get(BATCH_SIZE)).append("\n");
-        summary.append("  Cache Enabled: ").append(get(CACHE_ENABLED)).append("\n");
-        summary.append("  Cache Size: ").append(get(CACHE_SIZE)).append("\n");
-        summary.append("  Hot Reload: ").append(get(HOT_RELOAD_ENABLED)).append("\n");
+        summary.append("  Vector Dimension: ").append(String.valueOf(get(VECTOR_DIMENSION))).append("\n");
+        summary.append("  Similarity Threshold: ").append(String.valueOf(get(SIMILARITY_THRESHOLD))).append("\n");
+        summary.append("  Batch Size: ").append(String.valueOf(get(BATCH_SIZE))).append("\n");
+        summary.append("  Cache Enabled: ").append(String.valueOf(get(CACHE_ENABLED))).append("\n");
+        summary.append("  Cache Size: ").append(String.valueOf(get(CACHE_SIZE))).append("\n");
+        summary.append("  Hot Reload: ").append(String.valueOf(get(HOT_RELOAD_ENABLED))).append("\n");
 
         return summary.toString();
     }

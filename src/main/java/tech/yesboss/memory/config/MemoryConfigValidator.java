@@ -97,7 +97,12 @@ public class MemoryConfigValidator {
     public MemoryConfigValidator() {
         this.config = MemoryConfig.getInstance();
         this.issues = new ArrayList<>();
-        this.systemProperties = new ConcurrentHashMap<>(System.getProperties());
+        this.systemProperties = new ConcurrentHashMap<>();
+        System.getProperties().forEach((k, v) -> {
+            if (k instanceof String) {
+                this.systemProperties.put((String) k, v);
+            }
+        });
     }
 
     /**
