@@ -2,6 +2,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/model/ImWebhookEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/im/FeishuApiClient.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/embedding/EmbeddingService.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/UpdateTaskStatusEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/ResourceRepository.java
@@ -29,8 +30,11 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/DatabaseInitializer.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/AgentTool.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/SnippetRepository.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/embedding/EmbeddingException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/impl/CondensationEngineImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/session/impl/SessionManagerImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/embedding/EmbeddingServiceFactory.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/embedding/ZhipuEmbeddingServiceImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/ApplicationContext.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/domain/message/UnifiedMessage.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/CircuitBreaker.java
