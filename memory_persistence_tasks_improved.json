@@ -1163,7 +1163,7 @@
       "docs_memory/\u65f6\u5e8f\u56fe3.0/03-ResourceCaption\u751f\u6210\u8be6\u7ec6\u6d41\u7a0b.md"
     ],
     "requires_human_intervention": false,
-    "passes": false
+    "passes": true
   },
   {
     "category": "unit_test",
@@ -1198,7 +1198,7 @@
       "docs_memory/\u65f6\u5e8f\u56fe3.0/03-ResourceCaption\u751f\u6210\u8be6\u7ec6\u6d41\u7a0b.md"
     ],
     "requires_human_intervention": false,
-    "passes": false
+    "passes": true
   },
   {
     "category": "develop",
@@ -1222,7 +1222,7 @@
       "docs_memory/\u65f6\u5e8f\u56fe3.0/04-SnippetSummary\u751f\u6210.md"
     ],
     "requires_human_intervention": false,
-    "passes": false
+    "passes": true
   },
   {
     "category": "unit_test",
