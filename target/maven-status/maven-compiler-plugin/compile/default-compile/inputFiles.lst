@@ -35,6 +35,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/controller/impl/WebhookControllerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/PreferenceRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/model/Preference.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/config/DataIsolationValidator.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/ToolRegistry.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/health/HealthCheckService.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/trigger/TriggerService.java
