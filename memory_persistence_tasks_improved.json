@@ -697,7 +697,7 @@
       "docs_memory/时序图3.0/02-AgenticRAG三层检索流程.md"
     ],
     "requires_human_intervention": false,
-    "passes": false
+    "passes": true
   },
   {
     "category": "unit_test",

@@ -152,4 +152,46 @@ public interface ResourceRepository {
      * Clear all resources.
      */
     void clear();
+
+    /**
+     * Find resources by multiple IDs.
+     *
+     * @param ids List of resource IDs
+     * @return List of resources
+     */
+    List<Resource> findByIds(List<String> ids);
+
+    /**
+     * Find resource by ID (non-optional version).
+     *
+     * @param id Resource ID
+     * @return Resource or null if not found
+     */
+
+    /**
+     * Find resource by ID (non-optional version).
+     *
+     * @param id Resource ID
+     * @return Resource or null if not found
+     */
+    default Resource find(String id) {
+        return findById(id).orElse(null);
+    }
 }
+
+    /**
+     * Find resources by multiple IDs.
+     *
+     * @param ids List of resource IDs
+     * @return List of resources
+     */
+    default List<Resource> findByIds(List<String> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+        return ids.stream()
+                .map(this::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+    }

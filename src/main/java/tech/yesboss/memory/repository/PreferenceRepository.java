@@ -137,4 +137,57 @@ public interface PreferenceRepository {
      * Clear all preferences.
      */
     void clear();
+
+    /**
+     * Find preferences by multiple IDs.
+     *
+     * @param ids List of preference IDs
+     * @return List of preferences
+     */
+    List<Preference> findByIds(List<String> ids);
+
+    /**
+     * Find preference by ID (non-optional version).
+     *
+     * @param id Preference ID
+     * @return Preference or null if not found
+     */
+
+    /**
+     * Find preferences by session ID (STUBBED - requires schema update).
+     *
+     * @param sessionId Session ID
+     * @return List of preferences
+     */
+    default List<Preference> findBySessionId(String sessionId) {
+        // STUB: Requires session_id field in preferences table
+        return List.of();
+    }
+
+    /**
+     * Find preference by ID (non-optional version).
+     *
+     * @param id Preference ID
+     * @return Preference or null if not found
+     */
+    default Preference find(String id) {
+        return findById(id).orElse(null);
+    }
 }
+
+    /**
+     * Find preferences by multiple IDs.
+     *
+     * @param ids List of preference IDs
+     * @return List of preferences
+     */
+    default List<Preference> findByIds(List<String> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+        return ids.stream()
+                .map(this::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+    }

@@ -171,4 +171,104 @@ public interface SnippetRepository {
      * Clear all snippets.
      */
     void clear();
+
+    /**
+     * Find snippets by multiple IDs.
+     *
+     * @param ids List of snippet IDs
+     * @return List of snippets
+     */
+    List<Snippet> findByIds(List<String> ids);
+
+    /**
+     * Find snippets by preference ID.
+     *
+     * @param preferenceId Preference ID
+     * @return List of snippets
+     */
+
+    /**
+     * Find snippets by preference ID and time range.
+     *
+     * @param preferenceId Preference ID
+     * @param startTime Start timestamp (millis)
+     * @param endTime End timestamp (millis)
+     * @return List of snippets
+     */
+
+    /**
+     * Find snippets by multiple resource IDs.
+     *
+     * @param resourceIds List of resource IDs
+     * @return List of snippets
+     */
+    List<Snippet> findByResourceIds(List<String> resourceIds);
+
+    /**
+     * Search snippets by keyword.
+     *
+     * @param keyword Keyword to search for
+     * @param topK Maximum number of results
+     * @return List of snippets
+     */
+    List<Snippet> searchByKeyword(String keyword, int topK);
+
+    /**
+     * Search snippets by keyword and preference ID.
+     *
+     * @param keyword Keyword to search for
+     * @param preferenceId Preference ID
+     * @param topK Maximum number of results
+     * @return List of snippets
+     */
+
+    /**
+     * Find snippets by time range with limit.
+     *
+     * @param startTime Start timestamp (millis)
+     * @param endTime End timestamp (millis)
+     * @param topK Maximum number of results
+     * @return List of snippets
+     */
+    List<Snippet> findByTimeRange(long startTime, long endTime, int topK);
+
+    /**
+    List<Snippet> findByTimeRange(long startTime, long endTime, int topK);
+
+    /**
+     * Find snippets by preference ID (STUBBED - requires schema update).
+     *
+     * @param preferenceId Preference ID
+     * @return List of snippets
+     */
+    default List<Snippet> findByPreferenceId(String preferenceId) {
+        // STUB: Requires preference_id field in snippets table
+        return List.of();
+    }
+
+    /**
+     * Find snippets by preference ID and time range (STUBBED - requires schema update).
+     *
+     * @param preferenceId Preference ID
+     * @param startTime Start timestamp (millis)
+     * @param endTime End timestamp (millis)
+     * @return List of snippets
+     */
+    default List<Snippet> findByPreferenceIdAndTimeRange(String preferenceId, long startTime, long endTime) {
+        // STUB: Requires preference_id field in snippets table
+        return List.of();
+    }
+
+    /**
+     * Search snippets by keyword and preference (STUBBED - requires schema update).
+     *
+     * @param keyword Keyword to search for
+     * @param preferenceId Preference ID
+     * @param topK Maximum number of results
+     * @return List of snippets
+     */
+    default List<Snippet> searchByKeywordAndPreference(String keyword, String preferenceId, int topK) {
+        // STUB: Requires preference_id field in snippets table
+        return List.of();
+    }
 }

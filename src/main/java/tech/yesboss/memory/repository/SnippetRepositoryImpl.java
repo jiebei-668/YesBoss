@@ -629,4 +629,133 @@ public class SnippetRepositoryImpl implements SnippetRepository {
             java.time.ZoneId.systemDefault()
         );
     }
+
+    @Override
+    public List<Snippet> findByIds(List<String> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        String placeholders = String.join(",", Collections.nCopies(ids.size(), "?"));
+        String sql = "SELECT * FROM snippets WHERE id IN (" + placeholders + ") AND deleted = 0";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            for (int i = 0; i < ids.size(); i++) {
+                pstmt.setString(i + 1, ids.get(i));
+            }
+            return executeQuery(pstmt);
+        } catch (SQLException e) {
+            logger.error("Failed to find snippets by IDs", e);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Snippet> findByPreferenceId(String preferenceId) {
+        String sql = "SELECT * FROM snippets WHERE preference_id = ? AND deleted = 0 ORDER BY created_at DESC";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, preferenceId);
+            return executeQuery(pstmt);
+        } catch (SQLException e) {
+            logger.error("Failed to find snippets by preference ID", e);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Snippet> findByPreferenceIdAndTimeRange(String preferenceId, long startTime, long endTime) {
+        String sql = "SELECT * FROM snippets WHERE preference_id = ? AND deleted = 0 " +
+                     "AND created_at >= ? AND created_at <= ? ORDER BY created_at DESC";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, preferenceId);
+            pstmt.setLong(2, startTime);
+            pstmt.setLong(3, endTime);
+            return executeQuery(pstmt);
+        } catch (SQLException e) {
+            logger.error("Failed to find snippets by preference ID and time range", e);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Snippet> findByResourceIds(List<String> resourceIds) {
+        if (resourceIds == null || resourceIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        String placeholders = String.join(",", Collections.nCopies(resourceIds.size(), "?"));
+        String sql = "SELECT * FROM snippets WHERE resource_id IN (" + placeholders + ") AND deleted = 0";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            for (int i = 0; i < resourceIds.size(); i++) {
+                pstmt.setString(i + 1, resourceIds.get(i));
+            }
+            return executeQuery(pstmt);
+        } catch (SQLException e) {
+            logger.error("Failed to find snippets by resource IDs", e);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Snippet> searchByKeyword(String keyword, int topK) {
+        String sql = "SELECT * FROM snippets WHERE (summary LIKE ? OR content LIKE ?) AND deleted = 0 " +
+                     "ORDER BY created_at DESC LIMIT ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            String searchTerm = "%" + keyword + "%";
+            pstmt.setString(1, searchTerm);
+            pstmt.setString(2, searchTerm);
+            pstmt.setInt(3, topK);
+            return executeQuery(pstmt);
+        } catch (SQLException e) {
+            logger.error("Failed to search snippets by keyword", e);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Snippet> searchByKeywordAndPreference(String keyword, String preferenceId, int topK) {
+        String sql = "SELECT * FROM snippets WHERE preference_id = ? AND " +
+                     "(summary LIKE ? OR content LIKE ?) AND deleted = 0 " +
+                     "ORDER BY created_at DESC LIMIT ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            String searchTerm = "%" + keyword + "%";
+            pstmt.setString(1, preferenceId);
+            pstmt.setString(2, searchTerm);
+            pstmt.setString(3, searchTerm);
+            pstmt.setInt(4, topK);
+            return executeQuery(pstmt);
+        } catch (SQLException e) {
+            logger.error("Failed to search snippets by keyword and preference", e);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Snippet> findByTimeRange(long startTime, long endTime, int topK) {
+        String sql = "SELECT * FROM snippets WHERE deleted = 0 " +
+                     "AND created_at >= ? AND created_at <= ? " +
+                     "ORDER BY created_at DESC LIMIT ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setLong(1, startTime);
+            pstmt.setLong(2, endTime);
+            pstmt.setInt(3, topK);
+            return executeQuery(pstmt);
+        } catch (SQLException e) {
+            logger.error("Failed to find snippets by time range", e);
+            return Collections.emptyList();
+        }
+    }
 }
