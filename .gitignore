@@ -61,6 +61,7 @@ Thumbs.db
 dist/
 build/
 out/
+target/
 
 # Test coverage
 .jacoco/

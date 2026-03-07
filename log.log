@@ -2557,3 +2557,73 @@ Compliance:
 - Feishu official documentation referenced
 - 1-second response time requirement met (immediate return)
 
+
+========================================
+Task Execution Summary - 2026-03-07
+========================================
+
+Task ID: 1 (Index 0)
+Category: develop
+Module: 数据库基础架构设计
+
+Status: SUCCESS ✓
+
+Implementation Details:
+- File: src/main/resources/db/migration/V2__init_memory_tables.sql
+- Database: SQLite with sqlite-vec extension support
+
+Tables Created:
+1. resources table (对话资源存储)
+   - id: TEXT PRIMARY KEY (UUID)
+   - conversation_id: TEXT NOT NULL (FK → task_session)
+   - session_id: TEXT NOT NULL (FK → task_session)
+   - content: TEXT NOT NULL (max 10000 chars)
+   - abstract: TEXT (LLM-generated summary)
+   - embedding: BLOB (6144 bytes for 1536-dim float32 vector)
+   - message_count: INTEGER DEFAULT 0
+   - deleted: INTEGER DEFAULT 0 (0/1)
+   - created_at, updated_at: INTEGER NOT NULL (timestamps)
+
+2. snippets table (结构化记忆)
+   - id: TEXT PRIMARY KEY (UUID)
+   - resource_id: TEXT NOT NULL (FK → resources ON DELETE CASCADE)
+   - summary: TEXT NOT NULL (structured memory)
+   - memory_type: TEXT NOT NULL CHECK('PROFILE','EVENT','KNOWLEDGE','BEHAVIOR','SKILL','TOOL')
+   - embedding: BLOB (6144 bytes)
+   - timestamp: INTEGER NOT NULL
+   - deleted: INTEGER DEFAULT 0 (0/1)
+   - created_at, updated_at: INTEGER NOT NULL
+
+3. preferences table (偏好主题)
+   - id: TEXT PRIMARY KEY (UUID)
+   - name: TEXT NOT NULL UNIQUE (VARCHAR 100)
+   - summary: TEXT NOT NULL (category summary)
+   - embedding: BLOB (6144 bytes)
+   - deleted: INTEGER DEFAULT 0 (0/1)
+   - created_at, updated_at: INTEGER NOT NULL
+
+Indexes Created:
+- resource_conversation_idx: ON resources(conversation_id)
+- resource_session_idx: ON resources(session_id)
+- resource_embedding_null_idx: ON resources(embedding) WHERE embedding IS NULL
+- resource_created_at_idx: ON resources(created_at)
+- snippet_resource_idx: ON snippets(resource_id)
+- snippet_embedding_null_idx: ON snippets(embedding) WHERE embedding IS NULL
+- snippet_memory_type_idx: ON snippets(memory_type)
+- snippet_timestamp_idx: ON snippets(timestamp)
+- preference_name_idx: ON preferences(name)
+- preference_embedding_null_idx: ON preferences(embedding) WHERE embedding IS NULL
+
+Vector Index Support:
+- Added commented CREATE VIRTUAL TABLE statements for sqlite-vec extension
+- Configured for HNSW algorithm (M=16, ef_construction=64)
+- Supports 1536-dimensional float32 vectors (6144 bytes)
+
+Compliance:
+- All task requirements met
+- Foreign key constraints with ON DELETE CASCADE
+- NOT NULL constraints applied
+- CHECK constraints for enums
+- UNIQUE constraints for primary keys and preference.name
+- Performance indexes added
+- Migration follows existing V1 schema conventions

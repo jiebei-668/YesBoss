@@ -67,29 +67,24 @@ sequenceDiagram
         else 需要继续检索
             Note over MemoryQueryService: 第三层：Resource检索
 
-            MemoryQueryService->>SnippetRepository: SnippetRepository::findByResourceIds(resourceIds)
-            activate SnippetRepository
-            SnippetRepository-->>MemoryQueryService: List<Snippet> linkedSnippets
-            deactivate SnippetRepository
+            MemoryQueryService->>VectorStore: VectorStore::search("resource_index", queryVector, topK)
+            activate VectorStore
+            VectorStore-->>MemoryQueryService: List<VectorSearchResult> resourceResults
+            deactivate VectorStore
+
+            Note over MemoryQueryService: 提取resourceIds
 
             MemoryQueryService->>ResourceRepository: ResourceRepository::findByIds(resourceIds)
             activate ResourceRepository
             ResourceRepository-->>MemoryQueryService: List<Resource>
             deactivate ResourceRepository
 
-            MemoryQueryService->>VectorStore: VectorStore::search("resource_index", queryVector, topK)
-            activate VectorStore
-            VectorStore-->>MemoryQueryService: List<VectorSearchResult> resourceResults
-            deactivate VectorStore
+            MemoryQueryService->>SnippetRepository: SnippetRepository::findByResourceIds(resourceIds)
+            activate SnippetRepository
+            SnippetRepository-->>MemoryQueryService: List<Snippet> linkedSnippets
+            deactivate SnippetRepository
 
-            Note over MemoryQueryService: 提取resultResourceIds
-
-            MemoryQueryService->>ResourceRepository: ResourceRepository::findByIds(resultResourceIds)
-            activate ResourceRepository
-            ResourceRepository-->>MemoryQueryService: List<Resource>
-            deactivate ResourceRepository
-
-            MemoryQueryService-->>User: AgenticRagResult(query=RESOURCE, preferences, snippets, resources, decisionHistory)
+            MemoryQueryService-->>User: AgenticRagResult(query=RESOURCE, preferences, snippets, resources, linkedSnippets, decisionHistory)
         end
     end
 ```
@@ -106,9 +101,14 @@ public class AgenticRagResult {
     private List<Preference> preferences;        // ✅ 存在
     private List<Snippet> snippets;             // ✅ 存在
     private List<Resource> resources;           // ✅ 存在
+    private List<Snippet> linkedSnippets;       // ✅ 新增（第三层检索时关联的snippets）
     private List<DecisionLog> decisionHistory;  // ✅ 存在（不是decisionLogs）
 }
 ```
+
+**v3.0-Final修正说明**：
+- `linkedSnippets`字段在第三层检索时填充，包含与检索到的resources关联的所有snippets
+- 第三层检索逻辑：先全局检索resource向量，再根据resourceIds获取linkedSnippets
 
 ### 修正2：返回值表示方式
 
@@ -117,7 +117,12 @@ public class AgenticRagResult {
 MemoryQueryService-->>User: AgenticRagResult(finalLevel=PREFERENCE, isSufficient=true)
 
 // ✅ v3.0-Final（使用实际存在的字段）
+// PREFERENCE层：
 MemoryQueryService-->>User: AgenticRagResult(query=PREFERENCE, preferences, decisionHistory)
+// SNIPPET层：
+MemoryQueryService-->>User: AgenticRagResult(query=SNIPPET, preferences, snippets, decisionHistory)
+// RESOURCE层：
+MemoryQueryService-->>User: AgenticRagResult(query=RESOURCE, preferences, snippets, resources, linkedSnippets, decisionHistory)
 ```
 
 **说明**：
