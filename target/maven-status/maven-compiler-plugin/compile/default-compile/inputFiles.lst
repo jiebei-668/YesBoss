@@ -14,6 +14,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/impl/WorkerRunnerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/service/MemoryServiceException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/VectorStoreFactory.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/migration/DataMigrationTool.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/api/MemoryApiConfig.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/manager/MemoryManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertMessageEvent.java
@@ -63,11 +64,13 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/impl/MasterRunnerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/impl/SuspendResumeEngineImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/PreferenceRepositoryImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/migration/DataMigrationToolImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteMessagesEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/manager/MemoryManagerException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/ToolAccessLevel.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/mcp/McpToolAdapter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/InsertTaskSessionEvent.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/migration/DataMigrationException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ZhipuLlmClient.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/processor/ContentProcessingException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepository.java

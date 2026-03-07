@@ -1,19 +1,24 @@
+tech/yesboss/memory/migration/DataMigrationTool$MigrationRequest.class
 tech/yesboss/safeguard/CircuitBreaker.class
 tech/yesboss/context/engine/CondensationEngine.class
+tech/yesboss/memory/migration/DataMigrationTool$MigrationRecord.class
 tech/yesboss/config/YesBossConfig$ServerConfig.class
 tech/yesboss/gateway/im/IMMessagePusher.class
 tech/yesboss/health/MetricsCollector.class
+tech/yesboss/memory/migration/DataMigrationToolImpl.class
 tech/yesboss/persistence/event/DeleteTaskSessionEvent.class
 tech/yesboss/config/YesBossConfig$CircuitBreakerConfig.class
 tech/yesboss/memory/model/Snippet$MemoryType.class
 tech/yesboss/persistence/event/InsertMessageEvent.class
 tech/yesboss/config/YesBossConfig$TaskConfig.class
+tech/yesboss/memory/migration/DataMigrationTool$ValidationWarning.class
 tech/yesboss/memory/api/MemoryController.class
 tech/yesboss/llm/impl/ZhipuLlmClient$Usage.class
 tech/yesboss/memory/processor/ZhipuContentProcessorImpl.class
 tech/yesboss/domain/message/UnifiedMessage$Role.class
 tech/yesboss/memory/api/MemoryController$SemanticSearchRequest.class
 tech/yesboss/runner/impl/MasterRunnerImpl.class
+tech/yesboss/memory/migration/DataMigrationTool$MigrationConfig.class
 tech/yesboss/memory/service/MemoryService$BatchEmbeddingRequest.class
 tech/yesboss/config/YesBossConfig$SchedulerConfig.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$1.class
@@ -77,6 +82,7 @@ tech/yesboss/memory/processor/ProcessorCache.class
 tech/yesboss/domain/message/UnifiedMessage$ToolCall.class
 tech/yesboss/tool/sandbox/SandboxInterceptor.class
 tech/yesboss/config/YesBossConfig$OpenAIConfig.class
+tech/yesboss/memory/migration/DataMigrationException$ErrorType.class
 tech/yesboss/domain/message/UnifiedMessage.class
 tech/yesboss/state/model/ImRoute.class
 tech/yesboss/memory/api/MemoryController$ExtractResponse.class
@@ -117,6 +123,7 @@ tech/yesboss/memory/config/MemoryConfigValidator$ValidationIssue.class
 tech/yesboss/gateway/im/FeishuApiClient.class
 tech/yesboss/safeguard/CircuitBreakerOpenException.class
 tech/yesboss/memory/api/MemoryController$HybridSearchRequest.class
+tech/yesboss/memory/migration/DataMigrationTool$ValidationError.class
 tech/yesboss/memory/scheduler/MemoryExtractionScheduler.class
 tech/yesboss/memory/processor/ZhipuContentProcessorImpl$CacheKey.class
 tech/yesboss/memory/config/MemoryConfig$BackendType.class
@@ -132,8 +139,10 @@ tech/yesboss/config/ConfigurationManager.class
 tech/yesboss/config/YesBossConfig$ThreadPoolConfig.class
 tech/yesboss/memory/api/MemoryController$ExtractRequest.class
 tech/yesboss/config/YesBossConfig$PushConfig.class
+tech/yesboss/memory/migration/DataMigrationTool$MigrationProgress.class
 tech/yesboss/memory/api/MemoryController$MetricsResponse.class
 tech/yesboss/context/engine/InjectionEngine.class
+tech/yesboss/memory/migration/DataMigrationTool.class
 tech/yesboss/config/YesBossConfig$FeishuConfig.class
 tech/yesboss/ApplicationContext.class
 tech/yesboss/llm/impl/ZhipuLlmClient.class
@@ -144,6 +153,7 @@ tech/yesboss/memory/model/Snippet.class
 tech/yesboss/llm/LlmClient.class
 tech/yesboss/memory/embedding/ZhipuEmbeddingServiceImpl.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ToolCall.class
+tech/yesboss/memory/migration/DataMigrationException.class
 tech/yesboss/memory/service/MemoryService$BatchEmbeddingResult.class
 tech/yesboss/persistence/event/InsertToolExecutionLogEvent.class
 tech/yesboss/runner/MasterRunner.class
@@ -179,8 +189,10 @@ tech/yesboss/memory/query/MemoryQueryService.class
 tech/yesboss/memory/embedding/ZhipuEmbeddingServiceImpl$EmbeddingResponse.class
 tech/yesboss/memory/manager/MemoryManagerException.class
 tech/yesboss/persistence/repository/TaskSessionRepositoryImpl.class
+tech/yesboss/memory/migration/DataMigrationTool$BatchMigrationResult.class
 tech/yesboss/persistence/db/SQLiteConnectionManager.class
 tech/yesboss/memory/processor/ProcessorCache$CacheStats.class
+tech/yesboss/memory/migration/DataMigrationTool$MigrationResult.class
 tech/yesboss/persistence/event/DbWriteEvent.class
 tech/yesboss/memory/config/VectorStoreConfigFactory$1.class
 tech/yesboss/memory/embedding/EmbeddingService.class
@@ -208,7 +220,9 @@ tech/yesboss/tool/registry/impl/ToolRegistryImpl.class
 tech/yesboss/memory/trigger/TriggerService.class
 tech/yesboss/persistence/db/SingleThreadDbWriter.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatRequest.class
+tech/yesboss/memory/migration/DataMigrationTool$BatchMigrationRequest.class
 tech/yesboss/memory/config/DataIsolationValidator$DatabaseIsolationInfo.class
+tech/yesboss/memory/migration/DataMigrationTool$ValidationResult.class
 tech/yesboss/safeguard/impl/CircuitBreakerImpl.class
 tech/yesboss/health/HealthCheckService.class
 tech/yesboss/safeguard/impl/SuspendResumeEngineImpl$SuspensionContext.class
@@ -217,6 +231,7 @@ tech/yesboss/memory/model/Preference.class
 tech/yesboss/domain/message/UnifiedMessage$ToolResult.class
 tech/yesboss/memory/repository/PreferenceRepositoryImpl.class
 tech/yesboss/domain/message/UnifiedMessage$PayloadFormat.class
+tech/yesboss/memory/migration/DataMigrationTool$MigrationStatus.class
 tech/yesboss/memory/processor/ZhipuContentProcessorImpl$SegmentData.class
 tech/yesboss/persistence/db/DatabaseInitializer.class
 tech/yesboss/memory/processor/ConversationSegment.class
@@ -226,6 +241,7 @@ tech/yesboss/memory/model/AgenticRagResult.class
 tech/yesboss/memory/trigger/ConversationRoundTrigger.class
 tech/yesboss/memory/embedding/ZhipuEmbeddingServiceImpl$EmbeddingData.class
 tech/yesboss/memory/repository/SnippetRepository.class
+tech/yesboss/memory/migration/DataMigrationTool$RollbackResult.class
 tech/yesboss/memory/model/Resource$Builder.class
 tech/yesboss/memory/model/Resource.class
 tech/yesboss/config/YesBossConfig$ModelConfig.class
