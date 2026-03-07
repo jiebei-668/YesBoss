@@ -15,6 +15,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/impl/WorkerRunnerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/service/MemoryServiceException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/VectorStoreFactory.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/error/MemoryException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/migration/DataMigrationTool.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/api/MemoryApiConfig.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/manager/MemoryManager.java
@@ -31,6 +32,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/SnippetRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/cache/MemoryCacheConfig.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/embedding/EmbeddingException.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/error/CircuitBreakerConfig.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/ApplicationContext.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/domain/message/UnifiedMessage.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/CircuitBreaker.java
@@ -51,6 +53,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/model/DecisionLog.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/service/MemoryServiceImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/processor/ZhipuContentProcessorImpl.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/error/MemoryErrorHandler.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/model/Snippet.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/logging/MemoryLoggerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/logging/MemoryLoggerException.java
@@ -101,6 +104,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DbWriteEvent.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/runner/MasterRunner.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/db/DatabaseInitializer.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/error/MemoryErrorHandlerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/context/engine/impl/CondensationEngineImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/session/impl/SessionManagerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/embedding/EmbeddingServiceFactory.java
@@ -118,6 +122,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/ResourceRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/TaskSession.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/webhook/route/WebhookRouteHandler.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/error/RetryPolicy.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/config/ConfigurationManager.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/cache/MemoryCache.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/LlmClient.java
