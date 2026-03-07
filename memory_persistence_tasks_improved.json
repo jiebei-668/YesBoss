@@ -1080,7 +1080,7 @@
       "docs_memory/时序图3.0/08-向量化批处理.md"
     ],
     "requires_human_intervention": false,
-    "passes": false
+    "passes": true
   },
   {
     "category": "develop",
