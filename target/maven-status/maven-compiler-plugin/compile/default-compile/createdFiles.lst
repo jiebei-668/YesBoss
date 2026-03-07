@@ -58,8 +58,10 @@ tech/yesboss/context/GlobalStreamManager.class
 tech/yesboss/config/YesBossConfig$LlmConfig.class
 tech/yesboss/runner/WorkerRunner.class
 tech/yesboss/persistence/entity/TaskSession.class
+tech/yesboss/memory/trigger/TriggerServiceException.class
 tech/yesboss/persistence/repository/ChatMessageRepository.class
 tech/yesboss/config/YesBossConfig$ImConfig.class
+tech/yesboss/memory/trigger/TriggerServiceImpl.class
 tech/yesboss/gateway/webhook/route/WebhookRouteHandler.class
 tech/yesboss/session/impl/SessionManagerImpl.class
 tech/yesboss/memory/vectorstore/VectorStore.class
@@ -137,6 +139,7 @@ tech/yesboss/tool/registry/impl/ToolRegistryImpl.class
 tech/yesboss/memory/vectorstore/VectorStoreFactory.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatMessage.class
+tech/yesboss/memory/trigger/TriggerService.class
 tech/yesboss/persistence/db/SingleThreadDbWriter.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatRequest.class
 tech/yesboss/gateway/webhook/model/ImWebhookEvent.class

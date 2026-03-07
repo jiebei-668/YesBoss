@@ -31,6 +31,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/model/Preference.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/registry/ToolRegistry.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/health/HealthCheckService.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/trigger/TriggerService.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/tracker/impl/ToolCallTrackerImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/service/MemoryServiceImpl.java
@@ -42,6 +43,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/tool/planning/PlanningTool.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/safeguard/CircuitBreakerOpenException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/vectorstore/VectorStore.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/trigger/TriggerServiceException.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/llm/impl/ModelRouter.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/entity/ToolExecutionLog.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/TaskSessionRepository.java
@@ -59,6 +61,7 @@
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/repository/ChatMessageRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/gateway/im/FeishuApiClient.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/embedding/EmbeddingService.java
+/home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/trigger/TriggerServiceImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/ResourceRepository.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/memory/repository/SnippetRepositoryImpl.java
 /home/jiebei/qz_proj/YesBoss/src/main/java/tech/yesboss/persistence/event/DeleteTaskSessionEvent.java
