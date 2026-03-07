@@ -68,6 +68,7 @@ tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
 tech/yesboss/config/ConfigLoader$ConfigLoadException.class
 tech/yesboss/runner/AgentRunner.class
 tech/yesboss/config/YesBossConfig$SQLiteConfig.class
+tech/yesboss/memory/repository/ResourceRepository.class
 tech/yesboss/llm/VendorSdkAdapter.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatResponse.class
 tech/yesboss/session/SessionManager.class
@@ -87,6 +88,7 @@ tech/yesboss/persistence/event/InsertTaskSessionEvent$ImType.class
 tech/yesboss/gateway/ui/impl/UICardRendererImpl.class
 tech/yesboss/tool/planning/PlanningTool$PlanningRequest.class
 tech/yesboss/llm/impl/ClaudeSdkAdapterImpl$2.class
+tech/yesboss/memory/repository/ResourceRepositoryImpl.class
 tech/yesboss/config/YesBossConfig$SlackConfig.class
 tech/yesboss/persistence/entity/TaskSession$Status.class
 tech/yesboss/llm/impl/ZhipuLlmClient$Function.class
@@ -131,6 +133,8 @@ tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.class
 tech/yesboss/state/impl/TaskManagerImpl.class
 tech/yesboss/llm/impl/ZhipuLlmClient$ChatChoice.class
 tech/yesboss/memory/vectorstore/VectorStoreFactory$VectorStoreType.class
+tech/yesboss/memory/model/Resource$Builder.class
+tech/yesboss/memory/model/Resource.class
 tech/yesboss/config/YesBossConfig$ModelConfig.class
 tech/yesboss/persistence/db/SingleThreadDbWriter$SyncRequestWrapper.class
 tech/yesboss/config/YesBossConfig.class
