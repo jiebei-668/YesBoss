@@ -526,4 +526,103 @@ public class PreferenceRepositoryImpl implements PreferenceRepository {
             java.time.ZoneId.systemDefault()
         );
     }
+
+    @Override
+    public long countBySessionId(String sessionId) {
+        if (sessionId == null || sessionId.trim().isEmpty()) {
+            return 0;
+        }
+
+        String sql = "SELECT COUNT(*) FROM memory_preferences WHERE session_id = ? AND deleted = 0";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, sessionId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getLong(1);
+                }
+                return 0;
+            }
+        } catch (SQLException e) {
+            logger.error("Error counting preferences by session_id: {}", sessionId, e);
+            return 0;
+        }
+    }
+
+    @Override
+    public long countByUserId(String userId) {
+        if (userId == null || userId.trim().isEmpty()) {
+            return 0;
+        }
+
+        String sql = "SELECT COUNT(*) FROM memory_preferences WHERE user_id = ? AND deleted = 0";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getLong(1);
+                }
+                return 0;
+            }
+        } catch (SQLException e) {
+            logger.error("Error counting preferences by user_id: {}", userId, e);
+            return 0;
+        }
+    }
+
+    @Override
+    public int deleteBySessionId(String sessionId) {
+        if (sessionId == null || sessionId.trim().isEmpty()) {
+            return 0;
+        }
+
+        String sql = "UPDATE memory_preferences SET deleted = 1, updated_at = ? WHERE session_id = ? AND deleted = 0";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, localDateTimeToMillis(LocalDateTime.now()));
+            pstmt.setString(2, sessionId);
+
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Error deleting preferences by session_id: {}", sessionId, e);
+            return 0;
+        }
+    }
+
+    @Override
+    public int deleteByUserId(String userId) {
+        if (userId == null || userId.trim().isEmpty()) {
+            return 0;
+        }
+
+        String sql = "UPDATE memory_preferences SET deleted = 1, updated_at = ? WHERE user_id = ? AND deleted = 0";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, localDateTimeToMillis(LocalDateTime.now()));
+            pstmt.setString(2, userId);
+
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Error deleting preferences by user_id: {}", userId, e);
+            return 0;
+        }
+    }
+
+    @Override
+    public boolean updateValue(String userId, String key, String value) {
+        // Stub implementation
+        logger.warn("updateValue not implemented");
+        return false;
+    }
 }

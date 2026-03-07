@@ -1,4 +1,5 @@
 tech/yesboss/safeguard/CircuitBreaker.class
+tech/yesboss/memory/scheduler/MemoryExtractionScheduler.class
 tech/yesboss/context/engine/CondensationEngine.class
 tech/yesboss/config/YesBossConfig$ServerConfig.class
 tech/yesboss/memory/config/MemoryConfig$BackendType.class
@@ -166,6 +167,7 @@ tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.class
 tech/yesboss/state/impl/TaskManagerImpl.class
 tech/yesboss/memory/model/AgenticRagResult.class
 tech/yesboss/memory/vectorstore/VectorStoreFactory$VectorStoreType.class
+tech/yesboss/memory/trigger/ConversationRoundTrigger.class
 tech/yesboss/memory/embedding/ZhipuEmbeddingServiceImpl$EmbeddingData.class
 tech/yesboss/memory/repository/SnippetRepository.class
 tech/yesboss/memory/model/Resource$Builder.class

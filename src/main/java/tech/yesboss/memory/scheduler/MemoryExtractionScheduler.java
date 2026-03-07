@@ -223,7 +223,7 @@ public class MemoryExtractionScheduler {
                             Thread.sleep(delay);
                         } catch (InterruptedException ie) {
                             Thread.currentThread().interrupt();
-                            throw new TriggerServiceException("Retry interrupted", -1, ie);
+                            throw new TriggerServiceException("Retry interrupted", "RETRY_INTERRUPTED", ie);
                         }
                     }
                 }
@@ -231,7 +231,7 @@ public class MemoryExtractionScheduler {
 
             throw new TriggerServiceException(
                 String.format("Extraction failed after %d attempts: %s", maxAttempts, lastException.getMessage()),
-                -1, lastException);
+                "MAX_ATTEMPTS_EXCEEDED", lastException);
         }, executorService);
     }
 

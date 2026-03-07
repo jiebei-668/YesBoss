@@ -22,6 +22,7 @@
         <slf4j.version>2.0.9</slf4j.version>
         <logback.version>1.4.11</logback.version>
         <anthropic.version>2.15.0</anthropic.version>
+        <spring.version>6.1.0</spring.version>
     </properties>
 
     <dependencies>
@@ -70,6 +71,13 @@
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
             <version>${anthropic.version}</version>
+        </dependency>
+
+        <!-- Spring Framework for scheduling and annotations -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <!-- SparkJava Web Framework -->

@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.yesboss.memory.vectorstore.VectorStore;
 import tech.yesboss.memory.vectorstore.VectorStoreException;
+import tech.yesboss.memory.vectorstore.SQLiteVecStore;
+import java.sql.DriverManager;
+import org.sqlite.SQLiteDataSource;
 import tech.yesboss.memory.vectorstore.VectorStoreFactory;
 
 import javax.sql.DataSource;
@@ -108,7 +111,7 @@ public class VectorStoreConfigFactory {
         logger.info("Creating SQLiteVecStore with path: {}", sqlitePath);
 
         try {
-            return VectorStoreFactory.createSQLiteVecStore(sqlitePath);
+            return new SQLiteVecStore(createDataSource(sqlitePath), "memory_vectors");
         } catch (Exception e) {
             String message = "Failed to create SQLiteVecStore: " + e.getMessage();
             logger.error(message, e);
@@ -120,22 +123,14 @@ public class VectorStoreConfigFactory {
      * Create PostgreSQL vector store
      *
      * @param dataSource Data source
-     * @return PostgreSQL vector store
-     * @throws VectorStoreException if creation fails
-     */
-    private VectorStore createPostgreSQLVectorStore(DataSource dataSource) throws VectorStoreException {
-        String url = config.getPostgreSQLUrl();
-        logger.info("Creating PostgreSQLVectorStore with URL: {}", url);
 
-        try {
-            return VectorStoreFactory.createPostgreSQLVectorStore(dataSource);
+            VectorStoreFactory factory = VectorStoreFactory.getInstance(dataSource);
+            return factory.getVectorStore("memory_vectors", VectorStoreFactory.VectorStoreType.POSTGRESQL);
         } catch (Exception e) {
             String message = "Failed to create PostgreSQLVectorStore: " + e.getMessage();
             logger.error(message, e);
             throw new VectorStoreException(message, e);
         }
-    }
-
     /**
      * Switch to a different backend
      *
@@ -213,5 +208,18 @@ public class VectorStoreConfigFactory {
      */
     public boolean isInitialized() {
         return currentVectorStore != null;
+    }
+
+    /**
+     * Create a DataSource from SQLite path
+     */
+    private javax.sql.DataSource createDataSource(String sqlitePath) {
+        try {
+            SQLiteDataSource dataSource = new SQLiteDataSource();
+            dataSource.setUrl("jdbc:sqlite:" + sqlitePath);
+            return dataSource;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create DataSource", e);
+        }
     }
 }
