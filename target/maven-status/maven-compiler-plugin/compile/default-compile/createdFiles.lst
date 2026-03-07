@@ -1,3 +1,4 @@
+tech/yesboss/memory/processor/MemoryType.class
 tech/yesboss/safeguard/CircuitBreaker.class
 tech/yesboss/context/engine/CondensationEngine.class
 tech/yesboss/config/YesBossConfig$ServerConfig.class
@@ -20,6 +21,7 @@ tech/yesboss/config/YesBossConfig$TaskConfig.class
 tech/yesboss/config/YesBossConfig$PushConfig.class
 tech/yesboss/context/engine/InjectionEngine.class
 tech/yesboss/llm/impl/ZhipuLlmClient$Usage.class
+tech/yesboss/memory/processor/ZhipuContentProcessorImpl.class
 tech/yesboss/domain/message/UnifiedMessage$Role.class
 tech/yesboss/config/YesBossConfig$FeishuConfig.class
 tech/yesboss/ApplicationContext.class
@@ -71,6 +73,8 @@ tech/yesboss/gateway/im/FeishuApiClient$FeishuApiException.class
 tech/yesboss/memory/embedding/EmbeddingException.class
 tech/yesboss/runner/impl/MasterRunnerImpl$1.class
 tech/yesboss/persistence/repository/ToolExecutionRepository.class
+tech/yesboss/memory/processor/ContentProcessingException.class
+tech/yesboss/memory/processor/ContentProcessor.class
 tech/yesboss/persistence/repository/ToolExecutionRepositoryImpl.class
 tech/yesboss/config/ConfigLoader$ConfigLoadException.class
 tech/yesboss/runner/AgentRunner.class
@@ -95,6 +99,7 @@ tech/yesboss/config/YesBossConfig$HitlConfig.class
 tech/yesboss/config/YesBossConfig$ZhipuConfig.class
 tech/yesboss/context/engine/impl/InjectionEngineImpl.class
 tech/yesboss/persistence/entity/TaskSession$Role.class
+tech/yesboss/memory/processor/ZhipuContentProcessorImpl$SegmentationResult.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$ImType.class
 tech/yesboss/gateway/ui/impl/UICardRendererImpl.class
 tech/yesboss/tool/planning/PlanningTool$PlanningRequest.class
@@ -141,8 +146,10 @@ tech/yesboss/domain/message/UnifiedMessage$ToolResult.class
 tech/yesboss/memory/repository/PreferenceRepositoryImpl.class
 tech/yesboss/memory/vectorstore/VectorStoreFactory$1.class
 tech/yesboss/domain/message/UnifiedMessage$PayloadFormat.class
+tech/yesboss/memory/processor/ZhipuContentProcessorImpl$SegmentData.class
 tech/yesboss/persistence/repository/TaskSessionRepository.class
 tech/yesboss/persistence/db/DatabaseInitializer.class
+tech/yesboss/memory/processor/ConversationSegment.class
 tech/yesboss/tool/ToolAccessLevel.class
 tech/yesboss/gateway/webhook/executor/WebhookEventExecutor.class
 tech/yesboss/state/impl/TaskManagerImpl.class
@@ -158,6 +165,7 @@ tech/yesboss/config/YesBossConfig.class
 tech/yesboss/tool/sandbox/impl/SandboxInterceptorImpl.class
 tech/yesboss/tool/AgentTool.class
 tech/yesboss/context/engine/impl/CondensationEngineImpl.class
+tech/yesboss/memory/processor/ConversationSegment$Builder.class
 tech/yesboss/persistence/event/InsertTaskSessionEvent$TaskStatus.class
 tech/yesboss/gateway/im/FeishuApiClient.class
 tech/yesboss/safeguard/CircuitBreakerOpenException.class
