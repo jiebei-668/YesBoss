@@ -1,5 +1,7 @@
 package tech.yesboss.safeguard;
 
+import tech.yesboss.runner.WorkerRunner;
+
 /**
  * 挂起与恢复引擎 (Suspend and Resume Engine)
  *
@@ -35,7 +37,7 @@ public interface SuspendResumeEngine {
      * <p><b>挂起流程：</b></p>
      * <ol>
      *   <li>将任务状态从 RUNNING 转为 SUSPENDED</li>
-     *   <li>持久化拦截现场到数据库（toolCallId, toolName, argumentsJson）</li>
+     *   <li>存储挂起上下文到内存（toolCallId, toolName, argumentsJson, sessionId）</li>
      *   <li>伪造全局系统消息并推送审批卡片到 IM</li>
      *   <li>Worker 线程自然退出（不抛出未处理异常）</li>
      * </ol>
@@ -47,10 +49,13 @@ public interface SuspendResumeEngine {
      * @param workerSessionId    触发拦截的 Worker Session ID
      * @param interceptedCommand 被拦截的高危命令明细
      * @param toolCallId         触发拦截的大模型 tool_call_id（用于因果跟踪和上下文缝合）
+     * @param toolName           被拦截的工具名称
+     * @param argumentsJson      被拦截的工具调用参数 JSON
      * @throws IllegalArgumentException 如果参数为空
      * @throws IllegalStateException    如果会话不存在或状态不正确
      */
-    void suspendForApproval(String workerSessionId, String interceptedCommand, String toolCallId);
+    void suspendForApproval(String workerSessionId, String interceptedCommand, String toolCallId,
+                           String toolName, String argumentsJson);
 
     /**
      * 从挂起状态唤醒任务
@@ -75,4 +80,14 @@ public interface SuspendResumeEngine {
      * @throws IllegalStateException    如果会话不存在或不在 SUSPENDED 状态
      */
     void resume(String workerSessionId, String toolCallId, boolean isApproved, String humanFeedback);
+
+    /**
+     * 设置 WorkerRunner 实例（用于恢复后重新启动 Worker 线程）
+     *
+     * <p>由于 WorkerRunner 和 SuspendResumeEngine 之间存在循环依赖，
+     * 使用 setter 注入方式在 ApplicationContext 初始化时设置。</p>
+     *
+     * @param workerRunner WorkerRunner 实例
+     */
+    void setWorkerRunner(WorkerRunner workerRunner);
 }

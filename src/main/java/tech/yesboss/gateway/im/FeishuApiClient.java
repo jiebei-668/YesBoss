@@ -49,8 +49,8 @@ public class FeishuApiClient {
     private static final String MESSAGE_URL = "https://open.feishu.cn/open-apis/im/v1/messages";
 
     // HTTP Timeouts
-    private static final Duration CONNECT_TIMEOUT = Duration.ofSeconds(10);
-    private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(30);
+    private static final Duration CONNECT_TIMEOUT = Duration.ofSeconds(30);
+    private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(60);
 
     // Token expiry buffer (refresh 5 minutes before actual expiry)
     private static final long TOKEN_EXPIRY_BUFFER_SECONDS = 300;
@@ -91,8 +91,11 @@ public class FeishuApiClient {
         this.appId = appId;
         this.appSecret = appSecret;
         this.timeoutSeconds = timeoutSeconds > 0 ? timeoutSeconds : 30;
+
+        // Force IPv4 and set timeouts to avoid connection issues
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(CONNECT_TIMEOUT)
+                .version(HttpClient.Version.HTTP_2)
                 .build();
         this.objectMapper = new ObjectMapper();
 
@@ -227,7 +230,7 @@ public class FeishuApiClient {
      * @param receiveId     The target ID (chat_id, open_id, or user_id)
      * @param receiveIdType Type of receive_id: "chat_id", "open_id", or "user_id"
      * @param messageType   Type of message: "text" or "interactive"
-     * @param content       Message content (JSON string for card, plain text for text)
+     * @param content       Message content (JSON string for interactive/card, plain text for text)
      * @return Message ID from Feishu API
      * @throws FeishuApiException if sending fails
      */
@@ -259,12 +262,14 @@ public class FeishuApiClient {
             payload.put("receive_id", receiveId);
             payload.put("msg_type", messageType);
 
-            // For interactive messages, content must be a JSON string
-            // For text messages, content must be a JSON object {"text":"..."}
+            // For interactive messages, content must be a JSON string (per Feishu API spec)
+            // For text messages, content must be a JSON object {"text": "content"}
             if ("interactive".equals(messageType)) {
-                payload.put("content", content);  // Set as JSON string
+                // Interactive messages: content as JSON string
+                payload.put("content", content);
             } else {
-                payload.set("content", parseContent(messageType, content));  // Set as JsonNode
+                // Text messages: content as JSON object
+                payload.set("content", parseContent(messageType, content));
             }
 
             String jsonPayload = objectMapper.writeValueAsString(payload);
@@ -343,9 +348,9 @@ public class FeishuApiClient {
     }
 
     /**
-     * Parse content based on message type.
-     * For text: wrap in JSON object with "text" key.
-     * For interactive: parse as JSON.
+     * Parse content for text messages.
+     * For text messages: wrap plain text in JSON object with "text" key.
+     * For interactive messages: content is handled directly as string in sendMessage().
      */
     private JsonNode parseContent(String messageType, String content) throws Exception {
         if ("text".equals(messageType)) {
@@ -353,11 +358,9 @@ public class FeishuApiClient {
             ObjectNode textContent = objectMapper.createObjectNode();
             textContent.put("text", content);
             return textContent;
-        } else if ("interactive".equals(messageType)) {
-            // Card messages are already JSON
-            return objectMapper.readTree(content);
         } else {
-            throw new IllegalArgumentException("Unsupported message type: " + messageType);
+            // Interactive messages should be handled directly as string in sendMessage()
+            throw new IllegalArgumentException("parseContent should not be called for messageType: " + messageType);
         }
     }
 

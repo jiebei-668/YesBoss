@@ -56,6 +56,12 @@ import tech.yesboss.tool.sandbox.SandboxInterceptor;
 import tech.yesboss.tool.sandbox.impl.SandboxInterceptorImpl;
 import tech.yesboss.tool.tracker.ToolCallTracker;
 import tech.yesboss.tool.tracker.impl.ToolCallTrackerImpl;
+import tech.yesboss.tool.filesystem.ReadFileTool;
+import tech.yesboss.tool.filesystem.WriteFileTool;
+import tech.yesboss.tool.filesystem.ListDirectoryTool;
+import tech.yesboss.tool.filesystem.CreateDirectoryTool;
+import tech.yesboss.tool.filesystem.DeleteFileTool;
+import tech.yesboss.tool.filesystem.SearchFilesTool;
 import tech.yesboss.health.HealthCheckService;
 import tech.yesboss.health.MetricsCollector;
 
@@ -366,7 +372,47 @@ public class ApplicationContext {
         // Register the PlanningTool for MASTER role
         toolRegistry.register(planningTool);
 
-        logger.info("Tool Layer initialized");
+        // Initialize and register filesystem tools
+        logger.info("Initializing Filesystem Tools...");
+        initializeFilesystemTools();
+
+        logger.info("Tool Layer initialized with {} tools", toolRegistry.getToolCount());
+    }
+
+    /**
+     * Initialize and register all filesystem tools
+     */
+    private void initializeFilesystemTools() {
+        // Get project root from configuration
+        String projectRoot = getProjectRoot();
+        logger.info("Project root for filesystem tools: {}", projectRoot);
+
+        // Create filesystem tools
+        logger.info("Registering read_file tool...");
+        ReadFileTool readFileTool = new ReadFileTool(projectRoot);
+        toolRegistry.register(readFileTool);
+
+        logger.info("Registering list_directory tool...");
+        ListDirectoryTool listDirectoryTool = new ListDirectoryTool(projectRoot);
+        toolRegistry.register(listDirectoryTool);
+
+        logger.info("Registering search_files tool...");
+        SearchFilesTool searchFilesTool = new SearchFilesTool(projectRoot);
+        toolRegistry.register(searchFilesTool);
+
+        logger.info("Registering write_file tool...");
+        WriteFileTool writeFileTool = new WriteFileTool(projectRoot, sandboxInterceptor);
+        toolRegistry.register(writeFileTool);
+
+        logger.info("Registering create_directory tool...");
+        CreateDirectoryTool createDirectoryTool = new CreateDirectoryTool(projectRoot, sandboxInterceptor);
+        toolRegistry.register(createDirectoryTool);
+
+        logger.info("Registering delete_file tool...");
+        DeleteFileTool deleteFileTool = new DeleteFileTool(projectRoot, sandboxInterceptor);
+        toolRegistry.register(deleteFileTool);
+
+        logger.info("All 6 filesystem tools registered successfully");
     }
 
     /**
@@ -431,6 +477,11 @@ public class ApplicationContext {
                 imMessagePusher
         );
 
+        // Set WorkerRunner in SuspendResumeEngine to enable worker restart after resume
+        // This is done after both are created to resolve the circular dependency
+        logger.info("Setting WorkerRunner in SuspendResumeEngine...");
+        suspendResumeEngine.setWorkerRunner(workerRunner);
+
         logger.info("Runner Layer initialized");
     }
 
@@ -490,12 +541,26 @@ public class ApplicationContext {
         String feishuAppSecret = config.getIm().getFeishu().getEncryptKey();
         String slackSigningSecret = config.getIm().getSlack().getSigningSecret();
 
-        webhookController = new WebhookControllerImpl(
-                webhookEventExecutor,
-                suspendResumeEngine,
-                feishuAppSecret,
-                slackSigningSecret
-        );
+        // DEBUG: Log configuration details
+        logger.info("Feishu Encrypt Key configured: {}", feishuAppSecret != null && !feishuAppSecret.isEmpty());
+        if (feishuAppSecret != null && !feishuAppSecret.isEmpty()) {
+            logger.info("Feishu Encrypt Key length: {}", feishuAppSecret.length());
+            logger.info("Feishu Encrypt Key (first 10 chars): {}", feishuAppSecret.substring(0, Math.min(10, feishuAppSecret.length())));
+        }
+        logger.info("Slack Signing Secret configured: {}", slackSigningSecret != null && !slackSigningSecret.isEmpty());
+
+        try {
+            webhookController = new WebhookControllerImpl(
+                    webhookEventExecutor,
+                    suspendResumeEngine,
+                    feishuAppSecret,
+                    slackSigningSecret
+            );
+            logger.info("WebhookController initialized successfully");
+        } catch (Exception e) {
+            logger.error("Failed to initialize WebhookController", e);
+            throw new RuntimeException("WebhookController initialization failed", e);
+        }
 
         logger.info("Gateway Layer initialized");
     }
@@ -700,5 +765,13 @@ public class ApplicationContext {
 
     public boolean isReady() {
         return initialized && ready;
+    }
+
+    public String getProjectRoot() {
+        String projectRoot = config.getApp().getProjectRoot();
+        if (projectRoot == null || projectRoot.trim().isEmpty()) {
+            projectRoot = System.getProperty("user.dir");
+        }
+        return projectRoot;
     }
 }

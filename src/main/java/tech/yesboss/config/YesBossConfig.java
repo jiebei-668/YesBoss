@@ -13,6 +13,7 @@ public class YesBossConfig {
     private DatabaseConfig database;
     private SchedulerConfig scheduler;
     private SandboxConfig sandbox;
+    private FilesystemConfig filesystem;
     private LoggingConfig logging;
     private AppConfig app;
 
@@ -60,6 +61,14 @@ public class YesBossConfig {
 
     public void setSandbox(SandboxConfig sandbox) {
         this.sandbox = sandbox;
+    }
+
+    public FilesystemConfig getFilesystem() {
+        return filesystem;
+    }
+
+    public void setFilesystem(FilesystemConfig filesystem) {
+        this.filesystem = filesystem;
     }
 
     public LoggingConfig getLogging() {
@@ -979,6 +988,168 @@ public class YesBossConfig {
     }
 
     /**
+     * Filesystem Configuration
+     */
+    public static class FilesystemConfig {
+        private SizeLimitsConfig sizeLimits;
+        private AllowedExtensionsConfig allowedExtensions;
+        private List<String> pathWhitelist;
+        private WriteProtectionConfig writeProtection;
+
+        public FilesystemConfig() {
+        }
+
+        public SizeLimitsConfig getSizeLimits() {
+            return sizeLimits;
+        }
+
+        public void setSizeLimits(SizeLimitsConfig sizeLimits) {
+            this.sizeLimits = sizeLimits;
+        }
+
+        public AllowedExtensionsConfig getAllowedExtensions() {
+            return allowedExtensions;
+        }
+
+        public void setAllowedExtensions(AllowedExtensionsConfig allowedExtensions) {
+            this.allowedExtensions = allowedExtensions;
+        }
+
+        public List<String> getPathWhitelist() {
+            return pathWhitelist;
+        }
+
+        public void setPathWhitelist(List<String> pathWhitelist) {
+            this.pathWhitelist = pathWhitelist;
+        }
+
+        public WriteProtectionConfig getWriteProtection() {
+            return writeProtection;
+        }
+
+        public void setWriteProtection(WriteProtectionConfig writeProtection) {
+            this.writeProtection = writeProtection;
+        }
+    }
+
+    /**
+     * Size Limits Configuration
+     */
+    public static class SizeLimitsConfig {
+        private long maxReadSize;
+        private long maxWriteSize;
+        private long minDiskSpace;
+
+        public SizeLimitsConfig() {
+        }
+
+        public long getMaxReadSize() {
+            return maxReadSize;
+        }
+
+        public void setMaxReadSize(long maxReadSize) {
+            this.maxReadSize = maxReadSize;
+        }
+
+        public long getMaxWriteSize() {
+            return maxWriteSize;
+        }
+
+        public void setMaxWriteSize(long maxWriteSize) {
+            this.maxWriteSize = maxWriteSize;
+        }
+
+        public long getMinDiskSpace() {
+            return minDiskSpace;
+        }
+
+        public void setMinDiskSpace(long minDiskSpace) {
+            this.minDiskSpace = minDiskSpace;
+        }
+    }
+
+    /**
+     * Allowed Extensions Configuration
+     */
+    public static class AllowedExtensionsConfig {
+        private List<String> code;
+        private List<String> config;
+        private List<String> docs;
+
+        public AllowedExtensionsConfig() {
+        }
+
+        public List<String> getCode() {
+            return code;
+        }
+
+        public void setCode(List<String> code) {
+            this.code = code;
+        }
+
+        public List<String> getConfig() {
+            return config;
+        }
+
+        public void setConfig(List<String> config) {
+            this.config = config;
+        }
+
+        public List<String> getDocs() {
+            return docs;
+        }
+
+        public void setDocs(List<String> docs) {
+            this.docs = docs;
+        }
+    }
+
+    /**
+     * Write Protection Configuration
+     */
+    public static class WriteProtectionConfig {
+        private boolean enabled;
+        private boolean overwriteConfirmation;
+        private long minDiskSpace;
+        private List<String> protectedFiles;
+
+        public WriteProtectionConfig() {
+        }
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public boolean isOverwriteConfirmation() {
+            return overwriteConfirmation;
+        }
+
+        public void setOverwriteConfirmation(boolean overwriteConfirmation) {
+            this.overwriteConfirmation = overwriteConfirmation;
+        }
+
+        public long getMinDiskSpace() {
+            return minDiskSpace;
+        }
+
+        public void setMinDiskSpace(long minDiskSpace) {
+            this.minDiskSpace = minDiskSpace;
+        }
+
+        public List<String> getProtectedFiles() {
+            return protectedFiles;
+        }
+
+        public void setProtectedFiles(List<String> protectedFiles) {
+            this.protectedFiles = protectedFiles;
+        }
+    }
+
+    /**
      * Logging Configuration
      */
     public static class LoggingConfig {
@@ -1165,6 +1336,7 @@ public class YesBossConfig {
         private String name;
         private String version;
         private String environment;
+        private String projectRoot;
         private ServerConfig server;
         private TaskConfig task;
         private HitlConfig hitl;
@@ -1194,6 +1366,14 @@ public class YesBossConfig {
 
         public void setEnvironment(String environment) {
             this.environment = environment;
+        }
+
+        public String getProjectRoot() {
+            return projectRoot;
+        }
+
+        public void setProjectRoot(String projectRoot) {
+            this.projectRoot = projectRoot;
         }
 
         public ServerConfig getServer() {

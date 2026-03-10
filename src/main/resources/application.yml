@@ -52,7 +52,7 @@ llm:
       worker: ${ZHIPU_MODEL_WORKER:glm-4-flash}
     maxTokens: ${ZHIPU_MAX_TOKENS:8192}
     temperature: ${ZHIPU_TEMPERATURE:0.7}
-    timeoutSeconds: ${ZHIPU_TIMEOUT:120}
+    timeoutSeconds: ${ZHIPU_TIMEOUT:180}
 
 # =============================================================================
 # IM Platform Configuration
@@ -158,6 +158,139 @@ sandbox:
     - /root/
     - /boot/
     - /sys/
+
+# =============================================================================
+# Filesystem Tools Configuration
+# =============================================================================
+filesystem:
+  # File operation size limits
+  sizeLimits:
+    # Maximum file size for read operations (bytes, default 10MB)
+    maxReadSize: ${FS_MAX_READ_SIZE:10485760}
+    # Maximum file size for write operations (bytes, default 50MB)
+    maxWriteSize: ${FS_MAX_WRITE_SIZE:52428800}
+    # Minimum disk space required (bytes, default 100MB)
+    minDiskSpace: ${FS_MIN_DISK_SPACE:104857600}
+
+  # Allowed file extensions for read/write operations
+  allowedExtensions:
+    # Code files
+    code:
+      - java
+      - py
+      - js
+      - ts
+      - jsx
+      - tsx
+      - go
+      - rs
+      - c
+      - cpp
+      - h
+      - cs
+      - php
+      - rb
+      - kt
+      - swift
+      - scala
+    # Config files
+    config:
+      - json
+      - yaml
+      - yml
+      - xml
+      - properties
+      - env
+      - toml
+      - ini
+      - conf
+      - hcl
+      - tf
+    # Documentation files
+    docs:
+      - txt
+      - md
+      - markdown
+      - html
+      - css
+      - sql
+      - sh
+      - bash
+      - ps1
+      - bat
+
+  # Path whitelist (relative or absolute paths)
+  pathWhitelist:
+    # Project directories
+    - ${FS_WHITELIST_PROJECT_ROOT:.}
+    - src/
+    - test/
+    - tests/
+    - docs/
+    - examples/
+    - scripts/
+    # Safe system paths
+    - /tmp/
+    - /var/tmp/
+
+  # Write Protection Configuration
+  writeProtection:
+    # Whether to enable overwrite protection (default: true)
+    enabled: ${FS_WRITE_PROTECTION_ENABLED:true}
+    # Whether to enable overwrite confirmation mechanism (default: true)
+    overwriteConfirmation: ${FS_OVERWRITE_CONFIRMATION:true}
+    # Protected file list (relative or absolute paths)
+    protectedFiles:
+      # Build configuration files
+      - pom.xml
+      - build.gradle
+      - package.json
+      - build.gradle.kts
+      # Version control
+      - .git
+      - .gitignore
+      - .gitmodules
+      # IDE configuration
+      - .idea
+      - .vscode
+      - .eclipse
+      # Data directories
+      - data/
+      - logs/
+      - target/
+      - build/
+      - out/
+      # Application configuration
+      - application.yml
+      - application.properties
+      - application.conf
+      # Database files
+      - "*.db"
+      - "*.sqlite"
+      - "*.h2.db"
+
+# =============================================================================
+# RBAC (Role-Based Access Control) Configuration
+# =============================================================================
+# Tools Access Level Mapping:
+#
+# READ_ONLY Tools (Master Agent can access):
+#   - read_file      : Read text file contents
+#   - list_directory : List directory contents
+#   - search_files   : Search file contents
+#
+# READ_WRITE Tools (Worker Agent only):
+#   - write_file       : Write/append to files
+#   - create_directory : Create directories
+#   - delete_file      : Delete files/directories
+#
+# Security Rules:
+#   - Master Agent: Can only use READ_ONLY tools (safe exploration)
+#   - Worker Agent: Can use all tools (strict sandbox enforcement)
+#   - All write operations: Subject to sandbox blacklist check
+#   - Dangerous operations: Require human-in-the-loop approval
+# =============================================================================
+
 
 # =============================================================================
 # Logging Configuration

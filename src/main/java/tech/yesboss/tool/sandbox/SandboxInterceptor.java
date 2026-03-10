@@ -59,4 +59,39 @@ public interface SandboxInterceptor {
      * @return true 如果参数匹配黑名单规则，false 否则
      */
     boolean checkArguments(String argumentsJson);
+
+    /**
+     * 检查文件写入操作是否需要人机回环审批
+     *
+     * <p>**文件操作专用检查方法**：针对文件系统工具的写入操作进行安全检查。
+     * 此方法会检查文件是否存在、是否受保护、是否允许覆盖等条件，
+     * 并在需要时抛出 {@link SuspendExecutionException} 触发人机回环审批。</p>
+     *
+     * <p>**触发审批的场景：**
+     * <ul>
+     *   <li>覆盖已存在的文件</li>
+     *   <li>写入受保护的文件类型</li>
+     *   <li>写入到敏感目录</li>
+     * </ul>
+     *
+     * @param targetPath 目标文件路径（已规范化）
+     * @param argumentsJson 工具调用参数的 JSON 字符串
+     * @param toolCallId 工具调用 ID
+     * @param operationType 操作类型（如 "WRITE", "CREATE_DIRECTORY"）
+     * @throws SuspendExecutionException 如果操作需要审批
+     */
+    default void checkWriteOperation(String targetPath, String argumentsJson, String toolCallId, String operationType)
+            throws SuspendExecutionException {
+        // 默认实现：不进行额外检查，由具体实现类覆盖
+    }
+
+    /**
+     * 检查文件是否已存在（用于审批决策）
+     *
+     * @param targetPath 目标文件路径
+     * @return true 如果文件已存在
+     */
+    default boolean fileExists(String targetPath) {
+        return java.nio.file.Files.exists(java.nio.file.Paths.get(targetPath));
+    }
 }

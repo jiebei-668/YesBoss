@@ -6,13 +6,24 @@ import tech.yesboss.tool.AgentTool;
 import tech.yesboss.tool.SuspendExecutionException;
 import tech.yesboss.tool.sandbox.SandboxInterceptor;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
  * 安全沙箱拦截器实现
  *
  * <p>使用工具名称黑名单和参数正则表达式黑名单来拦截危险操作。</p>
+ *
+ * <p><b>人机回环触发场景：</b></p>
+ * <ul>
+ *   <li>工具名称在黑名单中</li>
+ *   <li>参数包含危险命令模式</li>
+ *   <li>文件写入操作触发审批条件（覆盖已存在文件等）</li>
+ * </ul>
  */
 public class SandboxInterceptorImpl implements SandboxInterceptor {
 
@@ -50,6 +61,52 @@ public class SandboxInterceptorImpl implements SandboxInterceptor {
             Pattern.compile(":\\(\\)\\s*\\{\\s*:\\|:\\s*&\\s*\\}\\s*;"), // Fork bomb
             Pattern.compile("\\$\\(.*\\)\\s*&&.*\\|.*sh")          // Command substitution with pipe to shell
     );
+
+    /**
+     * 受保护的文件扩展名（写入这些类型需要审批）
+     */
+    private static final Set<String> PROTECTED_EXTENSIONS = Set.of(
+            "env",      // 环境变量文件
+            "pem",      // 证书文件
+            "key",      // 密钥文件
+            "ssh",      // SSH 配置
+            "db",       // 数据库文件
+            "sqlite"    // SQLite 数据库
+    );
+
+    /**
+     * 受保护的目录名称
+     */
+    private static final Set<String> PROTECTED_DIRECTORIES = Set.of(
+            ".git",
+            ".ssh",
+            ".aws",
+            ".kube",
+            "secrets",
+            "credentials"
+    );
+
+    /**
+     * 是否启用覆盖审批（默认启用）
+     */
+    private final boolean enableOverwriteApproval;
+
+    /**
+     * 默认构造函数（启用所有审批功能）
+     */
+    public SandboxInterceptorImpl() {
+        this(true);
+    }
+
+    /**
+     * 构造函数
+     *
+     * @param enableOverwriteApproval 是否启用覆盖审批
+     */
+    public SandboxInterceptorImpl(boolean enableOverwriteApproval) {
+        this.enableOverwriteApproval = enableOverwriteApproval;
+        logger.info("SandboxInterceptorImpl initialized with enableOverwriteApproval={}", enableOverwriteApproval);
+    }
 
     @Override
     public void preCheck(AgentTool tool, String argumentsJson, String toolCallId) throws SuspendExecutionException {
@@ -96,6 +153,142 @@ public class SandboxInterceptorImpl implements SandboxInterceptor {
         return false;
     }
 
+    @Override
+    public void checkWriteOperation(String targetPath, String argumentsJson, String toolCallId, String operationType)
+            throws SuspendExecutionException {
+        logger.debug("Checking write operation: path={}, operation={}, toolCallId={}",
+                targetPath, operationType, toolCallId);
+
+        // 0. 删除操作强制审批
+        if ("DELETE".equals(operationType) || "DELETE_RECURSIVE".equals(operationType)) {
+            String operationDesc = "DELETE_RECURSIVE".equals(operationType) ? "递归删除" : "删除";
+            String interceptedCommand = String.format(
+                    "%s操作 '%s' 目标路径 '%s'，需要审批",
+                    operationDesc, operationType, targetPath);
+            logger.warn("Delete operation detected: {}", targetPath);
+            throw new SuspendExecutionException(interceptedCommand, toolCallId);
+        }
+
+        // 1. 检查是否写入受保护的文件扩展名
+        if (isProtectedFileExtension(targetPath)) {
+            String interceptedCommand = String.format(
+                    "写入操作 '%s' 目标文件 '%s' 具有受保护的扩展名，需要审批",
+                    operationType, targetPath);
+            logger.warn("Protected file extension detected: {}", targetPath);
+            throw new SuspendExecutionException(interceptedCommand, toolCallId);
+        }
+
+        // 2. 检查是否写入受保护的目录
+        if (isProtectedDirectory(targetPath)) {
+            String interceptedCommand = String.format(
+                    "写入操作 '%s' 目标路径 '%s' 位于受保护的目录中，需要审批",
+                    operationType, targetPath);
+            logger.warn("Protected directory detected: {}", targetPath);
+            throw new SuspendExecutionException(interceptedCommand, toolCallId);
+        }
+
+        // 3. 检查文件覆盖（如果启用）
+        if (enableOverwriteApproval && isFileOverwrite(targetPath, operationType)) {
+            String interceptedCommand = String.format(
+                    "写入操作 '%s' 将覆盖已存在的文件 '%s'，需要审批",
+                    operationType, targetPath);
+            logger.warn("File overwrite detected: {}", targetPath);
+            throw new SuspendExecutionException(interceptedCommand, toolCallId);
+        }
+
+        logger.debug("Write operation check passed: path={}", targetPath);
+    }
+
+    @Override
+    public boolean fileExists(String targetPath) {
+        try {
+            return Files.exists(Paths.get(targetPath));
+        } catch (Exception e) {
+            logger.warn("Failed to check if file exists: {}", targetPath, e);
+            return false;
+        }
+    }
+
+    /**
+     * 检查文件扩展名是否受保护
+     *
+     * @param path 文件路径
+     * @return true 如果扩展名受保护
+     */
+    private boolean isProtectedFileExtension(String path) {
+        String extension = getFileExtension(path);
+        if (extension == null) {
+            return false;
+        }
+        return PROTECTED_EXTENSIONS.contains(extension.toLowerCase());
+    }
+
+    /**
+     * 检查路径是否在受保护的目录中
+     *
+     * @param path 文件路径
+     * @return true 如果在受保护的目录中
+     */
+    private boolean isProtectedDirectory(String path) {
+        Path normalizedPath = Paths.get(path).normalize();
+
+        // 检查路径的每一部分
+        for (Path part : normalizedPath) {
+            if (PROTECTED_DIRECTORIES.contains(part.toString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 检查是否是文件覆盖操作
+     *
+     * @param path 文件路径
+     * @param operationType 操作类型
+     * @return true 如果是覆盖操作
+     */
+    private boolean isFileOverwrite(String path, String operationType) {
+        // 只对写入操作检查覆盖（APPEND 模式不需要审批）
+        if (!"WRITE".equals(operationType)) {
+            return false;
+        }
+        return fileExists(path);
+    }
+
+    /**
+     * 获取文件扩展名
+     *
+     * @param path 文件路径
+     * @return 扩展名（不含点号），如果没有扩展名返回 null
+     */
+    private String getFileExtension(String path) {
+        if (path == null || path.isEmpty()) {
+            return null;
+        }
+
+        String fileName = Paths.get(path).getFileName().toString();
+
+        // 特殊处理：如果文件以 "." 开头（如 .env, .pem）
+        // 将点后面的部分视为扩展名，因为这些文件应该受到保护
+        if (fileName.startsWith(".") && fileName.length() > 1) {
+            // 对于 ".env" 这样的文件，返回 "env"
+            // 对于 ".gitignore" 这样的文件，返回 "gitignore"
+            int firstDotIndex = fileName.indexOf('.');
+            if (firstDotIndex == 0 && fileName.lastIndexOf('.') == 0) {
+                // 只有一个点在开头，如 ".env"
+                return fileName.substring(1).toLowerCase();
+            }
+        }
+
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(dotIndex + 1).toLowerCase();
+        }
+
+        return null;
+    }
+
     /**
      * 获取当前的工具名称黑名单（用于测试和调试）
      *
@@ -114,5 +307,32 @@ public class SandboxInterceptorImpl implements SandboxInterceptor {
         return ARGUMENT_BLACKLIST.stream()
                 .map(Pattern::pattern)
                 .toList();
+    }
+
+    /**
+     * 获取受保护的文件扩展名列表
+     *
+     * @return 受保护的文件扩展名集合
+     */
+    public static Set<String> getProtectedExtensions() {
+        return Set.copyOf(PROTECTED_EXTENSIONS);
+    }
+
+    /**
+     * 获取受保护的目录名称列表
+     *
+     * @return 受保护的目录名称集合
+     */
+    public static Set<String> getProtectedDirectories() {
+        return Set.copyOf(PROTECTED_DIRECTORIES);
+    }
+
+    /**
+     * 是否启用覆盖审批
+     *
+     * @return true 如果启用覆盖审批
+     */
+    public boolean isOverwriteApprovalEnabled() {
+        return enableOverwriteApproval;
     }
 }

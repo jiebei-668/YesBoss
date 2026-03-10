@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.yesboss.domain.message.UnifiedMessage;
 import tech.yesboss.llm.LlmClient;
+import tech.yesboss.tool.AgentTool;
 
 import java.util.List;
 
@@ -65,16 +66,21 @@ public class ClaudeLlmClient implements LlmClient {
 
     @Override
     public UnifiedMessage chat(List<UnifiedMessage> messages, String systemPrompt) {
+        return chat(messages, systemPrompt, null);
+    }
+
+    @Override
+    public UnifiedMessage chat(List<UnifiedMessage> messages, String systemPrompt, List<AgentTool> tools) {
         if (messages == null || messages.isEmpty()) {
             throw new IllegalArgumentException("Messages cannot be null or empty");
         }
 
-        logger.debug("Sending chat request to Claude: {} messages, system prompt: {}",
-                messages.size(), systemPrompt != null ? "yes" : "no");
+        logger.debug("Sending chat request to Claude: {} messages, system prompt: {}, tools: {}",
+                messages.size(), systemPrompt != null ? "yes" : "no", tools != null ? tools.size() : 0);
 
         try {
             // STUB: Return a mock response for integration testing
-            // TODO: Implement real Claude API call using ClaudeSdkAdapterImpl
+            // TODO: Implement real Claude API call using ClaudeSdkAdapterImpl with tool support
             String lastMessage = messages.get(messages.size() - 1).content();
 
             // Simple stub response

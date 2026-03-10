@@ -406,6 +406,7 @@ public class MasterRunnerImpl implements MasterRunner {
             int totalTasks = workerSessionIds.size();
             int completedCount = 0;
             int failedCount = 0;
+            int lastReportedProgress = -1; // Track last reported progress to avoid duplicate updates
             long maxWaitTime = 60 * 60 * 1000; // 最多等待 1 小时
             long startTime = System.currentTimeMillis();
 
@@ -428,10 +429,11 @@ public class MasterRunnerImpl implements MasterRunner {
                     }
                 }
 
-                // 更新进度条
+                // 更新进度条 - 只在进度变化时发送
                 int totalCompleted = completedCount + failedCount;
-                if (totalCompleted > 0 && totalCompleted <= totalTasks) {
+                if (totalCompleted > 0 && totalCompleted <= totalTasks && totalCompleted != lastReportedProgress) {
                     updateProgress(masterSessionId, totalTasks, totalCompleted);
+                    lastReportedProgress = totalCompleted;
                 }
 
                 // 等待一段时间再检查

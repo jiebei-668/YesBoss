@@ -85,6 +85,9 @@ public class WebhookEventExecutorImpl implements WebhookEventExecutor {
 
     @Override
     public void processAsync(ImWebhookEvent event) {
+        logger.error("========== WEBHOOK EXECUTOR PROCESSASYNC START ==========");
+        logger.error("Executor running: {}", running.get());
+
         if (!running.get()) {
             logger.warn("Executor is not running, rejecting event: {}", event.eventType());
             throw new IllegalStateException("WebhookEventExecutor is not running");
@@ -93,6 +96,18 @@ public class WebhookEventExecutorImpl implements WebhookEventExecutor {
         if (event == null) {
             throw new IllegalArgumentException("event cannot be null");
         }
+
+        logger.error("Event details:");
+        logger.error("  IM Type: {}", event.imType());
+        logger.error("  Event Type: {}", event.eventType());
+        logger.error("  Group ID: {}", event.imGroupId());
+        logger.error("  User ID: {}", event.userId());
+        logger.error("  Message Text: {}",
+            event.messageText() != null ?
+            (event.messageText().length() > 200 ?
+             event.messageText().substring(0, 200) + "..." : event.messageText()) :
+            "(null)");
+        logger.error("=========================================================");
 
         logger.info("Submitting async event processing: type={}, group={}, user={}",
             event.imType(), event.imGroupId(), event.userId());
@@ -120,51 +135,82 @@ public class WebhookEventExecutorImpl implements WebhookEventExecutor {
      * @param event The webhook event to process
      */
     private void processEventInternal(ImWebhookEvent event) {
+        logger.error("========== PROCESS EVENT INTERNAL START ==========");
+        logger.error("IM Type: {}", event.imType());
+        logger.error("Event Type: {}", event.eventType());
+        logger.error("Is CLI: {}", event.isCli());
+        logger.error("Is Message Event: {}", event.isMessageEvent());
+        logger.error("Is Group Join Event: {}", event.isGroupJoinEvent());
+        logger.error("Is Group Delete Event: {}", event.isGroupDeleteEvent());
+        logger.error("Message Text: {}",
+            event.messageText() != null ?
+            (event.messageText().length() > 200 ?
+             event.messageText().substring(0, 200) + "..." : event.messageText()) :
+            "(null)");
+        logger.error("===================================================");
+
         logger.debug("Processing event in virtual thread: type={}, event={}", event.imType(), event.eventType());
 
         if (event.isCli()) {
             // CLI mode: create session and run directly
+            logger.error(">>> Processing CLI mode event");
             String sessionId = sessionManager.bindOrCreateTaskSession(
                 event.imType(),
                 event.imGroupId(),
                 "CLI Command"
             );
             logger.info("CLI session created: {}", sessionId);
+            logger.error(">>> Starting master runner for CLI session: {}", sessionId);
             masterRunner.run(sessionId);
+            logger.error(">>> Master runner started for CLI session");
             return;
         }
 
         // IM modes: handle different event types
         if (event.isGroupDeleteEvent()) {
             // Handle group dissolution
+            logger.error(">>> Processing group delete event");
             logger.info("Group delete event detected, destroying session: {}", event.imGroupId());
             sessionManager.destroySessionCascade(event.imGroupId());
+            logger.error(">>> Session destroyed");
             return;
         }
 
         // Handle message events (default behavior)
         if (event.isMessageEvent() || event.isGroupJoinEvent()) {
+            logger.error(">>> Processing message/group join event");
+
             // Bind or create session for this group
+            logger.error(">>> Binding or creating session...");
             String sessionId = sessionManager.bindOrCreateTaskSession(
                 event.imType(),
                 event.imGroupId(),
                 "IM Task: " + event.imGroupId()
             );
             logger.info("Session bound/created for event: session={}, group={}", sessionId, event.imGroupId());
+            logger.error(">>> Session ID: {}", sessionId);
 
             // Extract and save user message to context
             if (event.isMessageEvent() && event.messageText() != null) {
+                logger.error(">>> Saving user message to context...");
                 logger.info("Saving user message to context: session={}, text={}",
                         sessionId, event.messageText());
                 globalStreamManager.appendHumanMessage(sessionId, event.messageText());
+                logger.error(">>> User message saved to context");
+            } else {
+                logger.error(">>> No message text to save (isMessageEvent={}, messageText={})",
+                    event.isMessageEvent(), event.messageText());
             }
 
             // Start master runner orchestration
+            logger.error(">>> Starting master runner orchestration...");
             masterRunner.run(sessionId);
+            logger.error(">>> Master runner started");
             return;
         }
 
         logger.warn("Unhandled event type: {}", event.eventType());
+        logger.error("========== PROCESS EVENT INTERNAL END ==========");
     }
 
     @Override
