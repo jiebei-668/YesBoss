@@ -16,6 +16,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Webhook Controller Implementation
@@ -53,6 +55,10 @@ public class WebhookControllerImpl implements WebhookController {
     private final String slackSigningSecret;
     private final ObjectMapper objectMapper;
 
+    // Track processed callbacks to prevent duplicate processing (idempotency)
+    // Key format: "sessionId:toolCallId"
+    private final Set<String> processedCallbacks = ConcurrentHashMap.newKeySet();
+
     /**
      * Creates a new WebhookControllerImpl.
      *
@@ -68,6 +74,18 @@ public class WebhookControllerImpl implements WebhookController {
         String feishuAppSecret,
         String slackSigningSecret
     ) {
+        logger.info("========== WebhookControllerImpl Constructor Start ==========");
+        logger.info("Executor: {}", executor != null ? "provided" : "null");
+        logger.info("SuspendResumeEngine: {}", suspendResumeEngine != null ? "provided" : "null");
+        logger.info("FeishuAppSecret: {}",
+            feishuAppSecret != null ?
+            (feishuAppSecret.isEmpty() ? "empty" : "length=" + feishuAppSecret.length()) :
+            "null");
+        logger.info("SlackSigningSecret: {}",
+            slackSigningSecret != null ?
+            (slackSigningSecret.isEmpty() ? "empty" : "length=" + slackSigningSecret.length()) :
+            "null");
+
         if (executor == null) {
             throw new IllegalArgumentException("executor cannot be null");
         }
@@ -75,20 +93,39 @@ public class WebhookControllerImpl implements WebhookController {
             throw new IllegalArgumentException("suspendResumeEngine cannot be null");
         }
 
-        this.executor = executor;
-        this.suspendResumeEngine = suspendResumeEngine;
-        this.feishuAppSecret = (feishuAppSecret != null && !feishuAppSecret.isEmpty()) ? feishuAppSecret : "";
-        this.slackSigningSecret = (slackSigningSecret != null && !slackSigningSecret.isEmpty()) ? slackSigningSecret : "";
-        this.objectMapper = new ObjectMapper();
+        try {
+            this.executor = executor;
+            this.suspendResumeEngine = suspendResumeEngine;
+            this.feishuAppSecret = (feishuAppSecret != null && !feishuAppSecret.isEmpty()) ? feishuAppSecret : "";
+            this.slackSigningSecret = (slackSigningSecret != null && !slackSigningSecret.isEmpty()) ? slackSigningSecret : "";
 
-        logger.info("WebhookController initialized. Feishu secret: {}, Slack secret: {}",
-            !this.feishuAppSecret.isEmpty() ? "configured" : "not configured",
-            !this.slackSigningSecret.isEmpty() ? "configured" : "not configured");
+            logger.info("FeishuAppSecret set to: {}",
+                !this.feishuAppSecret.isEmpty() ? "configured (length=" + this.feishuAppSecret.length() + ")" : "empty");
+            logger.info("SlackSigningSecret set to: {}",
+                !this.slackSigningSecret.isEmpty() ? "configured (length=" + this.slackSigningSecret.length() + ")" : "empty");
+
+            this.objectMapper = new ObjectMapper();
+            logger.info("ObjectMapper created");
+
+            logger.info("WebhookController initialized. Feishu secret: {}, Slack secret: {}",
+                !this.feishuAppSecret.isEmpty() ? "configured" : "not configured",
+                !this.slackSigningSecret.isEmpty() ? "configured" : "not configured");
+
+            logger.info("========== WebhookControllerImpl Constructor Complete ==========");
+        } catch (Exception e) {
+            logger.error("Error in WebhookControllerImpl constructor", e);
+            throw e;
+        }
     }
 
     @Override
     public String handleFeishuEvent(String timestamp, String nonce, String signature, String body) {
-        logger.debug("Received Feishu webhook event");
+        logger.error("========== FEISHU EVENT PARSING START ==========");
+        logger.error("Timestamp: {}", timestamp);
+        logger.error("Nonce: {}", nonce);
+        logger.error("Signature (first 30): {}", signature != null && signature.length() > 30 ?
+            signature.substring(0, 30) + "..." : signature);
+        logger.error("Body length: {}", body != null ? body.length() : 0);
 
         try {
             // Validate inputs
@@ -101,20 +138,35 @@ public class WebhookControllerImpl implements WebhookController {
             // TEMPORARILY DISABLED FOR DEBUGGING
             if (!feishuAppSecret.isEmpty()) {
                 logger.warn("Feishu signature verification TEMPORARILY DISABLED for debugging");
+                logger.warn("Encrypt key configured: YES (length: {})", feishuAppSecret.length());
                 // verifyFeishuSignature(timestamp, nonce, signature, body);
             } else {
-                logger.debug("Feishu signature verification skipped (no secret configured)");
+                logger.warn("Feishu signature verification skipped (no secret configured)");
             }
 
             // Parse JSON payload
             JsonNode rootNode = objectMapper.readTree(body);
+            logger.error("JSON parsed successfully");
+            // Log root node field names for debugging
+            java.util.Iterator<String> fieldNames = rootNode.fieldNames();
+            StringBuilder fields = new StringBuilder();
+            while (fieldNames.hasNext()) {
+                if (fields.length() > 0) fields.append(", ");
+                fields.append(fieldNames.next());
+            }
+            logger.error("Root node fields: {}", fields.toString());
 
             // Handle encrypted events (Feishu Encrypt Key feature)
             // If the body contains an "encrypt" field, decrypt it first
             if (rootNode.has("encrypt") && !feishuAppSecret.isEmpty()) {
+                logger.error("Encrypt field detected, attempting decryption...");
                 try {
-                    String decryptedBody = decryptFeishuEvent(rootNode.get("encrypt").asText(), feishuAppSecret);
-                    logger.debug("Feishu event decrypted successfully");
+                    String encryptedData = rootNode.get("encrypt").asText();
+                    logger.error("Encrypted data length: {}", encryptedData.length());
+                    String decryptedBody = decryptFeishuEvent(encryptedData, feishuAppSecret);
+                    logger.error("Feishu event decrypted successfully");
+                    logger.error("Decrypted body (first 500 chars): {}",
+                        decryptedBody.length() > 500 ? decryptedBody.substring(0, 500) + "..." : decryptedBody);
                     rootNode = objectMapper.readTree(decryptedBody);
                 } catch (Exception e) {
                     logger.error("Failed to decrypt Feishu event, using encrypted body", e);
@@ -131,13 +183,44 @@ public class WebhookControllerImpl implements WebhookController {
                 return "{\"challenge\":\"" + challenge + "\"}";
             }
 
+            // Check if this is a button callback event (has "action" field)
+            // Button callbacks should be handled by handleFeishuCallback, but sometimes
+            // Feishu sends them to the main webhook endpoint due to configuration issues
+            if (rootNode.has("action")) {
+                logger.info("Detected button callback event, forwarding to callback handler");
+                return handleFeishuCallback(timestamp, nonce, signature, body);
+            }
+
             // Extract event details from Feishu/Lark format
+            logger.error("=== Extracting event details ===");
             String eventType = extractFeishuEventType(rootNode);
+            logger.error("Event type extracted: {}", eventType);
+
+            // Filter out bot's own messages to prevent message loops
+            if (isBotSelfMessage(rootNode)) {
+                logger.info("Ignoring bot's own message to prevent message loop");
+                return HTTP_200_OK;
+            }
+
             String imGroupId = extractFeishuGroupId(rootNode);
+            logger.error("Group ID extracted: {}", imGroupId);
+
+            // Validate imGroupId - if empty, we cannot process this event
+            if (imGroupId == null || imGroupId.trim().isEmpty()) {
+                logger.error("❌ Failed to extract valid chat_id from Feishu event. Cannot process event.");
+                logger.error("This event will be ignored. Please check the event structure above.");
+                // Return 200 OK to avoid retry storms, but log the error clearly
+                return HTTP_200_OK;
+            }
+
             String userId = extractFeishuUserId(rootNode);
+            logger.error("User ID extracted: {}", userId);
 
             // Extract message text content
             String messageText = extractFeishuMessageText(rootNode);
+            logger.error("Message text extracted: {}",
+                messageText != null ? (messageText.length() > 200 ?
+                    messageText.substring(0, 200) + "..." : messageText) : "(null)");
 
             // Create internal event with message text
             ImWebhookEvent event = ImWebhookEvent.create(
@@ -481,29 +564,196 @@ public class WebhookControllerImpl implements WebhookController {
         return "message";
     }
 
+    /**
+     * Check if the message is from the bot itself to prevent message loops.
+     *
+     * <p>Feishu may send the bot's own messages back to the webhook, which can cause
+     * infinite loops if not filtered. This method checks:</p>
+     * <ul>
+     *   <li>sender.type == "app" - Message sent by the app/bot</li>
+     *   <li>message.message_type == "interactive" - Card message sent by bot</li>
+     * </ul>
+     *
+     * @param rootNode The parsed JSON event payload
+     * @return true if this is a bot's own message that should be ignored
+     */
+    private boolean isBotSelfMessage(JsonNode rootNode) {
+        // Check if sender is the app/bot itself
+        JsonNode eventNode = rootNode.path("event");
+        JsonNode senderNode = eventNode.path("sender");
+
+        if (senderNode.has("sender_type")) {
+            String senderType = senderNode.get("sender_type").asText();
+            if ("app".equalsIgnoreCase(senderType)) {
+                logger.debug("Message sender_type is 'app', filtering out bot's own message");
+                return true;
+            }
+        }
+
+        // Check if sender.type is app (alternative field name)
+        if (senderNode.has("type")) {
+            String senderType = senderNode.get("type").asText();
+            if ("app".equalsIgnoreCase(senderType)) {
+                logger.debug("Message sender type is 'app', filtering out bot's own message");
+                return true;
+            }
+        }
+
+        // Check if message type is 'interactive' (card message sent by bot)
+        JsonNode messageNode = eventNode.path("message");
+        if (messageNode.has("message_type")) {
+            String messageType = messageNode.get("message_type").asText();
+            if ("interactive".equalsIgnoreCase(messageType)) {
+                logger.debug("Message type is 'interactive', filtering out bot's own card message");
+                return true;
+            }
+        }
+
+        // Check msg_type at root level (for callback-style events)
+        if (rootNode.has("msg_type")) {
+            String msgType = rootNode.get("msg_type").asText();
+            if ("interactive".equalsIgnoreCase(msgType)) {
+                logger.debug("Root msg_type is 'interactive', filtering out bot's own message");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if this callback is from the bot itself (e.g., when Feishu sends back the bot's card).
+     * This is used to prevent message loops in the callback handler.
+     *
+     * <p>For card.action.trigger events, we check if the operator (user who triggered the action)
+     * is the bot itself.</p>
+     *
+     * @param rootNode The parsed JSON callback payload
+     * @return true if this is a bot's own callback that should be ignored
+     */
+    private boolean isBotSelfCallback(JsonNode rootNode) {
+        // Check for card.action.trigger event format
+        JsonNode eventNode = rootNode.path("event");
+
+        // Check if operator (the one who triggered the action) is the app/bot
+        JsonNode operatorNode = eventNode.path("operator");
+        if (operatorNode.has("operator_type")) {
+            String operatorType = operatorNode.get("operator_type").asText();
+            if ("app".equalsIgnoreCase(operatorType)) {
+                logger.debug("Callback operator_type is 'app', filtering out bot's own callback");
+                return true;
+            }
+        }
+
+        // Alternative: check sender in event
+        if (eventNode.has("sender")) {
+            JsonNode senderNode = eventNode.get("sender");
+            if (senderNode.has("sender_type")) {
+                String senderType = senderNode.get("sender_type").asText();
+                if ("app".equalsIgnoreCase(senderType)) {
+                    logger.debug("Callback sender_type is 'app', filtering out bot's own callback");
+                    return true;
+                }
+            }
+        }
+
+        // Check for root-level msg_type: interactive (bot's own card message)
+        if (rootNode.has("msg_type")) {
+            String msgType = rootNode.get("msg_type").asText();
+            if ("interactive".equalsIgnoreCase(msgType)) {
+                logger.debug("Callback root msg_type is 'interactive', filtering out bot's own card");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private String extractFeishuGroupId(JsonNode rootNode) {
+        logger.error("========== EXTRACTING FEISHU GROUP ID ==========");
+        logger.error("Full event structure: {}", rootNode.toPrettyString());
+        logger.error("=================================================");
+
+        // Check if this is a button callback event (has "action" field)
+        // Button callbacks use "open_chat_id" at root level
+        if (rootNode.has("action")) {
+            logger.error("Detected button callback event");
+            if (rootNode.has("open_chat_id")) {
+                String chatId = rootNode.get("open_chat_id").asText();
+                logger.error("✅ Found open_chat_id in button callback: {}", chatId);
+                logger.error("=================================================");
+                return chatId;
+            }
+        }
+
         // Feishu group chat ID location depends on event type
         // For message events: event.message.chat_id
         // For other events: event.chat.chat_id
 
         // Try message event path first
-        JsonNode messageNode = rootNode.path("event").path("message");
+        JsonNode eventNode = rootNode.path("event");
+        logger.error("Event node: {}", eventNode.toPrettyString());
+
+        JsonNode messageNode = eventNode.path("message");
+        logger.error("Message node exists: {}", !messageNode.isMissingNode());
+        logger.error("Message node: {}", messageNode.toPrettyString());
+
         if (messageNode.has("chat_id")) {
-            return messageNode.get("chat_id").asText();
+            String chatId = messageNode.get("chat_id").asText();
+            logger.error("Found chat_id in message node: {}", chatId);
+            return chatId;
         }
 
         // Fallback to generic chat path
-        JsonNode chatNode = rootNode.path("event").path("chat");
+        JsonNode chatNode = eventNode.path("chat");
+        logger.error("Chat node exists: {}", !chatNode.isMissingNode());
+        logger.error("Chat node: {}", chatNode.toPrettyString());
+
         if (chatNode.has("chat_id")) {
-            return chatNode.get("chat_id").asText();
+            String chatId = chatNode.get("chat_id").asText();
+            logger.error("Found chat_id in chat node: {}", chatId);
+            return chatId;
         }
 
-        // Log warning for debugging
-        logger.warn("Unable to extract chat_id from Feishu event. Event structure: {}",
-            rootNode.toPrettyString());
+        // Try root level chat_id (for callback events)
+        if (rootNode.has("chat_id")) {
+            String chatId = rootNode.get("chat_id").asText();
+            logger.error("Found chat_id at root level: {}", chatId);
+            return chatId;
+        }
 
-        // Fallback to empty string
-        return "unknown-group";
+        // Try root level open_chat_id (for button callbacks)
+        if (rootNode.has("open_chat_id")) {
+            String chatId = rootNode.get("open_chat_id").asText();
+            logger.error("Found open_chat_id at root level: {}", chatId);
+            return chatId;
+        }
+
+        // Try event level chat_id
+        if (eventNode.has("chat_id")) {
+            String chatId = eventNode.get("chat_id").asText();
+            logger.error("Found chat_id at event level: {}", chatId);
+            return chatId;
+        }
+
+        // Log all field names in event node for debugging
+        logger.error("Event node field names:");
+        eventNode.fieldNames().forEachRemaining(name ->
+            logger.error("  - {}", name)
+        );
+
+        // Log all root level field names for debugging
+        logger.error("Root node field names:");
+        rootNode.fieldNames().forEachRemaining(name ->
+            logger.error("  - {}", name)
+        );
+
+        // Log error and return fallback
+        logger.error("❌ Unable to extract chat_id from Feishu event");
+        logger.error("=================================================");
+
+        // Return empty string to indicate failure (better than invalid value)
+        return "";
     }
 
     private String extractFeishuUserId(JsonNode rootNode) {
@@ -518,32 +768,68 @@ public class WebhookControllerImpl implements WebhookController {
     }
 
     private String extractFeishuMessageText(JsonNode rootNode) {
+        logger.error("=== extractFeishuMessageText called ===");
+        logger.error("Root node structure: {}", rootNode.toPrettyString());
+
         // Feishu message text location: event.text (for text messages)
         JsonNode eventNode = rootNode.path("event");
+        logger.error("Event node exists: {}", !eventNode.isMissingNode());
+        // Log event node field names
+        if (!eventNode.isMissingNode()) {
+            java.util.Iterator<String> eventFields = eventNode.fieldNames();
+            StringBuilder fields = new StringBuilder();
+            while (eventFields.hasNext()) {
+                if (fields.length() > 0) fields.append(", ");
+                fields.append(eventFields.next());
+            }
+            logger.error("Event node fields: {}", fields.toString());
+        } else {
+            logger.error("Event node fields: (node is missing)");
+        }
 
         // Method 1: Try event.text (v2 API)
         if (eventNode.has("text")) {
-            return eventNode.get("text").asText();
+            String text = eventNode.get("text").asText();
+            logger.error("Found text using event.text: {}", text);
+            return text;
         }
 
         // Method 2: Try event.message.content (v1 API)
         JsonNode messageNode = eventNode.path("message");
+        logger.error("Message node exists: {}", !messageNode.isMissingNode());
+
         if (messageNode.has("content")) {
             String content = messageNode.get("content").asText();
+            logger.error("Found content field: {}", content);
+
             try {
                 // content is JSON string like "{\"text\":\"hello\"}"
                 JsonNode contentJson = objectMapper.readTree(content);
+                logger.error("Content JSON parsed successfully");
+                // Log content JSON field names
+                java.util.Iterator<String> contentFields = contentJson.fieldNames();
+                StringBuilder fields = new StringBuilder();
+                while (contentFields.hasNext()) {
+                    if (fields.length() > 0) fields.append(", ");
+                    fields.append(contentFields.next());
+                }
+                logger.error("Content JSON fields: {}", fields.toString());
+
                 if (contentJson.has("text")) {
-                    return contentJson.get("text").asText();
+                    String text = contentJson.get("text").asText();
+                    logger.error("Extracted text from content JSON: {}", text);
+                    return text;
                 }
             } catch (Exception e) {
-                logger.debug("Failed to parse message content as JSON: {}", content);
+                logger.error("Failed to parse message content as JSON: {}", content, e);
             }
             // Fallback to raw content
+            logger.error("Returning raw content as fallback");
             return content;
         }
 
         // No message text found
+        logger.error("No message text found in event");
         return null;
     }
 
@@ -594,12 +880,26 @@ public class WebhookControllerImpl implements WebhookController {
 
     @Override
     public String handleFeishuCallback(String timestamp, String nonce, String signature, String body) {
+        logger.info("========== FEISHU CALLBACK RECEIVED ==========");
         logger.info("Received Feishu interactive callback");
+        logger.info("Request body (first 500 chars): {}",
+            body != null && body.length() > 500 ? body.substring(0, 500) + "..." : body);
+        logger.info("=============================================");
 
         try {
             // Validate inputs
             if (body == null || body.isEmpty()) {
                 logger.warn("Empty Feishu callback body");
+                return HTTP_200_OK;
+            }
+
+            // Parse JSON payload early to check for bot self-messages
+            JsonNode rootNode = objectMapper.readTree(body);
+
+            // Check if this is a bot's own message (card.action.trigger for bot's own cards)
+            // This prevents message loops when Feishu sends the bot's card back to the webhook
+            if (isBotSelfCallback(rootNode)) {
+                logger.info("Ignoring bot's own callback to prevent message loop");
                 return HTTP_200_OK;
             }
 
@@ -611,9 +911,6 @@ public class WebhookControllerImpl implements WebhookController {
             } else {
                 logger.debug("Feishu signature verification skipped (no secret configured)");
             }
-
-            // Parse JSON payload
-            JsonNode rootNode = objectMapper.readTree(body);
 
             // Extract callback action details
             String sessionId = extractFeishuCallbackSessionId(rootNode);
@@ -635,8 +932,14 @@ public class WebhookControllerImpl implements WebhookController {
                 return HTTP_200_OK;
             }
 
-            logger.info("Feishu callback parsed: session={}, toolCallId={}, approved={}",
-                sessionId, toolCallId, isApproved);
+            // Idempotency check: prevent duplicate callback processing
+            String callbackKey = sessionId + ":" + toolCallId;
+            if (!processedCallbacks.add(callbackKey)) {
+                logger.info("Callback already processed for key: {}, ignoring duplicate", callbackKey);
+                return HTTP_200_OK;
+            }
+            logger.info("Feishu callback parsed: session={}, toolCallId={}, approved={}, callbackKey={}",
+                sessionId, toolCallId, isApproved, callbackKey);
 
             // Route to SuspendResumeEngine asynchronously
             final String finalSessionId = sessionId;
@@ -644,22 +947,19 @@ public class WebhookControllerImpl implements WebhookController {
             final Boolean finalIsApproved = isApproved;
             final String finalHumanFeedback = humanFeedback;
 
-            // Use executor's thread pool for async processing
-            executor.processAsync(ImWebhookEvent.create(
-                "FEISHU",
-                "callback",
-                finalSessionId,
-                "callback-user",
-                body
-            ));
-
-            // Process the resume in the async executor
-            // We'll use a separate thread to avoid blocking the HTTP response
+            // Process the resume in a separate thread to avoid blocking the HTTP response
             new Thread(() -> {
                 try {
                     suspendResumeEngine.resume(finalSessionId, finalToolCallId,
                         finalIsApproved, finalHumanFeedback);
                     logger.info("Successfully processed Feishu callback resume for session {}", finalSessionId);
+                } catch (IllegalStateException e) {
+                    // Handle the case where session is already RUNNING (already resumed)
+                    if (e.getMessage() != null && e.getMessage().contains("not in SUSPENDED state")) {
+                        logger.warn("Session {} is already resumed (not in SUSPENDED state), ignoring callback", finalSessionId);
+                    } else {
+                        logger.error("Failed to process Feishu callback resume for session {}", finalSessionId, e);
+                    }
                 } catch (Exception e) {
                     logger.error("Failed to process Feishu callback resume for session {}", finalSessionId, e);
                 }
@@ -761,21 +1061,38 @@ public class WebhookControllerImpl implements WebhookController {
     /**
      * Extract session_id from Feishu callback payload.
      * Feishu button value format: {"session_id":"xxx","tool_call_id":"yyy","approved":true}
+     *
+     * Supports two callback formats:
+     * 1. Direct format: { "action": { "value": "..." } }
+     * 2. Event format (card.action.trigger): { "event": { "action": { "value": "..." } } }
+     *
+     * Supports two value formats:
+     * 1. JSON object (new format): { "value": { "approved": true, "session_id": "...", "tool_call_id": "..." } }
+     * 2. JSON string (old format): { "value": "{\"approved\":true,\"session_id\":\"...\"}" }
      */
     private String extractFeishuCallbackSessionId(JsonNode rootNode) {
-        // Feishu action callback structure: { "action": { "value": "..." } }
-        JsonNode actionNode = rootNode.path("action");
+        logger.info("========== EXTRACTING SESSION ID FROM FEISHU CALLBACK ==========");
+        logger.info("Root node structure: {}", rootNode.toPrettyString());
+
+        // Try to find action node in two possible locations
+        JsonNode actionNode = findActionNode(rootNode);
+        logger.info("Action node: {}", actionNode.toPrettyString());
+        logger.info("Action node has value: {}", actionNode.has("value"));
+
         if (actionNode.has("value")) {
-            String valueStr = actionNode.get("value").asText();
-            try {
-                JsonNode valueJson = objectMapper.readTree(valueStr);
-                if (valueJson.has("session_id")) {
-                    return valueJson.get("session_id").asText();
-                }
-            } catch (Exception e) {
-                logger.debug("Failed to parse button value as JSON: {}", valueStr);
+            JsonNode valueJson = parseButtonValueNode(actionNode.get("value"));
+            logger.info("Parsed value JSON: {}", valueJson != null ? valueJson.toPrettyString() : "null");
+
+            if (valueJson != null && valueJson.has("session_id")) {
+                String sessionId = valueJson.get("session_id").asText();
+                logger.info("Successfully extracted session_id: {}", sessionId);
+                logger.info("===========================================================");
+                return sessionId;
             }
         }
+
+        logger.warn("Failed to extract session_id from callback");
+        logger.info("===========================================================");
         return null;
     }
 
@@ -783,16 +1100,11 @@ public class WebhookControllerImpl implements WebhookController {
      * Extract tool_call_id from Feishu callback payload.
      */
     private String extractFeishuCallbackToolCallId(JsonNode rootNode) {
-        JsonNode actionNode = rootNode.path("action");
+        JsonNode actionNode = findActionNode(rootNode);
         if (actionNode.has("value")) {
-            String valueStr = actionNode.get("value").asText();
-            try {
-                JsonNode valueJson = objectMapper.readTree(valueStr);
-                if (valueJson.has("tool_call_id")) {
-                    return valueJson.get("tool_call_id").asText();
-                }
-            } catch (Exception e) {
-                logger.debug("Failed to parse button value as JSON: {}", valueStr);
+            JsonNode valueJson = parseButtonValueNode(actionNode.get("value"));
+            if (valueJson != null && valueJson.has("tool_call_id")) {
+                return valueJson.get("tool_call_id").asText();
             }
         }
         return null;
@@ -802,19 +1114,119 @@ public class WebhookControllerImpl implements WebhookController {
      * Extract approved flag from Feishu callback payload.
      */
     private Boolean extractFeishuCallbackApproval(JsonNode rootNode) {
-        JsonNode actionNode = rootNode.path("action");
+        JsonNode actionNode = findActionNode(rootNode);
         if (actionNode.has("value")) {
-            String valueStr = actionNode.get("value").asText();
-            try {
-                JsonNode valueJson = objectMapper.readTree(valueStr);
-                if (valueJson.has("approved")) {
-                    return valueJson.get("approved").asBoolean();
-                }
-            } catch (Exception e) {
-                logger.debug("Failed to parse button value as JSON: {}", valueStr);
+            JsonNode valueJson = parseButtonValueNode(actionNode.get("value"));
+            if (valueJson != null && valueJson.has("approved")) {
+                return valueJson.get("approved").asBoolean();
             }
         }
         return null;
+    }
+
+    /**
+     * Find the action node in the callback payload.
+     * Supports both direct format and event format (card.action.trigger).
+     *
+     * @param rootNode The root JSON node
+     * @return The action node, or missing node if not found
+     */
+    private JsonNode findActionNode(JsonNode rootNode) {
+        // Format 1: Direct format { "action": { "value": "..." } }
+        if (rootNode.has("action")) {
+            return rootNode.get("action");
+        }
+
+        // Format 2: Event format (card.action.trigger) { "event": { "action": { "value": "..." } } }
+        JsonNode eventNode = rootNode.path("event");
+        if (eventNode.has("action")) {
+            return eventNode.get("action");
+        }
+
+        // Return missing node if not found
+        return rootNode.path("action");
+    }
+
+    /**
+     * Parse the button value node to JSON, handling multiple formats.
+     *
+     * <p>Supports three value formats:</p>
+     * <ul>
+     *   <li>JSON object (new format): { "approved": true, "session_id": "...", "tool_call_id": "..." }</li>
+     *   <li>JSON string (old format): "{\"approved\":true,\"session_id\":\"...\"}"</li>
+     *   <li>Double-encoded string: "\"{\\\"approved\\\":true,...}\""</li>
+     * </ul>
+     *
+     * @param valueNode The button value node (can be object or string)
+     * @return The parsed JSON node, or null if parsing fails
+     */
+    private JsonNode parseButtonValueNode(JsonNode valueNode) {
+        try {
+            // Case 1: Value is already a JSON object (new format)
+            if (valueNode.isObject()) {
+                logger.debug("Button value is already a JSON object");
+                return valueNode;
+            }
+
+            // Case 2: Value is a string that needs parsing
+            if (valueNode.isTextual()) {
+                String valueStr = valueNode.asText();
+                logger.debug("Button value is a string: {}", valueStr);
+
+                // Handle empty string
+                if (valueStr == null || valueStr.isEmpty()) {
+                    logger.warn("Button value string is empty");
+                    return null;
+                }
+
+                JsonNode parsed = objectMapper.readTree(valueStr);
+
+                // Handle double-encoded JSON (backwards compatibility)
+                // If the parsed value is still a string, parse again
+                if (parsed.isTextual()) {
+                    logger.debug("Detected double-encoded JSON, parsing again...");
+                    String innerJson = parsed.asText();
+                    parsed = objectMapper.readTree(innerJson);
+                }
+
+                return parsed;
+            }
+
+            // Case 3: Unexpected node type
+            logger.warn("Unexpected button value node type: {}", valueNode.getNodeType());
+            return null;
+
+        } catch (Exception e) {
+            logger.error("Failed to parse button value node: {}", valueNode, e);
+            return null;
+        }
+    }
+
+    /**
+     * Parse the button value string to JSON, handling double-encoding.
+     *
+     * @param valueStr The button value string
+     * @return The parsed JSON node, or null if parsing fails
+     * @deprecated Use {@link #parseButtonValueNode(JsonNode)} instead
+     */
+    @Deprecated
+    private JsonNode parseButtonValue(String valueStr) {
+        try {
+            JsonNode valueJson = objectMapper.readTree(valueStr);
+
+            // Handle double-encoded JSON (backwards compatibility)
+            // If the parsed value is a string node, it means the JSON was double-encoded
+            if (valueJson.isTextual()) {
+                logger.debug("Detected double-encoded JSON, parsing again...");
+                String innerJson = valueJson.asText();
+                valueJson = objectMapper.readTree(innerJson);
+            }
+
+            return valueJson;
+        } catch (Exception e) {
+            logger.error("Failed to parse button value as JSON: {}", valueStr, e);
+            return null;
+        }
     }
 
     /**

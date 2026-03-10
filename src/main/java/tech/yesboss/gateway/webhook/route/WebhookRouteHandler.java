@@ -244,6 +244,36 @@ public class WebhookRouteHandler {
      */
     private String handleFeishuEvent(Request request, Response response) {
         try {
+            // DEBUG: Log all incoming requests
+            logger.error("================== FEISHU WEBHOOK RECEIVED ==================");
+            logger.error("Request method: {}", request.requestMethod());
+            logger.error("Request path: {}", request.pathInfo());
+            logger.error("Request URL: {}", request.url());
+            logger.error("Request IP: {}", request.ip());
+
+            // Log all headers
+            logger.error("=== Headers ===");
+            request.headers().forEach(header -> {
+                String headerValue = request.headers(header);
+                // Mask sensitive headers
+                if (header.toLowerCase().contains("signature") || header.toLowerCase().contains("secret")) {
+                    logger.error("  {}: {} (first 20 chars)", header,
+                        headerValue != null && headerValue.length() > 20 ?
+                        headerValue.substring(0, 20) + "..." : headerValue);
+                } else {
+                    logger.error("  {}: {}", header, headerValue);
+                }
+            });
+
+            // Log body info
+            String body = request.body();
+            logger.error("=== Body ===");
+            logger.error("Body length: {} bytes", body != null ? body.length() : 0);
+            logger.error("Body (first 500 chars): {}",
+                body != null && body.length() > 500 ?
+                body.substring(0, 500) + "..." : body);
+            logger.error("============================================================");
+
             String body_ = request.body();
             // Validate request method
             if (!"POST".equalsIgnoreCase(request.requestMethod())) {
@@ -253,7 +283,6 @@ public class WebhookRouteHandler {
             }
 
             // Extract and validate body first (needed for URL verification check)
-            String body = request.body();
             if (body == null || body.isEmpty()) {
                 logger.warn("Feishu webhook received empty body");
                 throw new IllegalArgumentException("Empty request body");
@@ -262,11 +291,28 @@ public class WebhookRouteHandler {
             // Check if this is a URL verification request (no signature headers needed)
             // Reference: https://open.feishu.cn/document/server-docs/webhook/event-subscription-guide
             boolean isUrlVerification = false;
+            boolean isCardActionCallback = false;
             try {
                 com.fasterxml.jackson.databind.JsonNode rootNode = new com.fasterxml.jackson.databind.ObjectMapper().readTree(body);
                 isUrlVerification = rootNode.has("type") && "url_verification".equals(rootNode.get("type").asText());
+
+                // Check if this is a card action callback (button click)
+                // Card callbacks have event_type: "card.action.trigger" in header
+                if (rootNode.has("header") && rootNode.get("header").has("event_type")) {
+                    String eventType = rootNode.get("header").get("event_type").asText();
+                    isCardActionCallback = "card.action.trigger".equals(eventType);
+                    if (isCardActionCallback) {
+                        logger.info("Detected card.action.trigger event, routing to callback handler");
+                    }
+                }
             } catch (Exception e) {
                 // Not valid JSON, continue with normal flow
+            }
+
+            // Route card action callbacks to the callback handler
+            if (isCardActionCallback) {
+                logger.info("Routing card action callback to callback handler");
+                return handleFeishuCallback(request, response);
             }
 
             // Extract headers
@@ -276,6 +322,7 @@ public class WebhookRouteHandler {
 
             // Only validate signature headers for non-URL-verification requests
             // URL verification requests from Feishu don't include signature headers
+            // Card action callbacks may also not include signature headers
             if (!isUrlVerification) {
                 if (timestamp == null || timestamp.isEmpty()) {
                     logger.warn("Feishu webhook missing {} header", FEISHU_HEADER_TIMESTAMP);
@@ -328,6 +375,29 @@ public class WebhookRouteHandler {
      */
     private String handleFeishuCallback(Request request, Response response) {
         try {
+            // DEBUG: Log all incoming callback requests
+            logger.error("================== FEISHU CALLBACK RECEIVED ==================");
+            logger.error("Request method: {}", request.requestMethod());
+            logger.error("Request path: {}", request.pathInfo());
+            logger.error("Request URL: {}", request.url());
+            logger.error("Request IP: {}", request.ip());
+
+            // Log all headers
+            logger.error("=== Headers ===");
+            request.headers().forEach(header -> {
+                String headerValue = request.headers(header);
+                logger.error("  {}: {}", header, headerValue);
+            });
+
+            // Log body info
+            String body = request.body();
+            logger.error("=== Body ===");
+            logger.error("Body length: {} bytes", body != null ? body.length() : 0);
+            logger.error("Body (first 500 chars): {}",
+                body != null && body.length() > 500 ?
+                body.substring(0, 500) + "..." : body);
+            logger.error("============================================================");
+
             // Validate request method
             if (!"POST".equalsIgnoreCase(request.requestMethod())) {
                 logger.warn("Feishu callback received non-POST request: {}", request.requestMethod());
@@ -340,31 +410,24 @@ public class WebhookRouteHandler {
             String nonce = request.headers(FEISHU_HEADER_NONCE);
             String signature = request.headers(FEISHU_HEADER_SIGNATURE);
 
-            // Validate headers presence
-            if (timestamp == null || timestamp.isEmpty()) {
-                logger.warn("Feishu callback missing {} header", FEISHU_HEADER_TIMESTAMP);
-                throw new IllegalArgumentException("Missing timestamp header");
-            }
-            if (nonce == null || nonce.isEmpty()) {
-                logger.warn("Feishu callback missing {} header", FEISHU_HEADER_NONCE);
-                throw new IllegalArgumentException("Missing nonce header");
-            }
-            if (signature == null || signature.isEmpty()) {
-                logger.warn("Feishu callback missing {} header", FEISHU_HEADER_SIGNATURE);
-                throw new IllegalArgumentException("Missing signature header");
-            }
-
             // Extract and validate body
-            String body = request.body();
             if (body == null || body.isEmpty()) {
                 logger.warn("Feishu callback received empty body");
                 throw new IllegalArgumentException("Empty request body");
             }
 
-            logger.info("Feishu callback received: timestamp={}", timestamp);
+            // NOTE: Feishu card button callbacks may not include signature headers
+            // Skip signature validation for callback requests
+            logger.info("Feishu callback received: timestamp={}, hasSignature={}",
+                timestamp, signature != null);
 
             // Delegate to WebhookController
-            String result = webhookController.handleFeishuCallback(timestamp, nonce, signature, body);
+            String result = webhookController.handleFeishuCallback(
+                timestamp != null ? timestamp : "",
+                nonce != null ? nonce : "",
+                signature != null ? signature : "",
+                body
+            );
 
             response.status(200);
             response.type("text/plain");

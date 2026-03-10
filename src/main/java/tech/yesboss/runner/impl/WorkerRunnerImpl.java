@@ -13,6 +13,7 @@ import tech.yesboss.safeguard.CircuitBreaker;
 import tech.yesboss.safeguard.SuspendResumeEngine;
 import tech.yesboss.state.TaskManager;
 import tech.yesboss.tool.SuspendExecutionException;
+import tech.yesboss.tool.AgentTool;
 import tech.yesboss.tool.tracker.ToolCallTracker;
 import tech.yesboss.tool.registry.ToolRegistry;
 import tech.yesboss.tool.sandbox.SandboxInterceptor;
@@ -211,7 +212,11 @@ public class WorkerRunnerImpl implements WorkerRunner {
                 LlmClient llmClient = modelRouter.routeByRole("WORKER");
                 logger.debug("Calling LLM for ReAct iteration {}", loopIteration);
 
-                UnifiedMessage response = llmClient.chat(context, "");
+                // Get available tools for WORKER role and pass to LLM
+                List<AgentTool> availableTools = toolRegistry.getAvailableTools("WORKER");
+                logger.debug("Retrieved {} available tools for WORKER role", availableTools.size());
+
+                UnifiedMessage response = llmClient.chat(context, "", availableTools);
                 logger.info("LLM response received: hasToolCalls={}, isTextOnly={}",
                     response.hasToolCalls(), response.isTextOnly());
 
@@ -271,11 +276,13 @@ public class WorkerRunnerImpl implements WorkerRunner {
                                 true  // isIntercepted = true
                             );
 
-                            // 调用挂起引擎
+                            // 调用挂起引擎（传递完整工具信息）
                             suspendResumeEngine.suspendForApproval(
                                 sessionId,
                                 e.getInterceptedCommand(),
-                                toolCall.id()
+                                toolCall.id(),
+                                toolCall.name(),
+                                toolCall.argumentsJson()
                             );
 
                             // 完全退出线程（不抛出未处理异常）

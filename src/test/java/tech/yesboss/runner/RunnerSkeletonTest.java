@@ -1115,7 +1115,9 @@ class RunnerSkeletonTest {
         verify(suspendResumeEngine).suspendForApproval(
             eq(SESSION_ID),
             eq("rm -rf /"),
-            eq("call-456")
+            eq("call-456"),
+            eq("dangerous_tool"),
+            eq("{}")
         );
 
         // Verify intercepted execution was tracked
@@ -1184,7 +1186,9 @@ class RunnerSkeletonTest {
         verify(suspendResumeEngine).suspendForApproval(
             eq(SESSION_ID),
             eq("format_disk"),
-            eq("call-789")
+            eq("call-789"),
+            eq("unsafe_tool"),
+            eq("{}")
         );
 
         // Verify thread exited cleanly (no re-thrown exception)

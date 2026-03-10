@@ -4,16 +4,22 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.yesboss.domain.message.UnifiedMessage;
+import tech.yesboss.tool.AgentTool;
 
+import javax.crypto.SecretKey;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
@@ -137,32 +143,28 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
 
     @Override
     public UnifiedMessage chat(List<UnifiedMessage> messages, String systemPrompt) {
+        return chat(messages, systemPrompt, null);
+    }
+
+    @Override
+    public UnifiedMessage chat(List<UnifiedMessage> messages, String systemPrompt, List<AgentTool> tools) {
         if (messages == null || messages.isEmpty()) {
             throw new IllegalArgumentException("Messages cannot be null or empty");
         }
 
-        logger.debug("Sending chat request to Zhipu GLM: {} messages, model: {}, system prompt: {}",
-                messages.size(), model, systemPrompt != null ? "yes" : "no");
+        logger.debug("Sending chat request to Zhipu GLM: {} messages, model: {}, system prompt: {}, tools: {}",
+                messages.size(), model, systemPrompt != null ? "yes" : "no", tools != null ? tools.size() : 0);
 
         try {
             // Build request body
-            ChatRequest request = buildChatRequest(messages, systemPrompt);
+            ChatRequest request = buildChatRequest(messages, systemPrompt, tools);
             String requestBody = objectMapper.writeValueAsString(request);
 
             logger.debug("Request body: {}", requestBody);
 
-            // Build HTTP request
-            HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(URI.create(baseUrl + CHAT_COMPLETIONS_ENDPOINT))
-                    .header("Content-Type", "application/json")
-                    .header("Authorization", "Bearer " + generateJwtToken(apiKey))
-                    .timeout(Duration.ofSeconds(readTimeoutSeconds))
-                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                    .build();
-
-            // Send request
-            HttpResponse<String> response = httpClient.send(httpRequest,
-                    HttpResponse.BodyHandlers.ofString());
+            // Try using API key directly first (many APIs support this)
+            // Fall back to JWT generation if direct API key fails with 401
+            HttpResponse<String> response = trySendRequest(requestBody, apiKey);
 
             // Handle response
             int statusCode = response.statusCode();
@@ -256,7 +258,7 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
     /**
      * Build chat request from UnifiedMessage list.
      */
-    private ChatRequest buildChatRequest(List<UnifiedMessage> messages, String systemPrompt) {
+    private ChatRequest buildChatRequest(List<UnifiedMessage> messages, String systemPrompt, List<AgentTool> tools) {
         List<ChatMessage> chatMessages = new ArrayList<>();
 
         // Add system prompt if provided
@@ -299,7 +301,65 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
             }
         }
 
-        return new ChatRequest(model, chatMessages, maxTokens, temperature);
+        // Convert AgentTool list to Zhipu API Tool format
+        List<Tool> apiTools = null;
+        if (tools != null && !tools.isEmpty()) {
+            apiTools = convertAgentToolsToApiTools(tools);
+            logger.debug("Converted {} AgentTools to Zhipu API format", apiTools.size());
+        }
+
+        return new ChatRequest(model, chatMessages, maxTokens, temperature, apiTools);
+    }
+
+    /**
+     * Convert AgentTool list to Zhipu API Tool format.
+     *
+     * <p>This method converts the internal AgentTool representation to the format
+     * expected by the Zhipu GLM API for function calling.</p>
+     *
+     * @param agentTools List of AgentTool instances to convert
+     * @return List of Tool objects in Zhipu API format
+     */
+    private List<Tool> convertAgentToolsToApiTools(List<AgentTool> agentTools) {
+        List<Tool> apiTools = new ArrayList<>();
+
+        for (AgentTool agentTool : agentTools) {
+            try {
+                // Create the function definition
+                FunctionDefinition functionDef = new FunctionDefinition();
+                functionDef.name = agentTool.getName();
+                functionDef.description = agentTool.getDescription();
+
+                // Parse JSON schema string to Object for proper serialization
+                String parametersJson = agentTool.getParametersJsonSchema();
+                if (parametersJson != null && !parametersJson.isEmpty()) {
+                    try {
+                        functionDef.parameters = objectMapper.readValue(parametersJson, Object.class);
+                    } catch (JsonProcessingException e) {
+                        logger.warn("Failed to parse parameters JSON for tool {}, using empty object: {}",
+                                agentTool.getName(), e.getMessage());
+                        functionDef.parameters = new java.util.LinkedHashMap<>(); // Empty object as fallback
+                    }
+                } else {
+                    functionDef.parameters = new java.util.LinkedHashMap<>(); // Empty object
+                }
+
+                // Create the tool wrapper
+                Tool apiTool = new Tool();
+                apiTool.type = "function";
+                apiTool.function = functionDef;
+
+                apiTools.add(apiTool);
+
+                logger.debug("Converted tool: {} with description: {}",
+                        agentTool.getName(),
+                        agentTool.getDescription().substring(0, Math.min(50, agentTool.getDescription().length())));
+            } catch (Exception e) {
+                logger.error("Failed to convert tool {}: {}", agentTool.getName(), e.getMessage());
+            }
+        }
+
+        return apiTools;
     }
 
     /**
@@ -315,18 +375,90 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
     }
 
     /**
+     * Try sending request with API key directly, fall back to JWT if 401 error occurs.
+     * This handles both modern API key authentication and legacy JWT authentication.
+     */
+    private HttpResponse<String> trySendRequest(String requestBody, String apiKey) throws Exception {
+        // First attempt: Use API key directly as Bearer token
+        logger.debug("Attempting authentication with API key directly...");
+        HttpRequest request = buildHttpRequest(requestBody, apiKey);
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        // If 401 error, try JWT token as fallback
+        if (response.statusCode() == 401) {
+            logger.debug("Direct API key authentication failed (401), falling back to JWT token...");
+            String jwtToken = generateJwtToken(apiKey);
+            request = buildHttpRequest(requestBody, jwtToken);
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        }
+
+        return response;
+    }
+
+    /**
+     * Build HTTP request with the given auth token.
+     */
+    private HttpRequest buildHttpRequest(String requestBody, String authToken) {
+        return HttpRequest.newBuilder()
+                .uri(URI.create(baseUrl + CHAT_COMPLETIONS_ENDPOINT))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + authToken)
+                .timeout(Duration.ofSeconds(readTimeoutSeconds))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+    }
+
+    /**
      * Generate JWT token for Zhipu API authentication.
-     * Note: This is a simplified implementation. In production, use a proper JWT library.
+     * Zhipu API key format: id.secret
+     * We need to generate a JWT token signed with the secret.
      */
     private String generateJwtToken(String apiKey) {
-        // Zhipu API key format: id.secret
-        // We need to generate a JWT token signed with the secret
-        // For now, we'll use the API key directly as some endpoints accept it
-        // In production, implement proper JWT generation with HS256
+        try {
+            // Split API key into id and secret
+            String[] parts = apiKey.split("\\.");
+            if (parts.length != 2) {
+                throw new IllegalArgumentException("Invalid API key format. Expected: id.secret");
+            }
 
-        // Simple implementation - use API key directly
-        // This works for some Zhipu endpoints
-        return apiKey;
+            String id = parts[0];
+            String secret = parts[1];
+
+            // Ensure the secret key is at least 32 bytes (256 bits) for HS256
+            // If secret is shorter, we'll hash it to get a 32-byte key
+            byte[] keyBytes;
+            if (secret.getBytes(StandardCharsets.UTF_8).length >= 32) {
+                // Secret is long enough, use it directly
+                keyBytes = secret.getBytes(StandardCharsets.UTF_8);
+            } else {
+                // Secret is too short, hash it to get 32 bytes
+                logger.warn("Zhipu API key secret is shorter than 32 bytes, hashing to generate secure key");
+                keyBytes = java.security.MessageDigest.getInstance("SHA-256")
+                        .digest(secret.getBytes(StandardCharsets.UTF_8));
+            }
+
+            // Create secret key from the key bytes
+            SecretKey key = Keys.hmacShaKeyFor(keyBytes);
+
+            // Calculate expiration (1 hour from now)
+            long now = System.currentTimeMillis();
+            long exp = now + (60 * 60 * 1000); // 1 hour expiration
+
+            // Build and sign JWT token
+            return Jwts.builder()
+                    .header()
+                        .add("sign_type", "SIGN")
+                    .and()
+                    .claim("api_key", id)
+                    .claim("exp", exp)
+                    .claim("timestamp", now)
+                    .signWith(key, Jwts.SIG.HS256)
+                    .compact();
+
+        } catch (Exception e) {
+            logger.error("Failed to generate JWT token", e);
+            throw new RuntimeException("Failed to generate JWT token: " + e.getMessage(), e);
+        }
     }
 
     /**
@@ -383,11 +515,23 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
         @JsonProperty("stream")
         private final boolean stream = false;
 
+        @JsonProperty("tools")
+        private final List<Tool> tools;
+
         public ChatRequest(String model, List<ChatMessage> messages, int maxTokens, double temperature) {
             this.model = model;
             this.messages = messages;
             this.maxTokens = maxTokens;
             this.temperature = temperature;
+            this.tools = null; // No tools by default
+        }
+
+        public ChatRequest(String model, List<ChatMessage> messages, int maxTokens, double temperature, List<Tool> tools) {
+            this.model = model;
+            this.messages = messages;
+            this.maxTokens = maxTokens;
+            this.temperature = temperature;
+            this.tools = tools;
         }
     }
 
@@ -416,6 +560,26 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
 
         public void setToolCalls(List<ToolCall> toolCalls) {
             this.toolCalls = toolCalls;
+        }
+    }
+
+    /**
+     * Tool definition for function calling.
+     */
+    private static class Tool {
+        @JsonProperty("type")
+        private String type = "function";
+
+        @JsonProperty("function")
+        private FunctionDefinition function;
+
+        // Default constructor for building tool definitions
+        public Tool() {
+        }
+
+        public Tool(String type, FunctionDefinition function) {
+            this.type = type;
+            this.function = function;
         }
     }
 
@@ -459,6 +623,25 @@ public class ZhipuLlmClient implements tech.yesboss.llm.LlmClient {
         public Function(String name, String arguments) {
             this.name = name;
             this.arguments = arguments;
+        }
+    }
+
+    /**
+     * Function definition for tool definitions (metadata sent to LLM).
+     * This is different from Function which represents tool calls from LLM.
+     */
+    private static class FunctionDefinition {
+        @JsonProperty("name")
+        private String name;
+
+        @JsonProperty("description")
+        private String description;
+
+        @JsonProperty("parameters")
+        private Object parameters;  // Changed from String to Object for proper JSON serialization
+
+        // Default constructor
+        public FunctionDefinition() {
         }
     }
 

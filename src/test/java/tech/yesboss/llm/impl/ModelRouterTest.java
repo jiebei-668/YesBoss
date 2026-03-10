@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tech.yesboss.domain.message.UnifiedMessage;
 import tech.yesboss.llm.LlmClient;
+import tech.yesboss.tool.AgentTool;
 
 import java.util.List;
 
@@ -195,6 +196,11 @@ class ModelRouterTest {
         return new LlmClient() {
             @Override
             public UnifiedMessage chat(List<UnifiedMessage> messages, String systemPrompt) {
+                return chat(messages, systemPrompt, null);
+            }
+
+            @Override
+            public UnifiedMessage chat(List<UnifiedMessage> messages, String systemPrompt, List<AgentTool> tools) {
                 // Return a simple response indicating which client was used
                 return UnifiedMessage.ofText(UnifiedMessage.Role.ASSISTANT, "Response from " + name + " client");
             }

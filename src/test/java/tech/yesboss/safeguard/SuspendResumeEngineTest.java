@@ -164,7 +164,8 @@ class SuspendResumeEngineTest {
     @Test
     void testSuspendForApprovalSuccess() throws Exception {
         // Execute
-        suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID);
+        suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID,
+            TOOL_NAME, ARGUMENTS_JSON);
 
         // Verify state transition to SUSPENDED
         verify(taskManager).transitionState(WORKER_SESSION_ID,
@@ -186,42 +187,80 @@ class SuspendResumeEngineTest {
     @Test
     void testSuspendForApprovalWithNullWorkerSessionId() {
         assertThrows(IllegalArgumentException.class, () ->
-            suspendResumeEngine.suspendForApproval(null, INTERCEPTED_COMMAND, TOOL_CALL_ID)
+            suspendResumeEngine.suspendForApproval(null, INTERCEPTED_COMMAND, TOOL_CALL_ID,
+                TOOL_NAME, ARGUMENTS_JSON)
         );
     }
 
     @Test
     void testSuspendForApprovalWithEmptyWorkerSessionId() {
         assertThrows(IllegalArgumentException.class, () ->
-            suspendResumeEngine.suspendForApproval("  ", INTERCEPTED_COMMAND, TOOL_CALL_ID)
+            suspendResumeEngine.suspendForApproval("  ", INTERCEPTED_COMMAND, TOOL_CALL_ID,
+                TOOL_NAME, ARGUMENTS_JSON)
         );
     }
 
     @Test
     void testSuspendForApprovalWithNullInterceptedCommand() {
         assertThrows(IllegalArgumentException.class, () ->
-            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, null, TOOL_CALL_ID)
+            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, null, TOOL_CALL_ID,
+                TOOL_NAME, ARGUMENTS_JSON)
         );
     }
 
     @Test
     void testSuspendForApprovalWithEmptyInterceptedCommand() {
         assertThrows(IllegalArgumentException.class, () ->
-            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, "  ", TOOL_CALL_ID)
+            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, "  ", TOOL_CALL_ID,
+                TOOL_NAME, ARGUMENTS_JSON)
         );
     }
 
     @Test
     void testSuspendForApprovalWithNullToolCallId() {
         assertThrows(IllegalArgumentException.class, () ->
-            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, null)
+            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, null,
+                TOOL_NAME, ARGUMENTS_JSON)
         );
     }
 
     @Test
     void testSuspendForApprovalWithEmptyToolCallId() {
         assertThrows(IllegalArgumentException.class, () ->
-            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, "  ")
+            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, "  ",
+                TOOL_NAME, ARGUMENTS_JSON)
+        );
+    }
+
+    @Test
+    void testSuspendForApprovalWithNullToolName() {
+        assertThrows(IllegalArgumentException.class, () ->
+            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID,
+                null, ARGUMENTS_JSON)
+        );
+    }
+
+    @Test
+    void testSuspendForApprovalWithEmptyToolName() {
+        assertThrows(IllegalArgumentException.class, () ->
+            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID,
+                "  ", ARGUMENTS_JSON)
+        );
+    }
+
+    @Test
+    void testSuspendForApprovalWithNullArgumentsJson() {
+        assertThrows(IllegalArgumentException.class, () ->
+            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID,
+                TOOL_NAME, null)
+        );
+    }
+
+    @Test
+    void testSuspendForApprovalWithEmptyArgumentsJson() {
+        assertThrows(IllegalArgumentException.class, () ->
+            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID,
+                TOOL_NAME, "  ")
         );
     }
 
@@ -230,7 +269,8 @@ class SuspendResumeEngineTest {
         when(taskManager.sessionExists(WORKER_SESSION_ID)).thenReturn(false);
 
         assertThrows(IllegalStateException.class, () ->
-            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID)
+            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID,
+                TOOL_NAME, ARGUMENTS_JSON)
         );
     }
 
@@ -240,7 +280,8 @@ class SuspendResumeEngineTest {
             .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.COMPLETED);
 
         assertThrows(IllegalStateException.class, () ->
-            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID)
+            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID,
+                TOOL_NAME, ARGUMENTS_JSON)
         );
     }
 
@@ -249,7 +290,8 @@ class SuspendResumeEngineTest {
         when(taskManager.getParentSessionId(WORKER_SESSION_ID)).thenReturn(null);
 
         assertThrows(IllegalStateException.class, () ->
-            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID)
+            suspendResumeEngine.suspendForApproval(WORKER_SESSION_ID, INTERCEPTED_COMMAND, TOOL_CALL_ID,
+                TOOL_NAME, ARGUMENTS_JSON)
         );
     }
 
@@ -388,8 +430,22 @@ class SuspendResumeEngineTest {
 
     @Test
     void testResumeWithNonSuspendedStatus() {
+        // When session is already RUNNING, it should return gracefully (handles duplicate callbacks)
+        // This is the expected behavior for idempotency
         when(taskManager.getStatus(WORKER_SESSION_ID))
             .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.RUNNING);
+
+        // Should not throw exception - gracefully handles duplicate resume requests
+        assertDoesNotThrow(() ->
+            suspendResumeEngine.resume(WORKER_SESSION_ID, TOOL_CALL_ID, true, "feedback")
+        );
+    }
+
+    @Test
+    void testResumeWithOtherNonSuspendedStatus() {
+        // When session is in FAILED or COMPLETED status, it should throw an exception
+        when(taskManager.getStatus(WORKER_SESSION_ID))
+            .thenReturn(tech.yesboss.persistence.entity.TaskSession.Status.FAILED);
 
         assertThrows(IllegalStateException.class, () ->
             suspendResumeEngine.resume(WORKER_SESSION_ID, TOOL_CALL_ID, true, "feedback")

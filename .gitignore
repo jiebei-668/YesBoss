@@ -22,7 +22,6 @@ buildNumber.properties
 .settings/
 .classpath
 .project
-.classpath
 *.swp
 *.swo
 *~
@@ -56,6 +55,7 @@ Thumbs.db
 *.bak
 *.backup
 *.cache
+authorized.txt
 
 # Build outputs
 dist/
@@ -66,8 +66,8 @@ out/
 .jacoco/
 jacoco.exec
 
-# Package files
-*.jar
+# Package files (keep executable jars in specific locations if needed)
+# *.jar
 *.war
 *.ear
 
@@ -76,3 +76,20 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Project specific
+jbh_docs/
+.pom.xml
+
+# Claude AI related
+.claude/
+
+# AI assistant cache and sessions
+*.ai-cache
+*.session-backup
+
+# Debug test files
+**/integration/*DebugTest.java
+**/integration/*QuickTest.java
+**/integration/*Fixed.java
+**/integration/*Simple.java
